@@ -35,7 +35,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	/**
 	 * Initialisiert den mailjob.
 	 * Optional können bereits die MeiE-Mail-Empfänger und ein Template mitgegeben werden.
-	 * 
+	 *
 	 * @param	array[tx_mkmailer_receiver_IMailReceiver] 	$receiver
 	 * @param	tx_mkmailer_models_Template 				$templateObj
 	 */
@@ -50,6 +50,9 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 			$this->setSubject($templateObj->getSubject());
 			$this->setContentText($templateObj->getContentText());
 			$this->setContentHtml($templateObj->getContentHtml());
+			// anhänge verarbeiten
+			foreach($templateObj->getAttachments() as $attachment)
+				$this->addAttachment($attachment);
 		}
 	}
 	

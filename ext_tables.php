@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 $TCA['tx_mkmailer_templates'] = array (
 	'ctrl' => array (
-		'title'     => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates',		
+		'title'     => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates',
 		'label' => 'mailtype',
 		'label_alt' => 'description',
 		'label_alt_force' => 1,
@@ -15,10 +15,11 @@ $TCA['tx_mkmailer_templates'] = array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY mailtype',
 		'delete' => 'deleted',
-		'enablecolumns' => array (		
+		'enablecolumns' => array (
 		),
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
 		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_mkmailer_templates.gif',
+// 		'dividers2tabs' => 1,
 	),
 	'feInterface' => array (
 		'fe_admin_fieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource',

@@ -20,6 +20,7 @@
 			<label index="tx_mkmailer_templates_templatetype_1">Company mail</label>
 			<label index="tx_mkmailer_templates_templatetype_2">Applicant mail</label>
 			<label index="tx_mkmailer_templates_templatetype_3">Type 3</label>
+			<label index="tx_mkmailer_templates_attachments">Attachments</label>
 			
 			<label index="plugin.mkmailer.label">MK Mailer Plugin</label>
 			<label index="plugin.mkmailer.description">Some views for mkmailer</label>
@@ -56,6 +57,7 @@
 			<label index="tx_mkmailer_templates_templatetype_1">Firmen E-Mail</label>
 			<label index="tx_mkmailer_templates_templatetype_2">Bewerber E-Mail</label>
 			<label index="tx_mkmailer_templates_templatetype_3">Typ 3</label>
+			<label index="tx_mkmailer_templates_attachments">Dateianhänge</label>
 
 		</languageKey>
 	</data>

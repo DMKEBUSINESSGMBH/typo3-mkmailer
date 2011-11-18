@@ -22,6 +22,11 @@ CREATE TABLE tx_mkmailer_templates (
 	description varchar(255) NOT NULL default '',
 	templatetype int(11) DEFAULT '0' NOT NULL,
 	
+	### attachments for dam
+	attachments int(11) DEFAULT '0' NOT NULL,
+	### attachments for the typo3 way
+	attachmentst3 blob NOT NULL,
+	
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );

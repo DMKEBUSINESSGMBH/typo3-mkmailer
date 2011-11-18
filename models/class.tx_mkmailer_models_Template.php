@@ -88,17 +88,86 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 *
 	 * @return tx_mkmailer_mail_IAddress
 	 */
-	function getFromAddress() {
+	public function getFromAddress() {
 		return new tx_mkmailer_mail_Address($this->record['mail_from'], $this->record['mail_fromName']);
 	}
-	function getFrom() {
+	/**
+	 * Returns the Mail-Template From E-Mail-Address.
+	 *
+	 * @return string
+	 */
+	public function getFrom() {
 		return $this->record['mail_from'];
 	}
-	function getFromName() {
+	/**
+	 * Returns the Mail-Template From name.
+	 *
+	 * @return string
+	 */
+	public function getFromName() {
 		return $this->record['mail_fromName'];
 	}
-	function getSubject() {
+	/**
+	 * Returns the Mail-Template Subject.
+	 *
+	 * @return string
+	 */
+	public function getSubject() {
 		return $this->record['subject'];
+	}
+	/**
+	 * Liefert die DAM-Attachments
+	 * @return 	array
+	 */
+	private function getDamAttachmentPaths() {
+		if(!t3lib_extMgm::isLoaded('dam')) return array();
+		$dam = tx_rnbase_util_TSDAM::getReferences($this->getTableName(), $this->getUid(), 'attachments');
+		return empty($dam['files']) ? array() : array_values($dam['files']);
+	}
+	/**
+	 * Liefert den Pfad zu den Attachments
+	 * @return 	string
+	 */
+	private function getT3AttachmentUploadFolder(){
+		$fields = $this->getTCAColumns();
+		return $fields['attachmentst3']['config']['uploadfolder'];
+	}
+	/**
+	 * Liefert die T3-Attachments
+	 * @return 	array
+	 */
+	private function getT3AttachmentPaths(){
+		$files = t3lib_div::trimExplode(',', $this->record['attachmentst3']);
+		if(empty($files)) return $files;
+		// den uploadpfad mit anhängen
+		$uploadfolder = $this->getT3AttachmentUploadFolder();
+		foreach($files as &$file)
+			$file = $uploadfolder.'/'.$file;
+		return $files;
+	}
+	/**
+	 * Liefert die Pfade zu den Anhängen
+	 * @return 	array
+	 */
+	protected function getAttachmentPaths(){
+		return array_merge(
+					// wir fragen erstmal dam
+					$this->getDamAttachmentPaths(),
+					// wir holen uns die altmodischen felder
+					$this->getT3AttachmentPaths()
+				);
+	}
+	/**
+	 * Liefert die Attachments
+	 * @return 	array[tx_mkmailer_mail_IAttachment]
+	 */
+	public function getAttachments(){
+		$files = $this->getAttachmentPaths();
+		if(empty($files)) return $files;
+		tx_rnbase::load('tx_mkmailer_mail_Factory');
+		foreach($files as &$file)
+			$file = tx_mkmailer_mail_Factory::createAttachment($file);
+		return $files;
 	}
 }
 
