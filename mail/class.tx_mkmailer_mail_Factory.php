@@ -33,13 +33,15 @@ tx_rnbase::load('tx_mkmailer_mail_IAttachment');
  */
 class tx_mkmailer_mail_Factory {
 	/**
-	 * @return tx_mkmailer_mail_MailJob
+	 * @param	array[tx_mkmailer_receiver_IMailReceiver] 	$receiver
+	 * @param	tx_mkmailer_models_Template 						$templateObj
+	 * @return 	tx_mkmailer_mail_MailJob
 	 */
-	public static function createMailJob() {
-		return tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+	public static function createMailJob(array $receiver = array(), tx_mkmailer_models_Template &$templateObj=null) {
+		return tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob', $receiver, $templateObj);
 	}
 	/**
-	 * Erstellt ein Datei-Attachment. Wenn ein relativer Pfad übergeben wird, dann wird dieser automatisch in 
+	 * Erstellt ein Datei-Attachment. Wenn ein relativer Pfad übergeben wird, dann wird dieser automatisch in
 	 * einen absoluten TYPO3-Pfad umgewandelt.
 	 * @param string $path
 	 * @param string $name
@@ -64,7 +66,7 @@ class tx_mkmailer_mail_Factory {
 		return t3lib_div::isAbsPath($path) ? $path : t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath($path));
 	}
 	/**
-	 * 
+	 *
 	 * @param string $content
 	 * @param string $name
 	 * @param string $encoding
@@ -82,7 +84,7 @@ class tx_mkmailer_mail_Factory {
 		return $att;
 	}
 	/**
-	 * 
+	 *
 	 * @param string $path
 	 * @param string $embedId Content ID of the attachment.  Use this to identify
 	 * @param string $name
@@ -102,7 +104,7 @@ class tx_mkmailer_mail_Factory {
 		return $att;
 	}
 	/**
-	 * 
+	 *
 	 * @param int $type
 	 * @return tx_mkmailer_mail_Attachment
 	 */
