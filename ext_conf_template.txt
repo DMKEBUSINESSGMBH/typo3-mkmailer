@@ -1,0 +1,9 @@
+  # cat=basic; type=int; label= PID of FE page with mailer plugin for mail queue.
+cronpage = 0
+
+  # cat=basic; type=string; label= Default charset of a message: Default is UTF-8
+charset = UTF-8
+  # cat=basic; type=string; label= Default encoding of a message: Options for this are "8bit" (default), "7bit", "binary", "base64" and "quoted-printable".
+encoding = 8bit
+  # cat=basic; type=string; label= Default Return-Path: Leave empty to use php.ini settings, set to 1 to use the sender address or write down an e-mail-address.
+returnpath = 

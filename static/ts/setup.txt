@@ -1,0 +1,41 @@
+# setup
+includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
+
+
+plugin.tx_mkmailer 						= USER_INT
+plugin.tx_mkmailer.flexform 			= flexform_main.xml
+plugin.tx_mkmailer.userFunc 			= tx_rnbase_controller->main
+plugin.tx_mkmailer.defaultAction 		= tx_mkmailer_actions_SendMails
+plugin.tx_mkmailer.qualifier 			= mkmailer
+plugin.tx_mkmailer.templatePath 		= EXT:mkmailer/templates
+plugin.tx_mkmailer.locallangFilename 	= EXT:mkmailer/locallang.xml
+
+tt_content.list.20.tx_mkmailer =< plugin.tx_mkmailer
+
+lib.mkmailer.basetemplate {
+	wrapTemplate = 1
+	textTemplate = EXT:mkmailer/templates/mailwraptext.html
+	textSubpart = ###CONTENTTEXT###
+	htmlTemplate = EXT:mkmailer/templates/mailwraphtml.html
+	htmlSubpart = ###CONTENTHTML###
+}
+
+# Ab hier Konfiguration der einzelnen Views 
+plugin.tx_mkmailer {
+	# Action für Versand von Mails aus der Queue
+	sendmails {
+	
+		basetemplate =< lib.mkmailer.basetemplate
+		### konfiguration für email, wenn nicht gesetzt wird die basetemplate konfiguration für den templatewrap genutzt.
+		email =< lib.mkmailer.basetemplate
+		### für dem email receiver via default deaktiviert, um bestehende projekte nicht zu verändern 
+		email.wrapTemplate = 0
+		#feuser =< lib.mkmailer.basetemplate
+	
+		# Anzahl Emails pro Aufruf
+		maxMails = 10
+		# Testmodus, hier können Mailadressen eingetragen werden (Kommagetrennt)
+		testMail = 
+	}
+}
+

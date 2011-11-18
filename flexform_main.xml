@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<T3DataStructure>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tab.common</sheetTitle>
+        </TCEforms>
+
+        <type>array</type>
+        <el>
+          <action> <!-- Bezeichner ist frei wählbar -->
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="10" type="array">
+                    <numIndex index="0">LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</numIndex>
+                    <numIndex index="1">tx_mkmailer_actions_SendMails</numIndex>
+                  </numIndex>
+
+                </items>
+                <multiple>0</multiple>
+                <maxitems>10</maxitems>
+                <size>10</size>
+              </config>
+            </TCEforms>
+          </action>
+          <sendmails.testMail>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin_mkmailer_testmail</label>
+              <config>
+                <type>input</type>
+                <size>50</size>
+                <max>256</max>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </sendmails.testMail>
+        </el>
+      </ROOT>
+    </sDEF>
+    
+		<!-- s_listloc>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+
+				</el>
+			</ROOT>
+		</s_listloc-->
+
+		<s_tssetup>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:common_tssetup</sheetTitle>
+					<!-- cshFile>LLL:EXT:cfc_league_fe/res/help/locallang_csh_flexform.xml</cshFile-->
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<flexformTS>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tssetup</label>
+							<config>
+								<type>text</type>
+								<cols>80</cols>
+								<rows>10</rows>
+							</config>
+						</TCEforms>
+					</flexformTS>
+				</el>
+			</ROOT>
+		</s_tssetup>
+
+  </sheets>
+</T3DataStructure>

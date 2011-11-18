@@ -1,0 +1,16 @@
+mod {
+  mkmailer {
+    qualifier = mailer
+
+	  overview {
+	    template = EXT:mkmailer/mod1/templates/overview.html
+	  }
+
+	  functest {
+	    template = EXT:mkmailer/mod1/templates/queuefunc.html
+		  queue {
+		    name.wrap = -|-
+		  }
+		}
+	}
+}
