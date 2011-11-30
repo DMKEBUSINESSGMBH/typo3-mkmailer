@@ -27,10 +27,10 @@ tx_rnbase::load('tx_mkmailer_receiver_Base');
 /**
  * Basisklasse für Receiver.
  * Um den jeweiligen Inhalt wird ein Template gemappt, falls konfiguriert.
- * 
+ *
  * Muss noch um die Methoden des Interfaces tx_mkmailer_receiver_IMailReceiver erweitert werden.
  * getAddressCount, getAddresses, getName, getSingleAddress, setValueString
- *  
+ *
  * @package tx_mkmailer
  * @subpackage tx_mkmailer_receiver
  * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
@@ -41,7 +41,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	 * Liefert die ConfId für den Reciver.
 	 * Sollte überschrieben werden!
 	 * Der Quatsch mit der Klasse ist nur Fallback!
-	 * 
+	 *
 	 * @return 	string
 	 */
 	protected function getConfId() {
@@ -53,7 +53,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	
 	/**
 	 * @TODO: die original confid wird noch gebraucht -> sendmails.
-	 * 
+	 *
 	 * @param 	tx_rnbase_configurations 	$configurations
 	 * @param 	string 						$confId
 	 * @param 	string 						$type
@@ -73,7 +73,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	
 	/**
 	 * Wrapt ein Template um den Inhalt
-	 * 
+	 *
 	 * @param 	string 						$content
 	 * @param 	tx_rnbase_configurations 	$configurations
 	 * @param 	string 						$confId
@@ -109,7 +109,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	
 	/**
 	 * Verändert das entgültige HTML.
-	 * 
+	 *
 	 * @param 	string 	$content
 	 * @return 	string
 	 */
@@ -118,7 +118,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	}
 	/**
 	 * Verändert den entgültigen Text.
-	 * 
+	 *
 	 * @param 	string 	$content
 	 * @return 	string
 	 */
@@ -128,7 +128,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	}
 	/**
 	 * Verändert den entgültigen Text.
-	 * 
+	 *
 	 * @param 	string 	$content
 	 * @return 	string
 	 */
@@ -148,9 +148,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	/**
 	 * Erstellt eine individuelle Email für einen Empfänger der Email.
 	 *
-	 * @param 	tx_mkmailer_models_Queue 	$queue 
+	 * @param 	tx_mkmailer_models_Queue 	$queue
 	 * @param 	tx_rnbase_util_FormatUtil 	$formatter
-	 * @param 	string 						$confId 
+	 * @param 	string 						$confId
 	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
 	 * @return 	tx_mkmailer_mail_IMessage
 	 */
@@ -188,7 +188,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	 * @param 	string 						$mailHtml
 	 * @param 	string 						$mailSubject
 	 * @param 	tx_rnbase_util_FormatUtil 	$formatter
-	 * @param 	string 						$confId 
+	 * @param 	string 						$confId
 	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
 	 * @return 	tx_mkmailer_mail_IMessage
 	 */
