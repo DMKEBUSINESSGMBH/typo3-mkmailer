@@ -173,6 +173,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 		$mailHtml = $this->fixContentHtml($mailHtml);
 		
 		$msg = tx_rnbase::makeInstance('tx_mkmailer_mail_SimpleMessage');
+		// FIXME: Hier können nicht mehrere Adressen auf einmal angeben werden. Der Mail-String sollte nach
+		// weiteren Adressen durchsucht werden.
+		// Was ist eigentlich mit den CCs und BCCs??
 		$msg->addTo($this->email);
 		$msg->setTxtPart($mailText);
 		$msg->setHtmlPart($mailHtml);
