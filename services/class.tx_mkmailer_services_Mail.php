@@ -240,6 +240,8 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		tx_rnbase_util_DB::doUpdate('tx_mkmailer_queue', $where,$data,0);
 		// Jetzt noch die Uploads löschen
 		if($mailQueue->getUploads()) {
+			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
+			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
 			$path = $this->getUploadDir();
 			$uploads = t3lib_div::trimExplode(',', $mailQueue->getUploads());
 			foreach($uploads As $upload) {
