@@ -75,7 +75,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 				$mailSize = $receiver->getAddressCount();
 				for($i=0; $i < $mailSize; $i++) {
 					if($sentQueueCnt > $maxMails) break;
-					
+
 					$address = $receiver->getSingleAddress($i);
 					// Prüfen, ob diese Mail schon verschickt wurde!
 					if(is_array($address) && !$this->isMailSent($queue, $address['addressid'])) {
@@ -240,11 +240,15 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		tx_rnbase_util_DB::doUpdate('tx_mkmailer_queue', $where,$data,0);
 		// Jetzt noch die Uploads löschen
 		if($mailQueue->getUploads()) {
+			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
+			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
 			$path = $this->getUploadDir();
 			$uploads = t3lib_div::trimExplode(',', $mailQueue->getUploads());
-			foreach($uploads As $upload) {
-				$upload = $path . $upload;
-				unlink($upload);
+			if(is_array($uploads)){
+				foreach($uploads As $upload) {
+					$upload = $path . $upload;
+					unlink($upload);
+				}
 			}
 		}
 	}
@@ -333,7 +337,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$receiver->setFeUser($feuser);
 		return $receiver;
 	}
-	
+
 	/**
 	 * Returns the target dir of uploaded attachments
 	 *
@@ -385,7 +389,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$mail->CharSet = $options['charset'] ? $options['charset'] : 'UTF-8'; // Default: iso-8859-1
 		$mail->Encoding = $options['encoding'] ? $options['encoding'] : '8bit'; // Options for this are "8bit", "7bit", "binary", "base64", and "quoted-printable".
 
-		
+
 		$mail->FromName = $msg->getFrom()->getName(); // Default Fromname
 
 		// Absender
@@ -394,7 +398,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		if($options['returnpath'])
 			// wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
 			$mail->Sender = $options['returnpath'] == 1 ? $mail->From : $options['returnpath'];
-		
+
 		$mail->Subject = $msg->getSubject();
 		if($msg->getHtmlPart()) {
 			$mail->IsHTML(true);
@@ -452,7 +456,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 					break;
 				}
 			}
-		
+
 		$ret = $mail->Send();
 		if(!$ret) {
 			// Versandfehler. Es wird eine Exception geworfen
