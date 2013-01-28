@@ -46,7 +46,6 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 
 		$out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
-//t3lib_div::debug($open, 'tx_mkmailer_mod1_FuncOverview :: getContent'); // TODO: remove me
 		return $out;
 	}
 
@@ -59,7 +58,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 	private function getOpenMails() {
 		global $LANG;
 		$pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
-		
+
 		$options = array('count'=>1);
 		$mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
 		$cnt = $mailServ->getMailQueue($options);
@@ -89,7 +88,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 	private function getFinishedMails() {
 		global $LANG;
 		$pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
-		
+
 		$options = array('count'=>1);
 		$mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
 		$cnt = $mailServ->getMailQueueFinished($options);
@@ -155,7 +154,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 		for($i=0, $cnt = count($receivers); $i < $cnt; $i++) {
 			$receiverData = $receivers[$i];
 			$receiver = $mailServ->createReceiver($receiverData);
-			
+
 			$addrCnt = $receiver->getAddressCount();
 			$addrInfo = $addrCnt. ' '.$LANG->getLL('label_receivers');
 			if($addrCnt == 1) {
@@ -164,7 +163,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 			}
 			$info = $receiver->getName() . ' (';
 			$info .= $addrInfo .')';
-			
+
 			$ret[] = $info;
 		}
 		return implode('<br />', $ret);

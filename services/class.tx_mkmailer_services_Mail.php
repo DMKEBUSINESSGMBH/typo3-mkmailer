@@ -104,7 +104,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 
 						if($testMail) {
 							$message->setOption('testmail', $testMail);
-							t3lib_div::debug($message, 'tx_mkmailer_actions_SendMails Diese Info wird nur im Testmodus angezeigt!'); // TODO: Remove me!
+							tx_rnbase_util_Debug::debug($message, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt!'); // TODO: Remove me!
 						}
 						// sendMail erwartet als Empfänger entweder einen String oder ein Array. Das Array ist aber für
 						// verschiedene Empfänger gedacht. Daher muss das Datenarray nochmal in ein Array gepackt werden
@@ -413,7 +413,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$addresses = $msg->getTo();
 		if(isset($options['testmail']) && $options['testmail']) {
 			// Die Mail wird an eine Testadresse verschickt
-			t3lib_div::debug($addresses, 'Send Testmail to '.$options['testmail'].' FROM: ' . $from .' tx_dsagbase_services_Mail'); // TODO: Remove me!
+			tx_rnbase_util_Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: ' . $from .''); // TODO: Remove me!
 			$testAddrs = t3lib_div::trimExplode(',', $options['testmail']);
 			foreach($testAddrs As $addr)
 				$mail->AddAddress($addr);

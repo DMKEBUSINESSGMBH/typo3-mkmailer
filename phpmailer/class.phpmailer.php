@@ -1245,7 +1245,7 @@ class PHPMailer {
     fclose($fd);
     if (PHP_VERSION < 6) {
    		ini_set('magic_quotes_runtime', $magic_quotes);
-//    	set_magic_quotes_runtime($magic_quotes); 
+//    	set_magic_quotes_runtime($magic_quotes);
     }
     return $file_buffer;
   }
