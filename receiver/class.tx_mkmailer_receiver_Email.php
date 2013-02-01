@@ -25,15 +25,15 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
- * Implementierung für einen Mailempfänger vom Typ E-Mail. 
+ * Implementierung für einen Mailempfänger vom Typ E-Mail.
  */
 class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate {
 	protected $email;
-	
+
 	public function tx_mkmailer_receiver_Email($email=null){
 		$this->setEMail($email);
 	}
-	
+
 	function setValueString($value) {
 		$this->setEMail($value);
 	}
@@ -65,13 +65,13 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate {
 
 	/**
 	 * Liefert die ConfId für den Reciver.
-	 * 
+	 *
 	 * @return 	string
 	 */
 	protected function getConfId() {
 		return 'email.';
 	}
-	
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Email.php'])	{

@@ -35,8 +35,9 @@ tx_rnbase::load('tx_mkmailer_receiver_Base');
  * @subpackage tx_mkmailer_receiver
  * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
  */
-abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Base {
-	
+abstract class tx_mkmailer_receiver_BaseTemplate
+	extends tx_mkmailer_receiver_Base {
+
 	/**
 	 * Liefert die ConfId für den Reciver.
 	 * Sollte überschrieben werden!
@@ -49,8 +50,8 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 		$confId = array_pop($confId);
 		return strtolower($confId).'.';
 	}
-	
-	
+
+
 	/**
 	 * @TODO: die original confid wird noch gebraucht -> sendmails.
 	 *
@@ -63,14 +64,14 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	protected function getConfig($configurations, $confId, $type, $config){
 		// wird benötigt um template und subpart vom default auszulesen
 		$confIdNoDot = strpos($confId,'.') !== false ? substr($confId, 0, -1) : '';
-		
+
 		$ret = $configurations->get($confId.$type.$config);
 		$ret = $ret ? $ret : $configurations->get($confIdNoDot.$config);
 		$ret = $ret ? $ret : $configurations->get('sendmails.basetemplate.'.$type.$config);
 		$ret = $ret ? $ret : $configurations->get('sendmails.basetemplate'.$config);
 		return $ret;
 	}
-	
+
 	/**
 	 * Wrapt ein Template um den Inhalt
 	 *
@@ -78,35 +79,78 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	 * @param 	tx_rnbase_configurations 	$configurations
 	 * @param 	string 						$confId
 	 * @param 	string 						$type
+	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
 	 * @return 	string
 	 */
-	private function parseTemplate($content, $configurations, $confId, $type){
-		
+	private function parseTemplate($content, $configurations, $confId, $type, $idx = 0) {
+
 		if(!$configurations->getBool($confId.'wrapTemplate')) return $content;
-		
+
 		/* *** Template auslesen *** */
 		$templatePath = $this->getConfig($configurations, $confId, $type, 'Template');
-		
+
 		if(!$templatePath) return '<!-- NO Template defined. -->'.$content;
 
-	    tx_rnbase::load('tx_rnbase_util_Files');
-	    $template = tx_rnbase_util_Files::getFileResource($templatePath);
-	    if(!$template) return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
-	    
+		tx_rnbase::load('tx_rnbase_util_Files');
+		$template = tx_rnbase_util_Files::getFileResource($templatePath);
+		if(!$template) return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
+
 		/* *** Subpart auslesen *** */
 		$subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
 		$subpart = $subpart ? $subpart : '###CONTENT'.strtoupper($type).'###';
-	    $template = t3lib_parsehtml::getSubpart($template,$subpart);
-	    
-	    if(!$template) return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
-	    
-	    $markerArray['###CONTENT###'] = $content;
+		$template = t3lib_parsehtml::getSubpart($template,$subpart);
 
-	    tx_rnbase::load('tx_rnbase_util_Templates');
-	    $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
-	    return trim($out);
+		if(!$template) return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
+
+		tx_rnbase::load('tx_rnbase_util_Templates');
+		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+				$template, array('###CONTENT###' => $content));
+
+		return trim($out);
 	}
-	
+
+
+	/**
+	 * Parst den Receiver ein Template um den Inhalt
+	 *
+	 * @param 	string 						$content
+	 * @param 	tx_rnbase_configurations 	$configurations
+	 * @param 	string 						$confId
+	 * @param 	string 						$type
+	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+	 * @return 	string
+	 */
+	private function parseReceiver($content, $configurations, $confId, $type, $idx = 0) {
+		tx_rnbase::load('tx_rnbase_util_BaseMarker');
+
+		$out = $content;
+
+		// jetzt noch dcmarker und labels ersetzen.
+		$markerArray = $subpartArray = $wrappedSubpartArray = $params = array();
+		$formatter = $configurations->getFormatter();
+
+		if (tx_rnbase_util_BaseMarker::containsMarker($out, 'RECEIVER_')) {
+			// receiver und dcmarker auslesen
+			$markerArray = $formatter->getItemMarkerArrayWrapped(
+				$this->getReceiverRecord($idx),
+				$confId.'receiver'.$type.'.',
+				0, 'RECEIVER_'
+			);
+		}
+
+		// labels und module parsen
+		tx_rnbase_util_BaseMarker::callModules(
+				$out, $markerArray, $subpartArray, $wrappedSubpartArray,
+				$params, $formatter
+		);
+
+		// receiver und module rendern
+		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+				$out, $markerArray, $subpartArray, $wrappedSubpartArray);
+
+		return trim($out);
+	}
+
 	/**
 	 * Verändert das entgültige HTML.
 	 *
@@ -144,7 +188,18 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 		$content = strip_tags($content);
 		return trim($content);
 	}
-	
+
+	/**
+	 * Liefert den Record, der im Wrappertemplate als RECEIVER_* gerendert wird.
+	 *
+	 * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+	 * @return array
+	 */
+	protected function getReceiverRecord($idx) {
+		$record = $this->getSingleAddress($idx);
+		return $record;
+	}
+
 	/**
 	 * Erstellt eine individuelle Email für einen Empfänger der Email.
 	 *
@@ -162,28 +217,34 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 		$mailSubject = $queue->getSubject();
 
 		// erstmal das Template wrappen, da dort marker sein könnten, welche ersetzt werden müssen.
-		$mailText = $this->parseTemplate($mailText, $formatter->getConfigurations(), $confId, 'text');
-		$mailHtml = $this->parseTemplate($mailHtml, $formatter->getConfigurations(), $confId, 'html');
-		
+		$mailText = $this->parseTemplate($mailText, $formatter->getConfigurations(), $confId, 'text', $idx);
+		$mailHtml = $this->parseTemplate($mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx);
+
 		// zusätzliche Marker füllen
 		$this->addAdditionalData($mailText, $mailHtml, $mailSubject, $formatter, $confId, $idx);
-		
+
+		// Nun den Receiver parsen
+		// Dies machen wir absichtlich nach dem Wrap, da dort und beim parsen von AdditionalDatamarker weitere Marker enthalten sein können.
+		$mailText = $this->parseReceiver($mailText, $formatter->getConfigurations(), $confId, 'text', $idx);
+		$mailHtml = $this->parseReceiver($mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx);
+
 		$mailSubject = $this->fixSubject($mailSubject);
 		$mailText = $this->fixContentText($mailText);
 		$mailHtml = $this->fixContentHtml($mailHtml);
-		
+
 		$msg = tx_rnbase::makeInstance('tx_mkmailer_mail_SimpleMessage');
 		// FIXME: Hier können nicht mehrere Adressen auf einmal angeben werden. Der Mail-String sollte nach
 		// weiteren Adressen durchsucht werden.
 		// Was ist eigentlich mit den CCs und BCCs??
+		// @FIXME: $this->email ist nirgends definiert!
 		$msg->addTo($this->email);
 		$msg->setTxtPart($mailText);
 		$msg->setHtmlPart($mailHtml);
 		$msg->setSubject($mailSubject);
-		
+
 		return $msg;
 	}
-	
+
 	/**
 	 * Hier können susätzliche Daten in das Template gefügt werden.
 	 *
@@ -196,9 +257,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
 	 * @return 	tx_mkmailer_mail_IMessage
 	 */
 	protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx) {
-		
+
 	}
-	
+
 }
 
 

@@ -18,6 +18,14 @@ lib.mkmailer.basetemplate {
 	textSubpart = ###CONTENTTEXT###
 	htmlTemplate = EXT:mkmailer/templates/mailwraphtml.html
 	htmlSubpart = ###CONTENTHTML###
+	
+	### dem receiver stehen momentan folgende felder zur verfügung:
+	### address und addressid
+	### weiter sind hier dc marker möglich.
+	receivertext {
+	}
+	receiverhtml {
+	}
 }
 
 # Ab hier Konfiguration der einzelnen Views 
