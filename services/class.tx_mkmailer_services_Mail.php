@@ -478,7 +478,11 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
     $options['where'] = $where;
     $options['wrapperclass'] = 'tx_mkmailer_models_Template';
     $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
-    if(!count($ret)) throw new Exception('Mail template with key \'' . $id .'\' not found!');
+    if(!count($ret))
+    	throw tx_rnbase::makeInstance(
+    		'tx_mkmailer_exceptions_NoTemplateFound',
+    		'Mail template with key \'' . $id .'\' not found!'
+    	);
     return count($ret) ? $ret[0] : null;
 	}
 
