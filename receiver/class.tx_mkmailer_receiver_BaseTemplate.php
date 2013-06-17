@@ -233,11 +233,10 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		$mailHtml = $this->fixContentHtml($mailHtml);
 
 		$msg = tx_rnbase::makeInstance('tx_mkmailer_mail_SimpleMessage');
-		// FIXME: Hier können nicht mehrere Adressen auf einmal angeben werden. Der Mail-String sollte nach
-		// weiteren Adressen durchsucht werden.
-		// Was ist eigentlich mit den CCs und BCCs??
-		// @FIXME: $this->email ist nirgends definiert!
-		$msg->addTo($this->email);
+		// @TODO: Was ist eigentlich mit den CCs und BCCs??
+		$singleAddress = $this->getSingleAddress($idx);
+		$sendTo = $this->email ? $this->email : $singleAddress['address'];
+		$msg->addTo($sendTo);
 		$msg->setTxtPart($mailText);
 		$msg->setHtmlPart($mailHtml);
 		$msg->setSubject($mailSubject);
