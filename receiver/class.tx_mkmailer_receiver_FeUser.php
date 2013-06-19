@@ -25,15 +25,15 @@
 tx_rnbase::load('tx_mkmailer_receiver_Base');
 /**
  * Implementierung für einen Mailempfänger vom Typ FeUser.
- * 
+ *
  * @TODO: auf tx_mkmailer_receiver_BaseTemplate umstellen
  */
-class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_Base {
+class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate {
 	protected $obj;
 	function setValueString($value) {
 		tx_rnbase::load('tx_t3users_models_feuser');
 		$this->setFeUser(tx_t3users_models_feuser::getInstance(intval($value)));
-		
+
 	}
 	function setFeUser($feuser) {
 		$this->obj = $feuser;
@@ -47,7 +47,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_Base {
 	}
 	function getName() {
 		if(!is_object($this->obj) || !$this->obj->isValid()) return 'unknown';
-		
+
 		return $this->obj->record['username'];
 	}
 
@@ -61,34 +61,36 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_Base {
 	}
 
 	/**
-	 * Erstellt eine individuelle Email für einen Empfänger der Email.
+	 * Hier können susätzliche Daten in das Template gefügt werden.
 	 *
-	 * @param tx_mkmailer_models_Queue $queue 1. Zeile wird als Betreff verwendet!
-	 * @param tx_rnbase_util_FormatUtil $formatter
-	 * @param string $confId 
-	 * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
-	 * @return tx_mkmailer_mail_IMessage
+	 * @param 	string 						$mailText
+	 * @param 	string 						$mailHtml
+	 * @param 	string 						$mailSubject
+	 * @param 	tx_rnbase_util_FormatUtil 	$formatter
+	 * @param 	string 						$confId
+	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+	 * @return 	tx_mkmailer_mail_IMessage
 	 */
-	function getSingleMail($queue, &$formatter, $confId, $idx) {
-		$markerClass = tx_rnbase::makeInstanceClassName('tx_t3users_util_FeUserMarker');
-		$marker = new $markerClass;
-		$mailText = $marker->parseTemplate($queue->getContentText(), $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
-		$mailHtml = $marker->parseTemplate($queue->getContentHtml(), $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
-		$mailSubject = $marker->parseTemplate($queue->getSubject(), $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
-
-		$msg = tx_rnbase::makeInstance('tx_mkmailer_mail_SimpleMessage');
-		$msg->addTo($this->getEmail());
-		$msg->setTxtPart($mailText);
-		$msg->setHtmlPart($mailHtml);
-		$msg->setSubject($mailSubject);
-		
-		return $msg;
+	protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx) {
+		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+		$mailText = $marker->parseTemplate($mailText, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
+		$mailHtml = $marker->parseTemplate($mailHtml, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
+		$mailSubject = $marker->parseTemplate($mailSubject, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER');
 	}
-	
+
 	protected function getEmail() {
 		if(!is_object($this->obj) || !isset($this->obj->record['email'])) return false;
 		//else
 		return $this->obj->record['email'];
+	}
+
+	/**
+	 * Liefert die ConfId für den Reciver.
+	 *
+	 * @return 	string
+	 */
+	protected function getConfId() {
+		return 'receiver.';
 	}
 }
 

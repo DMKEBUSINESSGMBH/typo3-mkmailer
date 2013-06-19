@@ -38,7 +38,9 @@ plugin.tx_mkmailer {
 		email =< lib.mkmailer.basetemplate
 		### für dem email receiver via default deaktiviert, um bestehende projekte nicht zu verändern 
 		email.wrapTemplate = 0
-		#feuser =< lib.mkmailer.basetemplate
+		receiver =< lib.mkmailer.basetemplate
+		### für dem email receiver via default deaktiviert, um bestehende projekte nicht zu verändern
+		receiver.wrapTemplate = 0
 	
 		# Anzahl Emails pro Aufruf
 		maxMails = 10

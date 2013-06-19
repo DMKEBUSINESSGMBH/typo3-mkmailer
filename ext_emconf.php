@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_email' => 'r.nitzsche@das-medienkombinat.de',
 	'version' => '0.7.6',
 	'shy' => '',
-	'dependencies' => '',
+	'dependencies' => 'rn_base,t3users',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -32,10 +32,12 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => '',
 	'constraints' => array(
 		'depends' => array(
+			'rn_base' => '0.8.0-0.0.0',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
+			't3users' => '',
 		),
 	),
 	'_md5_values_when_last_written' => 'a:5:{s:9:"ChangeLog";s:4:"afa5";s:10:"README.txt";s:4:"ee2d";s:12:"ext_icon.gif";s:4:"1bdc";s:19:"doc/wizard_form.dat";s:4:"ae26";s:20:"doc/wizard_form.html";s:4:"b08b";}',
