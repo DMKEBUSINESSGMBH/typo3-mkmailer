@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_mkmailer_receiver_Base');
+tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 /**
  * Implementierung für einen Mailempfänger vom Typ FeUser.
  *
