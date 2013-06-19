@@ -48,6 +48,13 @@ class tx_mkmailer_tests_receiver_BaseTemplate extends tx_mkmailer_receiver_BaseT
 }
 
 /**
+ *	Test Receiver Object mit email variable
+ */
+class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_mkmailer_tests_receiver_BaseTemplate {
+	protected $email = 'john@doe.com';
+}
+
+/**
  *
  */
 class tx_mkmailer_tests_receiver_BaseTemplate_testcase
@@ -94,10 +101,12 @@ class tx_mkmailer_tests_receiver_BaseTemplate_testcase
 	}
 
 	/**
+	 * @param string $class
+	 *
 	 * @return 	tx_mkmailer_tests_receiver_BaseTemplate
 	 */
-	private function getReceiver(){
-		return tx_rnbase::makeInstance('tx_mkmailer_tests_receiver_BaseTemplate');
+	private function getReceiver($class = 'tx_mkmailer_tests_receiver_BaseTemplate'){
+		return tx_rnbase::makeInstance($class);
 	}
 
 	/**
@@ -266,6 +275,28 @@ class tx_mkmailer_tests_receiver_BaseTemplate_testcase
 // 		exit;
 		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html> ich@da.com ich@da.com Hallo Welt', $contentHtml, 'HTML part wrong.');
 		$this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".' ich@da.com ich@da.com Hallo Welt', $contentText, 'TEXT part wrong.');
+	}
+
+	public function testGetSingleMailUsesGetSingleAdressIfObjectVariableEmailNotSet() {
+		$confId = 'sendmails.';
+		$configurations = $this->getConfigurations();
+		$receiver = $this->getReceiver();
+		$queue = $this->getQueue();
+		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+
+		$expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
+		$this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
+	}
+
+	public function testGetSingleMailUsesObjectVariableEmailIfSet() {
+		$confId = 'sendmails.';
+		$configurations = $this->getConfigurations();
+		$receiver = $this->getReceiver('tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable');
+		$queue = $this->getQueue();
+		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+
+		$expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
+		$this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
 	}
 }
 
