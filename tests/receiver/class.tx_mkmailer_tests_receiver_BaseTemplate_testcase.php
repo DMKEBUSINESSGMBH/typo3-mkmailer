@@ -267,12 +267,6 @@ class tx_mkmailer_tests_receiver_BaseTemplate_testcase
 		$contentHtml = ($msg->getHtmlPart());
 		$contentText = ($msg->getTxtPart());
 
-		echo '<pre>'.var_export(array(
-				$contentText,
-				$contentHtml,
-				'DEBUG: '.__FILE__.'&'.__METHOD__.' Line: '.__LINE__
-			),true).'</pre>'; // @TODO: remove me
-// 		exit;
 		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html> ich@da.com ich@da.com Hallo Welt', $contentHtml, 'HTML part wrong.');
 		$this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".' ich@da.com ich@da.com Hallo Welt', $contentText, 'TEXT part wrong.');
 	}
