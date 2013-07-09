@@ -84,7 +84,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	 */
 	private function parseTemplate($content, $configurations, $confId, $type, $idx = 0) {
 
-		if(!$configurations->getBool($confId.'wrapTemplate')) return $content;
+		if(empty($content) || !$configurations->getBool($confId.'wrapTemplate')) return $content;
 
 		/* *** Template auslesen *** */
 		$templatePath = $this->getConfig($configurations, $confId, $type, 'Template');
