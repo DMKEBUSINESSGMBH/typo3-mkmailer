@@ -238,19 +238,25 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$data['lastupdate'] = tx_rnbase_util_Dates::datetime_tstamp2mysql(time());
 		$where = 'uid = ' . $mailQueue->uid;
 		tx_rnbase_util_DB::doUpdate('tx_mkmailer_queue', $where,$data,0);
-		// Jetzt noch die Uploads löschen
-		if($mailQueue->getUploads()) {
-			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
-			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
-			$path = $this->getUploadDir();
-			$uploads = t3lib_div::trimExplode(',', $mailQueue->getUploads());
-			if(is_array($uploads)){
-				foreach($uploads As $upload) {
-					$upload = $path . $upload;
-					unlink($upload);
-				}
-			}
-		}
+
+		// FIXME: Löschen geht nicht und muss nochmal überarbeitet werden. Beim spoolen einer Mail
+		// muss es folgende Optionen geben:
+		// - Es kann eine Kopie des Anhangs angelegt oder das Original verwendet werden
+		//	(ich denke default sollte sein eine Kopie anzulegen)
+		// - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
+		//	(default sollte nicht Original löschen sein)
+//		if($mailQueue->getUploads()) {
+//			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
+//			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
+//			$path = $this->getUploadDir();
+//			$uploads = t3lib_div::trimExplode(',', $mailQueue->getUploads());
+//			if(is_array($uploads)){
+//				foreach($uploads As $upload) {
+//					$upload = $path . $upload;
+//					unlink($upload);
+//				}
+//			}
+//		}
 	}
 	/**
 	 * Liefert eine Array mit allen anstehenden Mails aus der Queue
