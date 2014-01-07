@@ -245,7 +245,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		//	(ich denke default sollte sein eine Kopie anzulegen)
 		// - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
 		//	(default sollte nicht Original löschen sein)
-		// dabei gleich das FIXME in $this->getUploadDir() beheben
 //		if($mailQueue->getUploads()) {
 //			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
 //			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
@@ -349,8 +348,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * Returns the target dir of uploaded attachments
 	 *
 	 * @return string
-	 *
-	 * @FIXME Dieser Ordner gibt es gar nicht da er nicht angelegt wird
 	 */
 	function getUploadDir() {
 		require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
