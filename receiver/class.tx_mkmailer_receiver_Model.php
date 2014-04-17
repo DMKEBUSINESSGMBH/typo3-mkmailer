@@ -110,6 +110,8 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	abstract protected function getModel();
 
 	/**
+	 * der Marker im Template für das model
+	 *
 	 * @return string
 	 */
 	abstract protected function getModelMarker();
