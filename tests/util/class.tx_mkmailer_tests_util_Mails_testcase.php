@@ -26,7 +26,7 @@
  * benötigte Klassen einbinden
  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+tx_rnbase::load('tx_mkmailer_tests_util_MailsBaseTestCase');
 tx_rnbase::load('tx_mkmailer_util_Mails');
 tx_rnbase::load('tx_mkmailer_services_Mail');
 tx_rnbase::load('tx_mklib_tests_Util');
@@ -35,15 +35,7 @@ tx_rnbase::load('tx_mkmailer_receiver_Email');
 /**
  * @author Hannes Bochmann
  */
-class tx_mkmailer_tests_util_Mails_testcase extends tx_rnbase_tests_BaseTestCase {
-
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_mklib_tests_Util::prepareTSFE();
-	}
+class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_MailsBaseTestCase {
 
 	/**
 	 * @group unit
@@ -98,37 +90,6 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_rnbase_tests_BaseTestCase
 		$mailUtil::sendModelReceiverMail(
 			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', 'mailTemplate'
 		);
-	}
-
-
-	/**
-	 * @return tx_mkmailer_services_Mail
-	 */
-	private function getMailServiceMock() {
-		$mailService = $this->getMock(
-			'tx_mkmailer_services_Mail',
-			array('spoolMailJob','getTemplate')
-		);
-
-		return $mailService;
-	}
-
-	/**
-	 * @param tx_mkmailer_services_Mail $mailService
-	 *
-	 * @return tx_mkmailer_util_Mails
-	 */
-	private function getMailUtilMock(tx_mkmailer_services_Mail $mailService) {
-		$mailUtil = $this->getMockClass(
-			'tx_mkmailer_util_Mails',
-			array('getMailService')
-		);
-
-		$mailUtil::staticExpects($this->once())
-			->method('getMailService')
-			->will($this->returnValue($mailService));
-
-		return $mailUtil;
 	}
 }
 
