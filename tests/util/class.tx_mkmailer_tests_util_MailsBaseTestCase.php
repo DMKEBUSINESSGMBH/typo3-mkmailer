@@ -63,7 +63,7 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
 	 */
 	protected function getMailUtilMock(tx_mkmailer_services_Mail $mailService) {
 		$mailUtil = $this->getMockClass(
-			'tx_mkmailer_util_Mails',
+			$this->getMailUtilClass(),
 			array('getMailService')
 		);
 
@@ -73,4 +73,9 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
 
 		return $mailUtil;
 	}
+
+	/**
+	 * @return string
+	 */
+	abstract protected function getMailUtilClass();
 }

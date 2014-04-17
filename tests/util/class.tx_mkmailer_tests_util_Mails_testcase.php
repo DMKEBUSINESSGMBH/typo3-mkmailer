@@ -91,6 +91,10 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', 'mailTemplate'
 		);
 	}
+
+	protected function getMailUtilClass() {
+		return 'tx_mkmailer_util_Mails';
+	}
 }
 
 class tx_mkmailer_tests_util_ReceiverDummy extends tx_mkmailer_receiver_Email {
