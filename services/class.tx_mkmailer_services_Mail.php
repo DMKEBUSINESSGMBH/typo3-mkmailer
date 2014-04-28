@@ -421,21 +421,25 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 			// Die Mail wird an eine Testadresse verschickt
 			tx_rnbase_util_Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: ' . $from .''); // TODO: Remove me!
 			$testAddrs = t3lib_div::trimExplode(',', $options['testmail']);
-			foreach($testAddrs As $addr)
-				$mail->AddAddress($addr);
+			tx_rnbase::load('tx_mkmailer_mail_Factory');
+			foreach($testAddrs As $addr) {
+				$mail = $this->addAddress(
+					$mail, tx_mkmailer_mail_Factory::createAddressInstance($addr)
+				);
+			}
 		}
 		else {
 			// Der scharfe Versand
 			foreach($addresses As $address) {
-				$mail->AddAddress($address->getAddress(), $address->getName());
+				$mail = $this->addAddress($mail, $address);
 			}
 			$addresses = $msg->getCc();
 			foreach($addresses As $address) {
-				$mail->AddCC($address->getAddress(), $address->getName());
+				$mail = $this->addCCAddress($mail, $address);
 			}
 			$addresses = $msg->getBcc();
 			foreach($addresses As $address) {
-				$mail->AddBCC($address->getAddress(), $address->getName());
+				$mail = $this->addBCCAddress($mail, $address);
 			}
 		}
 		// Integration der Attachments
@@ -469,6 +473,50 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 			throw tx_rnbase::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
 		}
 	}
+
+	/**
+	 * @param PHPMailer $mail
+	 * @param tx_mkmailer_mail_IAddress $address
+	 * @param string $method
+	 * @return PHPMailer $mail
+	 */
+	private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'AddAddress') {
+		if (t3lib_div::validEmail(
+			$address->getAddress())
+		) {
+			$mail->{$method}($address->getAddress(), $address->getName());
+		}
+		else {
+			tx_rnbase_util_Logger::warn(
+				'Invalid Email address given. Mail not sent!', 'mkmailer',
+				array(
+					'emailAddress' => $address->getAddress(),
+					'Name' => $address->getName(),
+				)
+			);
+		}
+		return $mail;
+	}
+
+	/**
+	 * @param PHPMailer $mail
+	 * @param tx_mkmailer_mail_IAddress $address
+	 * @return PHPMailer $mail
+	 */
+	private function addCCAddress($mail, tx_mkmailer_mail_IAddress $address) {
+		return $this->addAddress($mail, $address, 'AddCC');
+	}
+
+
+	/**
+	 * @param PHPMailer $mail
+	 * @param tx_mkmailer_mail_IAddress $address
+	 * @return PHPMailer $mail
+	 */
+	private function addBCCAddress($mail, tx_mkmailer_mail_IAddress $address) {
+		return $this->addAddress($mail, $address, 'AddBCC');
+	}
+
 
 	/**
 	 * Find a mail template

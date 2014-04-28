@@ -111,6 +111,15 @@ class tx_mkmailer_mail_Factory {
 	private static function createAttachmentInstance($type) {
 		return tx_rnbase::makeInstance('tx_mkmailer_mail_Attachment', $type);
 	}
+	/**
+	 *
+	 * @param string $address
+	 * @param string $name
+	 * @return tx_mkmailer_mail_Address
+	 */
+	public static function createAddressInstance($address, $name = '') {
+		return tx_rnbase::makeInstance('tx_mkmailer_mail_Address', $address, $name);
+	}
 }
 
 
