@@ -487,6 +487,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 			$mail->{$method}($address->getAddress(), $address->getName());
 		}
 		else {
+			tx_rnbase::load('tx_rnbase_util_Logger');
 			tx_rnbase_util_Logger::warn(
 				'Invalid Email address given. Mail not sent!', 'mkmailer',
 				array(
