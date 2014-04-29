@@ -28,6 +28,7 @@
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_receiver_Model');
+tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
  *
@@ -36,6 +37,13 @@ tx_rnbase::load('tx_mkmailer_receiver_Model');
  */
 class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestCase {
 
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
+		tx_mklib_tests_Util::disableDevlog();
+	}
 
 	/**
 	 * @group unit
