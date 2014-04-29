@@ -62,15 +62,6 @@ $TCA['tx_mkmailer_templates'] = array (
 				'eval' => 'trim',
 			)
 		),
-		'template' => Array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_template',
-			'config' => Array (
-				'type' => 'text',
-				'cols' => '30',
-				'rows' => '5',
-			)
-		),
 		'contenttext' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_contenttext',

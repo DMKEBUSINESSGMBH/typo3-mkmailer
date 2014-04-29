@@ -51,7 +51,6 @@
 			<label index="tx_mkmailer_templates_mail_from">Absender (optional)</label>
 			<label index="tx_mkmailer_templates_mail_fromName">AbsenderName (optional)</label>
 			<label index="tx_mkmailer_templates_mail_bcc">BCC</label>
-			<label index="tx_mkmailer_templates_template">Mailvorlage</label>
 			<label index="tx_mkmailer_templates_templatetype">Template Typ</label>
 			<label index="tx_mkmailer_templates_templatetype_0">System E-Mail</label>
 			<label index="tx_mkmailer_templates_templatetype_1">Firmen E-Mail</label>
