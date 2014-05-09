@@ -192,8 +192,8 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$data['contenthtml'] = $job->getContentHtml();
 		$data['mail_from'] = is_object($from) ? $from->getAddress() : 'noreply@mkmailer.com';
 		$data['mail_fromName'] = is_object($from) ? $from->getName() : '';
-		$data['mail_cc'] = $ccs;
-		$data['mail_bcc'] = $bccs;
+		$data['mail_cc'] = empty($css) ? '' : $ccs;
+		$data['mail_bcc'] = empty($bccs) ? '' : $bccs;
 		// Attachments werden serialisiert abgespeichert.
 		$attachments = $job->getAttachments();
 		$data['attachments'] = $attachments ? serialize($attachments) : '';
