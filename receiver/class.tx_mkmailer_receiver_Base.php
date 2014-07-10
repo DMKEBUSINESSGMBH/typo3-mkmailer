@@ -35,7 +35,7 @@ abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailRe
 			$out .= "\n" . $addrs[$i];
 		}
 		 
-		return $out; //t3lib_div::view_array($this->record);
+		return $out;
 	}
 	function getValueString() {
 		return is_object($this->obj) ? $this->obj->uid : '';
