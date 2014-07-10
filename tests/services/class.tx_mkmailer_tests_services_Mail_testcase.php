@@ -140,6 +140,14 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		 $this->invoke($mail, $address, 'addCCAddress');
 	}
 
+	/**
+	 * @group unit
+	 */
+	public function testgetUploadDir() {
+		$srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
+		$this->assertTrue(is_dir($srv->getUploadDir()),'"' . $srv->getUploadDir() .'" is not a Directory!');
+		$this->assertTrue(is_writable($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not writeble');
+	}
 
 	private function getMail() {
 		return $this->getMock('PHPMailer', array('AddAddress', 'AddCC', 'AddBCC'));

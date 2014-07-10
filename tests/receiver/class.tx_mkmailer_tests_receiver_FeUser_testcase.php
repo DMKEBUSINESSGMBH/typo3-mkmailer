@@ -26,8 +26,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
-require_once(PATH_t3lib."class.t3lib_parsehtml.php");
+
 // wir laden alles vorher, wegen den memory leaks
 tx_rnbase::load('tx_rnbase_configurations');
 tx_rnbase::load('tx_mkmailer_models_Queue');
