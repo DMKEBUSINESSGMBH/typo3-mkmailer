@@ -56,6 +56,10 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
 	}
 
 	protected function setUp(){
+		if (!t3lib_extMgm::isLoaded('t3users')) {
+			$this->markTestSkipped('t3users ist nicht geladen');
+		}
+
 		// bei älteren t3 versionen ist der backpath falsch!
 		$this->getFileName_backPath = $GLOBALS['TSFE']->tmpl->getFileName_backPath;
 		$GLOBALS['TSFE']->tmpl->getFileName_backPath =
