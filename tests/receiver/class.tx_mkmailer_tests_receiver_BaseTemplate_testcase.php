@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 
@@ -295,6 +294,6 @@ class tx_mkmailer_tests_receiver_BaseTemplate_testcase
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php'])	{
-  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php'])	{
+  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']);
 }

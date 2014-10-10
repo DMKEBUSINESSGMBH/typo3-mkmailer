@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(PATH_t3lib.'class.t3lib_svbase.php');
 
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
@@ -350,7 +349,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @return string
 	 */
 	function getUploadDir() {
-		require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
 		$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		return t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath(
 			$oFileTool->slashPath(
@@ -573,8 +571,8 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']) {
-  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']) {
+  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']);
 }
 
 ?>
