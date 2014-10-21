@@ -34,11 +34,14 @@ class tx_mkmailer_util_Mails {
 	 * @param string $receiverClass
 	 * @param int $modelUid
 	 * @param string $receiverEmail
-	 * @param string $templateKey
+	 * @param string|tx_mkmailer_models_Template $templateKey
 	 */
-	public static function sendModelReceiverMail($receiverClass, $modelUid, $email, $templateKey) {
+	public static function sendModelReceiverMail($receiverClass, $modelUid, $email, $template) {
 		$mailSrv = static::getMailService();
-		$templateObj = $mailSrv->getTemplate($templateKey);
+
+		/* @var $templateObj tx_mkmailer_models_Template */
+		$templateObj = (is_object($template) && $template instanceof tx_mkmailer_models_Template)?
+			$template:$mailSrv->getTemplate($template);
 
 		$receiver = tx_rnbase::makeInstance($receiverClass, $email, $modelUid);
 
