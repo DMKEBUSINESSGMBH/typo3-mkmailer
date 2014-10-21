@@ -39,7 +39,7 @@ class tx_mkmailer_util_Misc {
 	 * @return	string		The processed string
 	 * @see tslib_cObj::parseFunc()
 	 */
-	function getRTEText($str)	{
+	public static function getRTEText($str)	{
 		tx_rnbase::load('tx_rnbase_util_Misc');
 		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 		$parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
@@ -56,7 +56,7 @@ class tx_mkmailer_util_Misc {
 		return $str;
 	}
 
-	function loadTS($pageUid = 0) {
+	public static function loadTS($pageUid = 0) {
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
 		$rootLine = $sysPageObj->getRootLine($pageUid);
 		$TSObj = t3lib_div::makeInstance('t3lib_tsparser_ext');

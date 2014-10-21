@@ -34,7 +34,7 @@ class tx_mkmailer_util_Mails {
 	 * @param string $receiverClass
 	 * @param int $modelUid
 	 * @param string $receiverEmail
-	 * @param string|tx_mkmailer_models_Template $templateKey
+	 * @param string|tx_mkmailer_models_Template $template
 	 */
 	public static function sendModelReceiverMail($receiverClass, $modelUid, $email, $template) {
 		$mailSrv = static::getMailService();
