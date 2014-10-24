@@ -52,7 +52,7 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 	/**
 	 * @group unit
 	 */
-	public function testSendModelReceiverMailSpoolsCorrectMailJob() {
+	public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateKeyGiven() {
 		$mailService = $this->getMailServiceMock();
 
 		$templateObj = tx_rnbase::makeInstance(
@@ -89,6 +89,47 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 		$mailUtil = $this->getMailUtilMock($mailService);
 		$mailUtil::sendModelReceiverMail(
 			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', 'mailTemplate'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateObjectGiven() {
+		$mailService = $this->getMailServiceMock();
+
+		$templateObj = tx_rnbase::makeInstance(
+			'tx_mkmailer_models_Template',
+			array(
+				'contenttext' => '###MODEL_NAME###',
+				'contenthtml' => '###MODEL_NAME### html',
+				'mail_from' => 'typo3site',
+				'mail_cc' => 'gchq',
+				'mail_bcc' => 'nsa',
+				'subject' => 'test mail',
+			)
+		);
+		$mailService->expects($this->never())
+			->method('getTemplate');
+
+		$receiver = tx_rnbase::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
+
+		$expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+		$expectedJob->addReceiver($receiver);
+		$expectedJob->setFrom($templateObj->getFromAddress());
+		$expectedJob->setCCs($templateObj->getCcAddress());
+		$expectedJob->setBCCs($templateObj->getBccAddress());
+		$expectedJob->setSubject($templateObj->getSubject());
+		$expectedJob->setContentText($templateObj->getContentText());
+		$expectedJob->setContentHtml($templateObj->getContentHtml());
+
+		$mailService->expects($this->once())
+			->method('spoolMailJob')
+			->with($expectedJob);
+
+		$mailUtil = $this->getMailUtilMock($mailService);
+		$mailUtil::sendModelReceiverMail(
+			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', $templateObj
 		);
 	}
 
