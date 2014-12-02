@@ -82,7 +82,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
 	 * @return 	string
 	 */
-	private function parseTemplate($content, $configurations, $confId, $type, $idx = 0) {
+	protected function parseTemplate($content, $configurations, $confId, $type, $idx = 0) {
 
 		if(empty($content) || !$configurations->getBool($confId.'wrapTemplate')) return $content;
 
@@ -120,7 +120,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
 	 * @return 	string
 	 */
-	private function parseReceiver($content, $configurations, $confId, $type, $idx = 0) {
+	protected function parseReceiver($content, $configurations, $confId, $type, $idx = 0) {
 		tx_rnbase::load('tx_rnbase_util_BaseMarker');
 
 		$out = $content;
