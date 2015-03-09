@@ -25,7 +25,14 @@
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
+ *
+ * tx_mkmailer_util_Mails
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_Mails {
 

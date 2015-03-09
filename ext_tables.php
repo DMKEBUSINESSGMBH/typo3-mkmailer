@@ -58,4 +58,3 @@ if (TYPO3_MODE == 'BE') {
 }
 
 t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts/', 'MK Mailer');
-?>

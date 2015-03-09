@@ -21,13 +21,17 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
+ *
+ * tx_mkmailer_util_ServiceRegistry
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_ServiceRegistry {
 
@@ -43,4 +47,3 @@ class tx_mkmailer_util_ServiceRegistry {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php']);
 }
-?>

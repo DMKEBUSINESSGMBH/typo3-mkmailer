@@ -23,15 +23,27 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 
 /**
- * Ein MailJob kann in die MailQueue eingestellt werden und wird zu einem späteren Zeitpunkt verarbeitet.
+ *
+ * tx_mkmailer_mail_MailJob
+ *
+ * Ein MailJob kann in die MailQueue eingestellt werden und
+ * wird zu einem späteren Zeitpunkt verarbeitet.
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
+
+	/**
+	 * @var array
+	 */
 	private $receiver = array();
-	
+
 	/**
 	 * Initialisiert den mailjob.
 	 * Optional können bereits die MeiE-Mail-Empfänger und ein Template mitgegeben werden.
@@ -39,9 +51,11 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	 * @param	array[tx_mkmailer_receiver_IMailReceiver] 	$receiver
 	 * @param	tx_mkmailer_models_Template 				$templateObj
 	 */
-	public function tx_mkmailer_mail_MailJob(array $receiver = array(), tx_mkmailer_models_Template &$templateObj=null){
+	public function tx_mkmailer_mail_MailJob(
+		array $receiver = array(), tx_mkmailer_models_Template &$templateObj=null
+	){
 		$this->receiver = $receiver;
-		
+
 		// set template data, if given
 		if(is_object($templateObj)) {
 			$this->setFrom($templateObj->getFromAddress());
@@ -51,37 +65,72 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 			$this->setContentText($templateObj->getContentText());
 			$this->setContentHtml($templateObj->getContentHtml());
 			// anhänge verarbeiten
-			foreach($templateObj->getAttachments() as $attachment)
+			foreach($templateObj->getAttachments() as $attachment) {
 				$this->addAttachment($attachment);
+			}
 		}
 	}
-	
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMailJob::getReceiver()
+	 */
 	public function getReceiver() {
 		return $this->receiver;
 	}
+
+	/**
+	 *
+	 * @param string $value
+	 * @return array
+	 */
 	public function addReceiver($value) {
 		return $this->receiver[] = $value;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMailJob::getContentText()
+	 */
 	public function getContentText() {
 		return $this->contentText;
 	}
+
+	/**
+	 * @param string $value
+	 */
 	public function setContentText($value) {
 		$this->contentText = $value;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMailJob::getContentHtml()
+	 */
 	public function getContentHtml() {
 		return $this->contentHtml;
 	}
-	public function setContentHtml($value,$filename='') {
+
+	/**
+	 *
+	 * @param string $value
+	 * @param string $filename
+	 */
+	public function setContentHtml($value, $filename='') {
 		$this->contentHtml = $value;
 	}
-	/*
-	public function setContentHtml($value) {
-		$this->contentHtml = $value;
-	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMailJob::getSubject()
 	 */
 	public function getSubject() {
 		return $this->subject;
 	}
+
+	/**
+	 * @param string $value
+	 */
 	public function setSubject($value) {
 		$this->subject = $value;
 	}
@@ -93,10 +142,14 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function getFrom() {
 		return $this->from;
 	}
+
+	/**
+	 * @param tx_mkmailer_mail_IAddress $value
+	 */
 	public function setFrom(tx_mkmailer_mail_IAddress $value) {
 		$this->from = $value;
 	}
-	
+
 	/**
 	 * Liefert die TO-Empfänger
 	 * @return array[tx_mkmailer_mail_IAddress]
@@ -104,6 +157,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function getTOs() {
 		return $this->tos;
 	}
+
 	/**
 	 * Setzt die TO-Empfänger. Achtung: schon vorhandene Daten werden überschrieben.
 	 *
@@ -112,6 +166,10 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function setTOs($value) {
 		$this->tos = $value;
 	}
+
+	/**
+	 * @param tx_mkmailer_mail_IAddress $value
+	 */
 	public function addTO(tx_mkmailer_mail_IAddress $value) {
 		$this->tos[] = $value;
 	}
@@ -123,6 +181,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function getCCs() {
 		return $this->ccs;
 	}
+
 	/**
 	 * Setzt die CC-Empfänger. Achtung: schon vorhandene Daten werden überschrieben.
 	 *
@@ -131,6 +190,10 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function setCCs($value) {
 		$this->ccs = $value;
 	}
+
+	/**
+	 * @param tx_mkmailer_mail_IAddress $value
+	 */
 	public function addCC(tx_mkmailer_mail_IAddress $value) {
 		$this->ccs[] = $value;
 	}
@@ -142,6 +205,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function getBCCs() {
 		return $this->bccs;
 	}
+
 	/**
 	 * Setzt die CC-Empfänger. Achtung: schon vorhandene Daten werden überschrieben.
 	 *
@@ -150,6 +214,10 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function setBCCs($value) {
 		$this->bccs = $value;
 	}
+
+	/**
+	 * @param tx_mkmailer_mail_IAddress $value
+	 */
 	public function addBCC(tx_mkmailer_mail_IAddress $value) {
 		$this->bccs[] = $value;
 	}
@@ -161,20 +229,20 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob {
 	public function getAttachments() {
 		return $this->attach;
 	}
+
 	/**
 	 * Attachment an Email anhängen.
 	 * @param tx_mkmailer_mail_IAttachment $attachment
 	 */
 	public function addAttachment(tx_mkmailer_mail_IAttachment $attachment) {
-		if(!is_array($this->attach))
+		if(!is_array($this->attach)) {
 			$this->attach = array();
+		}
+
 		$this->attach[] = $attachment;
 	}
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php'])	{
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php']);
 }
-
-?>

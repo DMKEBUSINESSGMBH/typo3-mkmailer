@@ -24,15 +24,27 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
+
 /**
+ *
+ * tx_mkmailer_mod1_FuncTest
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc {
 
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_rnbase_mod_BaseModFunc::getFuncId()
+	 */
 	function getFuncId() {
 		return 'functest';
 	}
+
 	/**
 	 * Returns the module content
 	 *
@@ -53,5 +65,3 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']);
 }
-
-?>

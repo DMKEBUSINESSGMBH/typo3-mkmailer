@@ -25,11 +25,27 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_model_base');
 
 /**
- * Model für einen Datensatz der Tabelle tx_mkmailer_mailqueue.
+ *
+ * tx_mkmailer_models_Queue
+ *
+ * Model für einen Datensatz der Tabelle tx_mkmailer_queue.
  * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
-	function getTableName(){return 'tx_mkmailer_queue';}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_rnbase_model_base::getTableName()
+	 */
+	function getTableName() {
+		return 'tx_mkmailer_queue';
+	}
+
 	/**
 	 * Liefert den Betreff
 	 *
@@ -38,6 +54,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function getSubject() {
 		return $this->record['subject'];
 	}
+
 	/**
 	 * Liefert den Mailtext für den Textpart
 	 *
@@ -46,6 +63,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function getContentText() {
 		return $this->record['contenttext'];
 	}
+
 	/**
 	 * Liefert den Mailtext für den HTML-Part
 	 *
@@ -54,6 +72,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function getContentHtml() {
 		return $this->record['contenthtml'];
 	}
+
 	/**
 	 * Liefert ein Array mit Instanzen von tx_mkmailer_mail_IAttachment.
 	 *
@@ -79,21 +98,42 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 		}
 		return $ret;
 	}
+
+	/**
+	 * @return number
+	 */
 	public function getMailCount() {
 		return intval($this->record['mailcount']);
 	}
+
+	/**
+	 * @return string
+	 */
 	public function getCc() {
 		return $this->record['mail_cc'];
 	}
+
+	/**
+	 * @return string
+	 */
 	public function getBcc() {
 		return $this->record['mail_bcc'];
 	}
+
+	/**
+	 * @return string
+	 */
 	public function getFrom() {
 		return $this->record['mail_from'];
 	}
+
+	/**
+	 * @return string
+	 */
 	public function getFromName() {
 		return $this->record['mail_fromName'];
 	}
+
 	/**
 	 * Prüft, ob die Mail beschleunigt versendet wird
 	 *
@@ -102,6 +142,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function isPrefer() {
 		return intval($this->record['prefer']) > 0;
 	}
+
 	/**
 	 * Liefert den Zeitpunkt der Erstellung
 	 *
@@ -110,6 +151,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function getCreationDate() {
 		return $this->record['cr_date'];
 	}
+
 	/**
 	 * Liefert den Zeitpunkt der letzten Aktualisierung
 	 *
@@ -118,6 +160,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 	public function getLastUpdate() {
 		return $this->record['lastupdate'];
 	}
+
 	/**
 	 * Liefert die Receiver dieser Mail als Array
 	 *
@@ -132,5 +175,3 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']);
 }
-
-?>

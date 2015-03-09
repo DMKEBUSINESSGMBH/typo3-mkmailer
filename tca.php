@@ -136,16 +136,10 @@ $TCA['tx_mkmailer_templates'] = array (
 					array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_0', 0),
 					array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_1', 1),
 					array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_2', 2),
-					#array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_3', 3),
 				)
 			)
 		),
-// 		'attachments' => tx_mklib_util_TCA::getDamMediaTCAOnePic('attachments', array(
-// 				'exclude' => 1,
-// 				'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_attachments',
-// 				'config' => array('allowed_types' => 'zip'),
-// 			)
-// 		),
+		//@todo FAL unterstützen
 		'attachments' => tx_rnbase_util_TSDAM::getMediaTCA('attachments'),
 		'attachmentst3' => Array (
 			'exclude' => 1,

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 das MedienKombinat GmbH (kontakt@das-medienkombinat.de)
+*  (c) 2011 DMK E-BUSINESS GmbH (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,19 +29,39 @@ tx_rnbase::load('tx_mkmailer_mail_IAttachment');
 
 
 /**
- * Ein MailJob kann in die MailQueue eingestellt werden und wird zu einem späteren Zeitpunkt verarbeitet.
+ *
+ */
+
+/**
+ *
+ * tx_mkmailer_mail_Factory
+ *
+ * Ein MailJob kann in die MailQueue eingestellt werden
+ * und wird zu einem späteren Zeitpunkt verarbeitet.
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_Factory {
+
 	/**
 	 * @param	array[tx_mkmailer_receiver_IMailReceiver] 	$receiver
 	 * @param	tx_mkmailer_models_Template 						$templateObj
 	 * @return 	tx_mkmailer_mail_MailJob
 	 */
-	public static function createMailJob(array $receiver = array(), tx_mkmailer_models_Template &$templateObj=null) {
-		return tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob', $receiver, $templateObj);
+	public static function createMailJob(
+		array $receiver = array(), tx_mkmailer_models_Template &$templateObj=null
+	) {
+		return tx_rnbase::makeInstance(
+			'tx_mkmailer_mail_MailJob', $receiver, $templateObj
+		);
 	}
+
 	/**
-	 * Erstellt ein Datei-Attachment. Wenn ein relativer Pfad übergeben wird, dann wird dieser automatisch in
+	 * Erstellt ein Datei-Attachment. Wenn ein relativer Pfad übergeben wird,
+	 * dann wird dieser automatisch in
 	 * einen absoluten TYPO3-Pfad umgewandelt.
 	 * @param string $path
 	 * @param string $name
@@ -49,22 +69,30 @@ class tx_mkmailer_mail_Factory {
 	 * @param string $mimeType
 	 * @return tx_mkmailer_mail_IAttachment
 	 */
-	public static function createAttachment($path, $name = '', $encoding = 'base64', $mimeType = 'application/octet-stream') {
+	public static function createAttachment(
+		$path, $name = '', $encoding = 'base64', $mimeType = 'application/octet-stream'
+	) {
 		$att = self::createAttachmentInstance(tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT);
 		$att->setPathOrContent(self::makeAbsPath($path));
 		$att->setName($name);
 		$att->setMimeType($mimeType);
 		$att->setEncoding($encoding);
-		
+
 		return $att;
 	}
+
 	/**
 	 * Erstellt einen absoluten TYPO3-Pfad
 	 * @param string $path
+	 *
+	 * @return string
 	 */
 	public static function makeAbsPath($path) {
-		return t3lib_div::isAbsPath($path) ? $path : t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath($path));
+		return 	t3lib_div::isAbsPath($path) ? $path : t3lib_div::getFileAbsFileName(
+					t3lib_div::fixWindowsFilePath($path)
+				);
 	}
+
 	/**
 	 *
 	 * @param string $content
@@ -73,16 +101,20 @@ class tx_mkmailer_mail_Factory {
 	 * @param string $mimeType
 	 * @return tx_mkmailer_mail_IAttachment
 	 */
-	public static function createStringAttachment($content, $name = '', $encoding = 'base64', $mimeType = 'application/octet-stream') {
+	public static function createStringAttachment(
+		$content, $name = '', $encoding = 'base64',
+		$mimeType = 'application/octet-stream'
+	) {
 		$att = self::createAttachmentInstance(tx_mkmailer_mail_IAttachment::TYPE_STRING);
 
 		$att->setPathOrContent($content);
 		$att->setName($name);
 		$att->setMimeType($mimeType);
 		$att->setEncoding($encoding);
-		
+
 		return $att;
 	}
+
 	/**
 	 *
 	 * @param string $path
@@ -92,7 +124,10 @@ class tx_mkmailer_mail_Factory {
 	 * @param string $mimeType
 	 * @return tx_mkmailer_mail_IAttachment
 	 */
-	public static function createEmbeddedAttachment($path, $embedId, $name = '', $encoding = 'base64', $mimeType = 'application/octet-stream') {
+	public static function createEmbeddedAttachment(
+		$path, $embedId, $name = '', $encoding = 'base64',
+		$mimeType = 'application/octet-stream'
+	) {
 		$att = self::createAttachmentInstance(tx_mkmailer_mail_IAttachment::TYPE_EMBED);
 
 		$att->setPathOrContent(self::makeAbsPath($path));
@@ -100,9 +135,10 @@ class tx_mkmailer_mail_Factory {
 		$att->setName($name);
 		$att->setMimeType($mimeType);
 		$att->setEncoding($encoding);
-		
+
 		return $att;
 	}
+
 	/**
 	 *
 	 * @param int $type
@@ -111,6 +147,7 @@ class tx_mkmailer_mail_Factory {
 	private static function createAttachmentInstance($type) {
 		return tx_rnbase::makeInstance('tx_mkmailer_mail_Attachment', $type);
 	}
+
 	/**
 	 *
 	 * @param string $address

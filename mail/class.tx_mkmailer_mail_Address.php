@@ -27,21 +27,53 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkmailer_mail_IAddress');
 
 /**
+ *
+ * tx_mkmailer_mail_Address
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			Michael Wagner <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_Address implements tx_mkmailer_mail_IAddress {
-	function tx_mkmailer_mail_Address($address='', $name='') {
+
+	/**
+	 * @param string $address
+	 * @param string $name
+	 */
+	public function __construct($address='', $name='') {
 		$this->setAddress($address);
 		$this->setName($name);
 	}
-	function setAddress($address) {
+
+	/**
+	 * @param string $address
+	 */
+	public function setAddress($address) {
 		$this->address = $address;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IAddress::getAddress()
+	 */
 	function getAddress() {
 		return $this->address;
 	}
-	function setName($name) {
+
+	/**
+	 *
+	 * @param string $name
+	 */
+	public function setName($name) {
 		$this->name = $name;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IAddress::getName()
+	 */
 	function getName() {
 		return $this->name;
 	}
@@ -50,5 +82,3 @@ class tx_mkmailer_mail_Address implements tx_mkmailer_mail_IAddress {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Address.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Address.php']);
 }
-
-?>

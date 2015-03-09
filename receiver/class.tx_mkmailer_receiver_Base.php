@@ -21,11 +21,24 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 tx_rnbase::load('tx_mkmailer_receiver_IMailReceiver');
 
+/**
+ *
+ * tx_mkmailer_receiver_Base
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
+ */
 abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailReceiver {
+
 	protected $obj;
+
+	/**
+	 * @return string
+	 */
 	function __toString() {
 		$out = get_class($this). "\n\nObject:\n";
 		$out .= is_object($this->obj) ? get_class($this->obj) : '-';
@@ -34,14 +47,18 @@ abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailRe
 		for($i=0, $cnt= count($addrs); $i < $cnt; $i++) {
 			$out .= "\n" . $addrs[$i];
 		}
-		 
+
 		return $out;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::getValueString()
+	 */
 	function getValueString() {
 		return is_object($this->obj) ? $this->obj->uid : '';
 	}
 }
-
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php']);

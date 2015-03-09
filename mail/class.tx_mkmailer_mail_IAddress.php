@@ -24,13 +24,28 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
+
+/**
+ * tx_mkmailer_mail_IAddress
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
+ */
 interface tx_mkmailer_mail_IAddress {
+
+	/**
+	 * @return string
+	 */
 	function getAddress();
+
+	/**
+	 * @return string
+	 */
 	function getName();
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php']);
 }
-
-?>

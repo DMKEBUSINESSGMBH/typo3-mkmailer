@@ -21,18 +21,19 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
 
-
-
 /**
- * Mailing service
  *
- * @author Rene Nitzsche
+ * tx_mkmailer_services_Mail
+ *
+ * @package 		TYPO3
+ * @subpackage
+ * @author 			Rene Nitzsche <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_services_Mail extends t3lib_svbase {
 
@@ -67,7 +68,9 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 			$sentCnt = 0; // Die versendeten Mails für diese Queue zählen
 			$errCnt = 0; // Fehlerhafte Mails zählen
 			foreach($receiverArr As $receiverData) {
-				if($sentQueueCnt > $maxMails) break;
+				if($sentQueueCnt > $maxMails) {
+					break;
+				}
 				// Jetzt den eigentliche Receiver instanziieren, damit er uns die Mails erstellt
 				$receiver = $this->createReceiver($receiverData);
 				// Wir nähern uns dem Ziel!
@@ -79,8 +82,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 					// Prüfen, ob diese Mail schon verschickt wurde!
 					if(is_array($address) && !$this->isMailSent($queue, $address['addressid'])) {
 						// Address ist immer ein Array mit den Teilen der Mailadresse
-//						$options = array();
-//						$options['mailerMode'] = $mailMode;
 						$message = $receiver->getSingleMail($queue, $formatter, $confId, $i);
 
 						$message->setFrom($queue->getFrom(), $queue->getFromName());
@@ -117,9 +118,14 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 							$errCnt++;
 							$sentErrors[] = 'QueueID: ' . $queue->uid . ' (' . implode(',',$address) . ') Msg: ' . $e->getMessage();
 							tx_rnbase::load('tx_rnbase_util_Logger');
-							tx_rnbase_util_Logger::fatal('Error in SendMailQueue', 'mkmailer',
-								array('Exception' => $e->getMessage(), 'Queue' => $queue->record, 'Address' => $address));
-//							error_log('Error in SendMailQueue: ' . $msg);
+							tx_rnbase_util_Logger::fatal(
+								'Error in SendMailQueue', 'mkmailer',
+								array(
+									'Exception' => $e->getMessage(),
+									'Queue' => $queue->record,
+									'Address' => $address
+								)
+							);
 						}
 						$sentQueueCnt++; // Gesamtzahl trotz Fehler erhöhen, um Endlosschleife zu verhindern
 					}
@@ -155,8 +161,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @throws Exception
 	 */
 	public function spoolMailJob(tx_mkmailer_mail_IMailJob $job) {
-		// $msg, $receivers, $from, $options = array()
-
 		if($job->getCCs()) {
 			$ccs = array();
 			foreach($job->getCCs() As $addr) $ccs[] = $addr->getAddress();
@@ -257,6 +261,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 //			}
 //		}
 	}
+
 	/**
 	 * Liefert eine Array mit allen anstehenden Mails aus der Queue
 	 * @return array[tx_mkmailer_models_Queue]
@@ -269,8 +274,9 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$options['where'] = $where;
 		$options['orderby'] = 'prefer desc, cr_date asc'; // FIFO - die älteste zuerst, Prefer mit Besserstellung
 		$options['enablefieldsoff'] = 1;
-		if(!array_key_exists('count',$options))
+		if(!array_key_exists('count',$options)) {
 			$options['wrapperclass'] = 'tx_mkmailer_models_Queue';
+		}
 		$ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
 		return array_key_exists('count',$options) ? $ret[0]['cnt'] : $ret;
 	}
@@ -286,8 +292,9 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$options['where'] = 'deleted=1';
 		$options['orderby'] = 'lastupdate desc';
 		$options['enablefieldsoff'] = 1;
-		if(!array_key_exists('count',$options))
+		if(!array_key_exists('count',$options)) {
 			$options['wrapperclass'] = 'tx_mkmailer_models_Queue';
+		}
 		$ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
 		return array_key_exists('count',$options) ? $ret[0]['cnt'] : $ret;
 	}
@@ -300,6 +307,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	public function deleteMail($uid) {
 		return tx_rnbase_util_DB::doUpdate('tx_mkmailer_queue', 'uid='.$uid, array('deleted'=>'1'));
 	}
+
 	/**
 	 * Liefert die Empfänger einer gespoolten Mail.
 	 *
@@ -308,12 +316,12 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 */
 	public function getMailReceivers(tx_mkmailer_models_Queue $mailQueue) {
 		$what = '*';
-    $from = 'tx_mkmailer_receiver';
+	    $from = 'tx_mkmailer_receiver';
 
-    $options['where'] = 'email=' . $mailQueue->uid;
-    $options['enablefieldsoff'] = 1;
-    $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
-    return $ret;
+	    $options['where'] = 'email=' . $mailQueue->uid;
+	    $options['enablefieldsoff'] = 1;
+	    $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
+	    return $ret;
 	}
 
 	/**
@@ -349,10 +357,10 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @return string
 	 */
 	function getUploadDir() {
-		$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+		$fileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		return t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath(
-			$oFileTool->slashPath(
-				$oFileTool->rmDoubleSlash('typo3temp/mkmailer')
+			$fileTool->slashPath(
+				$fileTool->rmDoubleSlash('typo3temp/mkmailer')
 			)
 		));
 	}
@@ -370,11 +378,13 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @param string $from
 	 * @param array $options
 	 * @throws tx_mkmailer_exceptions_SendMail
+	 *
+	 * @todo SwiftMailer unterstützen
 	 */
 	public function sendEmail(tx_mkmailer_mail_IMessage $msg) {
-
 		$this->sendEmail_PHPMailer($msg);
 	}
+
 	/**
 	 * Versand einer Mail über den PHPMailer
 	 * http://phpmailer.sourceforge.net
@@ -393,23 +403,22 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$mail->CharSet = $options['charset'] ? $options['charset'] : 'UTF-8'; // Default: iso-8859-1
 		$mail->Encoding = $options['encoding'] ? $options['encoding'] : '8bit'; // Options for this are "8bit", "7bit", "binary", "base64", and "quoted-printable".
 
-
 		$mail->FromName = $msg->getFrom()->getName(); // Default Fromname
 
 		// Absender
 		$mail->From = $msg->getFrom()->getAddress();
 		// Return-Path
-		if($options['returnpath'])
+		if($options['returnpath']) {
 			// wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
 			$mail->Sender = $options['returnpath'] == 1 ? $mail->From : $options['returnpath'];
+		}
 
 		$mail->Subject = $msg->getSubject();
 		if($msg->getHtmlPart()) {
 			$mail->IsHTML(true);
 			$mail->Body = $msg->getHtmlPart();
 			$mail->AltBody = $msg->getTxtPart();
-		}
-		else {
+		} else {
 			$mail->Body = $msg->getTxtPart();
 		}
 
@@ -425,8 +434,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 					$mail, tx_mkmailer_mail_Factory::createAddressInstance($addr)
 				);
 			}
-		}
-		else {
+		} else {
 			// Der scharfe Versand
 			foreach($addresses As $address) {
 				$mail = $this->addAddress($mail, $address);
@@ -447,13 +455,13 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 				switch ($attachment->getAttachmentType()) {
 					case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT :
 						$mail->AddAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-					break;
+						break;
 					case tx_mkmailer_mail_IAttachment::TYPE_EMBED :
 						$mail->AddEmbeddedImage($attachment->getPathOrContent(), $attachment->getEmbedId(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-					break;
+						break;
 					case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT :
 						$mail->AddStringAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-					break;
+						break;
 
 					default:
 						tx_rnbase_util_Logger::warn('Email with unknown attachment type given!','mkmailer', array(
@@ -461,7 +469,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 							'Content' => $attachment->getPathOrContent(),
 							'Subject' => $msg->getSubject(),)
 						);
-					break;
+						break;
 				}
 			}
 
@@ -506,7 +514,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		return $this->addAddress($mail, $address, 'AddCC');
 	}
 
-
 	/**
 	 * @param PHPMailer $mail
 	 * @param tx_mkmailer_mail_IAddress $address
@@ -516,7 +523,6 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		return $this->addAddress($mail, $address, 'AddBCC');
 	}
 
-
 	/**
 	 * Find a mail template
 	 *
@@ -524,19 +530,20 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @return tx_mkmailer_models_Template
 	 */
 	public function getTemplate($id) {
-    $what = '*';
-    $from = 'tx_mkmailer_templates';
-    $where = 'mailtype=\'' . strtolower($id) .'\'' ;
+	    $what = '*';
+	    $from = 'tx_mkmailer_templates';
+	    $where = 'mailtype=\'' . strtolower($id) .'\'' ;
 
-    $options['where'] = $where;
-    $options['wrapperclass'] = 'tx_mkmailer_models_Template';
-    $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
-    if(!count($ret))
-    	throw tx_rnbase::makeInstance(
-    		'tx_mkmailer_exceptions_NoTemplateFound',
-    		'Mail template with key \'' . $id .'\' not found!'
-    	);
-    return count($ret) ? $ret[0] : null;
+	    $options['where'] = $where;
+	    $options['wrapperclass'] = 'tx_mkmailer_models_Template';
+	    $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
+	    if(!count($ret)) {
+	    	throw tx_rnbase::makeInstance(
+	    		'tx_mkmailer_exceptions_NoTemplateFound',
+	    		'Mail template with key \'' . $id .'\' not found!'
+	    	);
+	    }
+	    return count($ret) ? $ret[0] : null;
 	}
 
 	/**
@@ -550,13 +557,14 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		// Entscheidend ist die Tabelle tx_mkmailer_log
 		// Wenn dort die Mailadresse schon drin liegt, dann wurde sie schon verschickt.
 		$what = '*';
-    $from = 'tx_mkmailer_log';
+	    $from = 'tx_mkmailer_log';
 
-    $options['where'] = 'email=' . $mailQueue->uid . ' AND LOWER(address) = LOWER(\'' . addslashes($mailAddress) . '\')';
-    $options['enablefieldsoff'] = 1;
+	    $options['where'] = 'email=' . $mailQueue->uid . ' AND LOWER(address) = LOWER(\'' . addslashes($mailAddress) . '\')';
+	    $options['enablefieldsoff'] = 1;
 		$ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
 		return count($ret) > 0;
 	}
+
 	/**
 	 * Markiert diese Mailadresse als abgearbeitet in der Mailqueue.
 	 *
@@ -567,12 +575,10 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		$row['tstamp'] = tx_rnbase_util_Dates::datetime_tstamp2mysql(time());
 		$row['email'] = $queue->uid;
 		$row['address'] = $mailAddress;
-	  tx_rnbase_util_DB::doInsert('tx_mkmailer_log', $row, 0);
+		tx_rnbase_util_DB::doInsert('tx_mkmailer_log', $row, 0);
 	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']) {
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']);
 }
-
-?>

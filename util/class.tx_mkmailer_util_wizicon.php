@@ -23,11 +23,17 @@
 ***************************************************************/
 
 /**
- * Class that adds the wizard icon.
  *
- * @author	René Nitzsche <rene[at]system25.de>
+ * tx_mkmailer_util_wizicon
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			René Nitzsche <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_wizicon {
+
 	/**
 	 * Adds the Netfewo plugin wizard icon
 	 *
@@ -36,7 +42,7 @@ class tx_mkmailer_util_wizicon {
 	 */
 	function proc($wizardItems)	{
 		global $LANG;
-		
+
 		$LL = $this->includeLocalLang();
 		$wizardItems['plugins_tx_mkmailer'] = array(
 			'icon'=>t3lib_extMgm::extRelPath('mkmailer').'/ext_icon.gif',
@@ -47,6 +53,10 @@ class tx_mkmailer_util_wizicon {
 
 		return $wizardItems;
 	}
+
+	/**
+	 * @return array
+	 */
 	function includeLocalLang()	{
 		$llFile = t3lib_extMgm::extPath('mkmailer').'locallang_db.xml';
 		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
@@ -63,4 +73,3 @@ class tx_mkmailer_util_wizicon {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php']);
 }
-?>

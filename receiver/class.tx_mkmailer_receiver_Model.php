@@ -6,7 +6,7 @@
  *
  *  Copyright notice
  *
- *  (c) 2014 Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,12 +28,19 @@
 tx_rnbase::load('tx_mkmailer_receiver_Email');
 
 /**
+ *
+ * tx_mkmailer_receiver_Model
+ *
  * generische klasse um ein model zu versenden. es müssen nur die die abstrakten methoden
  * bereitgestellt werden und wenn gewünscht noch getConfId überschrieben werden.
  *
  * diese verlangt nur eine email adresse und die model id im constructor
  *
- * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 

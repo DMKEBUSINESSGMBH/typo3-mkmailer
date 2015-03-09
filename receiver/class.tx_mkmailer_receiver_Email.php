@@ -25,37 +25,89 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
+ *
+ * tx_mkmailer_receiver_Email
+ *
  * Implementierung für einen Mailempfänger vom Typ E-Mail.
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate {
+
+	/**
+	 * @var string
+	 */
 	protected $email;
 
-	public function tx_mkmailer_receiver_Email($email=null){
+	/**
+	 * @param string $email
+	 */
+	public function __construct($email=null){
 		$this->setEMail($email);
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
+	 */
 	function setValueString($value) {
 		$this->setEMail($value);
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_Base::getValueString()
+	 */
 	function getValueString() {
 		return $this->getEMail();
 	}
+
+	/**
+	 * @param string $value
+	 */
 	function setEMail($value) {
 		$this->email = $value;
 	}
+
+	/**
+	 *
+	 * @return string
+	 */
 	function getEMail() {
 		return $this->email;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
+	 */
 	function getAddressCount() {
 		return $this->email ? 1 : 0; // Immer nur eine Mail
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
+	 */
 	function getAddresses() {
 		return $this->email ? array($this->email) : array();
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::getName()
+	 */
 	function getName() {
 		return $this->email ? $this->email : 'unknown';
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
+	 */
 	function getSingleAddress($idx) {
 		$ret['address'] = $this->email;
 		// TODO: Die AddressID ist notwendig, um beim Versionswechsel kein Mails doppelt zu verschicken.
@@ -71,7 +123,6 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate {
 	protected function getConfId() {
 		return 'email.';
 	}
-
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Email.php'])	{

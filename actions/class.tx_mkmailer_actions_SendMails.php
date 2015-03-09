@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Rene Nitzsche (nitzsche@das-medienkombinat.de)
+*  (c) 2009 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,71 +23,50 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
- * Asynchroner Versand von Emails. Bei Aufruf dieses 
+ *
+ * tx_mkmailer_actions_SendMails
+ *
+ * Asynchroner Versand von Emails. Bei Aufruf dieses
  * Plugins werden anstehende Aufträge in der Mailwarteschlange abgearbeitet.
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC {
-  function getTemplateName() { return 'sendmails';}
-	function getViewClassName() { return '';}
 
 	/**
-	 * 
-	 *
-	 * @param array_object $parameters
-	 * @param tx_rnbase_configurations $configurations
-	 * @return string error msg or null
+	 * (non-PHPdoc)
+	 * @see tx_rnbase_action_BaseIOC::handleRequest()
 	 */
-	function handleRequest(&$parameters,&$configurations, &$viewdata) {
+	protected function handleRequest(&$parameters,&$configurations, &$viewdata) {
 		$confId = $this->getConfId();
-
-//		$ret = 'Mailer Queue';
-//		$msg = 'Das ist eine Email
-//		Und das ist der Inhalt.';
-//		tx_rnbase::load('tx_t3users_models_feuser');
-//		$feuser = tx_t3users_models_feuser::getInstance(1);
-//		$this->sendFEUserMail($feuser, $msg);
-
 		$mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
-		$ret .= $mailSrv->executeQueue($configurations, $this->getConfId());
-		return $ret;
+
+		return $mailSrv->executeQueue($configurations, $this->getConfId());
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_rnbase_action_BaseIOC::getTemplateName()
+	 */
+	protected function getTemplateName() {
+		return 'sendmails';
+	}
 
-	function sendFEUserMail($feuser, $message) {
-		$mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
-
-//		$templateObj = $this->getTemplate($mailTemplate);
-//		$message = $templateObj->getTemplateComplete();
-//		$from = $templateObj->getFrom();
-		$from = 'test@egal.de';
-
-		tx_rnbase::load('tx_mkmailer_util_Misc');
-		tx_rnbase::load('tx_mkmailer_mail_MailJob');
-		$job = new tx_mkmailer_mail_MailJob();
-
-		// Den Empfänger der Mail als Receiver anlegen
-		tx_rnbase::load('tx_mkmailer_receiver_FeUser');
-		$receiver = new tx_mkmailer_receiver_FeUser();
-		$receiver->setFeUser($feuser);
-		$job->addReceiver($receiver);
-		$job->setCCs(tx_mkmailer_util_Misc::parseAddressString($ccs));
-		$job->setContentText($message);
-
-//		$options['bcc'] = $templateObj->getBcc();
-//		$options['fromname'] = $templateObj->getFromName();
-		$formatter = null;
-		// Und nun geht alles in den Versand
-		$mailSrv->spoolMailJob($job);
-
-		//$mailSrv->spoolMailJob($message, $receivers, $formatter, $from, $options);
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_rnbase_action_BaseIOC::getViewClassName()
+	 */
+	protected function getViewClassName() {
+		return '';
 	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php']);
 }
-?>

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Rene Nitzsche (nitzsche@das-medienkombinat.de)
+*  (c) 2009 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -21,12 +21,16 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
-
 /**
+ *
+ * tx_mkmailer_util_Misc
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_Misc {
 
@@ -48,7 +52,7 @@ class tx_mkmailer_util_Misc {
 			$setup = self::loadTS($pid);
 			$parseFunc = $setup['lib.']['parseFunc_RTE.'];
 			// TS-Config prüfen. TODO: Das sollte besser gemacht werden.
-			if(!is_array($GLOBALS['TSFE']->config)) 
+			if(!is_array($GLOBALS['TSFE']->config))
 				$GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
 		}
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
@@ -56,6 +60,11 @@ class tx_mkmailer_util_Misc {
 		return $str;
 	}
 
+	/**
+	 * @param number $pageUid
+	 *
+	 * @return array
+	 */
 	public static function loadTS($pageUid = 0) {
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
 		$rootLine = $sysPageObj->getRootLine($pageUid);
@@ -75,7 +84,7 @@ class tx_mkmailer_util_Misc {
 	 */
 	public static function parseAddressString($addrStr) {
 		tx_rnbase::load('tx_mkmailer_mail_Address');
-		
+
 		$ret = array();
 		if(!strlen(trim($addrStr))) return $ret;
 		$addrArr = t3lib_div::trimExplode(',', $addrStr);
@@ -88,4 +97,3 @@ class tx_mkmailer_util_Misc {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_Misc.php'])	{
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_Misc.php']);
 }
-?>

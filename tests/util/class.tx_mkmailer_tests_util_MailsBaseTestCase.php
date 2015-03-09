@@ -2,7 +2,7 @@
 /**
  *  Copyright notice
  *
- *  (c) 2014 das MedienKombinat GmbH
+ *  (c) 2014 DMK E-BUSINESS GmbH
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

@@ -5,7 +5,7 @@
  *
  * Copyright notice
  *
- * (c) 2013 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ * (c) 2013 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,7 +37,7 @@ tx_rnbase::load('tx_rnbase_util_Files');
  *
  * @package Tx_Mkappelrath
  * @subpackage Tx_Mkappelrath_test
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <dev@dmk-ebusiness.de>
  */
 class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
 

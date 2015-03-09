@@ -24,13 +24,27 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
-
 /**
- * SendMail-Exception.
+ *
+ * tx_mkmailer_exceptions_SendMail
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_exceptions_SendMail extends Exception {
+
+	/**
+	 * @var string
+	 */
 	protected $parent;
-	function __construct($message, $parent=null) {
+
+	/**
+	 * @param string $message
+	 * @param string $parent
+	 */
+	public function __construct($message, $parent=null) {
 		parent::__construct($message, 0);
 		$this->parent = $parent;
 	}
@@ -40,5 +54,3 @@ class tx_mkmailer_exceptions_SendMail extends Exception {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/exceptions/class.tx_mkmailer_exceptions_SendMail.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/exceptions/class.tx_mkmailer_exceptions_SendMail.php']);
 }
-
-?>

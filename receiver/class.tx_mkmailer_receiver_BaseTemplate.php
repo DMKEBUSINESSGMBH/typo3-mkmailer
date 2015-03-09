@@ -2,7 +2,7 @@
 /**
  *  Copyright notice
  *
- *  (c) 2011 das MedienKombinat <kontakt@das-medienkombinat.de>
+ *  (c) 2011 DMK E-BUSINESS <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,15 +25,20 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mkmailer_receiver_Base');
 
 /**
+ *
+ * tx_mkmailer_receiver_BaseTemplate
+ *
  * Basisklasse für Receiver.
  * Um den jeweiligen Inhalt wird ein Template gemappt, falls konfiguriert.
  *
  * Muss noch um die Methoden des Interfaces tx_mkmailer_receiver_IMailReceiver erweitert werden.
  * getAddressCount, getAddresses, getName, getSingleAddress, setValueString
  *
- * @package tx_mkmailer
- * @subpackage tx_mkmailer_receiver
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			Michael Wagner <dev@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 abstract class tx_mkmailer_receiver_BaseTemplate
 	extends tx_mkmailer_receiver_Base {
@@ -83,32 +88,39 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	 * @return 	string
 	 */
 	protected function parseTemplate($content, $configurations, $confId, $type, $idx = 0) {
-
-		if(empty($content) || !$configurations->getBool($confId.'wrapTemplate')) return $content;
+		if(empty($content) || !$configurations->getBool($confId.'wrapTemplate')) {
+			return $content;
+		}
 
 		/* *** Template auslesen *** */
 		$templatePath = $this->getConfig($configurations, $confId, $type, 'Template');
 
-		if(!$templatePath) return '<!-- NO Template defined. -->'.$content;
+		if(!$templatePath) {
+			return '<!-- NO Template defined. -->'.$content;
+		}
 
 		tx_rnbase::load('tx_rnbase_util_Files');
 		$template = tx_rnbase_util_Files::getFileResource($templatePath);
-		if(!$template) return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
+		if(!$template) {
+			return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
+		}
 
 		/* *** Subpart auslesen *** */
 		$subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
 		$subpart = $subpart ? $subpart : '###CONTENT'.strtoupper($type).'###';
 		$template = t3lib_parsehtml::getSubpart($template,$subpart);
 
-		if(!$template) return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
+		if(!$template) {
+			return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
+		}
 
 		tx_rnbase::load('tx_rnbase_util_Templates');
 		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
-				$template, array('###CONTENT###' => $content));
+			$template, array('###CONTENT###' => $content)
+		);
 
 		return trim($out);
 	}
-
 
 	/**
 	 * Parst den Receiver ein Template um den Inhalt
@@ -140,13 +152,14 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 
 		// labels und module parsen
 		tx_rnbase_util_BaseMarker::callModules(
-				$out, $markerArray, $subpartArray, $wrappedSubpartArray,
-				$params, $formatter
+			$out, $markerArray, $subpartArray, $wrappedSubpartArray,
+			$params, $formatter
 		);
 
 		// receiver und module rendern
 		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
-				$out, $markerArray, $subpartArray, $wrappedSubpartArray);
+			$out, $markerArray, $subpartArray, $wrappedSubpartArray
+		);
 
 		return trim($out);
 	}
@@ -160,6 +173,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	protected function fixContentHtml($content){
 		return trim($content);
 	}
+
 	/**
 	 * Verändert den entgültigen Text.
 	 *
@@ -170,6 +184,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		// Wir entfernen die HTML Tags!
 		return trim(strip_tags($content));
 	}
+
 	/**
 	 * Verändert den entgültigen Text.
 	 *
@@ -180,10 +195,10 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		// BR-Tags wandeln wir in Umbrüche um.
 		$replaces = array('<br />'=>"\r\n",'<br/>'=>"\r\n");
 		$content = str_replace(
-				array_keys($replaces),
-				array_values($replaces),
-				trim($content)
-			);
+			array_keys($replaces),
+			array_values($replaces),
+			trim($content)
+		);
 		// Wir wollen nur Text. HTML code entfernen wir!
 		$content = strip_tags($content);
 		return trim($content);
@@ -217,16 +232,26 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		$mailSubject = $queue->getSubject();
 
 		// erstmal das Template wrappen, da dort marker sein könnten, welche ersetzt werden müssen.
-		$mailText = $this->parseTemplate($mailText, $formatter->getConfigurations(), $confId, 'text', $idx);
-		$mailHtml = $this->parseTemplate($mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx);
+		$mailText = $this->parseTemplate(
+			$mailText, $formatter->getConfigurations(), $confId, 'text', $idx
+		);
+		$mailHtml = $this->parseTemplate(
+			$mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx
+		);
 
 		// zusätzliche Marker füllen
-		$this->addAdditionalData($mailText, $mailHtml, $mailSubject, $formatter, $confId, $idx);
+		$this->addAdditionalData(
+			$mailText, $mailHtml, $mailSubject, $formatter, $confId, $idx
+		);
 
 		// Nun den Receiver parsen
 		// Dies machen wir absichtlich nach dem Wrap, da dort und beim parsen von AdditionalDatamarker weitere Marker enthalten sein können.
-		$mailText = $this->parseReceiver($mailText, $formatter->getConfigurations(), $confId, 'text', $idx);
-		$mailHtml = $this->parseReceiver($mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx);
+		$mailText = $this->parseReceiver(
+			$mailText, $formatter->getConfigurations(), $confId, 'text', $idx
+		);
+		$mailHtml = $this->parseReceiver(
+			$mailHtml, $formatter->getConfigurations(), $confId, 'html', $idx
+		);
 
 		$mailSubject = $this->fixSubject($mailSubject);
 		$mailText = $this->fixContentText($mailText);
@@ -258,9 +283,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx) {
 
 	}
-
 }
-
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_BaseTemplate.php'])	{
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_BaseTemplate.php']);

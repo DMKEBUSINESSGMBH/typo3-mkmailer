@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 das MedienKombinat GmbH (kontakt@das-medienkombinat.de)
+*  (c) 2011 DMK E-BUSINESS GmbH (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,27 +24,62 @@
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
+/**
+ * tx_mkmailer_mail_IAttachment
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
+ */
 interface tx_mkmailer_mail_IAttachment {
 
+	/**
+	 * @var int
+	 */
 	const TYPE_ATTACHMENT = 0;
+
+	/**
+	 * @var int
+	 */
 	const TYPE_EMBED = 1;
+
+	/**
+	 * @var int
+	 */
 	const TYPE_STRING = 2;
 
+	/**
+	 * @return string
+	 */
 	public function getPathOrContent();
+
+	/**
+	 * @return string
+	 */
 	public function getName();
+
+	/**
+	 * @return string
+	 */
 	public function getEmbedId();
+
+	/**
+	 * @return string
+	 */
 	public function getMimeType();
+
+	/**
+	 * @return string
+	 */
 	public function getEncoding();
 
+	/**
+	 * @return int
+	 */
 	public function getAttachmentType();
-
-//	public function AddAttachment($path, $name = '',          $encoding = 'base64', $type = 'application/octet-stream') {
-//	public function AddEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = 'application/octet-stream') {
-//	public function AddStringAttachment($string, $filename,   $encoding = 'base64', $type = 'application/octet-stream') {
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']);
 }
-
-?>

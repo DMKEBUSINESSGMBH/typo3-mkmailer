@@ -23,27 +23,54 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_mkmailer_mail_IMessage');
 
 /**
- * A simple mail message
+ *
+ * tx_mkmailer_mail_SimpleMessage
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
+
+	/**
+	 * @var array
+	 */
 	private $to = array();
+
+	/**
+	 * @var array
+	 */
 	private $cc = array();
+	/**
+	 * @var array
+	 */
 	private $bcc = array();
+
+	/**
+	 * @var array
+	 */
 	private $attachments = array();
+
+	/**
+	 * @var array
+	 */
 	private $options = array();
-	
-	function tx_mkmailer_mail_SimpleMessage($options=array()) {
+
+	/**
+	 * @param array $options
+	 */
+	public function __construct($options=array()) {
 		if(!($options && count($options))) {
 			// Defaults setzen
 			$options = self::getDefaultOptions();
 		}
 		$this->setOptions($options);
 	}
-	
+
 	/**
 	 * Liefert die Default-Options
 	 *
@@ -52,25 +79,30 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	public static function getDefaultOptions(){
 		$options = array();
 		tx_rnbase::load('tx_rnbase_configurations');
-		
+
 		// CharSet
 		$charset = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'charset');
 		$options['charset'] = $charset ? $charset : 'UTF-8';
-		
+
 		// Encoding
 		$encoding = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'encoding');
 		$options['encoding'] = $encoding ? $encoding : '8bit';
-				
+
 		// returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
 		$returnpath = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'returnpath');
 		$options['returnpath'] = $returnpath ? $returnpath : 0;
-		
+
 		return $options;
 	}
-	
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::setOptions
+	 */
 	function setOptions($options) {
 		$this->options = $options;
 	}
+
 	/**
 	 * (non-PHPdoc)
 	 * @see mail/tx_mkmailer_mail_IMessage#setOption($key, $value)
@@ -78,6 +110,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function setOption($key, $value) {
 		$this->options[$key] = $value;
 	}
+
 	/**
 	 * Returns options
 	 *
@@ -86,18 +119,39 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getOptions() {
 		return $this->options;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::setHtmlPart()
+	 */
 	function setHtmlPart($html) {
 		$this->html = $html;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::setTxtPart()
+	 */
 	function setTxtPart($text) {
 		$this->text = $text;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::getHtmlPart()
+	 */
 	function getHtmlPart() {
 		return $this->html;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::getTxtPart()
+	 */
 	function getTxtPart() {
 		return $this->text;
 	}
+
 	/**
 	 * Adds an attachment file
 	 *
@@ -106,6 +160,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function addAttachment(tx_mkmailer_mail_IAttachment $file) {
 		$this->attachments[] = $file;
 	}
+
 	/**
 	 * Returns all attachments
 	 *
@@ -114,6 +169,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getAttachments() {
 		return $this->attachments;
 	}
+
 	/**
 	 * Set the mail subject
 	 * @param string $text
@@ -121,6 +177,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function setSubject($text) {
 		$this->subject = $text;
 	}
+
 	/**
 	 * Returns the subject.
 	 * @return string
@@ -128,9 +185,15 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getSubject() {
 		return $this->subject;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see tx_mkmailer_mail_IMessage::setFrom()
+	 */
 	function setFrom($address, $name='') {
 		$this->from = $this->createAddress($address, $name);
 	}
+
 	/**
 	 * Returns the from address
 	 *
@@ -139,15 +202,22 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getFrom() {
 		return $this->from;
 	}
+
+	/**
+	 * @param string $address
+	 * @param string $name
+	 */
 	function addTo($address, $name='') {
 		$this->to[] = $this->createAddress($address, $name);
 	}
+
 	/**
 	 * Removes all addresses
 	 */
 	function clearTo() {
 		$this->to[] = array();
 	}
+
 	/**
 	 * Returns recipients
 	 * @return array[tx_mkmailer_mail_IAddress]
@@ -155,9 +225,15 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getTo() {
 		return $this->to;
 	}
+
+	/**
+	 * @param string $address
+	 * @param string $name
+	 */
 	function addCc($address, $name='') {
 		$this->cc[] = $this->createAddress($address, $name);
 	}
+
 	/**
 	 * Setzt die CC Adressen
 	 *
@@ -166,6 +242,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function setCc(array $addresses) {
 		$this->cc = $addresses;
 	}
+
 	/**
 	 * Returns CCs
 	 * @return array[tx_mkmailer_mail_IAddress]
@@ -173,9 +250,15 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function getCc() {
 		return $this->cc;
 	}
+
+	/**
+	 * @param string $address
+	 * @param string $name
+	 */
 	function addBcc($address, $name='') {
 		$this->bcc[] = $this->createAddress($address, $name);
 	}
+
 	/**
 	 * Setzt die BCC Adressen
 	 *
@@ -184,6 +267,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 	function setBcc(array $addresses) {
 		$this->bcc = $addresses;
 	}
+
 	/**
 	 * Returns BCCs
 	 * @return array[tx_mkmailer_mail_IAddress]
@@ -207,5 +291,3 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php']);
 }
-
-?>
