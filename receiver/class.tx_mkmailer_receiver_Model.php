@@ -55,7 +55,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	 * @param int $ratingUid
 	 */
 	public function __construct($email = null, $modelUid = null){
-		parent::tx_mkmailer_receiver_Email($email);
+		parent::__construct($email);
 		$this->setModelUid($modelUid);
 	}
 
