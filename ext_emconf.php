@@ -11,14 +11,14 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'PHP Mailer',
+	'title' => 'MK Mailer',
 	'description' => 'Makes the Open Source project phpmailer available for TYPO3',
 	'category' => 'services',
 	'author' => 'René Nitzsche,Michael Wagner,Hannes Bochmann',
 	'author_email' => 'dev@dmk-ebusiness.de',
 	'version' => '0.7.19',
 	'shy' => '',
-	'dependencies' => 'rn_base,t3users',
+	'dependencies' => 'rn_base',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'author_company' => 'DMk E-BUSINESS GmbH',
+	'author_company' => 'DMK E-BUSINESS GmbH',
 	'constraints' => array(
 		'depends' => array(
 			'rn_base' => '0.8.0-0.0.0',
