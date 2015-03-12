@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'MK Mailer',
-	'description' => 'Makes the Open Source project phpmailer available for TYPO3',
+	'description' => 'Provides a asynchronous mail system with full template support',
 	'category' => 'services',
 	'author' => 'René Nitzsche,Michael Wagner,Hannes Bochmann',
 	'author_email' => 'dev@dmk-ebusiness.de',
