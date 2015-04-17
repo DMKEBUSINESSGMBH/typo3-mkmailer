@@ -21,12 +21,11 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
 
 /**
- *
  * tx_mkmailer_services_Mail
  *
  * @package 		TYPO3
@@ -39,28 +38,40 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 
 	/**
 	 * Abarbeitung der MailQueue
-	 * @param $configurations
-	 * @param $confId
+	 *
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
 	 * @return string
 	 */
 	public function executeQueue(&$configurations, $confId){
 		tx_rnbase::load('tx_mkmailer_util_Misc');
+		tx_rnbase::load('tx_rnbase_util_Lock');
 
-		$maxMails = intval($configurations->get($confId.'maxMails'));
-		$testMail = $configurations->get($confId.'testMail');
-		$mailMode = $configurations->get($confId.'mode');
-		$mailMode = $mailMode ? $mailMode : 'PHPMAILER'; // Es ist auch PEAR möglich
+		// wir sperren den prozess für 30 minuten oder bis zum ende des durchlaufes
+		$lock = tx_rnbase_util_Lock::getInstance('mkmailerqueue', 1800);
+		if ($lock->isLocked()) {
+			return '<p>The Mail-Prcess is locked</p>';
+		}
+		$lock->lockProcess();
 
-		$maxMails = $maxMails > 0 ? ($maxMails-1) : 10;
-		$sentQueueCnt = 0; // Die versendeten Mails über alle Queues zählen
-		$sentErrors = array(); // Die fehlerhaften Mails über alle Queues sammeln
+		$maxMails = intval($configurations->get($confId . 'maxMails'));
+		$testMail = $configurations->get($confId . 'testMail');
+		$mailMode = $configurations->get($confId . 'mode');
+		// Es ist auch PEAR möglich
+		$mailMode = $mailMode ? $mailMode : 'PHPMAILER';
+
+		$maxMails = $maxMails > 0 ? ($maxMails - 1) : 10;
+		// Die versendeten Mails über alle Queues zählen
+		$sentQueueCnt = 0;
+		// Die fehlerhaften Mails über alle Queues sammeln
+		$sentErrors = array();
 		$formatter = $configurations->getFormatter();
 		// Laden von offenen Aufträge
 		$queueArr = $this->getMailQueue();
 		foreach ($queueArr As $queue) {
 			if($sentQueueCnt > $maxMails) break;
 			$receiverArr = $queue->getReceivers();
-			if(!count($receiverArr)) {
+			if (!count($receiverArr)) {
 				// Es sind keine Empfänger der Mail zugeordnet -> schliessen
 				$this->closeMailQueue($queue);
 				continue; // der nächste bitte
@@ -75,12 +86,12 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 				$receiver = $this->createReceiver($receiverData);
 				// Wir nähern uns dem Ziel!
 				$mailSize = $receiver->getAddressCount();
-				for($i=0; $i < $mailSize; $i++) {
-					if($sentQueueCnt > $maxMails) break;
+				for ($i = 0; $i < $mailSize; $i++) {
+					if ($sentQueueCnt > $maxMails) break;
 
 					$address = $receiver->getSingleAddress($i);
 					// Prüfen, ob diese Mail schon verschickt wurde!
-					if(is_array($address) && !$this->isMailSent($queue, $address['addressid'])) {
+					if (is_array($address) && !$this->isMailSent($queue, $address['addressid'])) {
 						// Address ist immer ein Array mit den Teilen der Mailadresse
 						$message = $receiver->getSingleMail($queue, $formatter, $confId, $i);
 
@@ -127,7 +138,8 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 								)
 							);
 						}
-						$sentQueueCnt++; // Gesamtzahl trotz Fehler erhöhen, um Endlosschleife zu verhindern
+						// Gesamtzahl trotz Fehler erhöhen, um Endlosschleife zu verhindern
+						$sentQueueCnt++;
 					}
 				}
 			}
@@ -140,10 +152,12 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 				$this->updateMailQueue($queue, $sentCnt);
 			}
 		}
+		$lock->unlockProcess();
+
 		$out = '<p>Finished with ' . $sentQueueCnt . ' Mails. Errors: ' . count($sentErrors) .'</p>';
-		if(count($sentErrors)) {
+		if (count($sentErrors)) {
 			$out .= '<h3>Errors</h3><ul>';
-			foreach($sentErrors As $errorMsg) {
+			foreach ($sentErrors as $errorMsg) {
 				$out .= "<li>$errorMsg \n";
 			}
 		}
