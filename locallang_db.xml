@@ -28,6 +28,8 @@
 			<label index="plugin.mkmailer.flexform.action">View</label>
 			<label index="plugin.mkmailer.flexform.action.SendMails">SendMails</label>
 			<label index="plugin_mkmailer_testmail">Mailaddress for test mode</label>
+			<label index="plugin_mkmailer_maxmails">Max mails per pageview</label>
+			<label index="plugin_mkmailer_lockLifeTime">Lifetime of the queue lock in seconds</label>
 			<label index="common_debugSQL">Debug</label>
 
 			<label index="common_detailPage">Page of Detailview</label>

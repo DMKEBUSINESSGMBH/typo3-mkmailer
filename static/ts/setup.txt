@@ -42,6 +42,8 @@ plugin.tx_mkmailer {
 		### für dem email receiver via default deaktiviert, um bestehende projekte nicht zu verändern
 		receiver.wrapTemplate = 0
 	
+		# Wie lange bleibt der queue lock bestehen (in sec.)?
+		lockLifeTime = 1800
 		# Anzahl Emails pro Aufruf
 		maxMails = 10
 		# Testmodus, hier können Mailadressen eingetragen werden (Kommagetrennt)

@@ -47,20 +47,20 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		tx_rnbase::load('tx_mkmailer_util_Misc');
 		tx_rnbase::load('tx_rnbase_util_Lock');
 
-		// wir sperren den prozess für 30 minuten oder bis zum ende des durchlaufes
-		$lock = tx_rnbase_util_Lock::getInstance('mkmailerqueue', 1800);
+		// wir sperren den prozess für eine bestimmte Zeit oder bis zum ende des durchlaufes
+		$lockLifeTime = $configurations->getInt($confId . 'lockLifeTime');
+		$lock = tx_rnbase_util_Lock::getInstance('mkmailerqueue', $lockLifeTime);
 		if ($lock->isLocked()) {
 			return '<p>The Mail-Prcess is locked</p>';
 		}
 		$lock->lockProcess();
 
-		$maxMails = intval($configurations->get($confId . 'maxMails'));
+		$maxMails = $configurations->getInt($confId . 'maxMails');
+		$maxMails = $maxMails > 0 ? ($maxMails - 1) : 10;
 		$testMail = $configurations->get($confId . 'testMail');
 		$mailMode = $configurations->get($confId . 'mode');
 		// Es ist auch PEAR möglich
 		$mailMode = $mailMode ? $mailMode : 'PHPMAILER';
-
-		$maxMails = $maxMails > 0 ? ($maxMails - 1) : 10;
 		// Die versendeten Mails über alle Queues zählen
 		$sentQueueCnt = 0;
 		// Die fehlerhaften Mails über alle Queues sammeln
