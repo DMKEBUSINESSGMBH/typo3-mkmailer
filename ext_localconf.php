@@ -6,3 +6,5 @@ require_once($tempPath.'services/ext_localconf.php');
 
 // Einbindung einer PageTSConfig
 t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/mod1/pageTSconfig.txt">');
+
+require_once(t3lib_extMgm::extPath($_EXTKEY).'scheduler/ext_localconf.php');

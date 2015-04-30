@@ -101,7 +101,13 @@ Verarbeitung der Queue
 
 Damit die E-Mails aus der Queue auch versendet werden, muss im Typo3 eine Seite eingerichtet und das Plugin von MKmailer angelegt werden.
 
-Damit die Mails dann automatisch versendet werden, muss ein crontab eingerichtet werden.
+Damit die Mails dann automatisch versendet werden, gibt es 2 Wege:
+
+Wenn mklib installiert ist, kann einfach der TYPO3 Scheduler von mkmailer verwendet werden.
+Damit dieser funktioniert muss lediglich die cronpage in den Extension Einstellungen
+konfiguriert sein.
+
+Ohne mklib muss ein crontab eingerichtet werden.
 
 Unter Linux sieht das ganze dann so aus.
 
@@ -111,3 +117,7 @@ Unter Linux sieht das ganze dann so aus.
 
 Es wird nun aller 2 Minuten die Seite abgerufen. Wichtig ist, das
 hier index.php?id=[PAGE_ID_OR_PAGE_ALIAS] genutzt wird!
+
+In jedem Fall muss sichergestellt werden das der Server die URL aufrufen kann. Im Falle
+eines htaccess Schutz muss also der eigene Server Zugriff bekommen.
+
