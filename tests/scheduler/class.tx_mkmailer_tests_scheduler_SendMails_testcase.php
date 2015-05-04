@@ -109,6 +109,49 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	}
 
 	/**
+	 * @group unit
+	 */
+	public function testGetCronpageUrlByPageUid() {
+		$GLOBALS['TSFE'] = $this->getMock(
+			'tslib_fe', array('getDomainNameForPid'), array(), '', FALSE
+		);
+		$GLOBALS['TSFE']->expects($this->once())
+			->method('getDomainNameForPid')
+			->with(123)
+			->will($this->returnValue('my.host'));
+
+		$cronpageUrl = $this->callInaccessibleMethod(
+			tx_rnbase::makeInstance('tx_mkmailer_scheduler_SendMails'),
+			'getCronpageUrlByPageUid',
+			123
+		);
+
+		$this->assertEquals('http://my.host/index.php?id=123', $cronpageUrl);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testExecuteTaskCallsGetCronpageUrlByPageUidCorrect() {
+		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
+
+		$schedulerTask = $this->getMock(
+			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrlByPageUid')
+		);
+		$schedulerTask->expects($this->once())
+			->method('getCronpageUrlByPageUid')
+			->with(123)
+			->will($this->returnValue('http://my.host'));
+
+		$devLog = array();
+		$method = new ReflectionMethod(
+			'tx_mkmailer_scheduler_SendMails', 'executeTask'
+		);
+		$method->setAccessible(TRUE);
+		$method->invokeArgs($schedulerTask, array(array(), &$devLog));
+	}
+
+	/**
 	 * @return multitype:
 	 */
 	private function callExecuteTask() {

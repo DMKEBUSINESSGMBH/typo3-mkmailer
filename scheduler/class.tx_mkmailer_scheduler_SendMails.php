@@ -24,6 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 tx_rnbase::load('tx_mklib_scheduler_Generic');
+tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
  * tx_mkmailer_scheduler_SendMails
@@ -42,11 +43,9 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic {
 	 */
 	protected function executeTask(array $options, array &$devLog) {
 		if ($cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage')) {
+			tx_rnbase_util_Misc::prepareTSFE();
 			$report = array();
-			t3lib_div::getUrl(
-				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . 'index.php?id=' . $cronPage,
-				0, FALSE, $report
-			);
+			t3lib_div::getUrl($this->getCronpageUrlByPageUid($cronPage), 0, FALSE, $report);
 			if ($report['error'] != 0) {
 				$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
 					'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
@@ -60,6 +59,15 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic {
 								' in den Extensioneinstellungen. Bitte beheben.',
 			);
 		}
+	}
+
+	/**
+	 * @param int $pageUid
+	 * @return string
+	 */
+	protected function getCronpageUrlByPageUid($pageUid) {
+		return 	'http://' . $GLOBALS['TSFE']->getDomainNameForPid($pageUid) .
+				'/index.php?id=' . $pageUid;
 	}
 
 	/**
