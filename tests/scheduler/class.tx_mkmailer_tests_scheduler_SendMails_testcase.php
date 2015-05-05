@@ -23,6 +23,7 @@
  */
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 /**
  *
@@ -41,6 +42,9 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
+		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			$this->markTestSkipped('Der Schedulker funktioniert erst ab TYPO3 6.2');
+		}
 		if (!t3lib_extMgm::isLoaded('mklib')) {
 			$this->markTestSkipped('mklib muss installiert sein');
 		}

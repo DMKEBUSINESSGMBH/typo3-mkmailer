@@ -103,7 +103,7 @@ Damit die E-Mails aus der Queue auch versendet werden, muss im Typo3 eine Seite 
 
 Damit die Mails dann automatisch versendet werden, gibt es 2 Wege:
 
-Wenn mklib installiert ist, kann einfach der TYPO3 Scheduler von mkmailer verwendet werden.
+Wenn mklib installiert ist und mind. TYPO3 6.2 genutzt wird, kann einfach der TYPO3 Scheduler von mkmailer verwendet werden.
 Damit dieser funktioniert muss lediglich die cronpage in den Extension Einstellungen
 konfiguriert sein.
 
