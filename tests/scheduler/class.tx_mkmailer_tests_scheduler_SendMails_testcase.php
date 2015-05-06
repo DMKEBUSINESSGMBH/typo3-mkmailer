@@ -37,6 +37,8 @@ tx_rnbase::load('tx_rnbase_util_TYPO3');
  */
 class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_BaseTestCase {
 
+	private $tsfeBackup;
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
@@ -53,6 +55,8 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 		tx_rnbase::load('tx_mkmailer_scheduler_SendMails');
 
 		tx_mklib_tests_Util::storeExtConf('mkmailer');
+
+		$this->tsfeBackup = $GLOBALS['TSFE'];
 	}
 
 	/**
@@ -61,6 +65,8 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	 */
 	protected function tearDown() {
 		tx_mklib_tests_Util::restoreExtConf('mkmailer');
+
+		$GLOBALS['TSFE'] = $this->tsfeBackup;
 	}
 
 	/**
@@ -84,10 +90,23 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	/**
 	 * @group unit
 	 */
-	public function testExecuteTaskWhenCronpageIsConfigured() {
+	public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable() {
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
 
-		$devLog = $this->callExecuteTask();
+		$schedulerTask = $this->getMock(
+			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrlByPageUid')
+		);
+		$schedulerTask->expects($this->once())
+			->method('getCronpageUrlByPageUid')
+			->with(123)
+			->will($this->returnValue('http://www.google.de'));
+
+		$devLog = array();
+		$method = new ReflectionMethod(
+			'tx_mkmailer_scheduler_SendMails', 'executeTask'
+		);
+		$method->setAccessible(TRUE);
+		$method->invokeArgs($schedulerTask, array(array(), &$devLog));
 
 		$this->assertEmpty($devLog, 'devlog Meldungen vorhanden');
 	}
