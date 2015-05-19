@@ -85,7 +85,7 @@ auch mehrere Receiver mitgeben.
     $job->setContentHtml($htmlPart);
     
     // Anhänge hinzufügen
-    tx_rnbase::makeInstance('tx_mkmailer_mail_Factory');
+    tx_rnbase::load('tx_mkmailer_mail_Factory');
     $attachment = tx_mkmailer_mail_Factory::createAttachment($attachmentPath);
     $job->addAttachment($attachment);
     
