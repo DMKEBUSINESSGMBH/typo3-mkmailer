@@ -85,8 +85,9 @@ auch mehrere Receiver mitgeben.
     $job->setContentHtml($htmlPart);
     
     // Anhänge hinzufügen
-    $attachments[] = t3lib_div::getFileAbsFileName('uploads/fancy.png');
-    $job->addMultipleAttachments($attachments);
+    tx_rnbase::makeInstance('tx_mkmailer_mail_Factory');
+    $attachment = tx_mkmailer_mail_Factory::createAttachment($attachmentPath);
+    $job->addAttachment($attachment);
     
     // Und nun geht alles in den Versand
     $mailSrv->spoolMailJob($job);
