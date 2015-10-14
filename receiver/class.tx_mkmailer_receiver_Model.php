@@ -50,6 +50,14 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	protected $modelUid;
 
 	/**
+	 * @var string
+	 * @todo auf ein Zeichen setzen, das nicht in einer E-Mail vorkommen darf/kann
+	 * z.B. §()
+	 * auch die Unit-Tests anpassen
+	 */
+	const EMAIL_MODEL_DELIMTER = '_';
+
+	/**
 	 *
 	 * @param string $email
 	 * @param int $ratingUid
@@ -64,7 +72,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	 * @see tx_mkmailer_receiver_Email::setValueString()
 	 */
 	public function setValueString($valueString) {
-		$valueParts = t3lib_div::trimExplode('_', $valueString);
+		$valueParts = t3lib_div::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
 		$this->setEMail($valueParts[0]);
 		$this->setModelUid($valueParts[1]);
 	}
@@ -74,7 +82,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	 * @see tx_mkmailer_receiver_Email::getValueString()
 	 */
 	public function getValueString() {
-		return $this->getEMail() . '_' . $this->getModelUid();
+		return $this->getEMail() . self::EMAIL_MODEL_DELIMTER . $this->getModelUid();
 	}
 
 	/**
