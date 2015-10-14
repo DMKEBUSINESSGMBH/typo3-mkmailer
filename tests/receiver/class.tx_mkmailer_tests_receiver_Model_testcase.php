@@ -91,8 +91,11 @@ class tx_mkmailer_tests_receiver_Model_testcase extends tx_rnbase_tests_BaseTest
 	 * @group unit
 	 */
 	public function testGetValueString() {
-		$receiver = $this->getReceiver(array('testMail', 123));
-		$this->assertEquals('testMail_123', $receiver->getValueString(), 'falscher value string');
+		$receiver = $this->getReceiver(array('test_Mail', 123));
+		$this->assertEquals(
+			'test_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '123',
+			$receiver->getValueString(), 'falscher value string'
+		);
 	}
 
 	/**
@@ -100,8 +103,8 @@ class tx_mkmailer_tests_receiver_Model_testcase extends tx_rnbase_tests_BaseTest
 	 */
 	public function testSetValueStringSetsCorrectEmail() {
 		$receiver = $this->getReceiver(array('testMail', 123));
-		$receiver->setValueString('newTestMail_456');
-		$this->assertEquals('newTestMail', $receiver->getEmail(), 'falsche Email');
+		$receiver->setValueString('newTest_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '456');
+		$this->assertEquals('newTest_Mail', $receiver->getEmail(), 'falsche Email');
 	}
 
 	/**
@@ -109,7 +112,7 @@ class tx_mkmailer_tests_receiver_Model_testcase extends tx_rnbase_tests_BaseTest
 	 */
 	public function testSetValueStringSetsCorrectModelUid() {
 		$receiver = $this->getReceiver(array('testMail', 123));
-		$receiver->setValueString('newTestMail_456');
+		$receiver->setValueString('newTest_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '456');
 		$this->assertEquals(456, $receiver->getModelUid(), 'falsche model Uid');
 	}
 

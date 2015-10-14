@@ -51,11 +51,11 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 
 	/**
 	 * @var string
-	 * @todo auf ein Zeichen setzen, das nicht in einer E-Mail vorkommen darf/kann
-	 * z.B. §()
-	 * auch die Unit-Tests anpassen
+	 * § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
+	 * kann/darf. Also nehmen wir das.
+	 * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
 	 */
-	const EMAIL_MODEL_DELIMTER = '_';
+	const EMAIL_MODEL_DELIMTER = '§';
 
 	/**
 	 *
