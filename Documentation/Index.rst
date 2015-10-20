@@ -26,7 +26,7 @@ MK Mailer
 		de
 
 	:Description:
-		
+
 
 	:Keywords:
 		forAdmins, forDevelopers, forIntegrators, Mail, PHPMailer, E-Mail
@@ -43,8 +43,8 @@ MK Mailer
 	:License:
 		This document is published under the Open Content License
 		available from http://www.opencontent.org/opl.shtml
-		
-		The content of this document is related to TYPO3 
+
+		The content of this document is related to TYPO3
 		- a GNU/GPL CMS/Framework available from www.typo3.org
 
 	:Rendered:
@@ -65,3 +65,4 @@ MK Mailer
    SendMails/Index
    Receiver/Index
    BEModule/Index
+   ChangeLog/Index
