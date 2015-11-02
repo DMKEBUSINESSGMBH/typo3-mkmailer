@@ -13,5 +13,3 @@ t3lib_extMgm::addService($_EXTKEY,  'mkmailer' /* sv type */,  'tx_mkmailer_serv
     'className' => 'tx_mkmailer_services_Mail',
   )
 );
-
-?>

@@ -169,4 +169,3 @@ $TCA['tx_mkmailer_templates'] = array (
 		'1' => array('showitem' => '')
 	)
 );
-?>
