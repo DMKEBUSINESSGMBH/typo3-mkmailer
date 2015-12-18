@@ -372,11 +372,15 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 */
 	function getUploadDir() {
 		$fileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-		return t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath(
-			$fileTool->slashPath(
-				$fileTool->rmDoubleSlash('typo3temp/mkmailer')
-			)
+		$uploadDir = t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath(
+			$fileTool->slashPath($fileTool->rmDoubleSlash('typo3temp/mkmailer'))
 		));
+
+		if (!file_exists($uploadDir)) {
+			tx_rnbase_util_Files::mkdir_deep($uploadDir);
+		}
+
+		return $uploadDir;
 	}
 
 	/**

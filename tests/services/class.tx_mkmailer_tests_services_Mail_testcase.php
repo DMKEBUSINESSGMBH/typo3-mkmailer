@@ -143,7 +143,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 	/**
 	 * @group unit
 	 */
-	public function testgetUploadDir() {
+	public function testGetUploadDir() {
 		$srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
 		$this->assertTrue(is_dir($srv->getUploadDir()),'"' . $srv->getUploadDir() .'" is not a Directory!');
 		$this->assertTrue(is_writable($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not writeble');
