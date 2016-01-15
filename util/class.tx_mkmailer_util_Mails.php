@@ -43,8 +43,8 @@ class tx_mkmailer_util_Mails {
 	 * @param string $receiverEmail
 	 * @param string|tx_mkmailer_models_Template $templateObjectOrKey
 	 */
-	public static function sendModelReceiverMail($receiverClass, $modelUid, $email, $templateObjectOrKey) {
-		$mailSrv = static::getMailService();
+	public function sendModelReceiverMail($receiverClass, $modelUid, $email, $templateObjectOrKey) {
+		$mailSrv = $this->getMailService();
 
 		if (
 			is_object($templateObjectOrKey) &&
@@ -73,7 +73,7 @@ class tx_mkmailer_util_Mails {
 	/**
 	 * @return tx_mkmailer_services_Mail
 	 */
-	protected static function getMailService() {
+	protected function getMailService() {
 		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
 		return tx_mkmailer_util_ServiceRegistry::getMailService();
 	}

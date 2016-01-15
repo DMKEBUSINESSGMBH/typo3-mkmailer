@@ -40,12 +40,12 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 	/**
 	 * @group unit
 	 */
-	public function testMailService() {
+	public function testGetMailService() {
 		$method = new ReflectionMethod('tx_mkmailer_util_Mails', 'getMailService');
 		$method->setAccessible(true);
 		$this->assertInstanceOf(
 			'tx_mkmailer_services_Mail',
-			$method->invoke(null)
+			$method->invoke(tx_rnbase::makeInstance('tx_mkmailer_util_Mails'))
 		);
 	}
 
@@ -87,7 +87,7 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 			->with($expectedJob);
 
 		$mailUtil = $this->getMailUtilMock($mailService);
-		$mailUtil::sendModelReceiverMail(
+		$mailUtil->sendModelReceiverMail(
 			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', 'mailTemplate'
 		);
 	}
@@ -128,7 +128,7 @@ class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_Mails
 			->with($expectedJob);
 
 		$mailUtil = $this->getMailUtilMock($mailService);
-		$mailUtil::sendModelReceiverMail(
+		$mailUtil->sendModelReceiverMail(
 			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', $templateObj
 		);
 	}

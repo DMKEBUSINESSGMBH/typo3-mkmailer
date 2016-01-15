@@ -62,12 +62,12 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
 	 * @return tx_mkmailer_util_Mails
 	 */
 	protected function getMailUtilMock(tx_mkmailer_services_Mail $mailService) {
-		$mailUtil = $this->getMockClass(
+		$mailUtil = $this->getMock(
 			$this->getMailUtilClass(),
 			array('getMailService')
 		);
 
-		$mailUtil::staticExpects($this->once())
+		$mailUtil->expects($this->once())
 			->method('getMailService')
 			->will($this->returnValue($mailService));
 
