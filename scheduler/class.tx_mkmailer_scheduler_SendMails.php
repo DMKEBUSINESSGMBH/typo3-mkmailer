@@ -1,51 +1,59 @@
 <?php
-/**
- *  @author Hannes Bochmann
+/***************************************************************
+ * Copyright notice
  *
- *  Copyright notice
+ * (c) 2014-2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  (c) 2014 Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- *  All rights reserved
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
+ * This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
 tx_rnbase::load('tx_mklib_scheduler_Generic');
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- * tx_mkmailer_scheduler_SendMails
+ * Send-Mails scheduler task
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package TYPO3
+ * @subpackage mkmailer
+ * @author Hannes Bochmann
+ * @author Michael Wagner
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic {
+class tx_mkmailer_scheduler_SendMails
+	extends tx_mklib_scheduler_Generic
+{
 
 	/**
-	 * (non-PHPdoc)
-	 * @see tx_mklib_scheduler_Generic::executeTask()
+	 * This is the main method that is called when a task is executed
+	 *
+	 * @param array $options
+	 * @param array $devLog Put some informations for the logging here.
+	 *
+	 * @return string
 	 */
-	protected function executeTask(array $options, array &$devLog) {
-		if ($cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage')) {
+	protected function executeTask(array $options, array &$devLog)
+	{
+		$cronPage = $this->getCronPageId();
+		if ($cronPage) {
 			tx_rnbase_util_Misc::prepareTSFE();
 			$report = array();
-			t3lib_div::getUrl($this->getCronpageUrlByPageUid($cronPage), 0, FALSE, $report);
+			t3lib_div::getUrl($this->getCronpageUrl(), 0, FALSE, $report);
 			if ($report['error'] != 0) {
 				$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
 					'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
@@ -54,27 +62,59 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic {
 			}
 		} else {
 			$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
-				'message' => 	'Der Mailversand von mkmailer sollte über den Scheduler ' .
-								'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
-								' in den Extensioneinstellungen. Bitte beheben.',
+				'message' => 'Der Mailversand von mkmailer sollte über den Scheduler ' .
+					'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
+					' in den Extensioneinstellungen. Bitte beheben.',
 			);
 		}
+
+		return '';
 	}
 
 	/**
-	 * @param int $pageUid
+	 * Returns the configured cron page uid
+	 *
 	 * @return string
 	 */
-	protected function getCronpageUrlByPageUid($pageUid) {
-		return 	'http://' . $GLOBALS['TSFE']->getDomainNameForPid($pageUid) .
-				'/index.php?id=' . $pageUid;
+	protected function getCronPageId()
+	{
+		$cronPage = $this->getOption('cronpage');
+
+		if (!$cronPage) {
+			$cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage');
+		}
+
+		return $cronPage;
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see tx_mklib_scheduler_Generic::getExtKey()
+	 * Builds the CronUrl.
+	 *
+	 * @return string
 	 */
-	protected function getExtKey() {
+	protected function getCronpageUrl()
+	{
+		$pageUid = $this->getCronPageId();
+		$domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
+		$user = $this->getOption('user');
+		$pwd = $this->getOption('passwd');
+		$auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
+
+		return sprintf(
+			'http://%1$s%2$s/index.php?id=%3$s',
+			$auth,
+			$domain,
+			$pageUid
+		);
+	}
+
+	/**
+	 * Extension key, used for devlog.
+	 *
+	 * @return 	string
+	 */
+	protected function getExtKey()
+	{
 		return 'mkmailer';
 	}
 }

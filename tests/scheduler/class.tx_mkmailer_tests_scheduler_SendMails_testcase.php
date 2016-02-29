@@ -26,8 +26,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 /**
- *
- * tx_mkmailer_tests_scheduler_SendMails_testcase
+ * Test for tx_mkmailer_scheduler_SendMails
  *
  * @package 		TYPO3
  * @subpackage	 	mkmailer
@@ -94,16 +93,16 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
 
 		$schedulerTask = $this->getMock(
-			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrlByPageUid')
+			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrl')
 		);
 		$schedulerTask->expects($this->once())
-			->method('getCronpageUrlByPageUid')
-			->with(123)
+			->method('getCronpageUrl')
 			->will($this->returnValue('http://www.google.de'));
 
 		$devLog = array();
 		$method = new ReflectionMethod(
-			'tx_mkmailer_scheduler_SendMails', 'executeTask'
+			'tx_mkmailer_scheduler_SendMails',
+			'executeTask'
 		);
 		$method->setAccessible(TRUE);
 		$method->invokeArgs($schedulerTask, array(array(), &$devLog));
@@ -143,38 +142,25 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 			->with(123)
 			->will($this->returnValue('my.host'));
 
+		$scheduler = $this->getMock(
+			'tx_mkmailer_scheduler_SendMails',
+			array('getCronPageId')
+		);
+
+		$scheduler->expects($this->once())
+			->method('getCronPageId')
+			->will($this->returnValue(123));
+
 		$cronpageUrl = $this->callInaccessibleMethod(
-			tx_rnbase::makeInstance('tx_mkmailer_scheduler_SendMails'),
-			'getCronpageUrlByPageUid',
-			123
+			$scheduler,
+			'getCronpageUrl'
 		);
 
 		$this->assertEquals('http://my.host/index.php?id=123', $cronpageUrl);
 	}
 
 	/**
-	 * @group unit
-	 */
-	public function testExecuteTaskCallsGetCronpageUrlByPageUidCorrect() {
-		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
-
-		$schedulerTask = $this->getMock(
-			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrlByPageUid')
-		);
-		$schedulerTask->expects($this->once())
-			->method('getCronpageUrlByPageUid')
-			->with(123)
-			->will($this->returnValue('http://my.host'));
-
-		$devLog = array();
-		$method = new ReflectionMethod(
-			'tx_mkmailer_scheduler_SendMails', 'executeTask'
-		);
-		$method->setAccessible(TRUE);
-		$method->invokeArgs($schedulerTask, array(array(), &$devLog));
-	}
-
-	/**
+	 *
 	 * @return multitype:
 	 */
 	private function callExecuteTask() {
@@ -188,6 +174,6 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 			array(array(), &$devLog)
 		);
 
-		return$devLog;
+		return $devLog;
 	}
 }

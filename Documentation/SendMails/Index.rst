@@ -27,7 +27,7 @@ und nicht über die Queue ausgeliefert wird.
    $msg->addTo($to, $toName);
    $html = "
    Das ist der HTML-Teil der Email.
-   
+
    Das ist <a href=\"http://www.google.de/\">Google</a>.
    ";
    $text = "Das ist eine Textmail.\nZeilenumbrüche gehen auch...";
@@ -37,7 +37,7 @@ und nicht über die Queue ausgeliefert wird.
    $msg->setFrom('test@dmk-ebusiness.de', 'Servermail');
    $srv = tx_mkmailer_util_ServiceRegistry::getMailService();
    $srv->sendEmail($msg);
-   
+
 **Versand aus dem BE**
 
 Die PID der Mailseite muss in die Extension eingetragen werden,
@@ -61,37 +61,37 @@ auch mehrere Receiver mitgeben.
     $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
     $templateKey = 'info_mail_123'; // Der Key ist abhängig von der Applikation. Das entsprechende Template muss im BE angelegt sein
     $templateObj = $mailSrv->getTemplate($templateKey);
-   
+
     $from = 'test@egal.de';
     // Den Empfänger der Mail als Receiver anlegen, Hier ein Standardreceiver, man kann aber auch eigene Receiver schreiben
     tx_rnbase::load('tx_mkmailer_receiver_FeUser');
     $receiver = new tx_mkmailer_receiver_FeUser();
     $receiver->setFeUser($feuser);
-   
+
     $job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
     $job->addReceiver($receiver);
     $job->setFrom($templateObj->getFromAddress());
     $job->setCCs($templateObj->getCcAddress());
     $job->setBCCs($templateObj->getBccAddress());
-   
+
     $txtPart = $templateObj->getContentText();
     $htmlPart = $templateObj->getContentHtml();
     $subject = $templateObj->getSubject();
     // Die Mailinhalte können jetzt durch verschiedene zusätzliche Marker geschickt werden, um Platzhalter zu ersetzen.
     // Der FEUser wird beim Versand schon automatisch ersetzt! Es geht also nur um zusätzliche Daten.
-   
+
     $job->setSubject($tsubject);
     $job->setContentText($txtPart);
     $job->setContentHtml($htmlPart);
-    
+
     // Anhänge hinzufügen
     tx_rnbase::load('tx_mkmailer_mail_Factory');
     $attachment = tx_mkmailer_mail_Factory::createAttachment($attachmentPath);
     $job->addAttachment($attachment);
-    
+
     // Und nun geht alles in den Versand
     $mailSrv->spoolMailJob($job);
-    
+
 Wenn die Mail aus dem BE angestossen wird, dann kann es sinnvoll sein,
 die Zusatzdaten auch erst beim Versand zu ersetzen.
 Dieser erfolgt im FE und kann voll mit TypoScript konfiguriert werden.
@@ -119,6 +119,5 @@ Unter Linux sieht das ganze dann so aus.
 Es wird nun aller 2 Minuten die Seite abgerufen. Wichtig ist, das
 hier index.php?id=[PAGE_ID_OR_PAGE_ALIAS] genutzt wird!
 
-In jedem Fall muss sichergestellt werden das der Server die URL aufrufen kann. Im Falle
-eines htaccess Schutz muss also der eigene Server Zugriff bekommen.
+In jedem Fall muss sichergestellt werden das der Server die URL aufrufen kann.
 
