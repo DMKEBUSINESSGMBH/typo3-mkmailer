@@ -1,5 +1,7 @@
 <?php
-if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+	die('Access denied.');
+}
 
 $TCA['tx_mkmailer_templates'] = array (
 	'ctrl' => array (
@@ -17,8 +19,8 @@ $TCA['tx_mkmailer_templates'] = array (
 		'delete' => 'deleted',
 		'enablecolumns' => array (
 		),
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_mkmailer_templates.gif',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
+		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_mkmailer_templates.gif',
 // 		'dividers2tabs' => 1,
 	),
 	'feInterface' => array (
@@ -30,31 +32,36 @@ $TCA['tx_mkmailer_templates'] = array (
 // Plugin anmelden
 ////////////////////////////////
 // Einige Felder ausblenden
-$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mkmailer']='layout,select_key,pages';
+$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mkmailer'] = 'layout,select_key,pages';
 
 // Das tt_content-Feld pi_flexform einblenden
-$TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer']='pi_flexform';
+$TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_flexform';
 
-t3lib_extMgm::addPiFlexFormValue('tx_mkmailer','FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
-t3lib_extMgm::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mkmailer.label','tx_mkmailer'));
+t3lib_extMgm::addPiFlexFormValue('tx_mkmailer', 'FILE:EXT:mkmailer/flexform_main.xml');
+t3lib_extMgm::addPlugin(array('LLL:EXT:mkmailer/locallang_db.php:plugin.mkmailer.label', 'tx_mkmailer'));
 
 if (TYPO3_MODE == 'BE') {
-	# Add plugin wizards
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mkmailer_util_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'util/class.tx_mkmailer_util_wizicon.php';
+	// Add plugin wizards
+	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mkmailer_util_wizicon']
+	 = t3lib_extMgm::extPath($_EXTKEY) . 'util/class.tx_mkmailer_util_wizicon.php';
 
 	// Einbindung des eigentlichen BE-Moduls. Dieses bietet eine Hülle für die eigentlichen Modulfunktionen
 	t3lib_extMgm::addModule('user', 'txmkmailerM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'mod1/');
 
 	// Achtung: Damit die Einbindung klappt muss das Hauptmodul folgende Methode aufrufen
 	// $SOBE->checkExtObj();
-	t3lib_extMgm::insertModuleFunction('user_txmkmailerM1','tx_mkmailer_mod1_FuncOverview',
-		t3lib_extMgm::extPath($_EXTKEY).'mod1/class.tx_mkmailer_mod1_FuncOverview.php',
+	t3lib_extMgm::insertModuleFunction(
+		'user_txmkmailerM1',
+		'tx_mkmailer_mod1_FuncOverview',
+		t3lib_extMgm::extPath($_EXTKEY) . 'mod1/class.tx_mkmailer_mod1_FuncOverview.php',
 		'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_overview'
 	);
-	t3lib_extMgm::insertModuleFunction('user_txmkmailerM1','tx_mkmailer_mod1_FuncTest',
-		t3lib_extMgm::extPath($_EXTKEY).'mod1/class.tx_mkmailer_mod1_FuncTest.php',
-		'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_test'
-	);
+// 	t3lib_extMgm::insertModuleFunction(
+// 		'user_txmkmailerM1',
+// 		'tx_mkmailer_mod1_FuncTest',
+// 		t3lib_extMgm::extPath($_EXTKEY) . 'mod1/class.tx_mkmailer_mod1_FuncTest.php',
+// 		'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_test'
+// 	);
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts/', 'MK Mailer');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'static/ts/', 'MK Mailer');
