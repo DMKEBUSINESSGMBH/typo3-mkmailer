@@ -132,7 +132,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	abstract protected function getModelMarker();
 
 	/**
-	 * @return tx_rnbase_util_SimpleMarker
+	 * @return string
 	 */
 	abstract protected function getMarkerClass();
 }
