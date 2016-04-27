@@ -24,6 +24,7 @@
 require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
+tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 
 /**
  * tx_mkmailer_services_Mail
