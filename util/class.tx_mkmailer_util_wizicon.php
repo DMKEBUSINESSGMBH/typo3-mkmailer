@@ -44,7 +44,7 @@ class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon {
 	 */
 	protected function getPluginData() {
 		return array(
-			'plugins_tx_mksearch' => array(
+			'tx_mkmailer' => array(
 				'icon'        => tx_rnbase_util_Extensions::extRelPath( 'mkmailer' ) . 'ext_icon.gif',
 				'title'       => 'plugin.mkmailer.label',
 				'description' => 'plugin.mkmailer.description'
