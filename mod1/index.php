@@ -52,14 +52,6 @@ class  tx_mkmailer_module1 extends tx_rnbase_mod_BaseModule {
 	public function getExtensionKey() {
 		return 'mkmailer';
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * @see tx_rnbase_mod_BaseModule::useModuleTemplate()
-	 */
-	protected function useModuleTemplate() {
-		return TRUE;
-	}
 }
 
 // Make instance:
