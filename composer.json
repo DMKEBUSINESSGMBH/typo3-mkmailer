@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mkmailer",
 	"description" : "Makes the Open Source project phpmailer available for TYPO3.",
-	"version" : "1.0.12",
+	"version" : "2.0.0",
 	"type" : "typo3-cms-extension",
 	"keywords" : ["TYPO3 CMS", "mail", "phpmailer"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
