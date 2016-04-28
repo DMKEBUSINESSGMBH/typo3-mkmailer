@@ -39,6 +39,6 @@
 		"digedag/rn-base" : ">=1.0.5"
 	},
 	"autoload": {
-		"classmap": ["scheduler/", "Classes/", "actions/", "exceptions/", "mail/", "mod1/", "models/", "phpmailer/", "receiver/", "services/", "util/"]
+		"classmap": ["scheduler/", "actions/", "exceptions/", "mail/", "mod1/", "models/", "phpmailer/", "receiver/", "services/", "util/"]
 	}
 }
