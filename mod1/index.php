@@ -27,7 +27,7 @@
  * Hint: use extdeveval to insert/update function index above.
  */
 $GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
-$GLOBALS['BE_USER']->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
+$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'],1);	// This checks permissions and exits if the users has no permission for entry.
 tx_rnbase::load('tx_rnbase_mod_BaseModule');
 
 /**
