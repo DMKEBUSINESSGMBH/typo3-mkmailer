@@ -21,7 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
+tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_rnbase_model_base');
 tx_rnbase::load('tx_mkmailer_mail_Address');
 
@@ -85,7 +85,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	private function getAddresses($addrStr) {
 		$ret = array();
 		if(!strlen(trim($addrStr))) return $ret;
-		$addrArr = t3lib_div::trimExplode(',', $addrStr);
+		$addrArr = tx_rnbase_util_Strings::trimExplode(',', $addrStr);
 		foreach($addrArr As $addr) {
 			$ret[] = new tx_mkmailer_mail_Address($addr);
 		}
@@ -156,9 +156,31 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * @return 	array
 	 */
 	private function getDamAttachmentPaths() {
-		if(!t3lib_extMgm::isLoaded('dam')) return array();
+		if(!tx_rnbase_util_Extensions::isLoaded('dam')) return array();
 		$dam = tx_rnbase_util_TSDAM::getReferences($this->getTableName(), $this->getUid(), 'attachments');
 		return empty($dam['files']) ? array() : array_values($dam['files']);
+	}
+
+	/**
+	 * Liefert die FAL-Attachments
+	 * @return 	array
+	 * @todo testen
+	 */
+	private function getFalAttachmentPaths() {
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		$attachmentPaths = array();
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			tx_rnbase::load('tx_rnbase_util_TSFAL');
+			$falFiles = tx_rnbase_util_TSFAL::getReferences(
+				$this->getTableName(), $this->getUid(), 'attachments'
+			);
+
+			/* @var $falFile \TYPO3\CMS\Core\Resource\FileReference */
+			foreach ($falFiles as $falFile) {
+				$attachmentPaths[] = $falFile->getPublicUrl();
+			}
+		}
+		return $attachmentPaths;
 	}
 
 	/**
@@ -175,7 +197,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * @return 	array
 	 */
 	private function getT3AttachmentPaths(){
-		$files = t3lib_div::trimExplode(',', $this->record['attachmentst3']);
+		$files = tx_rnbase_util_Strings::trimExplode(',', $this->record['attachmentst3']);
 		if(empty($files)) return $files;
 		// den uploadpfad mit anhängen
 		$uploadfolder = $this->getT3AttachmentUploadFolder();
@@ -189,15 +211,13 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	/**
 	 * Liefert die Pfade zu den Anhängen
 	 * @return 	array
-	 * @todo FAL unterstützen
 	 */
 	protected function getAttachmentPaths(){
 		return array_merge(
-					// wir fragen erstmal dam
-					$this->getDamAttachmentPaths(),
-					// wir holen uns die altmodischen felder
-					$this->getT3AttachmentPaths()
-				);
+			$this->getFalAttachmentPaths(),
+			$this->getDamAttachmentPaths(),
+			$this->getT3AttachmentPaths()
+		);
 	}
 
 	/**

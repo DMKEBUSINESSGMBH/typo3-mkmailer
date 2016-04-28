@@ -21,7 +21,7 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 tx_rnbase::load('tx_mklib_scheduler_Generic');
 tx_rnbase::load('tx_rnbase_util_Misc');
 
@@ -53,7 +53,7 @@ class tx_mkmailer_scheduler_SendMails
 		if ($cronPage) {
 			tx_rnbase_util_Misc::prepareTSFE();
 			$report = array();
-			t3lib_div::getUrl($this->getCronpageUrl(), 0, FALSE, $report);
+			Tx_Rnbase_Utility_T3General::getUrl($this->getCronpageUrl(), 0, FALSE, $report);
 			if ($report['error'] != 0) {
 				$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
 					'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',

@@ -2,8 +2,17 @@
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('tx_rnbase_util_TSDAM');
+tx_rnbase::load('Tx_Rnbase_Utility_TcaTool');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+
+if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+	tx_rnbase::load('tx_rnbase_util_TSFAL');
+	$attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA('attachments');
+} else {
+	tx_rnbase::load('tx_rnbase_util_TSDAM');
+	$attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA('attachments');
+}
+
 
 $TCA['tx_mkmailer_templates'] = array (
 	'ctrl' => $TCA['tx_mkmailer_templates']['ctrl'],
@@ -17,8 +26,9 @@ $TCA['tx_mkmailer_templates'] = array (
 			'exclude' => 1,
 			'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
 			'config' => array (
-				'type'                => 'select',
-				'foreign_table'       => 'sys_language',
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
 					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
@@ -32,6 +42,7 @@ $TCA['tx_mkmailer_templates'] = array (
 			'label'       => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
 			'config'      => array (
 				'type'  => 'select',
+				'renderType' => 'selectSingle',
 				'items' => array (
 					array('', 0),
 				),
@@ -78,17 +89,7 @@ $TCA['tx_mkmailer_templates'] = array (
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
-				'wizards' => Array(
-					'_PADDING' => 2,
-					'RTE' => array(
-						'notNewRecords' => 1,
-						'RTEonly' => 1,
-						'type' => 'script',
-						'title' => 'Full screen Rich Text Editing|Formatteret redigering i hele vinduet',
-						'icon' => 'wizard_rte2.gif',
-						'script' => 'wizard_rte.php',
-					),
-				),
+				'wizards' => Tx_Rnbase_Utility_TcaTool::getWizards('', array('RTE' => TRUE))
 			)
 		),
 		'description' => Array (
@@ -127,11 +128,13 @@ $TCA['tx_mkmailer_templates'] = array (
 				'eval' => 'trim',
 			)
 		),
+		//@TODO what does company and applicant mail mean?
 		'templatetype' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype',
 			'config' => Array (
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'items' => array(
 					array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_0', 0),
 					array('LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_1', 1),
@@ -139,8 +142,7 @@ $TCA['tx_mkmailer_templates'] = array (
 				)
 			)
 		),
-		//@todo FAL unterstützen
-		'attachments' => tx_rnbase_util_TSDAM::getMediaTCA('attachments'),
+		'attachments' => $attachementsTca,
 		'attachmentst3' => Array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_attachments',
@@ -161,7 +163,7 @@ $TCA['tx_mkmailer_templates'] = array (
 											'mailtype, subject, '.
 											'contenthtml;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts], contenttext, '.
 											// je nachdem, ob dam installiert ist, das entsprechende feld darstellen
-											(t3lib_extMgm::isLoaded('dam') ? 'attachments' : 'attachmentst3').', '.
+											(tx_rnbase_util_Extensions::isLoaded('dam') ? 'attachments' : 'attachmentst3').', '.
 											'description, mail_from,mail_fromName, mail_bcc, '.
 											'templatetype')
 	),

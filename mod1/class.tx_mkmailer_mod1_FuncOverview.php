@@ -22,8 +22,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_parameters');
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
@@ -205,7 +204,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 	 * @return int
 	 */
 	private function getUidFromRequest($varName) {
-		$uids = t3lib_div::_GP($varName);
+		$uids = tx_rnbase_parameters::getPostOrGetParameter($varName);
 		if(!is_array($uids) || !count($uids)) return false;
 		// Es sollte immer nur eine Mail drin liegen
 		list($mailUid,$label) = each($uids[0]);

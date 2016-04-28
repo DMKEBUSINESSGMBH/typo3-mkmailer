@@ -28,5 +28,17 @@
 	},
 	"replace": {
 		"typo3-ter/mkmailer": "*"
+	},
+	"support": {
+		"email": "dev@dmk-ebusiness.de",
+		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer",
+		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
+	},
+	"require" : {
+		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
+		"digedag/rn-base" : ">=1.0.5"
+	},
+	"autoload": {
+		"classmap": ["scheduler/", "Classes/", "actions/", "exceptions/", "mail/", "mod1/", "models/", "phpmailer/", "receiver/", "services/", "util/"]
 	}
 }

@@ -21,7 +21,9 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_Strings');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  *
@@ -35,13 +37,13 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 class tx_mkmailer_util_Misc {
 
 	/**
-	 * Will process the input string with the parseFunc function from tslib_cObj based on configuration set in "lib.parseFunc_RTE" in the current TypoScript template.
+	 * Will process the input string with the parseFunc function from TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer based on configuration set in "lib.parseFunc_RTE" in the current TypoScript template.
 	 * This is useful for rendering of content in RTE fields where the transformation mode is set to "ts_css" or so.
 	 * Notice that this requires the use of "css_styled_content" to work right.
 	 *
 	 * @param	string		The input text string to process
 	 * @return	string		The processed string
-	 * @see tslib_cObj::parseFunc()
+	 * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::parseFunc()
 	 */
 	public static function getRTEText($str)	{
 		tx_rnbase::load('tx_rnbase_util_Misc');
@@ -55,7 +57,7 @@ class tx_mkmailer_util_Misc {
 			if(!is_array($GLOBALS['TSFE']->config))
 				$GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
 		}
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 		if (is_array($parseFunc))	$str = $cObj->parseFunc($str, $parseFunc);
 		return $str;
 	}
@@ -66,9 +68,11 @@ class tx_mkmailer_util_Misc {
 	 * @return array
 	 */
 	public static function loadTS($pageUid = 0) {
-		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
+		$sysPageObj = tx_rnbase_util_TYPO3::getSysPage();
 		$rootLine = $sysPageObj->getRootLine($pageUid);
-		$TSObj = t3lib_div::makeInstance('t3lib_tsparser_ext');
+		$TSObj = tx_rnbase::makeInstance(
+			tx_rnbase_util_Typo3Classes::getExtendedTypoScriptTemplateServiceClass()
+		);
 		$TSObj->tt_track = 0;
 		$TSObj->init();
 		$TSObj->runThroughTemplates($rootLine);
@@ -87,7 +91,7 @@ class tx_mkmailer_util_Misc {
 
 		$ret = array();
 		if(!strlen(trim($addrStr))) return $ret;
-		$addrArr = t3lib_div::trimExplode(',', $addrStr);
+		$addrArr = tx_rnbase_util_Strings::trimExplode(',', $addrStr);
 		foreach($addrArr As $addr) {
 			$ret[] = new tx_mkmailer_mail_Address($addr);
 		}

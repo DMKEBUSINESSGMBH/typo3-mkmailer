@@ -21,14 +21,19 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mkmailer_models_Queue');
-
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
- * 
+ * tx_mkmailer_tests_models_Queue_testcase
+ *
+ * @package 		TYPO3
+ * @subpackage	 	mkmailer
+ * @author 			Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @license 		http://www.gnu.org/licenses/lgpl.html
+ * 					GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_models_Queue_testcase extends tx_phpunit_testcase {
+class tx_mkmailer_tests_models_Queue_testcase extends tx_rnbase_tests_BaseTestCase {
 
 
 	public function testAttachmentWithStrings() {

@@ -23,7 +23,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
@@ -51,7 +51,7 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc {
 	 * @param string $template
 	 * @param tx_rnbase_configurations $configurations
 	 * @param tx_rnbase_util_FormatUtil $formatter
-	 * @param tx_rnbase_util_FormTool $formTool
+	 * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
 	 * @return string
 	 */
 	function getContent($template, &$configurations, &$formatter, $formTool) {

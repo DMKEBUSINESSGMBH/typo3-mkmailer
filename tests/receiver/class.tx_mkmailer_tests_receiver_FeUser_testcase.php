@@ -24,13 +24,12 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  */
-
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-
 // wir laden alles vorher, wegen den memory leaks
 tx_rnbase::load('tx_rnbase_configurations');
 tx_rnbase::load('tx_mkmailer_models_Queue');
 tx_rnbase::load('tx_rnbase_util_Files');
+tx_rnbase::load('tx_rnbase_util_Templates');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Tests zum E-Mail-Versand.
@@ -39,7 +38,7 @@ tx_rnbase::load('tx_rnbase_util_Files');
  * @subpackage Tx_Mkappelrath_test
  * @author Michael Wagner <dev@dmk-ebusiness.de>
  */
-class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
+class tx_mkmailer_tests_receiver_FeUser_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * Constructs a test case with the given name.
@@ -55,7 +54,7 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
 	}
 
 	protected function setUp(){
-		if (!t3lib_extMgm::isLoaded('t3users')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('t3users')) {
 			$this->markTestSkipped('t3users ist nicht geladen');
 		}
 
@@ -109,12 +108,12 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
 	protected function getTemplates($sFileName){
 		$data = array();
 		$template = @file_get_contents($sFileName);
-		$data['contenttext'] = trim(t3lib_parsehtml::getSubpart($template, '###CONTENTTEXT###'));
-		$data['contenthtml'] = trim(t3lib_parsehtml::getSubpart($template, '###CONTENTHTML###'));
-		$data['subject'] = trim(t3lib_parsehtml::getSubpart($template, '###CONTENTSUBJECT###'));
-		$data['resulttext'] = trim(t3lib_parsehtml::getSubpart($template, '###RESULTTEXT###'));
-		$data['resulthtml'] = trim(t3lib_parsehtml::getSubpart($template, '###RESULTHTML###'));
-		$data['resultsubject'] = trim(t3lib_parsehtml::getSubpart($template, '###RESULTSUBJECT###'));
+		$data['contenttext'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTTEXT###'));
+		$data['contenthtml'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTHTML###'));
+		$data['subject'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTSUBJECT###'));
+		$data['resulttext'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTTEXT###'));
+		$data['resulthtml'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTHTML###'));
+		$data['resultsubject'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTSUBJECT###'));
 		return $data;
 	}
 
@@ -147,7 +146,7 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends Tx_Phpunit_TestCase {
 			'uid'	=> '1',
 			'email'	=> 'test@localhost.net',
 		));
-		$templates = $this->getTemplates(t3lib_extMgm::extPath('mkmailer', 'tests/fixtures/mailfeuser.html'));
+		$templates = $this->getTemplates(tx_rnbase_util_Extensions::extPath('mkmailer', 'tests/fixtures/mailfeuser.html'));
 
 		$receiver = $this->getReceiver($feuser);
 		$queue = $this->getQueue($templates);

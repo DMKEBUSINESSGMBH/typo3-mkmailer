@@ -1,16 +1,16 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-$tempPath = t3lib_extMgm::extPath('mkmailer');
+$tempPath = tx_rnbase_util_Extensions::extPath('mkmailer');
 require_once($tempPath.'services/ext_localconf.php');
 
 // Einbindung einer PageTSConfig
-t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/mod1/pageTSconfig.txt">');
+tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/mod1/pageTSconfig.txt">');
 
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 if (
 	TYPO3_MODE == 'BE' &&
-	t3lib_extMgm::isLoaded('mklib') &&
+	tx_rnbase_util_Extensions::isLoaded('mklib') &&
 	tx_rnbase_util_TYPO3::isTYPO62OrHigher()
 ) {
 	tx_rnbase::load('tx_mkmailer_scheduler_SendMails');

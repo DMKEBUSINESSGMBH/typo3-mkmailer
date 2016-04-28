@@ -21,9 +21,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_rnbase_util_TYPO3');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * Test for tx_mkmailer_scheduler_SendMails
@@ -46,7 +46,7 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('Der Schedulker funktioniert erst ab TYPO3 6.2');
 		}
-		if (!t3lib_extMgm::isLoaded('mklib')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('mklib')) {
 			$this->markTestSkipped('mklib muss installiert sein');
 		}
 
@@ -135,7 +135,8 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	 */
 	public function testGetCronpageUrlByPageUid() {
 		$GLOBALS['TSFE'] = $this->getMock(
-			'tslib_fe', array('getDomainNameForPid'), array(), '', FALSE
+			tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
+			array('getDomainNameForPid'), array(), '', FALSE
 		);
 		$GLOBALS['TSFE']->expects($this->once())
 			->method('getDomainNameForPid')

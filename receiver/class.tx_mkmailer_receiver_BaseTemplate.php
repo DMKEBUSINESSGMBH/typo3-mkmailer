@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+tx_rnbase::load('tx_rnbase_util_Templates');
 tx_rnbase::load('tx_mkmailer_receiver_Base');
 
 /**
@@ -108,7 +108,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		/* *** Subpart auslesen *** */
 		$subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
 		$subpart = $subpart ? $subpart : '###CONTENT'.strtoupper($type).'###';
-		$template = t3lib_parsehtml::getSubpart($template,$subpart);
+		$template = tx_rnbase_util_Templates::getSubpart($template,$subpart);
 
 		if(!$template) {
 			return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;

@@ -21,16 +21,10 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 tx_rnbase::load('tx_mkmailer_mail_IAttachment');
-
-
-/**
- *
- */
+tx_rnbase::load('tx_rnbase_util_Files');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  *
@@ -88,8 +82,8 @@ class tx_mkmailer_mail_Factory {
 	 * @return string
 	 */
 	public static function makeAbsPath($path) {
-		return 	t3lib_div::isAbsPath($path) ? $path : t3lib_div::getFileAbsFileName(
-					t3lib_div::fixWindowsFilePath($path)
+		return 	tx_rnbase_util_Files::isAbsPath($path) ? $path : tx_rnbase_util_Files::getFileAbsFileName(
+					Tx_Rnbase_Utility_T3General::fixWindowsFilePath($path)
 				);
 	}
 

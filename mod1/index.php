@@ -26,24 +26,11 @@
  *
  * Hint: use extdeveval to insert/update function index above.
  */
-
-unset($MCONF);
-require_once('conf.php');
-require_once($REQUIRE_PATH.'init.php');
-if (!class_exists('template')) {
-        require_once($REQUIRE_PATH . 'template.php');
-}
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-
-
-$LANG->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
-$BE_USER->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
-	// DEFAULT initialization of a module [END]
+$GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
+$GLOBALS['BE_USER']->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
 tx_rnbase::load('tx_rnbase_mod_BaseModule');
 
 /**
- *
  * tx_mkmailer_module1
  *
  * Module 'MK Mailer' for the 'mkmailer' extension.
@@ -62,34 +49,27 @@ class  tx_mkmailer_module1 extends tx_rnbase_mod_BaseModule {
 	 * (non-PHPdoc)
 	 * @see tx_rnbase_mod_BaseModule::getExtensionKey()
 	 */
-	function getExtensionKey() {
+	public function getExtensionKey() {
 		return 'mkmailer';
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see tx_rnbase_mod_BaseModule::getModuleScript()
+	 * {@inheritDoc}
+	 * @see tx_rnbase_mod_BaseModule::useModuleTemplate()
 	 */
-	protected function getModuleScript(){
-		return 'index.php';
+	protected function useModuleTemplate() {
+		return TRUE;
 	}
 }
 
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mod1/index.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mod1/index.php']);
-}
-
-
-
-
 // Make instance:
-$SOBE = t3lib_div::makeInstance('tx_mkmailer_module1');
+$SOBE = tx_rnbase::makeInstance('tx_mkmailer_module1');
 $SOBE->init();
 
 // Include files?
-foreach($SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
+foreach((array) $SOBE->include_once as $INC_FILE) {
+	include_once($INC_FILE);
+}
 
 $SOBE->main();
 $SOBE->printContent();

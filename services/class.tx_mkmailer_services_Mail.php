@@ -21,12 +21,16 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 tx_rnbase::load('tx_mkmailer_models_Queue');
 tx_rnbase::load('tx_mkmailer_mail_IMessage');
+tx_rnbase::load('tx_rnbase_util_Files');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
+tx_rnbase::load('tx_rnbase_util_Strings');
+tx_rnbase::load('Tx_Rnbase_Service_Base');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * tx_mkmailer_services_Mail
@@ -37,7 +41,7 @@ tx_rnbase::load('tx_mkmailer_mail_IMessage');
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_services_Mail extends t3lib_svbase {
+class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base {
 
 	/**
 	 * Abarbeitung der MailQueue
@@ -269,7 +273,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 //			//FIXME: die stehen nicht mehr komasepariert in der DB!!!
 //			// $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
 //			$path = $this->getUploadDir();
-//			$uploads = t3lib_div::trimExplode(',', $mailQueue->getUploads());
+//			$uploads = tx_rnbase_util_Strings::trimExplode(',', $mailQueue->getUploads());
 //			if(is_array($uploads)){
 //				foreach($uploads As $upload) {
 //					$upload = $path . $upload;
@@ -374,9 +378,9 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @return string
 	 */
 	function getUploadDir() {
-		$fileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-		$uploadDir = t3lib_div::getFileAbsFileName(t3lib_div::fixWindowsFilePath(
-			$fileTool->slashPath($fileTool->rmDoubleSlash('typo3temp/mkmailer'))
+		$fileTool = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
+		$uploadDir = tx_rnbase_util_Files::getFileAbsFileName(Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
+			$fileTool->slashPath('typo3temp/mkmailer')
 		));
 
 		if (!file_exists($uploadDir)) {
@@ -417,7 +421,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @throws tx_mkmailer_exceptions_SendMail
 	 */
 	private function sendEmail_PHPMailer(tx_mkmailer_mail_IMessage $msg) {
-		require_once(t3lib_extMgm::extPath('mkmailer').'phpmailer/class.phpmailer.php');
+		require_once(tx_rnbase_util_Extensions::extPath('mkmailer').'phpmailer/class.phpmailer.php');
 		$options = $msg->getOptions();
 		$mail = new PHPMailer();
 		$mail->LE = "\n"; // Bei \r\n gibt es Probleme
@@ -448,7 +452,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 		if(isset($options['testmail']) && $options['testmail']) {
 			// Die Mail wird an eine Testadresse verschickt
 			tx_rnbase_util_Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: ' . $from .''); // TODO: Remove me!
-			$testAddrs = t3lib_div::trimExplode(',', $options['testmail']);
+			$testAddrs = tx_rnbase_util_Strings::trimExplode(',', $options['testmail']);
 			tx_rnbase::load('tx_mkmailer_mail_Factory');
 			foreach($testAddrs As $addr) {
 				$mail = $this->addAddress(
@@ -508,7 +512,7 @@ class tx_mkmailer_services_Mail extends t3lib_svbase {
 	 * @return PHPMailer $mail
 	 */
 	private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'AddAddress') {
-		if (t3lib_div::validEmail(
+		if (tx_rnbase_util_Strings::validEmail(
 			$address->getAddress())
 		) {
 			$mail->{$method}($address->getAddress(), $address->getName());

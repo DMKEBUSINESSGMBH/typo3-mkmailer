@@ -26,6 +26,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 tx_rnbase::load('tx_mkmailer_receiver_Email');
+tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
  *
@@ -72,7 +73,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
 	 * @see tx_mkmailer_receiver_Email::setValueString()
 	 */
 	public function setValueString($valueString) {
-		$valueParts = t3lib_div::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
+		$valueParts = tx_rnbase_util_Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
 		$this->setEMail($valueParts[0]);
 		$this->setModelUid($valueParts[1]);
 	}
