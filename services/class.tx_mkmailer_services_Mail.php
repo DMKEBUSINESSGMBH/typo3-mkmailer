@@ -557,7 +557,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base {
 	public function getTemplate($id) {
 	    $what = '*';
 	    $from = 'tx_mkmailer_templates';
-	    $where = 'mailtype=\'' . strtolower($id) .'\'' ;
+	    $where = 'mailtype=' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr(strtolower($id), $from);
 
 	    $options['where'] = $where;
 	    $options['wrapperclass'] = 'tx_mkmailer_models_Template';
