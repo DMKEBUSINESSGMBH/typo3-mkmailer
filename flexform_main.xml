@@ -16,6 +16,7 @@
               <label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action</label>
               <config>
                 <type>select</type>
+                <renderType>selectMultipleSideBySide</renderType>
                 <items type="array">
                   <numIndex index="10" type="array">
                     <numIndex index="0">LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</numIndex>
@@ -70,7 +71,7 @@
         </el>
       </ROOT>
     </sDEF>
-    
+
 		<!-- s_listloc>
 			<ROOT>
 				<TCEforms>
