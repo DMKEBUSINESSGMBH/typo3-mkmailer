@@ -156,8 +156,11 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * @return 	array
 	 */
 	private function getDamAttachmentPaths() {
-		if(!tx_rnbase_util_Extensions::isLoaded('dam')) return array();
+		if (!$this->isPersisted() || !tx_rnbase_util_Extensions::isLoaded('dam')) {
+			return array();
+		}
 		$dam = tx_rnbase_util_TSDAM::getReferences($this->getTableName(), $this->getUid(), 'attachments');
+
 		return empty($dam['files']) ? array() : array_values($dam['files']);
 	}
 
@@ -166,10 +169,11 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * @return 	array
 	 * @todo testen
 	 */
-	private function getFalAttachmentPaths() {
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
+	private function getFalAttachmentPaths()
+	{
 		$attachmentPaths = array();
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		if ($this->isPersisted() && tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			tx_rnbase::load('tx_rnbase_util_TSFAL');
 			$falFiles = tx_rnbase_util_TSFAL::getReferences(
 				$this->getTableName(), $this->getUid(), 'attachments'
@@ -180,6 +184,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 				$attachmentPaths[] = $falFile->getPublicUrl();
 			}
 		}
+
 		return $attachmentPaths;
 	}
 
@@ -196,13 +201,16 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * Liefert die T3-Attachments
 	 * @return 	array
 	 */
-	private function getT3AttachmentPaths(){
-		$files = tx_rnbase_util_Strings::trimExplode(',', $this->record['attachmentst3']);
-		if(empty($files)) return $files;
+	private function getT3AttachmentPaths()
+	{
+		$files = tx_rnbase_util_Strings::trimExplode(',', $this->record['attachmentst3'], true);
+		if (empty($files)) {
+			return $files;
+		}
 		// den uploadpfad mit anhängen
 		$uploadfolder = $this->getT3AttachmentUploadFolder();
-		foreach($files as &$file) {
-			$file = $uploadfolder.'/'.$file;
+		foreach ($files as &$file) {
+			$file = $uploadfolder . '/' . $file;
 		}
 
 		return $files;
@@ -212,7 +220,8 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * Liefert die Pfade zu den Anhängen
 	 * @return 	array
 	 */
-	protected function getAttachmentPaths(){
+	protected function getAttachmentPaths()
+	{
 		return array_merge(
 			$this->getFalAttachmentPaths(),
 			$this->getDamAttachmentPaths(),
@@ -224,11 +233,14 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 	 * Liefert die Attachments
 	 * @return 	array[tx_mkmailer_mail_IAttachment]
 	 */
-	public function getAttachments(){
+	public function getAttachments()
+	{
 		$files = $this->getAttachmentPaths();
-		if(empty($files)) return $files;
+		if (empty($files)) {
+			return $files;
+		}
 		tx_rnbase::load('tx_mkmailer_mail_Factory');
-		foreach($files as &$file) {
+		foreach ($files as &$file) {
 			$file = tx_mkmailer_mail_Factory::createAttachment($file);
 		}
 
@@ -237,5 +249,5 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base {
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Template.php']) {
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Template.php']);
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Template.php']);
 }
