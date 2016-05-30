@@ -5,6 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|2.0.3|converted documentation from reSt to markdown|
 |2.0.2|[BUGFIX] added renderType for select fields in flexform.xml|
 |2.0.1|[BUGFIX] fixed possible sql injections|
 |2.0.0|[FEATURE] added support for TYPO3 7.6|
