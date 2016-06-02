@@ -145,8 +145,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 			// receiver und dcmarker auslesen
 			$markerArray = $formatter->getItemMarkerArrayWrapped(
 				$this->getReceiverRecord($idx),
-				$confId.'receiver'.$type.'.',
-				0, 'RECEIVER_'
+				$confId . 'receiver' . $type . '.',
+				0,
+				'RECEIVER_'
 			);
 		}
 
@@ -156,7 +157,8 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 			$subpartArray,
 			$wrappedSubpartArray,
 			$params,
-			$formatter
+			$formatter,
+			$confId
 		);
 
 		return trim($out);
@@ -171,6 +173,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 	 * @param array $wrappedSubpartArray
 	 * @param array $params
 	 * @param tx_rnbase_util_FormatUtil $formatter
+	 * @param string $confId
 	 *
 	 * @return string
 	 */
@@ -180,7 +183,8 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 		array $subpartArray,
 		array $wrappedSubpartArray,
 		array $params,
-		tx_rnbase_util_FormatUtil $formatter
+		tx_rnbase_util_FormatUtil $formatter,
+		$confId
 	) {
 		// labels und module parsen
 		tx_rnbase_util_BaseMarker::callModules(
