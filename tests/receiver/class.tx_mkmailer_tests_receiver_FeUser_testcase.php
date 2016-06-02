@@ -1,11 +1,8 @@
 <?php
-/**
- * @package Tx_Mkappelrath
- * @subpackage Tx_Mkappelrath_tests
- *
+/***************************************************************
  * Copyright notice
  *
- * (c) 2013 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) 2013-2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,8 +20,8 @@
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- */
-// wir laden alles vorher, wegen den memory leaks
+ ***************************************************************/
+
 tx_rnbase::load('tx_rnbase_configurations');
 tx_rnbase::load('tx_mkmailer_models_Queue');
 tx_rnbase::load('tx_rnbase_util_Files');
@@ -34,9 +31,11 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 /**
  * Tests zum E-Mail-Versand.
  *
- * @package Tx_Mkappelrath
- * @subpackage Tx_Mkappelrath_test
- * @author Michael Wagner <dev@dmk-ebusiness.de>
+ * @package TYPO3
+ * @subpackage tx_mkmailer
+ * @author Michael Wagner
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_tests_receiver_FeUser_testcase extends tx_rnbase_tests_BaseTestCase {
 
@@ -88,7 +87,7 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends tx_rnbase_tests_BaseTes
 	}
 
 	/**
-	 * @return Tx_Mkappelrath_Receiver_Article
+	 * @return tx_mkmailer_receiver_FeUser
 	 */
 	private function getReceiver(
 		tx_rnbase_model_base $feuser
