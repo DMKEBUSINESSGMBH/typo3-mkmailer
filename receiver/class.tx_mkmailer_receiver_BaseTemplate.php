@@ -150,18 +150,55 @@ abstract class tx_mkmailer_receiver_BaseTemplate
 			);
 		}
 
-		// labels und module parsen
-		tx_rnbase_util_BaseMarker::callModules(
-			$out, $markerArray, $subpartArray, $wrappedSubpartArray,
-			$params, $formatter
-		);
-
-		// receiver und module rendern
-		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
-			$out, $markerArray, $subpartArray, $wrappedSubpartArray
+		$out = $this->substituteMarkerArray(
+			$out,
+			$markerArray,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$params,
+			$formatter
 		);
 
 		return trim($out);
+	}
+
+	/**
+	 * Calls modul subparts, module markers and substitutes the marker arrays.
+	 *
+	 * @param string $template
+	 * @param array $markerArray
+	 * @param array $subpartArray
+	 * @param array $wrappedSubpartArray
+	 * @param array $params
+	 * @param tx_rnbase_util_FormatUtil $formatter
+	 *
+	 * @return string
+	 */
+	protected function substituteMarkerArray(
+		$template,
+		array $markerArray,
+		array $subpartArray,
+		array $wrappedSubpartArray,
+		array $params,
+		tx_rnbase_util_FormatUtil $formatter
+	) {
+		// labels und module parsen
+		tx_rnbase_util_BaseMarker::callModules(
+			$template,
+			$markerArray,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$params,
+			$formatter
+		);
+
+		// receiver und module rendern
+		return tx_rnbase_util_Templates::substituteMarkerArrayCached(
+			$template,
+			$markerArray,
+			$subpartArray,
+			$wrappedSubpartArray
+		);
 	}
 
 	/**
