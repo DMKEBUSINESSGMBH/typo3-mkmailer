@@ -5,6 +5,8 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|2.0.4|source out marker array parsing to own method in base template receiver|
+||confid added to substituteMarkerArray in tx_mkmailer_receiver_BaseTemplate|
 |2.0.3|converted documentation from reSt to markdown|
 |2.0.2|[BUGFIX] added renderType for select fields in flexform.xml|
 |2.0.1|[BUGFIX] fixed possible sql injections|
