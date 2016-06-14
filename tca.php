@@ -7,10 +7,10 @@ tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 	tx_rnbase::load('tx_rnbase_util_TSFAL');
-	$attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA('attachments');
+	$attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA('attachments', array('config' => array('softref' => 'typolink,images')));
 } else {
 	tx_rnbase::load('tx_rnbase_util_TSDAM');
-	$attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA('attachments');
+	$attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA('attachments', array('config' => array('softref' => 'typolink,images')));
 }
 
 
@@ -80,6 +80,7 @@ $TCA['tx_mkmailer_templates'] = array (
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
+				'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
 			)
 		),
 		'contenthtml' => Array (
@@ -89,7 +90,8 @@ $TCA['tx_mkmailer_templates'] = array (
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
-				'wizards' => Tx_Rnbase_Utility_TcaTool::getWizards('', array('RTE' => TRUE))
+				'wizards' => Tx_Rnbase_Utility_TcaTool::getWizards('', array('RTE' => TRUE)),
+				'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
 			)
 		),
 		'description' => Array (
@@ -99,6 +101,7 @@ $TCA['tx_mkmailer_templates'] = array (
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
+				'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
 			)
 		),
 		'mail_from' => Array (
@@ -155,6 +158,7 @@ $TCA['tx_mkmailer_templates'] = array (
 				'size' => 5,
 				'minitems' => 0,
  				'maxitems' => 10,
+				'softref' => 'typolink,images',
 			)
 		),
 	),
