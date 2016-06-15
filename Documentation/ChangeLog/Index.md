@@ -5,6 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|2.0.5|added softref configuration to TCA|
 |2.0.4|source out marker array parsing to own method in base template receiver|
 ||confid added to substituteMarkerArray in tx_mkmailer_receiver_BaseTemplate|
 |2.0.3|converted documentation from reSt to markdown|
