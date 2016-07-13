@@ -36,7 +36,8 @@ tx_rnbase::load('tx_rnbase_util_Misc');
 class tx_mkmailer_util_ServiceRegistry {
 
 	/**
-	 * Liefert den Match-Service
+	 * Liefert den Mail-Service
+	 *
 	 * @return tx_mkmailer_services_Mail
 	 */
 	static function getMailService() {
