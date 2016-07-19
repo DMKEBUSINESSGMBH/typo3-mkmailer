@@ -87,6 +87,30 @@ class tx_mkmailer_mail_Factory
 	}
 
 	/**
+	 * Find the mimeType of a file ord its content.
+	 *
+	 * @param string $absPathOrContent
+	 *
+	 * @return string
+	 */
+	protected static function getFileInfoMimeType($absPathOrContent)
+	{
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+
+		if (is_file($absPathOrContent)) {
+			$mimeType = $finfo->file($absPathOrContent);
+		} else {
+			$mimeType = $finfo->buffer($absPathOrContent);
+		}
+
+		if ($mimeType === false) {
+			$mimeType = 'application/octet-stream';
+		}
+
+		return $mimeType;
+	}
+
+	/**
 	 * Erstellt einen absoluten TYPO3-Pfad.
 	 *
 	 * @param string $path
@@ -192,7 +216,7 @@ class tx_mkmailer_mail_Factory
 		$attachment->setEncoding($encoding);
 
 		if ($mimeType === false) {
-			$mimeType = 'application/octet-stream';
+			$mimeType = self::getFileInfoMimeType($absPathOrContent);
 		}
 		$attachment->setMimeType($mimeType);
 
