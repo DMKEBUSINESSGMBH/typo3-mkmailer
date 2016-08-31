@@ -89,7 +89,11 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	/**
 	 * @group unit
 	 */
-	public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable() {
+	public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable()
+	{
+		// @TODO: needs refactoring to prevent curl calls to google! (AC#235-3399)
+		$this->markTestIncomplete('needs refactoring to prevent curl calls to google!');
+
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
 
 		$schedulerTask = $this->getMock(
