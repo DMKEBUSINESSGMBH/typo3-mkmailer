@@ -27,7 +27,8 @@
 		"email": "dev@dmk-ebusiness.de"
 	},
 	"replace": {
-		"typo3-ter/mkmailer": "*"
+		"mkmailer": "self.version",
+		"typo3-ter/mkmailer": "self.version"
 	},
 	"support": {
 		"email": "dev@dmk-ebusiness.de",
@@ -36,7 +37,7 @@
 	},
 	"require" : {
 		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
-		"digedag/rn-base" : ">=1.0.5"
+		"typo3-ter/rn-base" : ">=1.0.5"
 	},
 	"autoload": {
 		"classmap": ["scheduler/", "actions/", "exceptions/", "mail/", "mod1/", "models/", "phpmailer/", "receiver/", "services/", "util/"]
