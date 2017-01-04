@@ -589,7 +589,7 @@ class tx_mkmailer_services_Mail
 
 		$mail->Subject = $msg->getSubject();
 		if($msg->getHtmlPart()) {
-			$mail->IsHTML(true);
+			$mail->isHTML(true);
 			$mail->Body = $msg->getHtmlPart();
 			$mail->AltBody = $msg->getTxtPart();
 		} else {
@@ -628,13 +628,13 @@ class tx_mkmailer_services_Mail
 			foreach($attachments As $attachment) {
 				switch ($attachment->getAttachmentType()) {
 					case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT :
-						$mail->AddAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
+						$mail->addAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
 						break;
 					case tx_mkmailer_mail_IAttachment::TYPE_EMBED :
-						$mail->AddEmbeddedImage($attachment->getPathOrContent(), $attachment->getEmbedId(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
+						$mail->addEmbeddedImage($attachment->getPathOrContent(), $attachment->getEmbedId(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
 						break;
 					case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT :
-						$mail->AddStringAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
+						$mail->addStringAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
 						break;
 
 					default:
@@ -647,7 +647,7 @@ class tx_mkmailer_services_Mail
 				}
 			}
 
-		$ret = $mail->Send();
+		$ret = $mail->send();
 		if(!$ret) {
 			// Versandfehler. Es wird eine Exception geworfen
 			throw tx_rnbase::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
@@ -660,7 +660,7 @@ class tx_mkmailer_services_Mail
 	 * @param string $method
 	 * @return PHPMailer $mail
 	 */
-	private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'AddAddress') {
+	private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'addAddress') {
 		if (tx_rnbase_util_Strings::validEmail(
 			$address->getAddress())
 		) {
@@ -685,7 +685,7 @@ class tx_mkmailer_services_Mail
 	 * @return PHPMailer $mail
 	 */
 	private function addCCAddress($mail, tx_mkmailer_mail_IAddress $address) {
-		return $this->addAddress($mail, $address, 'AddCC');
+		return $this->addAddress($mail, $address, 'addCC');
 	}
 
 	/**
@@ -694,7 +694,7 @@ class tx_mkmailer_services_Mail
 	 * @return PHPMailer $mail
 	 */
 	private function addBCCAddress($mail, tx_mkmailer_mail_IAddress $address) {
-		return $this->addAddress($mail, $address, 'AddBCC');
+		return $this->addAddress($mail, $address, 'addBCC');
 	}
 
 	/**

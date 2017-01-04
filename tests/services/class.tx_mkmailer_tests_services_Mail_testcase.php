@@ -56,7 +56,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$address = $this->getAddress($email, $name);
 
 		$mail->expects($this->once())
-			->method('AddAddress')
+			->method('addAddress')
 			->with($email, $name);
 
 		 $this->invoke($mail, $address, 'addAddress');
@@ -72,7 +72,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$mail = $this->getMail();
 		$address = $this->getAddress($email, $name);
 		$mail->expects($this->never())
-			->method('AddAddress');
+			->method('addAddress');
 
 		$this->invoke($mail, $address, 'addAddress');
 	}
@@ -88,7 +88,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$address = $this->getAddress($email, $name);
 
 		$mail->expects($this->once())
-			->method('AddBCC')
+			->method('addBCC')
 			->with($email, $name);
 
 		$this->invoke($mail, $address, 'addBCCAddress');
@@ -104,7 +104,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$mail = $this->getMail();
 		$address = $this->getAddress($email, $name);
 		$mail->expects($this->never())
-			->method('AddBCC');
+			->method('addBCC');
 
 		 $this->invoke($mail, $address, 'addBCCAddress');
 	}
@@ -119,7 +119,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$address = $this->getAddress($email, $name);
 
 		$mail->expects($this->once())
-			->method('AddCC')
+			->method('addCC')
 			->with($email, $name);
 
 		$this->invoke($mail, $address, 'addCCAddress');
@@ -135,7 +135,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 		$mail = $this->getMail();
 		$address = $this->getAddress($email, $name);
 		$mail->expects($this->never())
-			->method('AddCC');
+			->method('addCC');
 
 		 $this->invoke($mail, $address, 'addCCAddress');
 	}
@@ -150,7 +150,7 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
 	}
 
 	private function getMail() {
-		return $this->getMock('PHPMailer', array('AddAddress', 'AddCC', 'AddBCC'));
+		return $this->getMock('PHPMailer', array('addAddress', 'addCC', 'addBCC'));
 	}
 
 	private function getAddress($email, $name) {
