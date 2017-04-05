@@ -3,30 +3,12 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$TCA['tx_mkmailer_templates'] = array (
-	'ctrl' => array (
-		'title'     => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates',
-		'label' => 'mailtype',
-		'label_alt' => 'description',
-		'label_alt_force' => 1,
-		'tstamp'    => 'tstamp',
-		'crdate'    => 'crdate',
-		'cruser_id' => 'cruser_id',
-		'languageField'            => 'sys_language_uid',
-		'transOrigPointerField'    => 'l18n_parent',
-		'transOrigDiffSourceField' => 'l18n_diffsource',
-		'default_sortby' => 'ORDER BY mailtype',
-		'delete' => 'deleted',
-		'enablecolumns' => array (
-		),
-		'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'tca.php',
-		'iconfile'          => 'EXT:mkmailer/icon_tx_mkmailer_templates.gif',
-// 		'dividers2tabs' => 1,
-	),
-	'feInterface' => array (
-		'fe_admin_fieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource',
-	)
-);
+if (!tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+	$GLOBALS['TCA']['tx_mkmailer_templates'] = require tx_rnbase_util_Extensions::extPath(
+		'mkmailer',
+		'Configuration/TCA/tx_mkmailer_templates.php'
+	);
+}
 
 ////////////////////////////////
 // Plugin anmelden
