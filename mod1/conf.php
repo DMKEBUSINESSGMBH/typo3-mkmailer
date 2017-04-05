@@ -1,5 +1,5 @@
 <?php
-$MCONF['name']='user_txmkmailerM1';
+$MCONF['name']='tools_MkmailerBackend';
 $MCONF['script']='_DISPATCH';
 $MCONF['access']='user,group';
 

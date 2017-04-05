@@ -47,19 +47,34 @@ if (TYPO3_MODE == 'BE') {
 		);
 	}
 
-	// Einbindung des eigentlichen BE-Moduls. Dieses bietet eine Hülle für die eigentlichen Modulfunktionen
-	tx_rnbase_util_Extensions::addModule('user', 'txmkmailerM1', '', tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod1/');
 
-	// Achtung: Damit die Einbindung klappt muss das Hauptmodul folgende Methode aufrufen
-	// $SOBE->checkExtObj();
+	// register tools_MkmailerBackend
+	tx_rnbase::load('tx_mkmailer_mod1_Module');
+	tx_rnbase_util_Extensions::registerModule(
+		'mkmailer',
+		'tools',
+		'backend',
+		'bottom',
+		array(
+		),
+		array(
+			'access' => 'user,group',
+			'routeTarget' => 'tx_mkmailer_mod1_Module',
+			'icon' => 'EXT:mkmailer/mod1/moduleicon.gif',
+			'labels' => 'LLL:EXT:mkmailer/mod1/locallang_mod.xml',
+		)
+	);
+
+	tx_rnbase::load('tx_mkmailer_mod1_FuncOverview');
 	tx_rnbase_util_Extensions::insertModuleFunction(
-		'user_txmkmailerM1',
+		'tools_MkmailerBackend',
 		'tx_mkmailer_mod1_FuncOverview',
-		tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod1/class.tx_mkmailer_mod1_FuncOverview.php',
+		tx_rnbase_util_Extensions::extPath('mkmailer', 'mod1/class.tx_mkmailer_mod1_FuncOverview.php'),
 		'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_overview'
 	);
+
 // 	tx_rnbase_util_Extensions::insertModuleFunction(
-// 		'user_txmkmailerM1',
+// 		'tools_MkmailerBackend',
 // 		'tx_mkmailer_mod1_FuncTest',
 // 		tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod1/class.tx_mkmailer_mod1_FuncTest.php',
 // 		'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_test'
