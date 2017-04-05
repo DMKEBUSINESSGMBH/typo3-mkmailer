@@ -24,8 +24,28 @@ tx_rnbase_util_Extensions::addPlugin(array('LLL:EXT:mkmailer/locallang_db.php:pl
 
 if (TYPO3_MODE == 'BE') {
 	// Add plugin wizards
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mkmailer_util_wizicon']
-	 = tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'util/class.tx_mkmailer_util_wizicon.php';
+	tx_rnbase::load('tx_rnbase_util_TYPO3');
+	if (!tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
+		tx_rnbase::load('tx_mkmailer_util_wizicon');
+		tx_mkmailer_util_wizicon::addWizicon(
+			'tx_mkmailer_util_wizicon',
+			tx_rnbase_util_Extensions::extPath(
+				'mkmailer',
+				'util/class.tx_mkmailer_util_wizicon.php'
+			)
+		);
+	} else {
+		// Iconregistrieren
+		Tx_Rnbase_Backend_Utility_Icons::getIconRegistry()->registerIcon(
+			'ext-mkmailer-wizard-icon',
+			'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
+			array('source' => 'EXT:mkmailer/ext_icon.gif')
+		);
+		// Wizardkonfiguration hinzufügen
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/Configuration/TSconfig/ContentElementWizard.txt">'
+		);
+	}
 
 	// Einbindung des eigentlichen BE-Moduls. Dieses bietet eine Hülle für die eigentlichen Modulfunktionen
 	tx_rnbase_util_Extensions::addModule('user', 'txmkmailerM1', '', tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod1/');
