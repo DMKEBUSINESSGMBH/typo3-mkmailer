@@ -43,6 +43,18 @@ class  tx_mkmailer_mod1_Module
 	var $pageinfo;
 
 	/**
+	 * Initializes the backend module by setting internal variables, initializing the menu.
+	 *
+	 * @return void
+	 */
+	public function init()
+	{
+		$GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
+
+		parent::init();
+	}
+
+	/**
 	 * (non-PHPdoc)
 	 * @see tx_rnbase_mod_BaseModule::getExtensionKey()
 	 */
