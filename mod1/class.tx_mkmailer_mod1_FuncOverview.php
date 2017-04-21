@@ -154,7 +154,11 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc {
 			$col[] = substr($content, 0, 30);
 			$cols[] = $col;
 		}
-		return $this->getModule()->getDoc()->table($cols, $this->getModule()->getTableLayout());
+
+		/* @var $tables Tx_Rnbase_Backend_Utility_Tables */
+		$tables = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+
+		return $tables->buildTable($cols);
 	}
 	/**
 	 * Zeigt die Empfänger der Mail an
