@@ -52,8 +52,7 @@ class tx_mkmailer_scheduler_SendMails
 		$cronPage = $this->getCronPageId();
 		if ($cronPage) {
 			tx_rnbase_util_Misc::prepareTSFE();
-			$report = array();
-			Tx_Rnbase_Utility_T3General::getUrl($this->getCronpageUrl(), 0, FALSE, $report);
+			$report = $this->callCronpageUrl();
 			if ($report['error'] != 0) {
 				$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
 					'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
@@ -69,6 +68,24 @@ class tx_mkmailer_scheduler_SendMails
 		}
 
 		return '';
+	}
+
+	/**
+	 * Performs the http request to the cronpage and returns the report
+	 *
+	 * @return array
+	 */
+	protected function callCronpageUrl()
+	{
+		$report = array();
+		Tx_Rnbase_Utility_T3General::getUrl(
+			$this->getCronpageUrl(),
+			0,
+			false,
+			$report
+		);
+
+		return $report;
 	}
 
 	/**

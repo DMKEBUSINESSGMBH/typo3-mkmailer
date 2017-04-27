@@ -34,7 +34,9 @@ tx_rnbase::load('tx_rnbase_util_Typo3Classes');
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkmailer_tests_scheduler_SendMails_testcase
+	extends tx_rnbase_tests_BaseTestCase
+{
 
 	private $tsfeBackup;
 
@@ -74,7 +76,17 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	public function testExecuteTaskWhenNoCronpageIsConfigured() {
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 0, 'mkmailer');
 
-		$devLog = $this->callExecuteTask();
+		$devLog = array();
+
+		$scheduler = $this->getMock(
+			'tx_mkmailer_scheduler_SendMails',
+			array('callCronpageUrl')
+		);
+
+		$this->callInaccessibleMethod(
+			array($scheduler, 'executeTask'),
+			array(array(), &$devLog)
+		);
 
 		$this->assertEquals(
 			array(tx_rnbase_util_Logger::LOGLEVEL_FATAL => array(
@@ -91,25 +103,23 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	 */
 	public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable()
 	{
-		// @TODO: needs refactoring to prevent curl calls to google! (AC#235-3399)
-		$this->markTestIncomplete('needs refactoring to prevent curl calls to google!');
-
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
 
-		$schedulerTask = $this->getMock(
-			'tx_mkmailer_scheduler_SendMails', array('getCronpageUrl')
-		);
-		$schedulerTask->expects($this->once())
-			->method('getCronpageUrl')
-			->will($this->returnValue('http://www.google.de'));
-
 		$devLog = array();
-		$method = new ReflectionMethod(
+
+		$scheduler = $this->getMock(
 			'tx_mkmailer_scheduler_SendMails',
-			'executeTask'
+			array('callCronpageUrl')
 		);
-		$method->setAccessible(TRUE);
-		$method->invokeArgs($schedulerTask, array(array(), &$devLog));
+
+		$scheduler->expects($this->once())
+			->method('callCronpageUrl')
+			->will($this->returnValue(array('error'=> 0)));
+
+		$this->callInaccessibleMethod(
+			array($scheduler, 'executeTask'),
+			array(array(), &$devLog)
+		);
 
 		$this->assertEmpty($devLog, 'devlog Meldungen vorhanden');
 	}
@@ -120,7 +130,21 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 	public function testExecuteTaskWhenCronpageIsConfiguredWithUnaccessiblePage() {
 		tx_mklib_tests_Util::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
 
-		$devLog = $this->callExecuteTask();
+		$devLog = array();
+
+		$scheduler = $this->getMock(
+			'tx_mkmailer_scheduler_SendMails',
+			array('callCronpageUrl')
+		);
+
+		$scheduler->expects($this->once())
+			->method('callCronpageUrl')
+			->will($this->returnValue(array('error'=> 1)));
+
+		$this->callInaccessibleMethod(
+			array($scheduler, 'executeTask'),
+			array(array(), &$devLog)
+		);
 
 		$this->assertEquals(
 			'Der Mailversand von mkmailer ist fehlgeschlagen',
@@ -162,23 +186,5 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
 		);
 
 		$this->assertEquals('http://my.host/index.php?id=123', $cronpageUrl);
-	}
-
-	/**
-	 *
-	 * @return multitype:
-	 */
-	private function callExecuteTask() {
-		$devLog = array();
-		$method = new ReflectionMethod(
-			'tx_mkmailer_scheduler_SendMails', 'executeTask'
-		);
-		$method->setAccessible(TRUE);
-		$method->invokeArgs(
-			tx_rnbase::makeInstance('tx_mkmailer_scheduler_SendMails'),
-			array(array(), &$devLog)
-		);
-
-		return $devLog;
 	}
 }
