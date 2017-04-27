@@ -527,10 +527,11 @@ class tx_mkmailer_services_Mail
 	 * @return string
 	 */
 	function getUploadDir() {
-		$fileTool = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
-		$uploadDir = tx_rnbase_util_Files::getFileAbsFileName(Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
-			$fileTool->slashPath('typo3temp/mkmailer')
-		));
+		$uploadDir = tx_rnbase_util_Files::getFileAbsFileName(
+			Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
+				'typo3temp/mkmailer/'
+			)
+		);
 
 		if (!file_exists($uploadDir)) {
 			tx_rnbase_util_Files::mkdir_deep($uploadDir);
