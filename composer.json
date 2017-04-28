@@ -1,42 +1,57 @@
 {
-	"name" : "dmk/mkmailer",
-	"description" : "Makes the Open Source project phpmailer available for TYPO3.",
-	"version" : "2.0.9",
-	"type" : "typo3-cms-extension",
-	"keywords" : ["TYPO3 CMS", "mail", "phpmailer"],
-	"homepage" : "http://www.dmk-ebusiness.de/",
-	"license" : "GPL-2.0+",
-	"authors" : [
-		{
-			"name" : "Michael Wagner",
-			"email" : "michael.wagner@dmk-ebusiness.de",
-			"role" : "Developer"
-		},
-		{
-			"name" : "Hannes Bochmann",
-			"email" : "hannes.bochmann@dmk-ebusiness.de",
-			"role" : "Developer"
-		},
-		{
-			"name" : "René Nitzsche",
-			"email" : "nitzsche@dmk-ebusiness.de",
-			"role" : "Developer"
-		}
-	],
-	"replace": {
-		"mkmailer": "self.version",
-		"typo3-ter/mkmailer": "self.version"
-	},
-	"support": {
-		"email": "dev@dmk-ebusiness.de",
-		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer",
-		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
-	},
-	"require" : {
-		"typo3/cms-core" : ">=4.5.0 <=8.7.99",
-		"typo3-ter/rn-base" : ">=1.0.5"
-	},
-	"autoload": {
-		"classmap": ["scheduler/", "actions/", "exceptions/", "mail/", "mod1/", "models/", "phpmailer/", "receiver/", "services/", "util/"]
-	}
+    "name": "dmk/mkmailer",
+    "description": "Makes the Open Source project phpmailer available for TYPO3.",
+    "version": "2.0.9",
+    "type": "typo3-cms-extension",
+    "keywords": [
+        "TYPO3 CMS",
+        "mail",
+        "phpmailer"
+    ],
+    "homepage": "http://www.dmk-ebusiness.de/",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Michael Wagner",
+            "email": "michael.wagner@dmk-ebusiness.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Hannes Bochmann",
+            "email": "hannes.bochmann@dmk-ebusiness.de",
+            "role": "Developer"
+        },
+        {
+            "name": "René Nitzsche",
+            "email": "nitzsche@dmk-ebusiness.de",
+            "role": "Developer"
+        }
+    ],
+    "replace": {
+        "mkmailer": "self.version",
+        "typo3-ter/mkmailer": "self.version"
+    },
+    "support": {
+        "email": "dev@dmk-ebusiness.de",
+        "source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer",
+        "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
+    },
+    "require": {
+        "typo3/cms-core": ">=4.5.0 <=8.7.99",
+        "typo3-ter/rn-base": ">=1.0.5"
+    },
+    "autoload": {
+        "classmap": [
+            "scheduler/",
+            "actions/",
+            "exceptions/",
+            "mail/",
+            "mod1/",
+            "models/",
+            "phpmailer/",
+            "receiver/",
+            "services/",
+            "util/"
+        ]
+    }
 }

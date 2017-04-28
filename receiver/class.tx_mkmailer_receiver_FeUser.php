@@ -24,133 +24,160 @@
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
- *
  * tx_mkmailer_receiver_FeUser
  *
  * Implementierung für einen Mailempfänger vom Typ FeUser.
  *
  * @TODO: auf tx_mkmailer_receiver_BaseTemplate umstellen
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate {
+class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
+{
 
-	/**
-	 * @var tx_t3users_models_feuser
-	 */
-	protected $obj;
+    /**
+     * @var tx_t3users_models_feuser
+     */
+    protected $obj;
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
-	 */
-	function setValueString($value) {
-		tx_rnbase::load('tx_t3users_models_feuser');
-		$this->setFeUser(tx_t3users_models_feuser::getInstance(intval($value)));
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
+     */
+    public function setValueString($value)
+    {
+        tx_rnbase::load('tx_t3users_models_feuser');
+        $this->setFeUser(tx_t3users_models_feuser::getInstance(intval($value)));
+    }
 
-	/**
-	 *
-	 * @param tx_t3users_models_feuser $feuser
-	 */
-	function setFeUser($feuser) {
-		$this->obj = $feuser;
-	}
+    /**
+     *
+     * @param tx_t3users_models_feuser $feuser
+     */
+    public function setFeUser($feuser)
+    {
+        $this->obj = $feuser;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
-	 */
-	function getAddressCount() {
-		return is_object($this->obj) ? 1 : 0; // Immer nur eine Person
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
+     */
+    public function getAddressCount()
+    {
+        return is_object($this->obj) ? 1 : 0; // Immer nur eine Person
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
-	 */
-	function getAddresses() {
-		if(!$this->getEmail()) {
-			return array();
-		}
-		return array($this->getEmail());
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
+     */
+    public function getAddresses()
+    {
+        if (!$this->getEmail()) {
+            return array();
+        }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_IMailReceiver::getName()
-	 */
-	function getName() {
-		if(!is_object($this->obj) || !$this->obj->isValid()) {
-			return 'unknown';
-		}
+        return array($this->getEmail());
+    }
 
-		return $this->obj->record['username'];
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_IMailReceiver::getName()
+     */
+    public function getName()
+    {
+        if (!is_object($this->obj) || !$this->obj->isValid()) {
+            return 'unknown';
+        }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
-	 */
-	function getSingleAddress($idx) {
-		$member = $this->obj;
-		$ret['address'] = $this->getEmail();
-		$ret['addressName'] = $member->record['vname'] . ' ' . $member->record['nname'];
-		// TODO: Die AddressID ist notwendig, um beim Versionswechsel kein Mails doppelt zu verschicken.
-		$ret['addressid'] = $ret['address'] . '_'. $ret['addressName'];
-		return $ret;
-	}
+        return $this->obj->record['username'];
+    }
 
-	/**
-	 * Hier können susätzliche Daten in das Template gefügt werden.
-	 *
-	 * @param 	string 						$mailText
-	 * @param 	string 						$mailHtml
-	 * @param 	string 						$mailSubject
-	 * @param 	tx_rnbase_util_FormatUtil 	$formatter
-	 * @param 	string 						$confId
-	 * @param 	int 						$idx Index des Empfängers von 0 bis (getAddressCount() - 1)
-	 * @return 	tx_mkmailer_mail_IMessage
-	 */
-	protected function addAdditionalData(
-		&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx
-	) {
-		$marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
-		$mailText = $marker->parseTemplate(
-			$mailText, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER'
-		);
-		$mailHtml = $marker->parseTemplate(
-			$mailHtml, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER'
-		);
-		$mailSubject = $marker->parseTemplate(
-			$mailSubject, $this->obj, $formatter, $confId.'receiver.', 'RECEIVER'
-		);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
+     */
+    public function getSingleAddress($idx)
+    {
+        $member = $this->obj;
+        $ret['address'] = $this->getEmail();
+        $ret['addressName'] = $member->record['vname'] . ' ' . $member->record['nname'];
+        // TODO: Die AddressID ist notwendig, um beim Versionswechsel kein Mails doppelt zu verschicken.
+        $ret['addressid'] = $ret['address'] . '_'. $ret['addressName'];
 
-	/**
-	 * @return string
-	 */
-	protected function getEmail() {
-		if(!is_object($this->obj) || !isset($this->obj->record['email'])) {
-			return false;
-		}
-		//else
-		return $this->obj->record['email'];
-	}
+        return $ret;
+    }
 
-	/**
-	 * Liefert die ConfId für den Reciver.
-	 *
-	 * @return 	string
-	 */
-	protected function getConfId() {
-		return 'receiver.';
-	}
+    /**
+     * Hier können susätzliche Daten in das Template gefügt werden.
+     *
+     * @param   string                      $mailText
+     * @param   string                      $mailHtml
+     * @param   string                      $mailSubject
+     * @param   tx_rnbase_util_FormatUtil   $formatter
+     * @param   string                      $confId
+     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @return  tx_mkmailer_mail_IMessage
+     */
+    protected function addAdditionalData(
+        &$mailText,
+        &$mailHtml,
+        &$mailSubject,
+        $formatter,
+        $confId,
+        $idx
+    ) {
+        $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+        $mailText = $marker->parseTemplate(
+            $mailText,
+            $this->obj,
+            $formatter,
+            $confId.'receiver.',
+            'RECEIVER'
+        );
+        $mailHtml = $marker->parseTemplate(
+            $mailHtml,
+            $this->obj,
+            $formatter,
+            $confId.'receiver.',
+            'RECEIVER'
+        );
+        $mailSubject = $marker->parseTemplate(
+            $mailSubject,
+            $this->obj,
+            $formatter,
+            $confId.'receiver.',
+            'RECEIVER'
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getEmail()
+    {
+        if (!is_object($this->obj) || !isset($this->obj->record['email'])) {
+            return false;
+        }
+        //else
+        return $this->obj->record['email'];
+    }
+
+    /**
+     * Liefert die ConfId für den Reciver.
+     *
+     * @return  string
+     */
+    protected function getConfId()
+    {
+        return 'receiver.';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']);
 }

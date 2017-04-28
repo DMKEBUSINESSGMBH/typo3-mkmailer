@@ -29,144 +29,157 @@ tx_rnbase::load('tx_mkmailer_mail_IAttachment');
 /**
  * tx_mkmailer_mail_Attachment
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment {
+class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
+{
 
-	/**
-	 * @var int
-	 */
-	private $type = tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT;
+    /**
+     * @var int
+     */
+    private $type = tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT;
 
-	/**
-	 * @var string
-	 */
-	private $pathOrContent;
+    /**
+     * @var string
+     */
+    private $pathOrContent;
 
-	/**
-	 * @var string
-	 */
-	private $name;
+    /**
+     * @var string
+     */
+    private $name;
 
-	/**
-	 * @var string
-	 */
-	private $embedId;
+    /**
+     * @var string
+     */
+    private $embedId;
 
-	/**
-	 * @var string
-	 */
-	private $mimeType = 'application/octet-stream';
+    /**
+     * @var string
+     */
+    private $mimeType = 'application/octet-stream';
 
-	/**
-	 * @var string
-	 */
-	private $encoding = 'base64';
+    /**
+     * @var string
+     */
+    private $encoding = 'base64';
 
-	/**
-	 *
-	 * @param int $type @see tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT
-	 */
-	public function __construct($type){
-		$this->setAttachmentType($type);
-	}
+    /**
+     *
+     * @param int $type @see tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT
+     */
+    public function __construct($type)
+    {
+        $this->setAttachmentType($type);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getPathOrContent()
-	 */
-	public function getPathOrContent() {
-		return $this->pathOrContent;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getPathOrContent()
+     */
+    public function getPathOrContent()
+    {
+        return $this->pathOrContent;
+    }
 
-	/**
-	 * @param string $pathOrContent
-	 */
-	public function setPathOrContent($pathOrContent) {
-		$this->pathOrContent = $pathOrContent;
-	}
+    /**
+     * @param string $pathOrContent
+     */
+    public function setPathOrContent($pathOrContent)
+    {
+        $this->pathOrContent = $pathOrContent;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getName()
-	 */
-	public function getName() {
-		return $this->name;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getName()
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 *
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
+    /**
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getEmbedId()
-	 */
-	public function getEmbedId() {
-		return $this->embedId;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getEmbedId()
+     */
+    public function getEmbedId()
+    {
+        return $this->embedId;
+    }
 
-	/**
-	 * @param string $embedId
-	 */
-	public function setEmbedId($embedId) {
-		$this->embedId = $embedId;
-	}
+    /**
+     * @param string $embedId
+     */
+    public function setEmbedId($embedId)
+    {
+        $this->embedId = $embedId;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getMimeType()
-	 */
-	public function getMimeType() {
-		return $this->mimeType;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getMimeType()
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
 
-	/**
-	 * @param string $mimeType
-	 */
-	public function setMimeType($mimeType) {
-		$this->mimeType = $mimeType;
-	}
+    /**
+     * @param string $mimeType
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getEncoding()
-	 */
-	public function getEncoding() {
-		return $this->encoding;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getEncoding()
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
 
-	/**
-	 * @param string $encoding
-	 */
-	public function setEncoding($encoding) {
-		$this->encoding = $encoding;
-	}
+    /**
+     * @param string $encoding
+     */
+    public function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IAttachment::getAttachmentType()
-	 */
-	public function getAttachmentType() {
-		return $this->type;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IAttachment::getAttachmentType()
+     */
+    public function getAttachmentType()
+    {
+        return $this->type;
+    }
 
-	/**
-	 * @param int $type
-	 */
-	public function setAttachmentType($type) {
-		$this->type = $type;
-	}
-
+    /**
+     * @param int $type
+     */
+    public function setAttachmentType($type)
+    {
+        $this->type = $type;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']);
 }

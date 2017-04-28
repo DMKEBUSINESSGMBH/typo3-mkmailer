@@ -34,63 +34,62 @@ tx_rnbase::load('tx_mkmailer_mail_Factory');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_mail_Factory_testcase
-	extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_mail_Factory_testcase extends tx_rnbase_tests_BaseTestCase
 {
-	/**
-	 * Test the createAttachment method
-	 *
-	 * @return void
-	 *
-	 * @group unit
-	 * @test
-	 */
-	public function testCreateAttachmentShouldReadTheRightMimeType()
-	{
-		$model = tx_mkmailer_mail_Factory::createAttachment(
-			'EXT:mkmailer/tests/phpunit.xml'
-		);
+    /**
+     * Test the createAttachment method
+     *
+     * @return void
+     *
+     * @group unit
+     * @test
+     */
+    public function testCreateAttachmentShouldReadTheRightMimeType()
+    {
+        $model = tx_mkmailer_mail_Factory::createAttachment(
+            'EXT:mkmailer/tests/phpunit.xml'
+        );
 
-		self::assertSame('application/xml', $model->getMimeType());
-	}
+        self::assertSame('application/xml', $model->getMimeType());
+    }
 
-	/**
-	 * Test the createEmbeddedAttachment method
-	 *
-	 * @return void
-	 *
-	 * @group unit
-	 * @test
-	 */
-	public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
-	{
-		$model = tx_mkmailer_mail_Factory::createEmbeddedAttachment(
-			'EXT:mkmailer/tests/phpunit.xml',
-			uniqid('Embedded', true)
-		);
+    /**
+     * Test the createEmbeddedAttachment method
+     *
+     * @return void
+     *
+     * @group unit
+     * @test
+     */
+    public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
+    {
+        $model = tx_mkmailer_mail_Factory::createEmbeddedAttachment(
+            'EXT:mkmailer/tests/phpunit.xml',
+            uniqid('Embedded', true)
+        );
 
-		self::assertSame('application/xml', $model->getMimeType());
-	}
+        self::assertSame('application/xml', $model->getMimeType());
+    }
 
-	/**
-	 * Test the createStringAttachment method
-	 *
-	 * @return void
-	 *
-	 * @group unit
-	 * @test
-	 */
-	public function testCreateStringAttachmentShouldReadTheRightMimeType()
-	{
-		$xml = file_get_contents(
-			tx_mkmailer_mail_Factory::makeAbsPath(
-				'EXT:mkmailer/tests/phpunit.xml'
-			)
-		);
-		$model = tx_mkmailer_mail_Factory::createStringAttachment(
-			$xml
-		);
+    /**
+     * Test the createStringAttachment method
+     *
+     * @return void
+     *
+     * @group unit
+     * @test
+     */
+    public function testCreateStringAttachmentShouldReadTheRightMimeType()
+    {
+        $xml = file_get_contents(
+            tx_mkmailer_mail_Factory::makeAbsPath(
+                'EXT:mkmailer/tests/phpunit.xml'
+            )
+        );
+        $model = tx_mkmailer_mail_Factory::createStringAttachment(
+            $xml
+        );
 
-		self::assertSame('application/xml', $model->getMimeType());
-	}
+        self::assertSame('application/xml', $model->getMimeType());
+    }
 }

@@ -27,38 +27,38 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 /**
  * tx_mkmailer_tests_models_Queue_testcase
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @author 			Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_models_Queue_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkmailer_tests_models_Queue_testcase extends tx_rnbase_tests_BaseTestCase
+{
+    public function testAttachmentWithStrings()
+    {
+        $queue = tx_rnbase::makeInstance('tx_mkmailer_models_Queue', array('uid' => 123, 'attachments' => '/uploadfolder/myfile.jpg, /uploadfolder/yourfile.jpg'));
+        $attachments = $queue->getUploads();
 
+        $this->assertEquals(2, count($attachments), 'Wrong size of attachments');
+        $this->assertTrue($attachments[0] instanceof tx_mkmailer_mail_IAttachment, 'Interface not implemented.');
+        $this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent(), 'File is wrong.');
+    }
 
-	public function testAttachmentWithStrings() {
-		$queue = tx_rnbase::makeInstance('tx_mkmailer_models_Queue', array('uid'=>123, 'attachments' => '/uploadfolder/myfile.jpg, /uploadfolder/yourfile.jpg'));
-		$attachments = $queue->getUploads();
+    public function tesstAttachmentWithSerializedObjects()
+    {
+        // geht leider nicht. Deserialisierung klappt nicht.
+        $serData = 'a:2:{i:0;O:27:"tx_mkmailer_mail_Attachment":6:{s:33:"tx_mkmailer_mail_Attachmenttype";i:0;s:42:"tx_mkmailer_mail_AttachmentpathOrContent";s:24:"/uploadfolder/myfile.jpg";s:33:"tx_mkmailer_mail_Attachmentname";s:0:"";s:36:"tx_mkmailer_mail_AttachmentembedId";N;s:37:"tx_mkmailer_mail_AttachmentmimeType";s:24:"application/octet-stream";s:37:"tx_mkmailer_mail_Attachmentencoding";s:6:"base64";}i:1;O:27:"tx_mkmailer_mail_Attachment":6:{s:33:"tx_mkmailer_mail_Attachmenttype";i:0;s:42:"tx_mkmailer_mail_AttachmentpathOrContent";s:26:"/uploadfolder/yourfile.jpg";s:33:"tx_mkmailer_mail_Attachmentname";s:0:"";s:36:"tx_mkmailer_mail_AttachmentembedId";N;s:37:"tx_mkmailer_mail_AttachmentmimeType";s:24:"application/octet-stream";s:37:"tx_mkmailer_mail_Attachmentencoding";s:6:"base64";}}';
 
-		$this->assertEquals(2, count($attachments), 'Wrong size of attachments');
-		$this->assertTrue($attachments[0] instanceof tx_mkmailer_mail_IAttachment, 'Interface not implemented.');
-		$this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent() , 'File is wrong.');
-	}
-
-	public function tesstAttachmentWithSerializedObjects() {
-		// geht leider nicht. Deserialisierung klappt nicht.
-		$serData = 'a:2:{i:0;O:27:"tx_mkmailer_mail_Attachment":6:{s:33:"tx_mkmailer_mail_Attachmenttype";i:0;s:42:"tx_mkmailer_mail_AttachmentpathOrContent";s:24:"/uploadfolder/myfile.jpg";s:33:"tx_mkmailer_mail_Attachmentname";s:0:"";s:36:"tx_mkmailer_mail_AttachmentembedId";N;s:37:"tx_mkmailer_mail_AttachmentmimeType";s:24:"application/octet-stream";s:37:"tx_mkmailer_mail_Attachmentencoding";s:6:"base64";}i:1;O:27:"tx_mkmailer_mail_Attachment":6:{s:33:"tx_mkmailer_mail_Attachmenttype";i:0;s:42:"tx_mkmailer_mail_AttachmentpathOrContent";s:26:"/uploadfolder/yourfile.jpg";s:33:"tx_mkmailer_mail_Attachmentname";s:0:"";s:36:"tx_mkmailer_mail_AttachmentembedId";N;s:37:"tx_mkmailer_mail_AttachmentmimeType";s:24:"application/octet-stream";s:37:"tx_mkmailer_mail_Attachmentencoding";s:6:"base64";}}';
-
-		$queue = tx_rnbase::makeInstance('tx_mkmailer_models_Queue', array('uid'=>123, 'attachments' => $serData));
-		$attachments = $queue->getUploads();
-		$this->assertEquals(2, count($attachments), 'Wrong size of attachments');
-		$this->assertTrue($attachments[0] instanceof tx_mkmailer_mail_IAttachment, 'Interface not implemented.');
-		$this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent() , 'File is wrong.');
-	}
-
+        $queue = tx_rnbase::makeInstance('tx_mkmailer_models_Queue', array('uid' => 123, 'attachments' => $serData));
+        $attachments = $queue->getUploads();
+        $this->assertEquals(2, count($attachments), 'Wrong size of attachments');
+        $this->assertTrue($attachments[0] instanceof tx_mkmailer_mail_IAttachment, 'Interface not implemented.');
+        $this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent(), 'File is wrong.');
+    }
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php']);
 }

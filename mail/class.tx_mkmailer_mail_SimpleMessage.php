@@ -26,268 +26,293 @@
 tx_rnbase::load('tx_mkmailer_mail_IMessage');
 
 /**
- *
  * tx_mkmailer_mail_SimpleMessage
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage {
+class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
+{
 
-	/**
-	 * @var array
-	 */
-	private $to = array();
+    /**
+     * @var array
+     */
+    private $to = array();
 
-	/**
-	 * @var array
-	 */
-	private $cc = array();
-	/**
-	 * @var array
-	 */
-	private $bcc = array();
+    /**
+     * @var array
+     */
+    private $cc = array();
+    /**
+     * @var array
+     */
+    private $bcc = array();
 
-	/**
-	 * @var array
-	 */
-	private $attachments = array();
+    /**
+     * @var array
+     */
+    private $attachments = array();
 
-	/**
-	 * @var array
-	 */
-	private $options = array();
+    /**
+     * @var array
+     */
+    private $options = array();
 
-	/**
-	 * @param array $options
-	 */
-	public function __construct($options=array()) {
-		if(!($options && count($options))) {
-			// Defaults setzen
-			$options = self::getDefaultOptions();
-		}
-		$this->setOptions($options);
-	}
+    /**
+     * @param array $options
+     */
+    public function __construct($options = array())
+    {
+        if (!($options && count($options))) {
+            // Defaults setzen
+            $options = self::getDefaultOptions();
+        }
+        $this->setOptions($options);
+    }
 
-	/**
-	 * Liefert die Default-Options
-	 *
-	 * @return 	array
-	 */
-	public static function getDefaultOptions(){
-		$options = array();
-		tx_rnbase::load('tx_rnbase_configurations');
+    /**
+     * Liefert die Default-Options
+     *
+     * @return  array
+     */
+    public static function getDefaultOptions()
+    {
+        $options = array();
+        tx_rnbase::load('tx_rnbase_configurations');
 
-		// CharSet
-		$charset = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'charset');
-		$options['charset'] = $charset ? $charset : 'UTF-8';
+        // CharSet
+        $charset = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'charset');
+        $options['charset'] = $charset ? $charset : 'UTF-8';
 
-		// Encoding
-		$encoding = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'encoding');
-		$options['encoding'] = $encoding ? $encoding : '8bit';
+        // Encoding
+        $encoding = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'encoding');
+        $options['encoding'] = $encoding ? $encoding : '8bit';
 
-		// returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
-		$returnpath = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'returnpath');
-		$options['returnpath'] = $returnpath ? $returnpath : 0;
+        // returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
+        $returnpath = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'returnpath');
+        $options['returnpath'] = $returnpath ? $returnpath : 0;
 
-		return $options;
-	}
+        return $options;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::setOptions
-	 */
-	function setOptions($options) {
-		$this->options = $options;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::setOptions
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see mail/tx_mkmailer_mail_IMessage#setOption($key, $value)
-	 */
-	function setOption($key, $value) {
-		$this->options[$key] = $value;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see mail/tx_mkmailer_mail_IMessage#setOption($key, $value)
+     */
+    public function setOption($key, $value)
+    {
+        $this->options[$key] = $value;
+    }
 
-	/**
-	 * Returns options
-	 *
-	 * @return array[string]
-	 */
-	function getOptions() {
-		return $this->options;
-	}
+    /**
+     * Returns options
+     *
+     * @return array[string]
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::setHtmlPart()
-	 */
-	function setHtmlPart($html) {
-		$this->html = $html;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::setHtmlPart()
+     */
+    public function setHtmlPart($html)
+    {
+        $this->html = $html;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::setTxtPart()
-	 */
-	function setTxtPart($text) {
-		$this->text = $text;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::setTxtPart()
+     */
+    public function setTxtPart($text)
+    {
+        $this->text = $text;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::getHtmlPart()
-	 */
-	function getHtmlPart() {
-		return $this->html;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::getHtmlPart()
+     */
+    public function getHtmlPart()
+    {
+        return $this->html;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::getTxtPart()
-	 */
-	function getTxtPart() {
-		return $this->text;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::getTxtPart()
+     */
+    public function getTxtPart()
+    {
+        return $this->text;
+    }
 
-	/**
-	 * Adds an attachment file
-	 *
-	 * @param string $file path to file
-	 */
-	function addAttachment(tx_mkmailer_mail_IAttachment $file) {
-		$this->attachments[] = $file;
-	}
+    /**
+     * Adds an attachment file
+     *
+     * @param string $file path to file
+     */
+    public function addAttachment(tx_mkmailer_mail_IAttachment $file)
+    {
+        $this->attachments[] = $file;
+    }
 
-	/**
-	 * Returns all attachments
-	 *
-	 * @return array[tx_mkmailer_mail_IAttachment]
-	 */
-	function getAttachments() {
-		return $this->attachments;
-	}
+    /**
+     * Returns all attachments
+     *
+     * @return array[tx_mkmailer_mail_IAttachment]
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
 
-	/**
-	 * Set the mail subject
-	 * @param string $text
-	 */
-	function setSubject($text) {
-		$this->subject = $text;
-	}
+    /**
+     * Set the mail subject
+     * @param string $text
+     */
+    public function setSubject($text)
+    {
+        $this->subject = $text;
+    }
 
-	/**
-	 * Returns the subject.
-	 * @return string
-	 */
-	function getSubject() {
-		return $this->subject;
-	}
+    /**
+     * Returns the subject.
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_mail_IMessage::setFrom()
-	 */
-	function setFrom($address, $name='') {
-		$this->from = $this->createAddress($address, $name);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_mail_IMessage::setFrom()
+     */
+    public function setFrom($address, $name = '')
+    {
+        $this->from = $this->createAddress($address, $name);
+    }
 
-	/**
-	 * Returns the from address
-	 *
-	 * @return tx_mkmailer_mail_IAddress
-	 */
-	function getFrom() {
-		return $this->from;
-	}
+    /**
+     * Returns the from address
+     *
+     * @return tx_mkmailer_mail_IAddress
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
 
-	/**
-	 * @param string $address
-	 * @param string $name
-	 */
-	function addTo($address, $name='') {
-		$this->to[] = $this->createAddress($address, $name);
-	}
+    /**
+     * @param string $address
+     * @param string $name
+     */
+    public function addTo($address, $name = '')
+    {
+        $this->to[] = $this->createAddress($address, $name);
+    }
 
-	/**
-	 * Removes all addresses
-	 */
-	function clearTo() {
-		$this->to[] = array();
-	}
+    /**
+     * Removes all addresses
+     */
+    public function clearTo()
+    {
+        $this->to[] = array();
+    }
 
-	/**
-	 * Returns recipients
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	function getTo() {
-		return $this->to;
-	}
+    /**
+     * Returns recipients
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
 
-	/**
-	 * @param string $address
-	 * @param string $name
-	 */
-	function addCc($address, $name='') {
-		$this->cc[] = $this->createAddress($address, $name);
-	}
+    /**
+     * @param string $address
+     * @param string $name
+     */
+    public function addCc($address, $name = '')
+    {
+        $this->cc[] = $this->createAddress($address, $name);
+    }
 
-	/**
-	 * Setzt die CC Adressen
-	 *
-	 * @param array[tx_mkmailer_mail_IAddress] $addresses
-	 */
-	function setCc(array $addresses) {
-		$this->cc = $addresses;
-	}
+    /**
+     * Setzt die CC Adressen
+     *
+     * @param array[tx_mkmailer_mail_IAddress] $addresses
+     */
+    public function setCc(array $addresses)
+    {
+        $this->cc = $addresses;
+    }
 
-	/**
-	 * Returns CCs
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	function getCc() {
-		return $this->cc;
-	}
+    /**
+     * Returns CCs
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getCc()
+    {
+        return $this->cc;
+    }
 
-	/**
-	 * @param string $address
-	 * @param string $name
-	 */
-	function addBcc($address, $name='') {
-		$this->bcc[] = $this->createAddress($address, $name);
-	}
+    /**
+     * @param string $address
+     * @param string $name
+     */
+    public function addBcc($address, $name = '')
+    {
+        $this->bcc[] = $this->createAddress($address, $name);
+    }
 
-	/**
-	 * Setzt die BCC Adressen
-	 *
-	 * @param array[tx_mkmailer_mail_IAddress] $addresses
-	 */
-	function setBcc(array $addresses) {
-		$this->bcc = $addresses;
-	}
+    /**
+     * Setzt die BCC Adressen
+     *
+     * @param array[tx_mkmailer_mail_IAddress] $addresses
+     */
+    public function setBcc(array $addresses)
+    {
+        $this->bcc = $addresses;
+    }
 
-	/**
-	 * Returns BCCs
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	function getBcc() {
-		return $this->bcc;
-	}
+    /**
+     * Returns BCCs
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getBcc()
+    {
+        return $this->bcc;
+    }
 
-	/**
-	 * Creates a new address
-	 *
-	 * @param string $address
-	 * @param string $name
-	 * @return tx_mkmailer_mail_IAddress
-	 */
-	private function createAddress($address, $name='') {
-		return tx_rnbase::makeInstance('tx_mkmailer_mail_Address', $address, $name);
-	}
+    /**
+     * Creates a new address
+     *
+     * @param string $address
+     * @param string $name
+     * @return tx_mkmailer_mail_IAddress
+     */
+    private function createAddress($address, $name = '')
+    {
+        return tx_rnbase::makeInstance('tx_mkmailer_mail_Address', $address, $name);
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_SimpleMessage.php']);
 }

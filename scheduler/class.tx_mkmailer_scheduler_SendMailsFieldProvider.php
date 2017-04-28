@@ -33,34 +33,34 @@ tx_rnbase::load('tx_mklib_scheduler_GenericFieldProvider');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_scheduler_SendMailsFieldProvider
-	extends tx_mklib_scheduler_GenericFieldProvider
+class tx_mkmailer_scheduler_SendMailsFieldProvider extends tx_mklib_scheduler_GenericFieldProvider
 {
-	/**
-	 * Returns the option fields for the SendMails scheduler
-	 *
-	 * @return 	array
-	 */
-	protected function getAdditionalFieldConfig(){
-		return array(
-			'cronpage' => array(
-				'type' => 'input',
-				'label' => 'PID of the sendmail path. The ExtConf will be used by default',
-				'default' => '0',
-				'eval' => 'trim',
-			),
-			'user' => array(
-				'type' => 'input',
-				'label' => 'Username for basic authentication',
-				'default' => '',
-				'eval' => 'trim',
-			),
-			'passwd' => array(
-				'type' => 'input',
-				'label' => 'Password for basic authentication',
-				'default' => '',
-				'eval' => 'trim',
-			),
-		);
-	}
+    /**
+     * Returns the option fields for the SendMails scheduler
+     *
+     * @return  array
+     */
+    protected function getAdditionalFieldConfig()
+    {
+        return array(
+            'cronpage' => array(
+                'type' => 'input',
+                'label' => 'PID of the sendmail path. The ExtConf will be used by default',
+                'default' => '0',
+                'eval' => 'trim',
+            ),
+            'user' => array(
+                'type' => 'input',
+                'label' => 'Username for basic authentication',
+                'default' => '',
+                'eval' => 'trim',
+            ),
+            'passwd' => array(
+                'type' => 'input',
+                'label' => 'Password for basic authentication',
+                'default' => '',
+                'eval' => 'trim',
+            ),
+        );
+    }
 }

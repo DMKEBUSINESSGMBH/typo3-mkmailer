@@ -27,15 +27,15 @@
  * Hint: use extdeveval to insert/update function index above.
  */
 $GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
-$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'],1);	// This checks permissions and exits if the users has no permission for entry.
+$GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'], 1);    // This checks permissions and exits if the users has no permission for entry.
 
 // Make instance:
 $SOBE = tx_rnbase::makeInstance('tx_mkmailer_mod1_Module');
 $SOBE->init();
 
 // Include files?
-foreach((array) $SOBE->include_once as $INC_FILE) {
-	include_once($INC_FILE);
+foreach ((array) $SOBE->include_once as $INC_FILE) {
+    include_once($INC_FILE);
 }
 
 $SOBE->main();

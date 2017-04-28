@@ -35,117 +35,132 @@ tx_rnbase::load('tx_mkmailer_receiver_Email');
 /**
  * @author Hannes Bochmann
  */
-class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_MailsBaseTestCase {
+class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_MailsBaseTestCase
+{
 
-	/**
-	 * @group unit
-	 */
-	public function testGetMailService() {
-		$method = new ReflectionMethod('tx_mkmailer_util_Mails', 'getMailService');
-		$method->setAccessible(true);
-		$this->assertInstanceOf(
-			'tx_mkmailer_services_Mail',
-			$method->invoke(tx_rnbase::makeInstance('tx_mkmailer_util_Mails'))
-		);
-	}
+    /**
+     * @group unit
+     */
+    public function testGetMailService()
+    {
+        $method = new ReflectionMethod('tx_mkmailer_util_Mails', 'getMailService');
+        $method->setAccessible(true);
+        $this->assertInstanceOf(
+            'tx_mkmailer_services_Mail',
+            $method->invoke(tx_rnbase::makeInstance('tx_mkmailer_util_Mails'))
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateKeyGiven() {
-		$mailService = $this->getMailServiceMock();
+    /**
+     * @group unit
+     */
+    public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateKeyGiven()
+    {
+        $mailService = $this->getMailServiceMock();
 
-		$templateObj = tx_rnbase::makeInstance(
-			'tx_mkmailer_models_Template',
-			array(
-				'contenttext' => '###MODEL_NAME###',
-				'contenthtml' => '###MODEL_NAME### html',
-				'mail_from' => 'typo3site',
-				'mail_cc' => 'gchq',
-				'mail_bcc' => 'nsa',
-				'subject' => 'test mail',
-			)
-		);
-		$mailService->expects($this->once())
-			->method('getTemplate')
-			->with('mailTemplate')
-			->will($this->returnValue($templateObj));
+        $templateObj = tx_rnbase::makeInstance(
+            'tx_mkmailer_models_Template',
+            array(
+                'contenttext' => '###MODEL_NAME###',
+                'contenthtml' => '###MODEL_NAME### html',
+                'mail_from' => 'typo3site',
+                'mail_cc' => 'gchq',
+                'mail_bcc' => 'nsa',
+                'subject' => 'test mail',
+            )
+        );
+        $mailService->expects($this->once())
+            ->method('getTemplate')
+            ->with('mailTemplate')
+            ->will($this->returnValue($templateObj));
 
-		$receiver = tx_rnbase::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
+        $receiver = tx_rnbase::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
 
-		$expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
-		$expectedJob->addReceiver($receiver);
-		$expectedJob->setFrom($templateObj->getFromAddress());
-		$expectedJob->setCCs($templateObj->getCcAddress());
-		$expectedJob->setBCCs($templateObj->getBccAddress());
-		$expectedJob->setSubject($templateObj->getSubject());
-		$expectedJob->setContentText($templateObj->getContentText());
-		$expectedJob->setContentHtml($templateObj->getContentHtml());
+        $expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+        $expectedJob->addReceiver($receiver);
+        $expectedJob->setFrom($templateObj->getFromAddress());
+        $expectedJob->setCCs($templateObj->getCcAddress());
+        $expectedJob->setBCCs($templateObj->getBccAddress());
+        $expectedJob->setSubject($templateObj->getSubject());
+        $expectedJob->setContentText($templateObj->getContentText());
+        $expectedJob->setContentHtml($templateObj->getContentHtml());
 
-		$mailService->expects($this->once())
-			->method('spoolMailJob')
-			->with($expectedJob);
+        $mailService->expects($this->once())
+            ->method('spoolMailJob')
+            ->with($expectedJob);
 
-		$mailUtil = $this->getMailUtilMock($mailService);
-		$mailUtil->sendModelReceiverMail(
-			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', 'mailTemplate'
-		);
-	}
+        $mailUtil = $this->getMailUtilMock($mailService);
+        $mailUtil->sendModelReceiverMail(
+            'tx_mkmailer_tests_util_ReceiverDummy',
+            123,
+            'testReceiver',
+            'mailTemplate'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateObjectGiven() {
-		$mailService = $this->getMailServiceMock();
+    /**
+     * @group unit
+     */
+    public function testSendModelReceiverMailSpoolsCorrectMailJobWhenTemplateObjectGiven()
+    {
+        $mailService = $this->getMailServiceMock();
 
-		$templateObj = tx_rnbase::makeInstance(
-			'tx_mkmailer_models_Template',
-			array(
-				'contenttext' => '###MODEL_NAME###',
-				'contenthtml' => '###MODEL_NAME### html',
-				'mail_from' => 'typo3site',
-				'mail_cc' => 'gchq',
-				'mail_bcc' => 'nsa',
-				'subject' => 'test mail',
-			)
-		);
-		$mailService->expects($this->never())
-			->method('getTemplate');
+        $templateObj = tx_rnbase::makeInstance(
+            'tx_mkmailer_models_Template',
+            array(
+                'contenttext' => '###MODEL_NAME###',
+                'contenthtml' => '###MODEL_NAME### html',
+                'mail_from' => 'typo3site',
+                'mail_cc' => 'gchq',
+                'mail_bcc' => 'nsa',
+                'subject' => 'test mail',
+            )
+        );
+        $mailService->expects($this->never())
+            ->method('getTemplate');
 
-		$receiver = tx_rnbase::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
+        $receiver = tx_rnbase::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
 
-		$expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
-		$expectedJob->addReceiver($receiver);
-		$expectedJob->setFrom($templateObj->getFromAddress());
-		$expectedJob->setCCs($templateObj->getCcAddress());
-		$expectedJob->setBCCs($templateObj->getBccAddress());
-		$expectedJob->setSubject($templateObj->getSubject());
-		$expectedJob->setContentText($templateObj->getContentText());
-		$expectedJob->setContentHtml($templateObj->getContentHtml());
+        $expectedJob = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+        $expectedJob->addReceiver($receiver);
+        $expectedJob->setFrom($templateObj->getFromAddress());
+        $expectedJob->setCCs($templateObj->getCcAddress());
+        $expectedJob->setBCCs($templateObj->getBccAddress());
+        $expectedJob->setSubject($templateObj->getSubject());
+        $expectedJob->setContentText($templateObj->getContentText());
+        $expectedJob->setContentHtml($templateObj->getContentHtml());
 
-		$mailService->expects($this->once())
-			->method('spoolMailJob')
-			->with($expectedJob);
+        $mailService->expects($this->once())
+            ->method('spoolMailJob')
+            ->with($expectedJob);
 
-		$mailUtil = $this->getMailUtilMock($mailService);
-		$mailUtil->sendModelReceiverMail(
-			'tx_mkmailer_tests_util_ReceiverDummy', 123, 'testReceiver', $templateObj
-		);
-	}
+        $mailUtil = $this->getMailUtilMock($mailService);
+        $mailUtil->sendModelReceiverMail(
+            'tx_mkmailer_tests_util_ReceiverDummy',
+            123,
+            'testReceiver',
+            $templateObj
+        );
+    }
 
-	protected function getMailUtilClass() {
-		return 'tx_mkmailer_util_Mails';
-	}
+    protected function getMailUtilClass()
+    {
+        return 'tx_mkmailer_util_Mails';
+    }
 }
 
-class tx_mkmailer_tests_util_ReceiverDummy extends tx_mkmailer_receiver_Email {
-	protected function getModel() {
-		return 'model';
-	}
-	protected function getModelMarker() {
-		return 'modelMarker';
-	}
-	protected function getMarkerClass() {
-		return 'markerClass';
-	}
+class tx_mkmailer_tests_util_ReceiverDummy extends tx_mkmailer_receiver_Email
+{
+    protected function getModel()
+    {
+        return 'model';
+    }
+    protected function getModelMarker()
+    {
+        return 'modelMarker';
+    }
+    protected function getMarkerClass()
+    {
+        return 'markerClass';
+    }
 }

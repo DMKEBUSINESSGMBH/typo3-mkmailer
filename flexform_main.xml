@@ -72,40 +72,40 @@
       </ROOT>
     </sDEF>
 
-		<!-- s_listloc>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
+        <!-- s_listloc>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
 
-				</el>
-			</ROOT>
-		</s_listloc-->
+                </el>
+            </ROOT>
+        </s_listloc-->
 
-		<s_tssetup>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:common_tssetup</sheetTitle>
-					<!-- cshFile>LLL:EXT:cfc_league_fe/res/help/locallang_csh_flexform.xml</cshFile-->
-				</TCEforms>
-				<type>array</type>
-				<el>
-					<flexformTS>
-						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tssetup</label>
-							<config>
-								<type>text</type>
-								<cols>80</cols>
-								<rows>10</rows>
-							</config>
-						</TCEforms>
-					</flexformTS>
-				</el>
-			</ROOT>
-		</s_tssetup>
+        <s_tssetup>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:common_tssetup</sheetTitle>
+                    <!-- cshFile>LLL:EXT:cfc_league_fe/res/help/locallang_csh_flexform.xml</cshFile-->
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <flexformTS>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tssetup</label>
+                            <config>
+                                <type>text</type>
+                                <cols>80</cols>
+                                <rows>10</rows>
+                            </config>
+                        </TCEforms>
+                    </flexformTS>
+                </el>
+            </ROOT>
+        </s_tssetup>
 
   </sheets>
 </T3DataStructure>

@@ -28,24 +28,26 @@ tx_rnbase::load('tx_mkmailer_mail_SimpleMessage');
 
 /**
  */
-class tx_mkmailer_demo_TestMail {
-	static function sendMail($to, $toName) {
-		$msg = new tx_mkmailer_mail_SimpleMessage();
-		$msg->addTo($to, $toName);
-		$html = "
+class tx_mkmailer_demo_TestMail
+{
+    public static function sendMail($to, $toName)
+    {
+        $msg = new tx_mkmailer_mail_SimpleMessage();
+        $msg->addTo($to, $toName);
+        $html = '
 Das ist der <b>HTML-Teil</b> der Email.<br />
-Das ist <a href=\"http://www.google.de/\">Google</a>.
-		";
-		$text = "Das ist eine Textmail.\nZeilenumbrüche gehen auch...";
-		$msg->setTxtPart($text);
-		$msg->setHtmlPart($html);
-		$msg->setSubject('Das ist eine Testmail.');
-		$msg->setFrom('egal@system25.de', 'Servermail');
-		$srv = tx_mkmailer_util_ServiceRegistry::getMailService();
-		$srv->sendEmail($msg);
-	}
+Das ist <a href="http://www.google.de/">Google</a>.
+        ';
+        $text = "Das ist eine Textmail.\nZeilenumbrüche gehen auch...";
+        $msg->setTxtPart($text);
+        $msg->setHtmlPart($html);
+        $msg->setSubject('Das ist eine Testmail.');
+        $msg->setFrom('egal@system25.de', 'Servermail');
+        $srv = tx_mkmailer_util_ServiceRegistry::getMailService();
+        $srv->sendEmail($msg);
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_demo_TestMail.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_demo_TestMail.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_demo_TestMail.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_demo_TestMail.php']);
 }

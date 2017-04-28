@@ -27,41 +27,44 @@
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
- *
  * tx_mkmailer_mod1_FuncTest
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc {
+class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_rnbase_mod_BaseModFunc::getFuncId()
-	 */
-	function getFuncId() {
-		return 'functest';
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_rnbase_mod_BaseModFunc::getFuncId()
+     */
+    public function getFuncId()
+    {
+        return 'functest';
+    }
 
-	/**
-	 * Returns the module content
-	 *
-	 * @param string $template
-	 * @param tx_rnbase_configurations $configurations
-	 * @param tx_rnbase_util_FormatUtil $formatter
-	 * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
-	 * @return string
-	 */
-	function getContent($template, &$configurations, &$formatter, $formTool) {
-		$arr = array('name' => 'alfred');
-		$markerArray = $formatter->getItemMarkerArrayWrapped($arr,$this->getConfId().'queue.',0,'MAIL_');
-		$out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
-		return $out;
-	}
+    /**
+     * Returns the module content
+     *
+     * @param string $template
+     * @param tx_rnbase_configurations $configurations
+     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
+     * @return string
+     */
+    public function getContent($template, &$configurations, &$formatter, $formTool)
+    {
+        $arr = array('name' => 'alfred');
+        $markerArray = $formatter->getItemMarkerArrayWrapped($arr, $this->getConfId().'queue.', 0, 'MAIL_');
+        $out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+
+        return $out;
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']);
 }

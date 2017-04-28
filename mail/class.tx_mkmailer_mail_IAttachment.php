@@ -27,59 +27,60 @@
 /**
  * tx_mkmailer_mail_IAttachment
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_mail_IAttachment {
+interface tx_mkmailer_mail_IAttachment
+{
 
-	/**
-	 * @var int
-	 */
-	const TYPE_ATTACHMENT = 0;
+    /**
+     * @var int
+     */
+    const TYPE_ATTACHMENT = 0;
 
-	/**
-	 * @var int
-	 */
-	const TYPE_EMBED = 1;
+    /**
+     * @var int
+     */
+    const TYPE_EMBED = 1;
 
-	/**
-	 * @var int
-	 */
-	const TYPE_STRING = 2;
+    /**
+     * @var int
+     */
+    const TYPE_STRING = 2;
 
-	/**
-	 * @return string
-	 */
-	public function getPathOrContent();
+    /**
+     * @return string
+     */
+    public function getPathOrContent();
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * @return string
-	 */
-	public function getEmbedId();
+    /**
+     * @return string
+     */
+    public function getEmbedId();
 
-	/**
-	 * @return string
-	 */
-	public function getMimeType();
+    /**
+     * @return string
+     */
+    public function getMimeType();
 
-	/**
-	 * @return string
-	 */
-	public function getEncoding();
+    /**
+     * @return string
+     */
+    public function getEncoding();
 
-	/**
-	 * @return int
-	 */
-	public function getAttachmentType();
+    /**
+     * @return int
+     */
+    public function getAttachmentType();
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']);
 }

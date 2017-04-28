@@ -23,74 +23,73 @@
 ***************************************************************/
 
 /**
- *
  * tx_mkmailer_receiver_IMailReceiver
  *
  * Interface für Empfänger einer Email. Die Implementierung dieses Interface
  * steht dabei nicht
  * unbedingt für einen einzelnen Empfänger, sondern kann auch für ganze Gruppen stehen.
  *
- * @package 		TYPO3
+ * @package         TYPO3
  * @subpackage
- * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_receiver_IMailReceiver {
-	/**
-	 * Returns the number of receivers
-	 * @return int
-	 */
-	function getAddressCount();
+interface tx_mkmailer_receiver_IMailReceiver
+{
+    /**
+     * Returns the number of receivers
+     * @return int
+     */
+    public function getAddressCount();
 
-	/**
-	 * Returns an Array with mail addresses
-	 * @return array of string
-	 */
-	function getAddresses();
+    /**
+     * Returns an Array with mail addresses
+     * @return array of string
+     */
+    public function getAddresses();
 
-	/**
-	 * Returns a name for receiver or receiver group
-	 * @return string
-	 */
-	function getName();
+    /**
+     * Returns a name for receiver or receiver group
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * Erstellt eine individuelle Email für einen Empfänger der Email.
-	 *
-	 * @param tx_mkmailer_models_Queue $queue 1. Zeile wird als Betreff verwendet!
-	 * @param tx_rnbase_util_FormatUtil $formatter
-	 * @param string $confId
-	 * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
-	 * @return tx_mkmailer_mail_IMessage
-	 */
-	function getSingleMail($queue, &$formatter, $confId, $idx);
+    /**
+     * Erstellt eine individuelle Email für einen Empfänger der Email.
+     *
+     * @param tx_mkmailer_models_Queue $queue 1. Zeile wird als Betreff verwendet!
+     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param string $confId
+     * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @return tx_mkmailer_mail_IMessage
+     */
+    public function getSingleMail($queue, &$formatter, $confId, $idx);
 
-	/**
-	 * Liefert die Mailadresse mit dem gewünschten Index! Die Klasse muss sicherstellen, daß
-	 * für den identischen Index bei den Methode getSingleAddress und getSingleMail der identische
-	 * Empfänger geliefert wird!
-	 *
-	 * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
-	 */
-	function getSingleAddress($idx);
+    /**
+     * Liefert die Mailadresse mit dem gewünschten Index! Die Klasse muss sicherstellen, daß
+     * für den identischen Index bei den Methode getSingleAddress und getSingleMail der identische
+     * Empfänger geliefert wird!
+     *
+     * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     */
+    public function getSingleAddress($idx);
 
-	/**
-	 * Liefert den Wert für die Speicherung der Daten in der DB. üblicherweise sollte das die
-	 * UID des Datenobjektes sein.
-	 *
-	 */
-	function getValueString();
+    /**
+     * Liefert den Wert für die Speicherung der Daten in der DB. üblicherweise sollte das die
+     * UID des Datenobjektes sein.
+     */
+    public function getValueString();
 
-	/**
-	 * Initialisiert das Objekt mit einem Datenwert. Das ist üblicherweise eine UID. Die konkrete
-	 * Instanz sollte daraus das passenden Datenobjekt erstellen können.
-	 *
-	 * @param string $value
-	 */
-	function setValueString($value);
+    /**
+     * Initialisiert das Objekt mit einem Datenwert. Das ist üblicherweise eine UID. Die konkrete
+     * Instanz sollte daraus das passenden Datenobjekt erstellen können.
+     *
+     * @param string $value
+     */
+    public function setValueString($value);
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']);
 }

@@ -25,56 +25,58 @@
 
 
 /**
- *
  * tx_mkmailer_util_Mails
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_util_Mails {
+class tx_mkmailer_util_Mails
+{
 
-	/**
-	 *
-	 * @param string $receiverClass
-	 * @param int $modelUid
-	 * @param string $receiverEmail
-	 * @param string|tx_mkmailer_models_Template $templateObjectOrKey
-	 */
-	public function sendModelReceiverMail($receiverClass, $modelUid, $email, $templateObjectOrKey) {
-		$mailSrv = $this->getMailService();
+    /**
+     *
+     * @param string $receiverClass
+     * @param int $modelUid
+     * @param string $receiverEmail
+     * @param string|tx_mkmailer_models_Template $templateObjectOrKey
+     */
+    public function sendModelReceiverMail($receiverClass, $modelUid, $email, $templateObjectOrKey)
+    {
+        $mailSrv = $this->getMailService();
 
-		if (
-			is_object($templateObjectOrKey) &&
-			$templateObjectOrKey instanceof tx_mkmailer_models_Template
-		) {
-			/* @var $templateObj tx_mkmailer_models_Template */
-			$templateObj = $templateObjectOrKey;
-		} else {
-			/* @var $templateObj tx_mkmailer_models_Template */
-			$templateObj = $mailSrv->getTemplate($templateObjectOrKey);
-		}
+        if (is_object($templateObjectOrKey) &&
+            $templateObjectOrKey instanceof tx_mkmailer_models_Template
+        ) {
+            /* @var $templateObj tx_mkmailer_models_Template */
+            $templateObj = $templateObjectOrKey;
+        } else {
+            /* @var $templateObj tx_mkmailer_models_Template */
+            $templateObj = $mailSrv->getTemplate($templateObjectOrKey);
+        }
 
-		$receiver = tx_rnbase::makeInstance($receiverClass, $email, $modelUid);
+        $receiver = tx_rnbase::makeInstance($receiverClass, $email, $modelUid);
 
-		$job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
-		$job->addReceiver($receiver);
-		$job->setFrom($templateObj->getFromAddress());
-		$job->setCCs($templateObj->getCcAddress());
-		$job->setBCCs($templateObj->getBccAddress());
-		$job->setSubject($templateObj->getSubject());
-		$job->setContentText($templateObj->getContentText());
-		$job->setContentHtml($templateObj->getContentHtml());
-		$mailSrv->spoolMailJob($job);
-	}
+        $job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+        $job->addReceiver($receiver);
+        $job->setFrom($templateObj->getFromAddress());
+        $job->setCCs($templateObj->getCcAddress());
+        $job->setBCCs($templateObj->getBccAddress());
+        $job->setSubject($templateObj->getSubject());
+        $job->setContentText($templateObj->getContentText());
+        $job->setContentHtml($templateObj->getContentHtml());
+        $mailSrv->spoolMailJob($job);
+    }
 
-	/**
-	 * @return tx_mkmailer_services_Mail
-	 */
-	protected function getMailService() {
-		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
-		return tx_mkmailer_util_ServiceRegistry::getMailService();
-	}
+    /**
+     * @return tx_mkmailer_services_Mail
+     */
+    protected function getMailService()
+    {
+        tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
+
+        return tx_mkmailer_util_ServiceRegistry::getMailService();
+    }
 }

@@ -33,138 +33,149 @@ tx_rnbase::load('tx_mklib_tests_Util');
 /**
  *
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
- *
  */
-class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_mklib_tests_Util::disableDevlog();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        tx_mklib_tests_Util::disableDevlog();
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testAddAddress() {
-		$email = 'alf@localhost.de';
-		$name = 'Alf';
+    /**
+     * @group unit
+     */
+    public function testAddAddress()
+    {
+        $email = 'alf@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
 
-		$mail->expects($this->once())
-			->method('addAddress')
-			->with($email, $name);
+        $mail->expects($this->once())
+            ->method('addAddress')
+            ->with($email, $name);
 
-		 $this->invoke($mail, $address, 'addAddress');
-	}
+        $this->invoke($mail, $address, 'addAddress');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testAddAddressWithInvalidEmail() {
-		$email = 'alf@@localhost.de';
-		$name = 'Alf';
+    /**
+     * @group unit
+     */
+    public function testAddAddressWithInvalidEmail()
+    {
+        $email = 'alf@@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
-		$mail->expects($this->never())
-			->method('addAddress');
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
+        $mail->expects($this->never())
+            ->method('addAddress');
 
-		$this->invoke($mail, $address, 'addAddress');
-	}
+        $this->invoke($mail, $address, 'addAddress');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testAddBCC() {
-		$email = 'alf@localhost.de';
-		$name = 'Alf';
+    /**
+     * @group unit
+     */
+    public function testAddBCC()
+    {
+        $email = 'alf@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
 
-		$mail->expects($this->once())
-			->method('addBCC')
-			->with($email, $name);
+        $mail->expects($this->once())
+            ->method('addBCC')
+            ->with($email, $name);
 
-		$this->invoke($mail, $address, 'addBCCAddress');
-	}
+        $this->invoke($mail, $address, 'addBCCAddress');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testAddBCCWithInvalidEmail() {
-		$email = 'alf@@localhost.de';
-		$name = 'Alf';
+    /**
+     * @group unit
+     */
+    public function testAddBCCWithInvalidEmail()
+    {
+        $email = 'alf@@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
-		$mail->expects($this->never())
-			->method('addBCC');
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
+        $mail->expects($this->never())
+            ->method('addBCC');
 
-		 $this->invoke($mail, $address, 'addBCCAddress');
-	}
-	/**
-	 * @group unit
-	 */
-	public function testAddCC() {
-		$email = 'alf@localhost.de';
-		$name = 'Alf';
+        $this->invoke($mail, $address, 'addBCCAddress');
+    }
+    /**
+     * @group unit
+     */
+    public function testAddCC()
+    {
+        $email = 'alf@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
 
-		$mail->expects($this->once())
-			->method('addCC')
-			->with($email, $name);
+        $mail->expects($this->once())
+            ->method('addCC')
+            ->with($email, $name);
 
-		$this->invoke($mail, $address, 'addCCAddress');
-	}
+        $this->invoke($mail, $address, 'addCCAddress');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testAddCCWithInvalidEmail() {
-		$email = 'alf@@localhost.de';
-		$name = 'Alf';
+    /**
+     * @group unit
+     */
+    public function testAddCCWithInvalidEmail()
+    {
+        $email = 'alf@@localhost.de';
+        $name = 'Alf';
 
-		$mail = $this->getMail();
-		$address = $this->getAddress($email, $name);
-		$mail->expects($this->never())
-			->method('addCC');
+        $mail = $this->getMail();
+        $address = $this->getAddress($email, $name);
+        $mail->expects($this->never())
+            ->method('addCC');
 
-		 $this->invoke($mail, $address, 'addCCAddress');
-	}
+        $this->invoke($mail, $address, 'addCCAddress');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetUploadDir() {
-		$srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
-		$this->assertTrue(is_dir($srv->getUploadDir()),'"' . $srv->getUploadDir() .'" is not a Directory!');
-		$this->assertTrue(is_writable($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not writeble');
-	}
+    /**
+     * @group unit
+     */
+    public function testGetUploadDir()
+    {
+        $srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
+        $this->assertTrue(is_dir($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not a Directory!');
+        $this->assertTrue(is_writable($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not writeble');
+    }
 
-	private function getMail() {
-		return $this->getMock('PHPMailer', array('addAddress', 'addCC', 'addBCC'));
-	}
+    private function getMail()
+    {
+        return $this->getMock('PHPMailer', array('addAddress', 'addCC', 'addBCC'));
+    }
 
-	private function getAddress($email, $name) {
-		tx_rnbase::load('tx_mkmailer_mail_Factory');
-		return tx_mkmailer_mail_Factory::createAddressInstance($email, $name);
-	}
+    private function getAddress($email, $name)
+    {
+        tx_rnbase::load('tx_mkmailer_mail_Factory');
 
-	private function invoke($mail, $address, $methodName) {
-		$method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
-		$method->setAccessible(true);
-		$method->invokeArgs(
-			tx_rnbase::makeInstance('tx_mkmailer_services_Mail'),
-		 	array($mail, $address)
-		);
-	}
+        return tx_mkmailer_mail_Factory::createAddressInstance($email, $name);
+    }
 
+    private function invoke($mail, $address, $methodName)
+    {
+        $method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
+        $method->setAccessible(true);
+        $method->invokeArgs(
+            tx_rnbase::makeInstance('tx_mkmailer_services_Mail'),
+            array($mail, $address)
+        );
+    }
 }

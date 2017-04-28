@@ -35,103 +35,102 @@ tx_rnbase::load('tx_rnbase_util_Misc');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_scheduler_SendMails
-	extends tx_mklib_scheduler_Generic
+class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
 {
 
-	/**
-	 * This is the main method that is called when a task is executed
-	 *
-	 * @param array $options
-	 * @param array $devLog Put some informations for the logging here.
-	 *
-	 * @return string
-	 */
-	protected function executeTask(array $options, array &$devLog)
-	{
-		$cronPage = $this->getCronPageId();
-		if ($cronPage) {
-			tx_rnbase_util_Misc::prepareTSFE();
-			$report = $this->callCronpageUrl();
-			if ($report['error'] != 0) {
-				$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
-					'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
-					'dataVar' => array('report' => $report)
-				);
-			}
-		} else {
-			$devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
-				'message' => 'Der Mailversand von mkmailer sollte über den Scheduler ' .
-					'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
-					' in den Extensioneinstellungen. Bitte beheben.',
-			);
-		}
+    /**
+     * This is the main method that is called when a task is executed
+     *
+     * @param array $options
+     * @param array $devLog Put some informations for the logging here.
+     *
+     * @return string
+     */
+    protected function executeTask(array $options, array &$devLog)
+    {
+        $cronPage = $this->getCronPageId();
+        if ($cronPage) {
+            tx_rnbase_util_Misc::prepareTSFE();
+            $report = $this->callCronpageUrl();
+            if ($report['error'] != 0) {
+                $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
+                    'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
+                    'dataVar' => array('report' => $report)
+                );
+            }
+        } else {
+            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
+                'message' => 'Der Mailversand von mkmailer sollte über den Scheduler ' .
+                    'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
+                    ' in den Extensioneinstellungen. Bitte beheben.',
+            );
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Performs the http request to the cronpage and returns the report
-	 *
-	 * @return array
-	 */
-	protected function callCronpageUrl()
-	{
-		$report = array();
-		Tx_Rnbase_Utility_T3General::getUrl(
-			$this->getCronpageUrl(),
-			0,
-			false,
-			$report
-		);
+    /**
+     * Performs the http request to the cronpage and returns the report
+     *
+     * @return array
+     */
+    protected function callCronpageUrl()
+    {
+        $report = array();
+        Tx_Rnbase_Utility_T3General::getUrl(
+            $this->getCronpageUrl(),
+            0,
+            false,
+            $report
+        );
 
-		return $report;
-	}
+        return $report;
+    }
 
-	/**
-	 * Returns the configured cron page uid
-	 *
-	 * @return string
-	 */
-	protected function getCronPageId()
-	{
-		$cronPage = $this->getOption('cronpage');
+    /**
+     * Returns the configured cron page uid
+     *
+     * @return string
+     */
+    protected function getCronPageId()
+    {
+        $cronPage = $this->getOption('cronpage');
 
-		if (!$cronPage) {
-			$cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage');
-		}
+        if (!$cronPage) {
+            $cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage');
+        }
 
-		return $cronPage;
-	}
+        return $cronPage;
+    }
 
-	/**
-	 * Builds the CronUrl.
-	 *
-	 * @return string
-	 */
-	protected function getCronpageUrl()
-	{
-		$pageUid = $this->getCronPageId();
-		$domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
-		$user = $this->getOption('user');
-		$pwd = $this->getOption('passwd');
-		$auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
+    /**
+     * Builds the CronUrl.
+     *
+     * @return string
+     */
+    protected function getCronpageUrl()
+    {
+        $pageUid = $this->getCronPageId();
+        $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
+        $user = $this->getOption('user');
+        $pwd = $this->getOption('passwd');
+        $auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
 
-		return sprintf(
-			'http://%1$s%2$s/index.php?id=%3$s',
-			$auth,
-			$domain,
-			$pageUid
-		);
-	}
+        return sprintf(
+            'http://%1$s%2$s/index.php?id=%3$s',
+            $auth,
+            $domain,
+            $pageUid
+        );
+    }
 
-	/**
-	 * Extension key, used for devlog.
-	 *
-	 * @return 	string
-	 */
-	protected function getExtKey()
-	{
-		return 'mkmailer';
-	}
+    /**
+     * Extension key, used for devlog.
+     *
+     * @return  string
+     */
+    protected function getExtKey()
+    {
+        return 'mkmailer';
+    }
 }

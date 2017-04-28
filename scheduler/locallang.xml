@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>database</type>
-		<description>Language labels for database tables/fields belonging to extension 'mklib'</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="scheduler_SendMails_name">Send mails</label>
-			<label index="scheduler_SendMails_taskinfo">This basically just calls the FE Page with plugin to send mails. (configured in the extension configuration)</label>
-		</languageKey>
-		<languageKey index="de" type="array">
-			<label index="scheduler_SendMails_name">Mailversand</label>
-			<label index="scheduler_SendMails_taskinfo">Es wird im Prinzip nur die Seite mit dem Plugin für den Mailversand im FE aufgerufen. (konfiguriert über die Extensioneinstellungen)</label>
-		</languageKey>
-	</data>
+    <meta type="array">
+        <type>database</type>
+        <description>Language labels for database tables/fields belonging to extension 'mklib'</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="scheduler_SendMails_name">Send mails</label>
+            <label index="scheduler_SendMails_taskinfo">This basically just calls the FE Page with plugin to send mails. (configured in the extension configuration)</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="scheduler_SendMails_name">Mailversand</label>
+            <label index="scheduler_SendMails_taskinfo">Es wird im Prinzip nur die Seite mit dem Plugin für den Mailversand im FE aufgerufen. (konfiguriert über die Extensioneinstellungen)</label>
+        </languageKey>
+    </data>
 </T3locallang>

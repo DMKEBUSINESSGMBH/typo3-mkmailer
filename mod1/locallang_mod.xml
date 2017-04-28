@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>module</type>
-		<description>Language labels for module &quot;tools_MkmailerBackend&quot; - header, description</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="mlang_tabs_tab">MK Mailer</label>
-			<label index="mlang_labels_tabdescr">Controlling interface for mailing queue</label>
-			<label index="mlang_labels_tablabel">Controlling interface for mailing queue</label>
-			<label index="func_overview">Overview</label>
-			<label index="func_test">Test</label>
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for module &quot;tools_MkmailerBackend&quot; - header, description</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="mlang_tabs_tab">MK Mailer</label>
+            <label index="mlang_labels_tabdescr">Controlling interface for mailing queue</label>
+            <label index="mlang_labels_tablabel">Controlling interface for mailing queue</label>
+            <label index="func_overview">Overview</label>
+            <label index="func_test">Test</label>
 
-			<label index="label_receivers">Receivers</label>
-			<label index="label_receiver">Receiver</label>
-			<label index="label_delete">Delete</label>
-			<label index="label_modfunc_overview">MK Mailer - Control panel</label>
-			<label index="label_openjobs">Open mail jobs</label>
-			<label index="label_finishedjobs">Finished mail jobs</label>
-		</languageKey>
-		<languageKey index="de" type="array">
-			<label index="func_overview">Überblick</label>
-			<label index="label_modfunc_overview">MK Mailer - Überblick</label>
-			<label index="label_receivers">Empfänger</label>
-			<label index="label_receiver">Empfänger</label>
-			<label index="label_delete">Löschen</label>
-			<label index="label_openjobs">Offene Mailaufträge</label>
-			<label index="label_finishedjobs">Beendete Mailaufträge</label>
-		</languageKey>
-	</data>
+            <label index="label_receivers">Receivers</label>
+            <label index="label_receiver">Receiver</label>
+            <label index="label_delete">Delete</label>
+            <label index="label_modfunc_overview">MK Mailer - Control panel</label>
+            <label index="label_openjobs">Open mail jobs</label>
+            <label index="label_finishedjobs">Finished mail jobs</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="func_overview">Überblick</label>
+            <label index="label_modfunc_overview">MK Mailer - Überblick</label>
+            <label index="label_receivers">Empfänger</label>
+            <label index="label_receiver">Empfänger</label>
+            <label index="label_delete">Löschen</label>
+            <label index="label_openjobs">Offene Mailaufträge</label>
+            <label index="label_finishedjobs">Beendete Mailaufträge</label>
+        </languageKey>
+    </data>
 </T3locallang>

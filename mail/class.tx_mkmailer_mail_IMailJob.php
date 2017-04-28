@@ -25,70 +25,70 @@
 
 
 /**
- *
  * tx_mkmailer_mail_IMailJob
  *
  * Ein MailJob kann in die MailQueue eingestellt werden und
  * wird zu einem späteren Zeitpunkt verarbeitet.
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_mail_IMailJob {
+interface tx_mkmailer_mail_IMailJob
+{
 
-	/**
-	 * @return string
-	 */
-	public function getReceiver();
+    /**
+     * @return string
+     */
+    public function getReceiver();
 
-	/**
-	 * @return string
-	 */
-	public function getContentText();
+    /**
+     * @return string
+     */
+    public function getContentText();
 
-	/**
-	 * @return string
-	 */
-	public function getContentHtml();
+    /**
+     * @return string
+     */
+    public function getContentHtml();
 
-	/**
-	 * @return string
-	 */
-	public function getSubject();
+    /**
+     * @return string
+     */
+    public function getSubject();
 
-	/**
-	 * @return array
-	 */
-	public function getAttachments();
+    /**
+     * @return array
+     */
+    public function getAttachments();
 
-	/**
-	 * Liefert die Absenderadresse
-	 * @return tx_mkmailer_mail_IAddress
-	 */
-	public function getFrom();
+    /**
+     * Liefert die Absenderadresse
+     * @return tx_mkmailer_mail_IAddress
+     */
+    public function getFrom();
 
-	/**
-	 * Liefert die TO-Empfänger
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	public function getTOs();
+    /**
+     * Liefert die TO-Empfänger
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getTOs();
 
-	/**
-	 * Liefert die CC-Empfänger
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	public function getCCs();
+    /**
+     * Liefert die CC-Empfänger
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getCCs();
 
-	/**
-	 * Liefert die BCC-Empfänger
-	 * @return array[tx_mkmailer_mail_IAddress]
-	 */
-	public function getBCCs();
+    /**
+     * Liefert die BCC-Empfänger
+     * @return array[tx_mkmailer_mail_IAddress]
+     */
+    public function getBCCs();
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php']);
 }

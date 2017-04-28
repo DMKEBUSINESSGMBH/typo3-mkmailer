@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package TYPO3
- *  @subpackage tx_mkmailer
- *  @author Hannes Bochmann
+ * @package TYPO3
+ * @subpackage tx_mkmailer
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -29,7 +29,6 @@ tx_rnbase::load('tx_mkmailer_receiver_Email');
 tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
- *
  * tx_mkmailer_receiver_Model
  *
  * generische klasse um ein model zu versenden. es müssen nur die die abstrakten methoden
@@ -37,103 +36,122 @@ tx_rnbase::load('tx_rnbase_util_Strings');
  *
  * diese verlangt nur eine email adresse und die model id im constructor
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @author 			Hannes Bochmann <dev@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email {
+abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
+{
 
-	/**
-	 * @var int
-	 */
-	protected $modelUid;
+    /**
+     * @var int
+     */
+    protected $modelUid;
 
-	/**
-	 * @var string
-	 * § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
-	 * kann/darf. Also nehmen wir das.
-	 * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
-	 */
-	const EMAIL_MODEL_DELIMTER = '§';
+    /**
+     * @var string
+     * § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
+     * kann/darf. Also nehmen wir das.
+     * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
+     */
+    const EMAIL_MODEL_DELIMTER = '§';
 
-	/**
-	 *
-	 * @param string $email
-	 * @param int $ratingUid
-	 */
-	public function __construct($email = null, $modelUid = null){
-		parent::__construct($email);
-		$this->setModelUid($modelUid);
-	}
+    /**
+     *
+     * @param string $email
+     * @param int $ratingUid
+     */
+    public function __construct($email = null, $modelUid = null)
+    {
+        parent::__construct($email);
+        $this->setModelUid($modelUid);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_Email::setValueString()
-	 */
-	public function setValueString($valueString) {
-		$valueParts = tx_rnbase_util_Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
-		$this->setEMail($valueParts[0]);
-		$this->setModelUid($valueParts[1]);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_Email::setValueString()
+     */
+    public function setValueString($valueString)
+    {
+        $valueParts = tx_rnbase_util_Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
+        $this->setEMail($valueParts[0]);
+        $this->setModelUid($valueParts[1]);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_Email::getValueString()
-	 */
-	public function getValueString() {
-		return $this->getEMail() . self::EMAIL_MODEL_DELIMTER . $this->getModelUid();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_Email::getValueString()
+     */
+    public function getValueString()
+    {
+        return $this->getEMail() . self::EMAIL_MODEL_DELIMTER . $this->getModelUid();
+    }
 
-	/**
-	 * @param int $rating
-	 */
-	public function setModelUid($modelUid) {
-		$this->modelUid = intval($modelUid);
-	}
+    /**
+     * @param int $rating
+     */
+    public function setModelUid($modelUid)
+    {
+        $this->modelUid = intval($modelUid);
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getModelUid() {
-		return intval($this->modelUid);
-	}
+    /**
+     * @return int
+     */
+    public function getModelUid()
+    {
+        return intval($this->modelUid);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mkmailer_receiver_BaseTemplate::addAdditionalData()
-	 */
-	protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx) {
-		$markerClass = tx_rnbase::makeInstance($this->getMarkerClass());
-		$model = $this->getModel();
-		$modelMarker = $this->getModelMarker();
+    /**
+     * (non-PHPdoc)
+     * @see tx_mkmailer_receiver_BaseTemplate::addAdditionalData()
+     */
+    protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
+    {
+        $markerClass = tx_rnbase::makeInstance($this->getMarkerClass());
+        $model = $this->getModel();
+        $modelMarker = $this->getModelMarker();
 
-		$mailText = $markerClass->parseTemplate(
-			$mailText, $model, $formatter, $confId, $modelMarker
-		);
-		$mailHtml = $markerClass->parseTemplate(
-			$mailHtml, $model, $formatter, $confId, $modelMarker
-		);
-		$mailSubject = $markerClass->parseTemplate(
-			$mailSubject, $model, $formatter, $confId, $modelMarker
-		);
-	}
+        $mailText = $markerClass->parseTemplate(
+            $mailText,
+            $model,
+            $formatter,
+            $confId,
+            $modelMarker
+        );
+        $mailHtml = $markerClass->parseTemplate(
+            $mailHtml,
+            $model,
+            $formatter,
+            $confId,
+            $modelMarker
+        );
+        $mailSubject = $markerClass->parseTemplate(
+            $mailSubject,
+            $model,
+            $formatter,
+            $confId,
+            $modelMarker
+        );
+    }
 
-	/**
-	 * @return tx_rnbase_model_base
-	 */
-	abstract protected function getModel();
+    /**
+     * @return tx_rnbase_model_base
+     */
+    abstract protected function getModel();
 
-	/**
-	 * der Marker im Template für das model
-	 *
-	 * @return string
-	 */
-	abstract protected function getModelMarker();
+    /**
+     * der Marker im Template für das model
+     *
+     * @return string
+     */
+    abstract protected function getModelMarker();
 
-	/**
-	 * @return string
-	 */
-	abstract protected function getMarkerClass();
+    /**
+     * @return string
+     */
+    abstract protected function getMarkerClass();
 }

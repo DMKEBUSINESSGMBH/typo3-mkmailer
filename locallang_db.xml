@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>database</type>
-		<description>Language labels for database tables/fields belonging to extension 'a4fe'</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="tx_mkmailer_templates">Email-Template</label>
-			<label index="tx_mkmailer_templates_description">Description</label>
-			<label index="tx_mkmailer_templates_mailtype">Keystring</label>
-			<label index="tx_mkmailer_templates_subject">Subject</label>
-			<label index="tx_mkmailer_templates_mail_from">From address (optional)</label>
-			<label index="tx_mkmailer_templates_mail_fromName">From name (optional)</label>
-			<label index="tx_mkmailer_templates_mail_bcc">BCC</label>
-			<label index="tx_mkmailer_templates_contenthtml">HTML Template</label>
-			<label index="tx_mkmailer_templates_contenttext">Text-Template</label>
-			<label index="tx_mkmailer_templates_templatetype">Template type</label>
-			<label index="tx_mkmailer_templates_templatetype_0">System mail</label>
-			<label index="tx_mkmailer_templates_templatetype_1">Company mail</label>
-			<label index="tx_mkmailer_templates_templatetype_2">Applicant mail</label>
-			<label index="tx_mkmailer_templates_templatetype_3">Type 3</label>
-			<label index="tx_mkmailer_templates_attachments">Attachments</label>
-			
-			<label index="plugin.mkmailer.label">MK Mailer Plugin</label>
-			<label index="plugin.mkmailer.description">Some views for mkmailer</label>
-			<label index="plugin.mkmailer.flexform.tab.common">Common</label>
-			<label index="plugin.mkmailer.flexform.action">View</label>
-			<label index="plugin.mkmailer.flexform.action.SendMails">SendMails</label>
-			<label index="plugin_mkmailer_testmail">Mailaddress for test mode</label>
-			<label index="plugin_mkmailer_maxmails">Max mails per pageview</label>
-			<label index="plugin_mkmailer_locklifetime">Lifetime of the queue lock in seconds</label>
-			<label index="common_debugSQL">Debug</label>
+    <meta type="array">
+        <type>database</type>
+        <description>Language labels for database tables/fields belonging to extension 'a4fe'</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="tx_mkmailer_templates">Email-Template</label>
+            <label index="tx_mkmailer_templates_description">Description</label>
+            <label index="tx_mkmailer_templates_mailtype">Keystring</label>
+            <label index="tx_mkmailer_templates_subject">Subject</label>
+            <label index="tx_mkmailer_templates_mail_from">From address (optional)</label>
+            <label index="tx_mkmailer_templates_mail_fromName">From name (optional)</label>
+            <label index="tx_mkmailer_templates_mail_bcc">BCC</label>
+            <label index="tx_mkmailer_templates_contenthtml">HTML Template</label>
+            <label index="tx_mkmailer_templates_contenttext">Text-Template</label>
+            <label index="tx_mkmailer_templates_templatetype">Template type</label>
+            <label index="tx_mkmailer_templates_templatetype_0">System mail</label>
+            <label index="tx_mkmailer_templates_templatetype_1">Company mail</label>
+            <label index="tx_mkmailer_templates_templatetype_2">Applicant mail</label>
+            <label index="tx_mkmailer_templates_templatetype_3">Type 3</label>
+            <label index="tx_mkmailer_templates_attachments">Attachments</label>
 
-			<label index="common_detailPage">Page of Detailview</label>
+            <label index="plugin.mkmailer.label">MK Mailer Plugin</label>
+            <label index="plugin.mkmailer.description">Some views for mkmailer</label>
+            <label index="plugin.mkmailer.flexform.tab.common">Common</label>
+            <label index="plugin.mkmailer.flexform.action">View</label>
+            <label index="plugin.mkmailer.flexform.action.SendMails">SendMails</label>
+            <label index="plugin_mkmailer_testmail">Mailaddress for test mode</label>
+            <label index="plugin_mkmailer_maxmails">Max mails per pageview</label>
+            <label index="plugin_mkmailer_locklifetime">Lifetime of the queue lock in seconds</label>
+            <label index="common_debugSQL">Debug</label>
 
-			<label index="common_yes">Yes</label>
-			<label index="common_no">No</label>
-			<label index="common_htmlTemplate">HTML-Template</label>
+            <label index="common_detailPage">Page of Detailview</label>
 
-
-			
-			<label index="common_tssetup">Typoscript</label>
-			<label index="plugin.mkmailer.flexform.tssetup">plugin.tx_mkmailer</label>
+            <label index="common_yes">Yes</label>
+            <label index="common_no">No</label>
+            <label index="common_htmlTemplate">HTML-Template</label>
 
 
-		</languageKey>
-		<languageKey index="de" type="array">
-			<label index="tx_mkmailer_templates">Email-Template</label>
-			<label index="tx_mkmailer_templates_description">Beschreibung</label>
-			<label index="tx_mkmailer_templates_mailtype">Schlüsselstring</label>
-			<label index="tx_mkmailer_templates_subject">Betreff</label>
-			<label index="tx_mkmailer_templates_mail_from">Absender (optional)</label>
-			<label index="tx_mkmailer_templates_mail_fromName">AbsenderName (optional)</label>
-			<label index="tx_mkmailer_templates_mail_bcc">BCC</label>
-			<label index="tx_mkmailer_templates_templatetype">Template Typ</label>
-			<label index="tx_mkmailer_templates_templatetype_0">System E-Mail</label>
-			<label index="tx_mkmailer_templates_templatetype_1">Firmen E-Mail</label>
-			<label index="tx_mkmailer_templates_templatetype_2">Bewerber E-Mail</label>
-			<label index="tx_mkmailer_templates_templatetype_3">Typ 3</label>
-			<label index="tx_mkmailer_templates_attachments">Dateianhänge</label>
 
-		</languageKey>
-	</data>
+            <label index="common_tssetup">Typoscript</label>
+            <label index="plugin.mkmailer.flexform.tssetup">plugin.tx_mkmailer</label>
+
+
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="tx_mkmailer_templates">Email-Template</label>
+            <label index="tx_mkmailer_templates_description">Beschreibung</label>
+            <label index="tx_mkmailer_templates_mailtype">Schlüsselstring</label>
+            <label index="tx_mkmailer_templates_subject">Betreff</label>
+            <label index="tx_mkmailer_templates_mail_from">Absender (optional)</label>
+            <label index="tx_mkmailer_templates_mail_fromName">AbsenderName (optional)</label>
+            <label index="tx_mkmailer_templates_mail_bcc">BCC</label>
+            <label index="tx_mkmailer_templates_templatetype">Template Typ</label>
+            <label index="tx_mkmailer_templates_templatetype_0">System E-Mail</label>
+            <label index="tx_mkmailer_templates_templatetype_1">Firmen E-Mail</label>
+            <label index="tx_mkmailer_templates_templatetype_2">Bewerber E-Mail</label>
+            <label index="tx_mkmailer_templates_templatetype_3">Typ 3</label>
+            <label index="tx_mkmailer_templates_attachments">Dateianhänge</label>
+
+        </languageKey>
+    </data>
 </T3locallang>

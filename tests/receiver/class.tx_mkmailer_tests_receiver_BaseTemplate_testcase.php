@@ -26,43 +26,62 @@ tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 
 /**
- *	Test Receiver Object
+ *  Test Receiver Object
  */
-class tx_mkmailer_tests_receiver_BaseTemplate extends tx_mkmailer_receiver_BaseTemplate {
-	public $addAdditionalData = false;
-	function getConfId() { return 'basetemplate.'; }
-	function getAddressCount() {}
-	function getAddresses() {}
-	function getName() {}
-	function getSingleAddress($idx) { return array('address' => 'ich@da.com', 'addressid' => 'ich@da.com'); }
-//	function getSingleMail($queue, &$formatter, $confId, $idx) {}
-	function getValueString() {}
-	function setValueString($value) {}
-	protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx) {
-		if($this->addAdditionalData) {
-			$mailText .= 'addAdditionalData';
-			$mailHtml .= 'addAdditionalData';
-		}
-	}
+class tx_mkmailer_tests_receiver_BaseTemplate extends tx_mkmailer_receiver_BaseTemplate
+{
+    public $addAdditionalData = false;
+    public function getConfId()
+    {
+        return 'basetemplate.';
+    }
+    public function getAddressCount()
+    {
+    }
+    public function getAddresses()
+    {
+    }
+    public function getName()
+    {
+    }
+    public function getSingleAddress($idx)
+    {
+        return array('address' => 'ich@da.com', 'addressid' => 'ich@da.com');
+    }
+    public function getValueString()
+    {
+    }
+    public function setValueString($value)
+    {
+    }
+    protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
+    {
+        if ($this->addAdditionalData) {
+            $mailText .= 'addAdditionalData';
+            $mailHtml .= 'addAdditionalData';
+        }
+    }
 }
 
 /**
- *	Test Receiver Object mit email variable
+ *  Test Receiver Object mit email variable
  */
-class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_mkmailer_tests_receiver_BaseTemplate {
-	protected $email = 'john@doe.com';
+class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_mkmailer_tests_receiver_BaseTemplate
+{
+    protected $email = 'john@doe.com';
 }
 
 /**
  * tx_mkmailer_tests_receiver_BaseTemplate_testcase
  *
- * @package 		TYPO3
- * @subpackage	 	mkmailer
- * @author 			Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkmailer
+ * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_receiver_BaseTemplate_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkmailer_tests_receiver_BaseTemplate_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
     /**
      * Constructs a test case with the given name.
@@ -71,234 +90,252 @@ class tx_mkmailer_tests_receiver_BaseTemplate_testcase extends tx_rnbase_tests_B
      * @param  array  $data
      * @param  string $dataName
      */
-    public function __construct($name = NULL, array $data = array(), $dataName = '') {
-        parent::__construct($name,$data, $dataName);
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
         tx_rnbase::load('tx_mklib_tests_Util');
-		tx_mklib_tests_Util::prepareTSFE(array('force'=>true));
+        tx_mklib_tests_Util::prepareTSFE(array('force' => true));
     }
 
 
-	protected $getFileName_backPath = '';
-	protected function setUp(){
-		// bei älteren t3 versionen ist der backpath falsch!
-		$GLOBALS['TSFE']->tmpl->getFileName_backPath =
-			$GLOBALS['TSFE']->tmpl->getFileName_backPath ?
-			$GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
-	}
-	protected function tearDown () {
-		// backpath zurücksetzen
-		$GLOBALS['TSFE']->tmpl->getFileName_backPath = $this->getFileName_backPath;
-	}
-	/**
-	 * @return 	tx_rnbase_configurations
-	 */
-	private function getConfigurations(array $configArray = array()){
-		$configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
-		$configArray = array('sendmails.' => $configArray);
+    protected $getFileName_backPath = '';
+    protected function setUp()
+    {
+        // bei älteren t3 versionen ist der backpath falsch!
+        $GLOBALS['TSFE']->tmpl->getFileName_backPath =
+            $GLOBALS['TSFE']->tmpl->getFileName_backPath ?
+            $GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
+    }
+    protected function tearDown()
+    {
+        // backpath zurücksetzen
+        $GLOBALS['TSFE']->tmpl->getFileName_backPath = $this->getFileName_backPath;
+    }
+    /**
+     * @return  tx_rnbase_configurations
+     */
+    private function getConfigurations(array $configArray = array())
+    {
+        $configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
+        $configArray = array('sendmails.' => $configArray);
 
-		$configurations->init(
-				$configArray,
-				$configurations->getCObj(1),
-				'mkmailer', 'mkmailer'
-			);
-		return $configurations;
-	}
+        $configurations->init(
+            $configArray,
+            $configurations->getCObj(1),
+            'mkmailer',
+            'mkmailer'
+        );
 
-	/**
-	 * @param string $class
-	 *
-	 * @return 	tx_mkmailer_tests_receiver_BaseTemplate
-	 */
-	private function getReceiver($class = 'tx_mkmailer_tests_receiver_BaseTemplate'){
-		return tx_rnbase::makeInstance($class);
-	}
+        return $configurations;
+    }
 
-	/**
-	 * @return 	tx_mkmailer_receiver_BaseTemplate
-	 */
-	private function getQueue(array $data = array()){
-		$data['uid'] = $data['uid'] ? $data['uid'] : 0;
-		$data['contenttext'] = $data['contenttext'] ? $data['contenttext'] : 'Text für TEXT<br />';
-		$data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'Text für HTML<br />';
-		$data['subject'] = $data['subject'] ? $data['subject'] : 'Subject';
-		return tx_rnbase::makeInstance('tx_mkmailer_models_Queue', $data);
-	}
+    /**
+     * @param string $class
+     *
+     * @return  tx_mkmailer_tests_receiver_BaseTemplate
+     */
+    private function getReceiver($class = 'tx_mkmailer_tests_receiver_BaseTemplate')
+    {
+        return tx_rnbase::makeInstance($class);
+    }
 
-	public function testGetSingleMailWithoutWrap() {
-		$confId = 'sendmails.';
-		$configurations = $this->getConfigurations();
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+    /**
+     * @return  tx_mkmailer_receiver_BaseTemplate
+     */
+    private function getQueue(array $data = array())
+    {
+        $data['uid'] = $data['uid'] ? $data['uid'] : 0;
+        $data['contenttext'] = $data['contenttext'] ? $data['contenttext'] : 'Text für TEXT<br />';
+        $data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'Text für HTML<br />';
+        $data['subject'] = $data['subject'] ? $data['subject'] : 'Subject';
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        return tx_rnbase::makeInstance('tx_mkmailer_models_Queue', $data);
+    }
 
-		$this->assertEquals('Text für HTML<br />', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithoutWrap()
+    {
+        $confId = 'sendmails.';
+        $configurations = $this->getConfigurations();
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrongTemplate() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplate.' => array(
-						'wrapTemplate' => '1',
-						'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/wrongtext.html',
-						'textTemplate' => 'EXT:mkmailer/tests/fixtures/wronghtml.html',
-					),
-			);
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('Text für HTML<br />', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('<!-- TEMPLATE NOT FOUND: EXT:mkmailer/tests/fixtures/wrongtext.html -->Text für HTML<br />', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrongTemplate()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplate.' => array(
+                        'wrapTemplate' => '1',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/wrongtext.html',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/wronghtml.html',
+                    ),
+            );
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrappedTemplate() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplate.' => array(
-						'wrapTemplate' => '1',
-						'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-						'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-					),
-			);
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('<!-- TEMPLATE NOT FOUND: EXT:mkmailer/tests/fixtures/wrongtext.html -->Text für HTML<br />', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('TEXTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrappedTemplate()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplate.' => array(
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                    ),
+            );
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrappedTemplateAndAdditionalData() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplate.' => array(
-						'wrapTemplate' => '1',
-						'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-						'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-					),
-			);
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$receiver->addAdditionalData = true;
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('TEXTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrappedTemplateAndAdditionalData()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplate.' => array(
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                    ),
+            );
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $receiver->addAdditionalData = true;
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrappedDefaultTemplateAndAdditionalData() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-				'basetemplate.' => array(
-						'wrapTemplate' => '1',
-					),
-			);
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$receiver->addAdditionalData = true;
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrappedDefaultTemplateAndAdditionalData()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
+                'basetemplate.' => array(
+                        'wrapTemplate' => '1',
+                    ),
+            );
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $receiver->addAdditionalData = true;
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrappedDefaultTemplateAndCustomSubpart() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-				'basetemplate.' => array(
-					'wrapTemplate' => '1',
-					'textSubpart' => '###TESTTEXT###',
-					'htmlSubpart' => '###TESTHTML###',
-				),
-			);
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('HTMLTESTTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('TEXTTESTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrappedDefaultTemplateAndCustomSubpart()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
+                'basetemplate.' => array(
+                    'wrapTemplate' => '1',
+                    'textSubpart' => '###TESTTEXT###',
+                    'htmlSubpart' => '###TESTHTML###',
+                ),
+            );
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailWithWrappedTemplateAndDcMarker() {
-		$confId = 'sendmails.';
-		$configArray = array(
-				'basetemplate.' => array(
-						'wrapTemplate' => '1',
-						'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-						'textSubpart' => '###CONTENTTEXT_DCMARKER###',
-						'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-						'htmlSubpart' => '###CONTENTHTML_DCMARKER###',
-						'receivertext.' => array(),
-					),
-			);
-		$configArray['basetemplate.']['receivertext.']['dctest']
-			= $configArray['basetemplate.']['receiverhtml.']['dctest']
-				= 'TEXT';
-		$configArray['basetemplate.']['receivertext.']['dctest.']['value']
-			= $configArray['basetemplate.']['receiverhtml.']['dctest.']['value']
-				= 'Hallo Welt';
-		$configurations = $this->getConfigurations($configArray);
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$contentHtml = ($msg->getHtmlPart());
-		$contentText = ($msg->getTxtPart());
+        $this->assertEquals('HTMLTESTTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('TEXTTESTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
+    }
 
-		$this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html> ich@da.com ich@da.com Hallo Welt', $contentHtml, 'HTML part wrong.');
-		$this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".' ich@da.com ich@da.com Hallo Welt', $contentText, 'TEXT part wrong.');
-	}
+    public function testGetSingleMailWithWrappedTemplateAndDcMarker()
+    {
+        $confId = 'sendmails.';
+        $configArray = array(
+                'basetemplate.' => array(
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'textSubpart' => '###CONTENTTEXT_DCMARKER###',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                        'htmlSubpart' => '###CONTENTHTML_DCMARKER###',
+                        'receivertext.' => array(),
+                    ),
+            );
+        $configArray['basetemplate.']['receivertext.']['dctest']
+            = $configArray['basetemplate.']['receiverhtml.']['dctest']
+                = 'TEXT';
+        $configArray['basetemplate.']['receivertext.']['dctest.']['value']
+            = $configArray['basetemplate.']['receiverhtml.']['dctest.']['value']
+                = 'Hallo Welt';
+        $configurations = $this->getConfigurations($configArray);
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-	public function testGetSingleMailUsesGetSingleAdressIfObjectVariableEmailNotSet() {
-		$confId = 'sendmails.';
-		$configurations = $this->getConfigurations();
-		$receiver = $this->getReceiver();
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $contentHtml = ($msg->getHtmlPart());
+        $contentText = ($msg->getTxtPart());
 
-		$expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
-		$this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
-	}
+        $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html> ich@da.com ich@da.com Hallo Welt', $contentHtml, 'HTML part wrong.');
+        $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".' ich@da.com ich@da.com Hallo Welt', $contentText, 'TEXT part wrong.');
+    }
 
-	public function testGetSingleMailUsesObjectVariableEmailIfSet() {
-		$confId = 'sendmails.';
-		$configurations = $this->getConfigurations();
-		$receiver = $this->getReceiver('tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable');
-		$queue = $this->getQueue();
-		$msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+    public function testGetSingleMailUsesGetSingleAdressIfObjectVariableEmailNotSet()
+    {
+        $confId = 'sendmails.';
+        $configurations = $this->getConfigurations();
+        $receiver = $this->getReceiver();
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-		$expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
-		$this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
-	}
+        $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
+        $this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
+    }
+
+    public function testGetSingleMailUsesObjectVariableEmailIfSet()
+    {
+        $confId = 'sendmails.';
+        $configurations = $this->getConfigurations();
+        $receiver = $this->getReceiver('tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable');
+        $queue = $this->getQueue();
+        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+
+        $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
+        $this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
+    }
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']);
 }

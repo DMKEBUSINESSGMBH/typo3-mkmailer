@@ -34,48 +34,52 @@ tx_rnbase::load('tx_mklib_tests_Util');
 /**
  * @author Hannes Bochmann
  */
-abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_BaseTestCase {
+abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_mklib_tests_Util::prepareTSFE();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        tx_mklib_tests_Util::prepareTSFE();
+    }
 
-	/**
-	 * @return tx_mkmailer_services_Mail
-	 */
-	protected function getMailServiceMock() {
-		$mailService = $this->getMock(
-			'tx_mkmailer_services_Mail',
-			array('spoolMailJob','getTemplate')
-		);
+    /**
+     * @return tx_mkmailer_services_Mail
+     */
+    protected function getMailServiceMock()
+    {
+        $mailService = $this->getMock(
+            'tx_mkmailer_services_Mail',
+            array('spoolMailJob','getTemplate')
+        );
 
-		return $mailService;
-	}
+        return $mailService;
+    }
 
-	/**
-	 * @param tx_mkmailer_services_Mail $mailService
-	 *
-	 * @return tx_mkmailer_util_Mails
-	 */
-	protected function getMailUtilMock(tx_mkmailer_services_Mail $mailService) {
-		$mailUtil = $this->getMock(
-			$this->getMailUtilClass(),
-			array('getMailService')
-		);
+    /**
+     * @param tx_mkmailer_services_Mail $mailService
+     *
+     * @return tx_mkmailer_util_Mails
+     */
+    protected function getMailUtilMock(tx_mkmailer_services_Mail $mailService)
+    {
+        $mailUtil = $this->getMock(
+            $this->getMailUtilClass(),
+            array('getMailService')
+        );
 
-		$mailUtil->expects($this->once())
-			->method('getMailService')
-			->will($this->returnValue($mailService));
+        $mailUtil->expects($this->once())
+            ->method('getMailService')
+            ->will($this->returnValue($mailService));
 
-		return $mailUtil;
-	}
+        return $mailUtil;
+    }
 
-	/**
-	 * @return string
-	 */
-	abstract protected function getMailUtilClass();
+    /**
+     * @return string
+     */
+    abstract protected function getMailUtilClass();
 }
