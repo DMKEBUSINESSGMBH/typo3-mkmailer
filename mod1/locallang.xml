@@ -2,7 +2,7 @@
 <T3locallang>
     <meta type="array">
         <type>module</type>
-        <description>Language labels for module &quot;tools_MkmailerBackend&quot;</description>
+        <description>Language labels for module &quot;user_MkmailerBackend&quot;</description>
     </meta>
     <data type="array">
         <languageKey index="default" type="array">

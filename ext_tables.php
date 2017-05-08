@@ -48,11 +48,11 @@ if (TYPO3_MODE == 'BE') {
     }
 
 
-    // register tools_MkmailerBackend
+    // register user_MkmailerBackend
     tx_rnbase::load('tx_mkmailer_mod1_Module');
     tx_rnbase_util_Extensions::registerModule(
         'mkmailer',
-        'tools',
+        'user',
         'backend',
         'bottom',
         array(
@@ -67,14 +67,14 @@ if (TYPO3_MODE == 'BE') {
 
     tx_rnbase::load('tx_mkmailer_mod1_FuncOverview');
     tx_rnbase_util_Extensions::insertModuleFunction(
-        'tools_MkmailerBackend',
+        'user_MkmailerBackend',
         'tx_mkmailer_mod1_FuncOverview',
         tx_rnbase_util_Extensions::extPath('mkmailer', 'mod1/class.tx_mkmailer_mod1_FuncOverview.php'),
         'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_overview'
     );
 
 //     tx_rnbase_util_Extensions::insertModuleFunction(
-//         'tools_MkmailerBackend',
+//         'user_MkmailerBackend',
 //         'tx_mkmailer_mod1_FuncTest',
 //         tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'mod1/class.tx_mkmailer_mod1_FuncTest.php',
 //         'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_test'
