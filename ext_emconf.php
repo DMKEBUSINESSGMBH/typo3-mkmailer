@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
     'category' => 'services',
     'author' => 'René Nitzsche,Michael Wagner,Hannes Bochmann',
     'author_email' => 'dev@dmk-ebusiness.de',
-'version' => '2.0.10',
+    'version' => '3.0.0',
     'shy' => '',
     'dependencies' => 'rn_base',
     'conflicts' => '',
@@ -32,14 +32,14 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => 'DMK E-BUSINESS GmbH',
     'constraints' => array(
         'depends' => array(
-            'rn_base' => '1.0.5-0.0.0',
-            'typo3' => '4.5.0-8.7.99'
+            'rn_base' => '1.4.0-',
+            'typo3' => '4.5.0-8.7.99',
         ),
         'conflicts' => array(
         ),
         'suggests' => array(
-            't3users' => '2.0.0-0.0.0',
-            'mklib' => '2.0.0-0.0.0'
+            't3users' => '3.0.0-',
+            'mklib' => '3.0.0-'
         ),
     ),
     '_md5_values_when_last_written' => 'a:5:{s:9:"ChangeLog";s:4:"afa5";s:10:"README.txt";s:4:"ee2d";s:12:"ext_icon.gif";s:4:"1bdc";s:19:"doc/wizard_form.dat";s:4:"ae26";s:20:"doc/wizard_form.html";s:4:"b08b";}',
