@@ -5,6 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|3.0.0|Initial TYPO3 8.7 LTS Support|
 |2.0.5|added softref configuration to TCA|
 |2.0.4|source out marker array parsing to own method in base template receiver|
 ||confid added to substituteMarkerArray in tx_mkmailer_receiver_BaseTemplate|
