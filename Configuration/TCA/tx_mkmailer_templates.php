@@ -7,13 +7,13 @@ if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
     tx_rnbase::load('tx_rnbase_util_TSFAL');
     $attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA(
         'attachments',
-        array('config' => array('softref' => 'typolink,images'))
+        array('config' => array('softref' => 'images'))
     );
 } else {
     tx_rnbase::load('tx_rnbase_util_TSDAM');
     $attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA(
         'attachments',
-        array('config' => array('softref' => 'typolink,images'))
+        array('config' => array('softref' => 'images'))
     );
 }
 
@@ -199,7 +199,7 @@ return array(
                 'size' => 5,
                 'minitems' => 0,
                 'maxitems' => 10,
-                'softref' => 'typolink,images'
+                'softref' => 'images'
             )
         )
     ),
