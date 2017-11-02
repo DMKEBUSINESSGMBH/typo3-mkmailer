@@ -22,6 +22,23 @@
             <label index="tx_mkmailer_templates_templatetype_3">Type 3</label>
             <label index="tx_mkmailer_templates_attachments">Attachments</label>
 
+            <label index="tx_mkmailer_log">Log-Template</label>
+            <label index="tx_mkmailer_log_receiver">Receiver</label>
+            <label index="tx_mkmailer_log_address">Adresse</label>
+            <label index="tx_mkmailer_log_failed">Failed</label>
+            <label index="tx_mkmailer_log_email">Email</label>
+
+            <label index="tx_mkmailer_queue">Queue-Template</label>
+            <label index="tx_mkmailer_queue_subject">Subject</label>
+            <label index="tx_mkmailer_queue_deleted">Deleted</label>
+            <label index="tx_mkmailer_queue_isstatic">Isstatic</label>
+            <label index="tx_mkmailer_queue_prefer">Prefer</label>
+            <label index="tx_mkmailer_queue_cc">CC</label>
+
+            <label index="tx_mkmailer_receiver">Receiver-Template</label>
+            <label index="tx_mkmailer_receiver_resolver">Resolver</label>
+            <label index="tx_mkmailer_receiver_receiver">Receiver</label>
+
             <label index="plugin.mkmailer.label">MK Mailer Plugin</label>
             <label index="plugin.mkmailer.description">Some views for mkmailer</label>
             <label index="plugin.mkmailer.flexform.tab.common">Common</label>

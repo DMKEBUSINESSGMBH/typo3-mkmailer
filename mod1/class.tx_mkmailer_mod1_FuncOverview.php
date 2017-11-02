@@ -58,6 +58,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $data = array_merge($data, $this->getOpenMails());
         $data = array_merge($data, $this->getFinishedMails());
+        $data = array_merge($data, $this->getFailedMails());
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
@@ -131,6 +132,38 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
+     * Liefert die fehlgeschlagenen Aufträge in der Mailqueue
+     *
+     * @return array
+     */
+    private function getFailedMails()
+    {
+    	global $LANG;
+    	$pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
+
+    	$options = array('count' => 1);
+    	$mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
+    	$cnt = $mailServ->getMailQueueFailed($options);
+    	unset($options['count']);
+    	$pager->setListSize($cnt);
+    	// Jetzt die Daten abholen
+    	$pager->setOptions($options);
+
+    	// Jetzt die eigentlichen Daten laut Page holen
+    	$queueArr = $mailServ->getMailQueueFailed($options);
+
+    	$content['queuefailed_head'] = $LANG->getLL('label_failedjobs').' ('.$cnt.')';
+
+    	// Pager einblenden
+    	$pagerData = $pager->render();
+    	$content['queuefailed_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
+
+    	$content['queuefailed_content'] = $this->showMails($queueArr, false);
+
+    	return $content;
+    }
+
+    /**
      * Creates a table of email
      *
      * @param array $mails
@@ -158,7 +191,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $col[] = $mail->getLastUpdate();
             $col[] = $mail->getMailCount();
             $col[] = $mail->isPrefer() ? 'Ja' : 'Nein';
-            $col[] = $this->showReceiver($mail);
+            $col[] = $this->showReceiver($mail).$changeBtn;
             $content = $mail->getSubject();
             $col[] = substr($content, 0, 30);
             $cols[] = $col;

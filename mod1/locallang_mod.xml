@@ -18,6 +18,7 @@
             <label index="label_modfunc_overview">MK Mailer - Control panel</label>
             <label index="label_openjobs">Open mail jobs</label>
             <label index="label_finishedjobs">Finished mail jobs</label>
+            <label index="label_failedjobs">Failed mail jobs</label>
         </languageKey>
         <languageKey index="de" type="array">
             <label index="func_overview">Überblick</label>
@@ -27,6 +28,7 @@
             <label index="label_delete">Löschen</label>
             <label index="label_openjobs">Offene Mailaufträge</label>
             <label index="label_finishedjobs">Beendete Mailaufträge</label>
+            <label index="label_failedjobs">Fehlgeschlagene Mailaufträge</label>
         </languageKey>
     </data>
 </T3locallang>

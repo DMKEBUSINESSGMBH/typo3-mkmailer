@@ -124,9 +124,10 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                             $this->sendEmail($message);
                             $sentCnt++;
                             // Und jetzt den Versand loggen
-                            $this->markMailAsSent($queue, $address['addressid']);
+                            $this->markMailAsSent($queue, $address['addressid'], $receiver);
                         } catch (Exception $e) {
                             $errCnt++;
+                            $this->markMailAsSent($queue, $address['addressid'], $receiver, true);
                             $sentErrors[] = 'QueueID: ' . $queue->getUid() .
                                 ' (' . implode(',', $address) . ')' .
                                 ' Msg: ' . $e->getMessage();
@@ -473,6 +474,46 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
     }
 
     /**
+     * Liefert eine Array mit allen fehlgeschlagenen Mails aus der Queue
+     * @return array[tx_mkmailer_models_Queue]
+     */
+    public function getMailQueueFailed($options = array())
+    {
+    	$connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('tx_mkmailer_queue');
+    	$queryBuilder = $connection->createQueryBuilder();
+    	$constraints = [
+    			$queryBuilder->expr()->eq('tx_mkmailer_log.failed', $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)),
+    	];
+    	$test = $queryBuilder->select('*')->from('tx_mkmailer_queue')
+    	->join(
+    			'tx_mkmailer_log',
+    			'tx_mkmailer_log',
+    			'tx_mkmailer_queue',
+    			$queryBuilder->expr()->eq(
+    					'tx_mkmailer_queue.uid',
+    					$queryBuilder->quoteIdentifier('tx_mkmailer_log.email')
+    					)
+    			)
+    	->where(...$constraints)
+    	->execute();
+    	print_r($test);
+
+    	$what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
+    	$from = 'tx_mkmailer_queue';
+
+    	$options['where'] = 'deleted=1';
+    	$options['orderby'] = 'lastupdate desc';
+    	$options['enablefieldsoff'] = 1;
+    	if (!array_key_exists('count', $options)) {
+    		$options['wrapperclass'] = 'tx_mkmailer_models_Queue';
+    	}
+
+    	$ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
+
+    	return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
+    }
+
+    /**
      * Delete a mail job from mail queue
      * @param int $uid
      * @return int number of affected mails
@@ -677,21 +718,12 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'addAddress')
     {
-        if (tx_rnbase_util_Strings::validEmail(
-            $address->getAddress()
-        )
-        ) {
-            $mail->{$method}($address->getAddress(), $address->getName());
+        $mailAdr = $address->getAddress();
+
+        if (Tx_Rnbase_Utility_Strings::validEmail($mailAdr)) {
+            $mail->{$method}($mailAdr, $address->getName());
         } else {
-            tx_rnbase::load('tx_rnbase_util_Logger');
-            tx_rnbase_util_Logger::warn(
-                'Invalid Email address given. Mail not sent!',
-                'mkmailer',
-                array(
-                    'emailAddress' => $address->getAddress(),
-                    'Name' => $address->getName(),
-                )
-            );
+        	throw new Exception('[Method: '.$method.'] Invalid Email address ('.$mailAdr.') given. Mail not sent!');
         }
 
         return $mail;
@@ -773,7 +805,9 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     private function markMailAsSent(
         tx_mkmailer_models_Queue $queue,
-        $mailAddress
+        $mailAddress,
+        tx_mkmailer_receiver_IMailReceiver $receiver,
+        $failed = false
     ) {
         if (!$queue->isPersisted()) {
             return;
@@ -784,7 +818,10 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $row['email'] = $queue->getUid();
         $row['address'] = $mailAddress;
 
-        tx_rnbase_util_DB::doInsert('tx_mkmailer_log', $row, 0);
+        $row['receiver'] = $receiver;
+        $row['failed'] = $failed;
+
+        Tx_Rnbase_Database_Connection::doInsert('tx_mkmailer_log', $row, 0);
     }
 }
 

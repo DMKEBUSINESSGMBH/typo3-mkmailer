@@ -14,6 +14,7 @@ if (TYPO3_MODE == 'BE' &&
     tx_rnbase_util_Extensions::isLoaded('mklib') &&
     tx_rnbase_util_TYPO3::isTYPO62OrHigher()
 ) {
+	print_r('test');
     tx_rnbase::load('tx_mkmailer_scheduler_SendMails');
     tx_rnbase::load('tx_mkmailer_scheduler_SendMailsFieldProvider');
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['tx_mkmailer_scheduler_SendMails'] = array(

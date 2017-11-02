@@ -71,11 +71,14 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
+        $exceptionMsg = '[Method: addAddress] Invalid Email address ('.$email.') given. Mail not sent!';
 
         $mail = $this->getMail();
         $address = $this->getAddress($email, $name);
         $mail->expects($this->never())
             ->method('addAddress');
+
+        $this->setExpectedException(Exception::class, $exceptionMsg);
 
         $this->invoke($mail, $address, 'addAddress');
     }
@@ -105,11 +108,14 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
+        $exceptionMsg = '[Method: addBCC] Invalid Email address ('.$email.') given. Mail not sent!';
 
         $mail = $this->getMail();
         $address = $this->getAddress($email, $name);
         $mail->expects($this->never())
             ->method('addBCC');
+
+        $this->setExpectedException(Exception::class, $exceptionMsg);
 
         $this->invoke($mail, $address, 'addBCCAddress');
     }
@@ -138,11 +144,14 @@ class tx_mkmailer_tests_services_Mail_testcase extends tx_rnbase_tests_BaseTestC
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
+        $exceptionMsg = '[Method: addCC] Invalid Email address ('.$email.') given. Mail not sent!';
 
         $mail = $this->getMail();
         $address = $this->getAddress($email, $name);
         $mail->expects($this->never())
             ->method('addCC');
+
+        $this->setExpectedException(Exception::class, $exceptionMsg);
 
         $this->invoke($mail, $address, 'addCCAddress');
     }

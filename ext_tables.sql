@@ -76,6 +76,8 @@ CREATE TABLE tx_mkmailer_log (
     email int(11) DEFAULT '0' NOT NULL,
     address varchar(255) NOT NULL default '',
     tstamp datetime default '0000-00-00 00:00:00',
+    failed tinyint(4) DEFAULT '0' NOT NULL,
+    receiver int(11) DEFAULT '0' NOT NULL,
     PRIMARY KEY (uid),
     KEY idx_mkmailer_log (email,address)
 );
