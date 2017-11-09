@@ -52,7 +52,7 @@ if (TYPO3_MODE == 'BE') {
     tx_rnbase::load('tx_mkmailer_mod1_Module');
     tx_rnbase_util_Extensions::registerModule(
         'mkmailer',
-        'user',
+        'web',
         'backend',
         'bottom',
         array(
