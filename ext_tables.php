@@ -67,7 +67,7 @@ if (TYPO3_MODE == 'BE') {
 
     tx_rnbase::load('tx_mkmailer_mod1_FuncOverview');
     tx_rnbase_util_Extensions::insertModuleFunction(
-        'user_MkmailerBackend',
+        'web_MkmailerBackend',
         'tx_mkmailer_mod1_FuncOverview',
         tx_rnbase_util_Extensions::extPath('mkmailer', 'mod1/class.tx_mkmailer_mod1_FuncOverview.php'),
         'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_overview'
