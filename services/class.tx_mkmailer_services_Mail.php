@@ -158,11 +158,14 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         }
         $lock->unlockProcess();
 
-        $out = '<p>Finished with ' . $sentQueueCnt . ' Mails. Errors: ' . count($sentErrors) . '</p>';
-        if (count($sentErrors)) {
-            $out .= '<h3>Errors</h3><ul>';
-            foreach ($sentErrors as $errorMsg) {
-                $out .= '<li>' . $errorMsg . LF;
+        $out = '';
+        if (tx_rnbase_util_Network::isDevelopmentIp()) {
+            $out = '<p>Finished with ' . $sentQueueCnt . ' Mails. Errors: ' . count($sentErrors) . '</p>';
+            if (count($sentErrors)) {
+                $out .= '<h3>Errors</h3><ul>';
+                foreach ($sentErrors as $errorMsg) {
+                    $out .= '<li>' . $errorMsg . LF;
+                }
             }
         }
 
