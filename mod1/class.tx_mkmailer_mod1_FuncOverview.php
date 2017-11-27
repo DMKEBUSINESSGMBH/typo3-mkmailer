@@ -138,29 +138,29 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      */
     private function getFailedMails()
     {
-    	global $LANG;
-    	$pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
+      global $LANG;
+      $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
 
-    	$options = array('count' => 1);
-    	$mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
-    	$cnt = $mailServ->getMailQueueFailed($options);
-    	unset($options['count']);
-    	$pager->setListSize($cnt);
-    	// Jetzt die Daten abholen
-    	$pager->setOptions($options);
+      $options = array('count' => 1);
+      $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
+      $cnt = $mailServ->getMailQueueFailed($options);
+      unset($options['count']);
+      $pager->setListSize($cnt);
+      // Jetzt die Daten abholen
+      $pager->setOptions($options);
 
-    	// Jetzt die eigentlichen Daten laut Page holen
-    	$queueArr = $mailServ->getMailQueueFailed($options);
+      // Jetzt die eigentlichen Daten laut Page holen
+      $queueArr = $mailServ->getMailQueueFailed($options);
 
-    	$content['queuefailed_head'] = $LANG->getLL('label_failedjobs').' ('.$cnt.')';
+      $content['queuefailed_head'] = $LANG->getLL('label_failedjobs').' ('.$cnt.')';
 
-    	// Pager einblenden
-    	$pagerData = $pager->render();
-    	$content['queuefailed_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
+      // Pager einblenden
+      $pagerData = $pager->render();
+      $content['queuefailed_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
 
-    	$content['queuefailed_content'] = $this->showMails($queueArr, false);
+      $content['queuefailed_content'] = $this->showMails($queueArr, false);
 
-    	return $content;
+      return $content;
     }
 
     /**
