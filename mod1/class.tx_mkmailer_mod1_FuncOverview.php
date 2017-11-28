@@ -55,6 +55,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         $data = array();
 
         $this->handleDeleteMail();
+        $this->handleMoveInQueue();
 
         $data = array_merge($data, $this->getOpenMails());
         $data = array_merge($data, $this->getFinishedMails());
@@ -158,9 +159,47 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
       $pagerData = $pager->render();
       $content['queuefailed_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
 
-      $content['queuefailed_content'] = $this->showMails($queueArr, false);
+      $content['queuefailed_content'] = $this->showLogs($queueArr, true);
 
       return $content;
+    }
+
+    /**
+     * Creates a table of logs
+     *
+     * @param array $logs
+     * @param bool $changeButton
+     * @return string
+     */
+    private function showLogs(&$logs, $changeButton = false)
+    {
+        global $LANG;
+        if (!count($logs)) {
+            return '';
+        }
+        $cols = array();
+        $cols[] = array('UID', 'Erstellung', 'Adresse (Receiver)', '');
+        $cnt = count($logs);
+        for ($i = 0; $i < $cnt; $i++) {
+            $log = $logs[$i];
+            $col = array();
+            if ($changeButton) {
+                $changeBtn = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $log->getReceiverUid());
+            }
+
+            $moveBtn = $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$log->getReceiverUid().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
+
+            $col[] = $log->getUid();
+            $col[] = $log->getTstamp();
+            $col[] = $log->getAddress().' ('.$log->getReceiver().') '.$changeBtn;
+            $col[] = $moveBtn;
+            $cols[] = $col;
+        }
+
+        /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
+        $tables = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+
+        return $tables->buildTable($cols);
     }
 
     /**
@@ -191,7 +230,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $col[] = $mail->getLastUpdate();
             $col[] = $mail->getMailCount();
             $col[] = $mail->isPrefer() ? 'Ja' : 'Nein';
-            $col[] = $this->showReceiver($mail).$changeBtn;
+            $col[] = $this->showReceiver($mail);
             $content = $mail->getSubject();
             $col[] = substr($content, 0, 30);
             $cols[] = $col;
@@ -245,6 +284,23 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         // Die Mail löschen
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
         $mailServ->deleteMail($uid);
+
+        return $out;
+    }
+
+    /**
+     * aktiviert fehlgeschlagene Mails wieder in der Queue
+     * @return string
+     */
+    private function handleMoveInQueue()
+    {
+        $out = '';
+        $uid = $this->getUidFromRequest('moveInQueue');
+
+        if($uid != 0){
+            tx_rnbase_util_DB::doUpdate('tx_mkmailer_queue', 'uid='.$uid, array('deleted' => '0'));
+            Tx_Rnbase_Database_Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
+        }
 
         return $out;
     }
