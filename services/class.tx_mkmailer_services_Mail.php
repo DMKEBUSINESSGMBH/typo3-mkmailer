@@ -26,6 +26,7 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 tx_rnbase::load('tx_mkmailer_models_Queue');
+tx_rnbase::load('tx_mkmailer_models_Log');
 tx_rnbase::load('tx_mkmailer_mail_IMessage');
 tx_rnbase::load('tx_rnbase_util_Files');
 tx_rnbase::load('Tx_Rnbase_Utility_T3General');
@@ -479,36 +480,17 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     public function getMailQueueFailed($options = array())
     {
-      $connection = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getConnectionForTable('tx_mkmailer_queue');
-      $queryBuilder = $connection->createQueryBuilder();
-      $constraints = [
-          $queryBuilder->expr()->eq('tx_mkmailer_log.failed', $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)),
-      ];
-      $test = $queryBuilder->select('*')->from('tx_mkmailer_queue')
-      ->join(
-          'tx_mkmailer_log',
-          'tx_mkmailer_log',
-          'tx_mkmailer_queue',
-          $queryBuilder->expr()->eq(
-              'tx_mkmailer_queue.uid',
-              $queryBuilder->quoteIdentifier('tx_mkmailer_log.email')
-              )
-          )
-      ->where(...$constraints)
-      ->execute();
-      print_r($test);
-
       $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
-      $from = 'tx_mkmailer_queue';
+      $from = 'tx_mkmailer_log';
 
-      $options['where'] = 'deleted=1';
-      $options['orderby'] = 'lastupdate desc';
+      $options['where'] = 'failed=1';
+      $options['orderby'] = 'tstamp desc';
       $options['enablefieldsoff'] = 1;
       if (!array_key_exists('count', $options)) {
-        $options['wrapperclass'] = 'tx_mkmailer_models_Queue';
+        $options['wrapperclass'] = 'tx_mkmailer_models_Log';
       }
 
-      $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
+      $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($what, $from, $options, 0);
 
       return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
