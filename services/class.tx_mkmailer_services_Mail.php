@@ -131,10 +131,10 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                             $this->markMailAsSent($queue, $address['addressid'], $receiver, true);
                             $sentErrors[] = 'QueueID: ' . $queue->getUid() .
                                 ' (' . implode(',', $address) . ')' .
-                                ' Msg: ' . $e->getMessage();
+                                ' Msg: E-Mail konnte nicht gesendet werden. Sie können fehlerhafte Nachrichten im Backend bearbeiten. (' . $e->getMessage().')';
                             tx_rnbase::load('tx_rnbase_util_Logger');
                             tx_rnbase_util_Logger::fatal(
-                                'Error in SendMailQueue',
+                                'Error in SendMailQueue: Eine Nachricht konnte aufgrund einer fehlerhaften E-Mail nicht versendet werden. Sie können diese Nachricht im Backend von MkMailer bearbeiten.',
                                 'mkmailer',
                                 array(
                                     'Exception' => $e->getMessage(),
