@@ -57,9 +57,9 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         $this->handleDeleteMail();
         $this->handleMoveInQueue();
 
-        $data = array_merge($data, $this->getOpenMails());
-        $data = array_merge($data, $this->getFinishedMails());
-        $data = array_merge($data, $this->getFailedMails());
+        $data = array_merge($data, $this->getMails('open'));
+        $data = array_merge($data, $this->getMails('finished'));
+        $data = array_merge($data, $this->getMails('failed'));
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
@@ -69,170 +69,96 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Liefert die offenen Aufträge in der Mailqueue
+     * Liefert den Content für die MKMailer Übersicht
      *
+     * @param string $label
+     * @param bool $buttons
      * @return array
      */
-    private function getOpenMails()
+    private function getMails($label)
     {
         global $LANG;
         $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
 
         $options = array('count' => 1);
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
-        $cnt = $mailServ->getMailQueue($options);
-        unset($options['count']);
-        $pager->setListSize($cnt);
-        // Jetzt die Daten abholen
-        $pager->setOptions($options);
 
-        // Jetzt die eigentlichen Daten laut Page holen
-        $queueArr = $mailServ->getMailQueue($options);
+        if($label == 'open'){
+            $cnt = $mailServ->getMailQueue($options);
+            unset($options['count']);
+            $pager->setListSize($cnt);
+            $pager->setOptions($options);
+            $queueArr = $mailServ->getMailQueue($options);
+            $content['queue'.$label.'_content'] = $this->showContent($queueArr, true, false);
+        }else if($label == 'finished'){
+            $cnt = $mailServ->getMailQueueFinished($options);
+            unset($options['count']);
+            $pager->setListSize($cnt);
+            $pager->setOptions($options);
+            $queueArr = $mailServ->getMailQueueFinished($options);
+            $content['queue'.$label.'_content'] = $this->showContent($queueArr, false, false);
+        }else{
+            $cnt = $mailServ->getMailQueueFailed($options);
+            unset($options['count']);
+            $pager->setListSize($cnt);
+            $pager->setOptions($options);
+            $queueArr = $mailServ->getMailQueueFailed($options);
+            $content['queue'.$label.'_content'] = $this->showContent($queueArr, false, true);
+        }
 
-        $content['queueopen_head'] = $LANG->getLL('label_openjobs').' ('.$cnt.')';
+        $content['queue'.$label.'_head'] = $LANG->getLL('label_'.$label.'jobs').' ('.$cnt.')';
 
         // Pager einblenden
         $pagerData = $pager->render();
-        $content['queueopen_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
-
-        $content['queueopen_content'] = $this->showMails($queueArr, true);
+        $content['queue'.$label.'_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
 
         return $content;
     }
 
-    /**
-     * Liefert die offenen Aufträge in der Mailqueue
-     *
-     * @return array
-     */
-    private function getFinishedMails()
-    {
-        global $LANG;
-        $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
-
-        $options = array('count' => 1);
-        $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
-        $cnt = $mailServ->getMailQueueFinished($options);
-        unset($options['count']);
-        $pager->setListSize($cnt);
-        // Jetzt die Daten abholen
-        $pager->setOptions($options);
-
-        // Jetzt die eigentlichen Daten laut Page holen
-        $queueArr = $mailServ->getMailQueueFinished($options);
-
-        $content['queuefinished_head'] = $LANG->getLL('label_finishedjobs').' ('.$cnt.')';
-
-        // Pager einblenden
-        $pagerData = $pager->render();
-        $content['queuefinished_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
-
-        $content['queuefinished_content'] = $this->showMails($queueArr);
-
-        return $content;
-    }
 
     /**
-     * Liefert die fehlgeschlagenen Aufträge in der Mailqueue
+     * Creates a table of Content
      *
-     * @return array
-     */
-    private function getFailedMails()
-    {
-      global $LANG;
-      $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
-
-      $options = array('count' => 1);
-      $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
-      $cnt = $mailServ->getMailQueueFailed($options);
-      unset($options['count']);
-      $pager->setListSize($cnt);
-      // Jetzt die Daten abholen
-      $pager->setOptions($options);
-
-      // Jetzt die eigentlichen Daten laut Page holen
-      $queueArr = $mailServ->getMailQueueFailed($options);
-
-      $content['queuefailed_head'] = $LANG->getLL('label_failedjobs').' ('.$cnt.')';
-
-      // Pager einblenden
-      $pagerData = $pager->render();
-      $content['queuefailed_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .$pagerData['pages'] .'</div>';
-
-      $content['queuefailed_content'] = $this->showLogs($queueArr, true);
-
-      return $content;
-    }
-
-    /**
-     * Creates a table of logs
-     *
-     * @param array $logs
-     * @param bool $changeButton
-     * @return string
-     */
-    private function showLogs(&$logs, $changeButton = false)
-    {
-        global $LANG;
-        if (!count($logs)) {
-            return '';
-        }
-        $cols = array();
-        $cols[] = array('UID', 'Erstellung', 'Adresse (Receiver)', '');
-        $cnt = count($logs);
-        for ($i = 0; $i < $cnt; $i++) {
-            $log = $logs[$i];
-            $col = array();
-            if ($changeButton) {
-                $changeBtn = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $log->getReceiverUid());
-            }
-
-            $moveBtn = $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$log->getReceiverUid().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
-
-            $col[] = $log->getUid();
-            $col[] = $log->getTstamp();
-            $col[] = $log->getAddress().' ('.$log->getReceiver().') '.$changeBtn;
-            $col[] = $moveBtn;
-            $cols[] = $col;
-        }
-
-        /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
-        $tables = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
-
-        return $tables->buildTable($cols);
-    }
-
-    /**
-     * Creates a table of email
-     *
-     * @param array $mails
+     * @param array $data
      * @param bool $removeButton
+     * @param bool $editButton
      * @return string
      */
-    private function showMails(&$mails, $removeButton = false)
+    private function showContent(&$data, $removeButton = false, $editButton = false)
     {
         global $LANG;
-        if (!count($mails)) {
+        if (!count($data)) {
             return '';
         }
         $cols = array();
-        $cols[] = array('UID', 'Erstellung', 'Update', 'Verschickt', 'Bevorzugt', $LANG->getLL('label_receivers'), 'Betreff');
-        $cnt = count($mails);
+        ($editButton)? $cols[] = array('UID', 'Erstellung', 'Adresse (Receiver)', ''): $cols[] = array('UID', 'Erstellung', 'Update', 'Verschickt', 'Bevorzugt', $LANG->getLL('label_receivers'), 'Betreff');
+        $cnt = count($data);
         for ($i = 0; $i < $cnt; $i++) {
-            $mail = $mails[$i];
+            $d = $data[$i];
             $col = array();
-            $rmBtn = '';
-            if ($removeButton) {
-                $rmBtn = $this->getModule()->getFormTool()->createSubmit('removeMail[]['.$mail->getUid().']', $LANG->getLL('label_delete'), 'Soll diese Mail wirklich gelöscht werden. Die Aktion kann nicht rückgängig gemacht werden!');
+            if ($editButton) {
+                $editBtn = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $d->getReceiverUid());
+                $moveBtn = $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$d->getReceiverUid().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
+
+                $col[] = $d ->getUid();
+                $col[] = $d ->getTstamp();
+                $col[] = $d ->getAddress().' ('.$d->getReceiver().') '.$editBtn;
+                $col[] = $moveBtn;
+            }else{
+                $rmBtn = '';
+                if ($removeButton) {
+                    $rmBtn = $this->getModule()->getFormTool()->createSubmit('removeMail[]['.$d->getUid().']', $LANG->getLL('label_delete'), 'Soll diese Mail wirklich gelöscht werden. Die Aktion kann nicht rückgängig gemacht werden!');
+                }
+                $col[] = $d->getUid(). $rmBtn;
+                $col[] = $d->getCreationDate();
+                $col[] = $d->getLastUpdate();
+                $col[] = $d->getMailCount();
+                $col[] = $d->isPrefer() ? 'Ja' : 'Nein';
+                $col[] = $this->showReceiver($d);
+                $content = $d->getSubject();
+                $col[] = substr($content, 0, 30);
             }
-            $col[] = $mail->getUid(). $rmBtn;
-            $col[] = $mail->getCreationDate();
-            $col[] = $mail->getLastUpdate();
-            $col[] = $mail->getMailCount();
-            $col[] = $mail->isPrefer() ? 'Ja' : 'Nein';
-            $col[] = $this->showReceiver($mail);
-            $content = $mail->getSubject();
-            $col[] = substr($content, 0, 30);
+
             $cols[] = $col;
         }
 
@@ -241,6 +167,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         return $tables->buildTable($cols);
     }
+
     /**
      * Zeigt die Empfänger der Mail an
      * @param tx_mkmailer_models_Queue $mail
