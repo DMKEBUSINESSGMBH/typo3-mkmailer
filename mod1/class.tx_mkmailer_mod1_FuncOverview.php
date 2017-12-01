@@ -131,7 +131,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             return '';
         }
         $cols = array();
-        ($editButton)? $cols[] = array('UID', 'Erstellung', 'Adresse (Receiver)', ''): $cols[] = array('UID', 'Erstellung', 'Update', 'Verschickt', 'Bevorzugt', $LANG->getLL('label_receivers'), 'Betreff');
+        ($editButton)? $cols[] = array('UID', 'Erstellung', 'Receiver', ''): $cols[] = array('UID', 'Erstellung', 'Update', 'Verschickt', 'Bevorzugt', $LANG->getLL('label_receivers'), 'Betreff');
         $cnt = count($data);
         for ($i = 0; $i < $cnt; $i++) {
             $d = $data[$i];
@@ -140,9 +140,9 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
                 $editBtn = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $d->getReceiverUid());
                 $moveBtn = $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$d->getReceiverUid().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
 
-                $col[] = $d ->getUid();
-                $col[] = $d ->getTstamp();
-                $col[] = $d ->getAddress().' ('.$d->getReceiver().') '.$editBtn;
+                $col[] = $d->getUid();
+                $col[] = $d->getTstamp();
+                $col[] = $d->getReceiver().' '.$editBtn;
                 $col[] = $moveBtn;
             }else{
                 $rmBtn = '';
