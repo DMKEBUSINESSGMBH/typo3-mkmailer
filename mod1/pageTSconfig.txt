@@ -14,3 +14,4 @@ mod {
         }
     }
 }
+mod.web_list.table.tx_mkmailer_receiver.hideTable = 1
