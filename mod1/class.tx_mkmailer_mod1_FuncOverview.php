@@ -170,12 +170,12 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $d = $data[$i];
             $col = array();
 
-            $editButton = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $d->getReceiverUid());
-            $moveButton= $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$d->getReceiverUid().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
+            $editButton = $this->getModule()->getFormTool()->createEditButton('tx_mkmailer_receiver', $d->getReceiver());
+            $moveButton= $this->getModule()->getFormTool()->createSubmit('moveInQueue[]['.$d->getReceiver().']', 'Zurück in Queue verschieben', 'Soll diese Mail wirklich wieder in die Queue verschoben werden?');
 
             $col[] = $d->getUid();
             $col[] = $d->getTstamp();
-            $col[] = $d->getReceiver().' '.$editButton;
+            $col[] = $d->getReceiverMail().' '.$editButton;
             $col[] = $moveButton;
             $cols[] = $col;
         }
