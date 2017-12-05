@@ -48,37 +48,9 @@ class tx_mkmailer_models_Log extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Zeitpunkt der Erstellung
-     *
      * @return string
      */
-    public function getUid()
-    {
-        return $this->record['uid'];
-    }
-
-    /**
-     * Liefert den Zeitpunkt der Erstellung
-     *
-     * @return string
-     */
-    public function getTstamp()
-    {
-        return $this->record['tstamp'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->record['address'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReceiverUid()
+    public function getReceiver()
     {
         return $this->record['receiver'];
     }
@@ -88,7 +60,7 @@ class tx_mkmailer_models_Log extends tx_rnbase_model_base
      *
      * @return array
      */
-    public function getReceiver()
+    public function getReceiverMail()
     {
         $what = '*';
         $from = 'tx_mkmailer_receiver';
