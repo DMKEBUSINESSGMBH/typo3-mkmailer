@@ -57,9 +57,9 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         $this->handleDeleteMail();
         $this->handleMoveInQueue();
 
-        $data = array_merge($data, $this->getListForView('open', 'getMailQueue', 'showQueueEntriesWithRemoveButton'));
-        $data = array_merge($data, $this->getListForView('finished', 'getMailQueueFinished', 'showQueueEntries'));
-        $data = array_merge($data, $this->getListForView('failed', 'getMailQueueFailed', 'showLogEntries'));
+        $data = array_merge($data, $this->getListForTable('open', 'getMailQueueOpen', 'showQueueEntriesWithRemoveButton'));
+        $data = array_merge($data, $this->getListForTable('finished', 'getMailQueueFinished', 'showQueueEntries'));
+        $data = array_merge($data, $this->getListForTable('failed', 'getMailQueueFailed', 'showLogEntries'));
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
@@ -76,7 +76,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      * @param string $showEntriesMethod
      * @return array
      */
-    private function getListForView($label, $mailQueueMethod, $showEntriesMethod)
+    private function getListForTable($label, $mailQueueMethod, $showEntriesMethod)
     {
         global $LANG;
         $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
