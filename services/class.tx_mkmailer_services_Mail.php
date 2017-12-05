@@ -437,7 +437,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      * Liefert eine Array mit allen anstehenden Mails aus der Queue
      * @return array[tx_mkmailer_models_Queue]
      */
-    public function getMailQueue($options = array())
+    public function getMailQueueOpen($options = array())
     {
         $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
         $from = 'tx_mkmailer_queue';
