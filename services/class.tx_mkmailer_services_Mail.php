@@ -26,6 +26,7 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_rnbase_util_Dates');
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 tx_rnbase::load('tx_mkmailer_models_Queue');
+tx_rnbase::load('tx_mkmailer_models_Log');
 tx_rnbase::load('tx_mkmailer_mail_IMessage');
 tx_rnbase::load('tx_rnbase_util_Files');
 tx_rnbase::load('Tx_Rnbase_Utility_T3General');
@@ -78,7 +79,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         // Die fehlerhaften Mails über alle Queues sammeln
         $sentErrors = array();
         // Laden von offenen Aufträge
-        $queueArr = $this->getMailQueue();
+        $queueArr = $this->getMailQueueOpen();
         foreach ($queueArr as $queue) {
             if ($sentQueueCnt > $maxMails) {
                 break;
@@ -124,15 +125,16 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                             $this->sendEmail($message);
                             $sentCnt++;
                             // Und jetzt den Versand loggen
-                            $this->markMailAsSent($queue, $address['addressid']);
+                            $this->markMailAsSent($queue, $address['addressid'], $receiverData['uid']);
                         } catch (Exception $e) {
                             $errCnt++;
+                            $this->markMailAsSent($queue, $address['addressid'], $receiverData['uid'], true);
                             $sentErrors[] = 'QueueID: ' . $queue->getUid() .
                                 ' (' . implode(',', $address) . ')' .
-                                ' Msg: ' . $e->getMessage();
+                                ' Msg: E-Mail konnte nicht gesendet werden. Sie können fehlerhafte Nachrichten im Backend bearbeiten. (' . $e->getMessage().')';
                             tx_rnbase::load('tx_rnbase_util_Logger');
                             tx_rnbase_util_Logger::fatal(
-                                'Error in SendMailQueue',
+                                'Error in SendMailQueue: Eine Nachricht konnte aufgrund einer fehlerhaften E-Mail nicht versendet werden. Sie können diese Nachricht im Backend von MkMailer bearbeiten.',
                                 'mkmailer',
                                 array(
                                     'Exception' => $e->getMessage(),
@@ -438,7 +440,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      * Liefert eine Array mit allen anstehenden Mails aus der Queue
      * @return array[tx_mkmailer_models_Queue]
      */
-    public function getMailQueue($options = array())
+    public function getMailQueueOpen($options = array())
     {
         $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
         $from = 'tx_mkmailer_queue';
@@ -473,6 +475,27 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
+    }
+
+    /**
+     * Liefert eine Array mit allen fehlgeschlagenen Mails aus der Queue
+     * @return array[tx_mkmailer_models_Queue]
+     */
+    public function getMailQueueFailed($options = array())
+    {
+      $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
+      $from = 'tx_mkmailer_log';
+
+      $options['where'] = 'failed=1';
+      $options['orderby'] = 'tstamp desc';
+      $options['enablefieldsoff'] = 1;
+      if (!array_key_exists('count', $options)) {
+        $options['wrapperclass'] = 'tx_mkmailer_models_Log';
+      }
+
+      $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($what, $from, $options, 0);
+
+      return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
 
     /**
@@ -680,21 +703,12 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'addAddress')
     {
-        if (tx_rnbase_util_Strings::validEmail(
-            $address->getAddress()
-        )
-        ) {
-            $mail->{$method}($address->getAddress(), $address->getName());
+        $mailAdr = $address->getAddress();
+
+        if (Tx_Rnbase_Utility_Strings::validEmail($mailAdr)) {
+            $mail->{$method}($mailAdr, $address->getName());
         } else {
-            tx_rnbase::load('tx_rnbase_util_Logger');
-            tx_rnbase_util_Logger::warn(
-                'Invalid Email address given. Mail not sent!',
-                'mkmailer',
-                array(
-                    'emailAddress' => $address->getAddress(),
-                    'Name' => $address->getName(),
-                )
-            );
+          throw new Exception('[Method: '.$method.'] Invalid Email address ('.$mailAdr.') given. Mail not sent!');
         }
 
         return $mail;
@@ -771,12 +785,16 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      *
      * @param tx_mkmailer_models_Queue $queue
      * @param string $mailAddress
+     * @param string $receiver
+     * @param bool $failed
      *
      * @return void
      */
     private function markMailAsSent(
         tx_mkmailer_models_Queue $queue,
-        $mailAddress
+        $mailAddress,
+        $receiver,
+        $failed = false
     ) {
         if (!$queue->isPersisted()) {
             return;
@@ -787,7 +805,10 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $row['email'] = $queue->getUid();
         $row['address'] = $mailAddress;
 
-        tx_rnbase_util_DB::doInsert('tx_mkmailer_log', $row, 0);
+        $row['receiver'] = $receiver;
+        $row['failed'] = $failed;
+
+        Tx_Rnbase_Database_Connection::doInsert('tx_mkmailer_log', $row, 0);
     }
 }
 
