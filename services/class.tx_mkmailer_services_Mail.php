@@ -79,7 +79,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         // Die fehlerhaften Mails über alle Queues sammeln
         $sentErrors = array();
         // Laden von offenen Aufträge
-        $queueArr = $this->getMailQueue();
+        $queueArr = $this->getMailQueueOpen();
         foreach ($queueArr as $queue) {
             if ($sentQueueCnt > $maxMails) {
                 break;
@@ -125,10 +125,10 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                             $this->sendEmail($message);
                             $sentCnt++;
                             // Und jetzt den Versand loggen
-                            $this->markMailAsSent($queue, $address['addressid'], $receiver);
+                            $this->markMailAsSent($queue, $address['addressid'], $receiverData['uid']);
                         } catch (Exception $e) {
                             $errCnt++;
-                            $this->markMailAsSent($queue, $address['addressid'], $receiver, true);
+                            $this->markMailAsSent($queue, $address['addressid'], $receiverData['uid'], true);
                             $sentErrors[] = 'QueueID: ' . $queue->getUid() .
                                 ' (' . implode(',', $address) . ')' .
                                 ' Msg: E-Mail konnte nicht gesendet werden. Sie können fehlerhafte Nachrichten im Backend bearbeiten. (' . $e->getMessage().')';
@@ -782,13 +782,15 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      *
      * @param tx_mkmailer_models_Queue $queue
      * @param string $mailAddress
+     * @param string $receiver
+     * @param bool $failed
      *
      * @return void
      */
     private function markMailAsSent(
         tx_mkmailer_models_Queue $queue,
         $mailAddress,
-        tx_mkmailer_receiver_IMailReceiver $receiver,
+        $receiver,
         $failed = false
     ) {
         if (!$queue->isPersisted()) {
