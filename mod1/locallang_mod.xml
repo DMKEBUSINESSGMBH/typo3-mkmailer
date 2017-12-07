@@ -32,6 +32,7 @@
 
             <label index="label_yes">Yes</label>
             <label index="label_no">No</label>
+            <label index="label_edit_complete_receiver">Edit complete receiver</label>
         </languageKey>
         <languageKey index="de" type="array">
             <label index="func_overview">Überblick</label>
@@ -55,6 +56,7 @@
 
             <label index="label_yes">Ja</label>
             <label index="label_no">Nein</label>
+            <label index="label_edit_complete_receiver">Kompletten Receiver bearbeiten</label>
         </languageKey>
     </data>
 </T3locallang>

@@ -22,12 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_rnbase_model_base');
 
 /**
- * tx_mkmailer_models_Queue
- *
- * Model für einen Datensatz der Tabelle tx_mkmailer_queue.
  * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
  *
  * @package         TYPO3
@@ -35,7 +31,7 @@ tx_rnbase::load('tx_rnbase_model_base');
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Log extends tx_rnbase_model_base
+class tx_mkmailer_models_Log extends Tx_Rnbase_Domain_Model_Base
 {
 
     /**
@@ -46,38 +42,6 @@ class tx_mkmailer_models_Log extends tx_rnbase_model_base
     {
         return 'tx_mkmailer_log';
     }
-
-    /**
-     * @return string
-     */
-    public function getReceiver()
-    {
-        return $this->record['receiver'];
-    }
-
-    /**
-     * Liefert die Receiver dieser Mail als Array
-     *
-     * @return array
-     */
-    public function getReceiverMail()
-    {
-        $what = '*';
-        $from = 'tx_mkmailer_receiver';
-
-        $options['where'] = 'email=' . $this->record['receiver'];
-        $options['enablefieldsoff'] = 1;
-        $return = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
-
-        foreach ($return as $r) {
-            $info = $r['receivers'];
-
-            $ret[] = $info;
-        }
-
-        return implode('<br />', $ret);
-    }
-
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
