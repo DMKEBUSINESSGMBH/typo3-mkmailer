@@ -808,7 +808,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $row['receiver'] = $receiver;
         $row['failed'] = $failed;
 
-        Tx_Rnbase_Database_Connection::doInsert('tx_mkmailer_log', $row, 0);
+        Tx_Rnbase_Database_Connection::getInstance()->doInsert('tx_mkmailer_log', $row, 0);
     }
 }
 
