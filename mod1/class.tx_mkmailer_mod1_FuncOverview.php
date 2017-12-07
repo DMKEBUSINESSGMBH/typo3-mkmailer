@@ -129,7 +129,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      *
      * @return string
      */
-    public function getTableHtmlForQueueEntriesWithRemoteButton(array $queueEntries)
+    protected function getTableHtmlForQueueEntriesWithRemoteButton(array $queueEntries)
     {
         return $this->getTableHtmlForQueueEntries($queueEntries, true);
     }
@@ -142,7 +142,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      *
      * @return string
      */
-    public function getTableHtmlForQueueEntries(array $queueEntries, $removeButton = false)
+    protected function getTableHtmlForQueueEntries(array $queueEntries, $removeButton = false)
     {
         if (!count($queueEntries)) {
             return '';
@@ -195,7 +195,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      *
      * @return string
      */
-    public function getTableHtmlForLogEntries(array $logEntries)
+    protected function getTableHtmlForLogEntries(array $logEntries)
     {
         if (!count($logEntries)) {
             return '';
@@ -240,7 +240,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      *
      * @return string
      */
-    public function showReceiver(tx_mkmailer_models_Queue $mail)
+    protected function showReceiver(tx_mkmailer_models_Queue $mail)
     {
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
         $ret = array();
