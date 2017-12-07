@@ -55,7 +55,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         $data = array();
 
         $this->handleDeleteMail();
-        $this->handleMoveInQueue();
+        $this->handleMoveLogEntryBackToQueue();
 
         $data = array_merge(
             $data,
@@ -216,7 +216,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
                 array('title' => $GLOBALS['LANG']->getLL('label_edit_complete_receiver'))
             );
             $moveButton = $this->getModule()->getFormTool()->createSubmit(
-                'moveInQueue[][' . $logEntry->getReceiver() . ']',
+                'moveLogEntryBackToQueue[][' . $logEntry->getReceiver() . ']',
                 $GLOBALS['LANG']->getLL('label_move'),
                 $GLOBALS['LANG']->getLL('label_text_move')
             );
@@ -285,9 +285,9 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     /**
      * @return void
      */
-    private function handleMoveInQueue()
+    private function handleMoveLogEntryBackToQueue()
     {
-        $uid = $this->getUidFromRequest('moveInQueue');
+        $uid = $this->getUidFromRequest('moveLogEntryBackToQueue');
 
         if ($uid != 0) {
             Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
