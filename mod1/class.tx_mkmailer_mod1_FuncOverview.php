@@ -59,7 +59,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $data = array_merge($data, $this->getMarkerArrayDataForListView('open', 'getMailQueueOpen', 'getTableHtmlForQueueEntriesWithRemoteButton'));
         $data = array_merge($data, $this->getMarkerArrayDataForListView('finished', 'getMailQueueFinished', 'getTableHtmlForQueueEntries'));
-        $data = array_merge($data, $this->getMarkerArrayDataForListView('failed', 'getMailQueueFailed', 'getTableHtmlForLogEntries'));
+        $data = array_merge($data, $this->getMarkerArrayDataForListView('failed', 'getLogEntriesForFailedMails', 'getTableHtmlForLogEntries'));
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 

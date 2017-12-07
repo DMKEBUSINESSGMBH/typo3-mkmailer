@@ -478,24 +478,25 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
     }
 
     /**
-     * Liefert eine Array mit allen fehlgeschlagenen Mails aus der Queue
-     * @return array[tx_mkmailer_models_Queue]
+     * @param array $options
+     *
+     * @return array[tx_mkmailer_models_Log]
      */
-    public function getMailQueueFailed($options = array())
+    public function getLogEntriesForFailedMails(array $options = array())
     {
-      $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
-      $from = 'tx_mkmailer_log';
+        $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
+        $from = 'tx_mkmailer_log';
 
-      $options['where'] = 'failed=1';
-      $options['orderby'] = 'tstamp desc';
-      $options['enablefieldsoff'] = 1;
-      if (!array_key_exists('count', $options)) {
-        $options['wrapperclass'] = 'tx_mkmailer_models_Log';
-      }
+        $options['where'] = 'failed=1';
+        $options['orderby'] = 'tstamp desc';
+        $options['enablefieldsoff'] = 1;
+        if (!array_key_exists('count', $options)) {
+            $options['wrapperclass'] = 'tx_mkmailer_models_Log';
+        }
 
-      $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($what, $from, $options, 0);
 
-      return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
+        return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
 
     /**
