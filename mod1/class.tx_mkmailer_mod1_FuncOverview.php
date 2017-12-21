@@ -106,6 +106,8 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $count = $mailService->{$getEntriesMethodOfMailService}($options);
         unset($options['count']);
+        $pager->setListSize($count);
+        $pager->setOptions($options);
         $content['queue' . $label . '_content'] = $this->{$showEntriesMethod}(
             $mailService->{$getEntriesMethodOfMailService}($options)
         );
@@ -113,8 +115,6 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $GLOBALS['LANG']->getLL('label_' . $label . 'jobs') . ' (' . $count . ')';
 
         // Pager einblenden
-        $pager->setListSize($count);
-        $pager->setOptions($options);
         $pagerData = $pager->render();
         $content['queue' . $label . '_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .
                                                 $pagerData['pages'] . '</div>';
