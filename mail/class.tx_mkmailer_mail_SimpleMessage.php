@@ -35,6 +35,15 @@ tx_rnbase::load('tx_mkmailer_mail_IMessage');
  */
 class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
 {
+    /**
+     * @var string
+     */
+    private $html = '';
+
+    /**
+     * @var string
+     */
+    private $text = '';
 
     /**
      * @var array
