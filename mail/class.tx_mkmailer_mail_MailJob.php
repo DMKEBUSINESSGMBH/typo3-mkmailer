@@ -51,7 +51,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      * @param   array[tx_mkmailer_receiver_IMailReceiver]   $receiver
      * @param   tx_mkmailer_models_Template                 $templateObj
      */
-    public function tx_mkmailer_mail_MailJob(
+    public function __construct(
         array $receiver = array(),
         tx_mkmailer_models_Template &$templateObj = null
     ) {
