@@ -51,6 +51,7 @@
             "phpmailer/",
             "receiver/",
             "services/",
+            "tests/",
             "util/"
         ]
     }
