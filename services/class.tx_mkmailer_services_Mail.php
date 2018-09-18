@@ -65,9 +65,19 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $lockLifeTime = $configurations->getInt($confId . 'lockLifeTime');
         $lock = tx_rnbase_util_Lock::getInstance('mkmailerqueue', $lockLifeTime);
         if ($lock->isLocked()) {
-            return '<p>The Mail-Prcess is locked</p>';
+            return '<p>The Mail-Process is locked</p>';
         }
-        $lock->lockProcess();
+        if (!$lock->lockProcess()) {
+            tx_rnbase::load('tx_rnbase_util_Logger');
+            tx_rnbase_util_Logger::fatal(
+                'Error in SendMailQueue: The Mail-Process couldn\'t be locked',
+                'mkmailer',
+                array(
+                    'Lock' => $lock,
+                )
+            );
+            return '<p>The Mail-Process couldn\'t be locked</p>';
+        }
 
         $maxMails = $configurations->getInt($confId . 'maxMails');
         $maxMails = $maxMails > 0 ? ($maxMails - 1) : 10;
