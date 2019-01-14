@@ -5,6 +5,19 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
+|3.0.10|[SECURITY]Security fix. updated PHPMailer to 5.2.27|
+|3.0.9|stop mailing process when no lock could be obtained|
+|3.0.8|add autoload for older TYPO3 versions|
+|3.0.7|bugfix for pager in backend module|
+|3.0.6|minor bugfix|
+|3.0.5|add php 7 compatibility|
+|3.0.4|management of failed mails is now possible|
+|3.0.3|bugfix when showing queue status|
+|3.0.2|added view for failed mails in backend module|
+||backend module is moved to the web module|
+||the configured cronpage can be a string now to use aliases|
+||any information about queue status only dispalyed for devIp|
+|3.0.1|bugfix for softref of images|
 |3.0.0|Initial TYPO3 8.7 LTS Support|
 |2.0.5|added softref configuration to TCA|
 |2.0.4|source out marker array parsing to own method in base template receiver|
