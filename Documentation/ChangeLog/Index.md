@@ -5,7 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 |Version|Changes|
 |-------|-------|
-|3.0.10|[SECURITY]Security fix. updated PHPMailer to 5.2.27|
+|3.0.10|[SECURITY] Security fix. updated PHPMailer to 5.2.27|
 |3.0.9|stop mailing process when no lock could be obtained|
 |3.0.8|add autoload for older TYPO3 versions|
 |3.0.7|bugfix for pager in backend module|
