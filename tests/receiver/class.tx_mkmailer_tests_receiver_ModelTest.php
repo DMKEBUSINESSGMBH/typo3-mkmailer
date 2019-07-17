@@ -33,7 +33,7 @@ tx_rnbase::load('tx_mkmailer_receiver_Model');
  *
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
-class tx_mkmailer_tests_receiver_Model_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
 {
 
     /**

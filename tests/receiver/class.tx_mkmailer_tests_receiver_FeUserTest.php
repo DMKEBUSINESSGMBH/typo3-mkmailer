@@ -37,7 +37,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_receiver_FeUser_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
 {
 
     /**
@@ -50,8 +50,8 @@ class tx_mkmailer_tests_receiver_FeUser_testcase extends tx_rnbase_tests_BaseTes
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        tx_rnbase::load('tx_rnbase_util_Misc');
-        tx_rnbase_util_Misc::prepareTSFE(array('force' => true));
+        // TODO: fix me
+//        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
     }
 
     protected function setUp()

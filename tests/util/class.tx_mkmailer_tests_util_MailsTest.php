@@ -29,13 +29,12 @@
 tx_rnbase::load('tx_mkmailer_tests_util_MailsBaseTestCase');
 tx_rnbase::load('tx_mkmailer_util_Mails');
 tx_rnbase::load('tx_mkmailer_services_Mail');
-tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_mkmailer_receiver_Email');
 
 /**
  * @author Hannes Bochmann
  */
-class tx_mkmailer_tests_util_Mails_testcase extends tx_mkmailer_tests_util_MailsBaseTestCase
+class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseTestCase
 {
 
     /**

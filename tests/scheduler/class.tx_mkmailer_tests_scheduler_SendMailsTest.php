@@ -34,7 +34,7 @@ tx_rnbase::load('tx_rnbase_util_Typo3Classes');
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTestCase
 {
     private $tsfeBackup;
 
@@ -51,10 +51,9 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
             $this->markTestSkipped('mklib muss installiert sein');
         }
 
-        tx_rnbase::load('tx_mklib_tests_Util');
         tx_rnbase::load('tx_mkmailer_scheduler_SendMails');
 
-        tx_mklib_tests_Util::storeExtConf('mkmailer');
+        \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
 
         $this->tsfeBackup = $GLOBALS['TSFE'];
     }
@@ -65,7 +64,7 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
      */
     protected function tearDown()
     {
-        tx_mklib_tests_Util::restoreExtConf('mkmailer');
+        \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
 
         $GLOBALS['TSFE'] = $this->tsfeBackup;
     }
@@ -75,7 +74,9 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
      */
     public function testExecuteTaskWhenNoCronpageIsConfigured()
     {
-        tx_mklib_tests_Util::setExtConfVar('cronpage', 0, 'mkmailer');
+        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+
+        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 0, 'mkmailer');
 
         $devLog = array();
 
@@ -105,7 +106,9 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
      */
     public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable()
     {
-        tx_mklib_tests_Util::setExtConfVar('cronpage', 123, 'mkmailer');
+        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+
+        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 123, 'mkmailer');
 
         $devLog = array();
 
@@ -131,7 +134,9 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
      */
     public function testExecuteTaskWhenCronpageIsConfiguredWithUnaccessiblePage()
     {
-        tx_mklib_tests_Util::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
+        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+
+        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
 
         $devLog = array();
 
@@ -166,6 +171,8 @@ class tx_mkmailer_tests_scheduler_SendMails_testcase extends tx_rnbase_tests_Bas
      */
     public function testGetCronpageUrlByPageUid()
     {
+        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+
         $GLOBALS['TSFE'] = $this->getMock(
             tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
             array('getDomainNameForPid'),
