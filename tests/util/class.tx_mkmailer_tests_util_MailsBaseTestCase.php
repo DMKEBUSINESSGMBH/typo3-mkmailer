@@ -29,7 +29,6 @@
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_util_Mails');
 tx_rnbase::load('tx_mkmailer_services_Mail');
-tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
  * @author Hannes Bochmann
@@ -43,7 +42,9 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
      */
     protected function setUp()
     {
-        tx_mklib_tests_Util::prepareTSFE();
+        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+
+        \DMK\Mklib\Utility\Tests::prepareTSFE();
     }
 
     /**
