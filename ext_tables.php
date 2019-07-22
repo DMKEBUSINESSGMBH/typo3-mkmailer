@@ -60,7 +60,7 @@ if (TYPO3_MODE == 'BE') {
         array(
             'access' => 'user,group',
             'routeTarget' => 'tx_mkmailer_mod1_Module',
-            'icon' => 'EXT:mkmailer/mod1/moduleicon.gif',
+            'icon' => 'EXT:mkmailer/mod1/moduleicon.png',
             'labels' => 'LLL:EXT:mkmailer/mod1/locallang_mod.xml',
         )
     );
