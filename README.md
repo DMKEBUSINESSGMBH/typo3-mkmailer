@@ -1,6 +1,11 @@
 mkmailer
 =======
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/mkmailer.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mkmailer)
+[![Total Downloads](https://img.shields.io/packagist/dt/dmk/mkmailer.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mkmailer)
+[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-mkmailer.svg?maxAge=3600&style=flat-square)](https://travis-ci.org/DMKEBUSINESSGMBH/typo3-mkmailer)
+[![License](https://img.shields.io/packagist/l/dmk/mkmailer.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mkmailer)
+
 Was macht die Extension?
 ------------------------
 
