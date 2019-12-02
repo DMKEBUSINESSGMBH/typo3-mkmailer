@@ -194,6 +194,10 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
             ->method('getCronPageId')
             ->will($this->returnValue(123));
 
+        $scheduler->expects($this->once())
+            ->method('getProtocol')
+            ->will($this->returnValue('http'));
+
         $cronpageUrl = $this->callInaccessibleMethod(
             $scheduler,
             'getCronpageUrl'

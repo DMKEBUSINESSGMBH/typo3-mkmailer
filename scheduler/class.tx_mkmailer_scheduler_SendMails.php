@@ -119,13 +119,20 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $user = $this->getOption('user');
         $pwd = $this->getOption('passwd');
         $auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
+        $protocol = $this->getProtocol();
 
         return sprintf(
-            'http://%1$s%2$s/index.php?id=%3$s',
+            '%1$s://%2$s%3$s/index.php?id=%4$s',
+            $protocol,
             $auth,
             $domain,
             $pageUid
         );
+    }
+
+    protected function getProtocol()
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SSL')?'https':'http';
     }
 
     /**
