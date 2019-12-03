@@ -7,14 +7,17 @@ notifications:
     on_success: change
     on_failure: always
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-
-env:
-  - TYPO3_VERSION="^8.7.0"
+matrix:
+  fast_finish: true
+  include:
+    -   php: 7.2
+        env: TYPO3_VERSION="^9.5.0"
+    -   php: 7.2
+        env: TYPO3_VERSION="^8.7.0"
+    -   php: 7.1
+        env: TYPO3_VERSION="^8.7.0"
+    -   php: 7.0
+        env: TYPO3_VERSION="^8.7.0"
 
 sudo: false
 
@@ -33,7 +36,7 @@ before_install:
 
 before_script:
   - composer require typo3/minimal="$TYPO3_VERSION"
-  # Restore composer.json
+  ### Restore composer.json
   - git checkout composer.json
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
 
