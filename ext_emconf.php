@@ -38,8 +38,8 @@ $EM_CONF[$_EXTKEY] = array(
         'conflicts' => array(
         ),
         'suggests' => array(
-            't3users' => '3.0.0-',
-            'mklib' => '3.0.0-'
+            't3users' => '9.0.0-',
+            'mklib' => '9.5.0-'
         ),
     ),
     "autoload" => array(
