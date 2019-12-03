@@ -20,7 +20,11 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mkmailer'] = 'la
 $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_flexform';
 
 tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mkmailer', 'FILE:EXT:mkmailer/flexform_main.xml');
-tx_rnbase_util_Extensions::addPlugin(array('LLL:EXT:mkmailer/locallang_db.php:plugin.mkmailer.label', 'tx_mkmailer'));
+tx_rnbase_util_Extensions::addPlugin(
+    array('LLL:EXT:mkmailer/locallang_db.php:plugin.mkmailer.label', 'tx_mkmailer'),
+    'list_type',
+    'mkmailer'
+);
 
 if (TYPO3_MODE == 'BE') {
     // Add plugin wizards
