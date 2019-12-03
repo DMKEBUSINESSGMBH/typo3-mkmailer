@@ -36,13 +36,13 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
     },
     "require": {
-        "typo3/cms-core": "^6.2 || ^7.6 || ^8.7",
+        "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5",
         "digedag/rn-base": ">=1.4",
         "dmk/mklib": ">=9.5.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2@stable",
-        "nimut/testing-framework": "^4.0"
+        "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
     },
     "autoload": {
         "classmap": [
@@ -73,6 +73,9 @@
         ]
     },
       "extra": {
+          "branch-alias": {
+              "dev-compatibility/typo3v9": "9.0.x-dev"
+          },
           "typo3/cms": {
               "cms-package-dir": "{$vendor-dir}/typo3/cms",
               "extension-key": "mkmailer",
