@@ -84,7 +84,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId() . 'data.');
 
-        $out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }

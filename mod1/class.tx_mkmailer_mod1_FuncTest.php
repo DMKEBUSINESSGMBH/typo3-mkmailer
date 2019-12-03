@@ -59,7 +59,7 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
     {
         $arr = array('name' => 'alfred');
         $markerArray = $formatter->getItemMarkerArrayWrapped($arr, $this->getConfId().'queue.', 0, 'MAIL_');
-        $out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }
