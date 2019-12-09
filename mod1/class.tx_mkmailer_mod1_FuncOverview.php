@@ -84,7 +84,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId() . 'data.');
 
-        $out = $configurations->getCObj()->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }
@@ -313,12 +313,12 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             return false;
         }
         // Es sollte immer nur eine Mail drin liegen
-        list($mailUid, $label) = each($uids[0]);
+        $mailUid = key($uids[0]);
         if (!$mailUid) {
-            return $out;
+            return false;
         }
 
-        return intval($mailUid);
+        return (int) $mailUid;
     }
 }
 
