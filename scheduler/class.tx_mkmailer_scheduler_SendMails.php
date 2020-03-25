@@ -111,15 +111,22 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     protected function getCronpageUrl()
     {
         $pageUid = $this->getCronPageId();
-        // seems like we have an alias
-        if (!Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
-            $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
-        }
-        $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
         $user = $this->getOption('user');
         $pwd = $this->getOption('passwd');
         $auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
         $protocol = $this->getProtocol();
+
+        if (tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+            /** @var \TYPO3\CMS\Core\Http\ServerRequest $request */
+            $request = $GLOBALS['TYPO3_REQUEST'];
+            $domain = $request->getServerParams()['SERVER_NAME'];
+        } else {
+            // seems like we have an alias
+            if ( !Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
+                $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
+            }
+            $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
+        }
 
         return sprintf(
             '%1$s://%2$s%3$s/index.php?id=%4$s',
