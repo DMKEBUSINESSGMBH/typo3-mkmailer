@@ -107,6 +107,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      * Builds the CronUrl.
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     protected function getCronpageUrl()
     {
@@ -117,9 +118,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $protocol = $this->getProtocol();
 
         if (tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
-            /** @var \TYPO3\CMS\Core\Http\ServerRequest $request */
-            $request = $GLOBALS['TYPO3_REQUEST'];
-            $domain = $request->getServerParams()['SERVER_NAME'];
+            $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
         } else {
             // seems like we have an alias
             if ( !Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
