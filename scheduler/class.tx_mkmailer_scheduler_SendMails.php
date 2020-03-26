@@ -117,13 +117,14 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
         $protocol = $this->getProtocol();
 
+        // seems like we have an alias
+        if ( !Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
+            $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
+        }
+
         if (tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
             $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
         } else {
-            // seems like we have an alias
-            if ( !Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
-                $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
-            }
             $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
         }
 
