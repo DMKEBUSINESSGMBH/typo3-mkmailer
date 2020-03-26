@@ -206,12 +206,11 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
             array('getModel', 'getModelMarker', 'getMarkerClass')
         );
 
+        $model = $this->getModel(array('uid' => 123), 'tx_rnbase_model_base', ['getColumnNames']);
+
         $receiver->expects($this->any())
             ->method('getModel')
-            ->will($this->returnValue(tx_rnbase::makeInstance(
-                'tx_rnbase_model_base',
-                array('uid' => 123)
-            )));
+            ->will($this->returnValue($model));
 
         $receiver->expects($this->any())
             ->method('getModelMarker')
