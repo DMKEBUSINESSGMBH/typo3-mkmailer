@@ -11,3 +11,6 @@ composer.lock
 
 ###ignore backups
 *.bak
+
+###ignore PhpStorm files
+.idea
