@@ -1,7 +1,6 @@
 {
     "name": "dmk/mkmailer",
     "description": "Makes the Open Source project phpmailer available for TYPO3.",
-    "version": "9.0.0",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
@@ -37,11 +36,12 @@
     },
     "require": {
         "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": ">=1.10",
-        "dmk/mklib": "~3.0 || >=9.5"
+        "digedag/rn-base": "^1.10",
+        "dmk/mklib": "^3.0 || ^9.5"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2@stable",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "friendsofphp/php-cs-fixer": "^2.14",
         "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
     },
     "autoload": {
@@ -69,7 +69,34 @@
       "scripts": {
           "post-autoload-dump": [
               "mkdir -p .Build/Web/typo3conf/ext/",
-              "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer"
+              "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
+            "[ -f .Build/Web/typo3conf/LocalConfiguration.php ] || cp tests/fixtures/LocalConfiguration.php .Build/Web/typo3conf/LocalConfiguration.php"
+        ],
+        "lint:php": [
+            "[ -e .Build/bin/parallel-lint ] || composer update",
+            ".Build/bin/parallel-lint ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./phpmailer ./receiver ./services ./tests ./util ./*.php"
+        ],
+        "lint": [
+            "@lint:php"
+        ],
+        "test:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+        ],
+        "test:phpunit": [
+            "[ -e .Build/bin/phpunit ] || composer update --ansi",
+            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
+        ],
+        "test": [
+            "@test:phpcs",
+            "@test:phpunit"
+        ],
+        "fix:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v"
+        ],
+        "fix": [
+            "@fix:phpcs"
         ]
     },
       "extra": {
