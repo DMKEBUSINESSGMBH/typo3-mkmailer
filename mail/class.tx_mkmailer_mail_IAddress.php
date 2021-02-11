@@ -22,20 +22,14 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-
 /**
- * tx_mkmailer_mail_IAddress
+ * tx_mkmailer_mail_IAddress.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 interface tx_mkmailer_mail_IAddress
 {
-
     /**
      * @return string
      */
@@ -48,5 +42,5 @@ interface tx_mkmailer_mail_IAddress
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php'];
 }

@@ -22,22 +22,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
 /**
- * tx_mkmailer_mail_IMailJob
+ * tx_mkmailer_mail_IMailJob.
  *
  * Ein MailJob kann in die MailQueue eingestellt werden und
  * wird zu einem späteren Zeitpunkt verarbeitet.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 interface tx_mkmailer_mail_IMailJob
 {
-
     /**
      * @return string
      */
@@ -64,31 +59,34 @@ interface tx_mkmailer_mail_IMailJob
     public function getAttachments();
 
     /**
-     * Liefert die Absenderadresse
+     * Liefert die Absenderadresse.
+     *
      * @return tx_mkmailer_mail_IAddress
      */
     public function getFrom();
 
     /**
-     * Liefert die TO-Empfänger
+     * Liefert die TO-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getTOs();
 
     /**
-     * Liefert die CC-Empfänger
+     * Liefert die CC-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getCCs();
 
     /**
-     * Liefert die BCC-Empfänger
+     * Liefert die BCC-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getBCCs();
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IMailJob.php'];
 }

@@ -23,14 +23,12 @@
 ***************************************************************/
 
 /**
- * tx_mkmailer_receiver_IMailReceiver
+ * tx_mkmailer_receiver_IMailReceiver.
  *
  * Interface für Empfänger einer Email. Die Implementierung dieses Interface
  * steht dabei nicht
  * unbedingt für einen einzelnen Empfänger, sondern kann auch für ganze Gruppen stehen.
  *
- * @package         TYPO3
- * @subpackage
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -38,19 +36,22 @@
 interface tx_mkmailer_receiver_IMailReceiver
 {
     /**
-     * Returns the number of receivers
+     * Returns the number of receivers.
+     *
      * @return int
      */
     public function getAddressCount();
 
     /**
-     * Returns an Array with mail addresses
+     * Returns an Array with mail addresses.
+     *
      * @return array of string
      */
     public function getAddresses();
 
     /**
-     * Returns a name for receiver or receiver group
+     * Returns a name for receiver or receiver group.
+     *
      * @return string
      */
     public function getName();
@@ -62,6 +63,7 @@ interface tx_mkmailer_receiver_IMailReceiver
      * @param tx_rnbase_util_FormatUtil $formatter
      * @param string $confId
      * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     *
      * @return tx_mkmailer_mail_IMessage
      */
     public function getSingleMail($queue, &$formatter, $confId, $idx);
@@ -91,5 +93,5 @@ interface tx_mkmailer_receiver_IMailReceiver
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php'];
 }

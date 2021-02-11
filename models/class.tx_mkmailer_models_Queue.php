@@ -25,21 +25,19 @@ tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_rnbase_model_base');
 
 /**
- * tx_mkmailer_models_Queue
+ * tx_mkmailer_models_Queue.
  *
  * Model für einen Datensatz der Tabelle tx_mkmailer_queue.
  * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_models_Queue extends tx_rnbase_model_base
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_model_base::getTableName()
      */
     public function getTableName()
@@ -48,7 +46,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Betreff
+     * Liefert den Betreff.
      *
      * @return string
      */
@@ -58,7 +56,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Mailtext für den Textpart
+     * Liefert den Mailtext für den Textpart.
      *
      * @return string
      */
@@ -68,7 +66,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Mailtext für den HTML-Part
+     * Liefert den Mailtext für den HTML-Part.
      *
      * @return string
      */
@@ -84,13 +82,13 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getUploads()
     {
-        $ret = array();
+        $ret = [];
         $attachments = $this->record['attachments'];
         if (!$attachments) {
             return $ret;
         }
         // Hier muss geprüft werden ob serialisierte Daten vorliegen.
-        if ($attachments && $attachments{0} === 'a' && $attachments{1} === ':') {
+        if ($attachments && 'a' === $attachments[0] && ':' === $attachments[1]) {
             tx_rnbase::load('tx_mkmailer_mail_Attachment');
             $ret = unserialize($attachments);
         } else {
@@ -146,7 +144,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Prüft, ob die Mail beschleunigt versendet wird
+     * Prüft, ob die Mail beschleunigt versendet wird.
      *
      * @return bool
      */
@@ -156,7 +154,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Zeitpunkt der Erstellung
+     * Liefert den Zeitpunkt der Erstellung.
      *
      * @return string
      */
@@ -166,7 +164,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert den Zeitpunkt der letzten Aktualisierung
+     * Liefert den Zeitpunkt der letzten Aktualisierung.
      *
      * @return string
      */
@@ -176,7 +174,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert die Receiver dieser Mail als Array
+     * Liefert die Receiver dieser Mail als Array.
      *
      * @return array
      */
@@ -189,5 +187,5 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php'];
 }

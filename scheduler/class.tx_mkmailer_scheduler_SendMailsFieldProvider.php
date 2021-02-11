@@ -25,10 +25,8 @@
 tx_rnbase::load('tx_mklib_scheduler_GenericFieldProvider');
 
 /**
- * Send-Mails scheduler task
+ * Send-Mails scheduler task.
  *
- * @package TYPO3
- * @subpackage mkmailer
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
@@ -36,31 +34,31 @@ tx_rnbase::load('tx_mklib_scheduler_GenericFieldProvider');
 class tx_mkmailer_scheduler_SendMailsFieldProvider extends tx_mklib_scheduler_GenericFieldProvider
 {
     /**
-     * Returns the option fields for the SendMails scheduler
+     * Returns the option fields for the SendMails scheduler.
      *
      * @return  array
      */
     protected function getAdditionalFieldConfig()
     {
-        return array(
-            'cronpage' => array(
+        return [
+            'cronpage' => [
                 'type' => 'input',
                 'label' => 'PID of the sendmail path. The ExtConf will be used by default',
                 'default' => '0',
                 'eval' => 'trim',
-            ),
-            'user' => array(
+            ],
+            'user' => [
                 'type' => 'input',
                 'label' => 'Username for basic authentication',
                 'default' => '',
                 'eval' => 'trim',
-            ),
-            'passwd' => array(
+            ],
+            'passwd' => [
                 'type' => 'input',
                 'label' => 'Password for basic authentication',
                 'default' => '',
                 'eval' => 'trim',
-            ),
-        );
+            ],
+        ];
     }
 }

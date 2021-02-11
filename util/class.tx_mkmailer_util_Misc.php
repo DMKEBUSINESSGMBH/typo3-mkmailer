@@ -26,23 +26,22 @@ tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
- * tx_mkmailer_util_Misc
+ * tx_mkmailer_util_Misc.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_Misc
 {
-
     /**
      * Will process the input string with the parseFunc function from TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer based on configuration set in "lib.parseFunc_RTE" in the current TypoScript template.
      * This is useful for rendering of content in RTE fields where the transformation mode is set to "ts_css" or so.
      * Notice that this requires the use of "css_styled_content" to work right.
      *
      * @param   string      The input text string to process
+     *
      * @return  string      The processed string
+     *
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::parseFunc()
      */
     public static function getRTEText($str)
@@ -91,13 +90,14 @@ class tx_mkmailer_util_Misc
      * Wandelt einen String mit Mailadressen in Objekte der Klasse tx_mkmailer_mail_IAddress um.
      *
      * @param string $addrStr
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public static function parseAddressString($addrStr)
     {
         tx_rnbase::load('tx_mkmailer_mail_Address');
 
-        $ret = array();
+        $ret = [];
         if (!strlen(trim($addrStr))) {
             return $ret;
         }
@@ -110,5 +110,5 @@ class tx_mkmailer_util_Misc
     }
 }
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_Misc.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_Misc.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_Misc.php'];
 }

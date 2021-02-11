@@ -27,13 +27,11 @@ tx_rnbase::load('tx_rnbase_util_Files');
 tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
- * Mail Factory
+ * Mail Factory.
  *
  * Ein MailJob kann in die MailQueue eingestellt werden
  * und wird zu einem späteren Zeitpunkt verarbeitet.
  *
- * @package TYPO3
- * @subpackage mkmailer
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
@@ -49,7 +47,7 @@ class tx_mkmailer_mail_Factory
      * @return tx_mkmailer_mail_MailJob
      */
     public static function createMailJob(
-        array $receiver = array(),
+        array $receiver = [],
         tx_mkmailer_models_Template &$templateObj = null
     ) {
         return tx_rnbase::makeInstance(
@@ -103,7 +101,7 @@ class tx_mkmailer_mail_Factory
             $mimeType = $finfo->buffer($absPathOrContent);
         }
 
-        if ($mimeType === false) {
+        if (false === $mimeType) {
             $mimeType = 'application/octet-stream';
         }
 
@@ -185,7 +183,7 @@ class tx_mkmailer_mail_Factory
     }
 
     /**
-     * Creates an instance of the attachment model
+     * Creates an instance of the attachment model.
      *
      * @param int $type One const tx_mkmailer_mail_IAttachment::TYPE_*
      * @param string $absPathOrContent
@@ -215,7 +213,7 @@ class tx_mkmailer_mail_Factory
         $attachment->setEmbedId($embedId);
         $attachment->setEncoding($encoding);
 
-        if ($mimeType === false) {
+        if (false === $mimeType) {
             $mimeType = self::getFileInfoMimeType($absPathOrContent);
         }
         $attachment->setMimeType($mimeType);
@@ -224,7 +222,7 @@ class tx_mkmailer_mail_Factory
     }
 
     /**
-     * Creates an instance of an address model
+     * Creates an instance of an address model.
      *
      * @param string $address
      * @param string $name

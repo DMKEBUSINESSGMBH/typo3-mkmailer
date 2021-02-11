@@ -25,18 +25,15 @@
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- * tx_mkmailer_util_ServiceRegistry
+ * tx_mkmailer_util_ServiceRegistry.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_util_ServiceRegistry
 {
-
     /**
-     * Liefert den Mail-Service
+     * Liefert den Mail-Service.
      *
      * @return tx_mkmailer_services_Mail
      */
@@ -46,5 +43,5 @@ class tx_mkmailer_util_ServiceRegistry
     }
 }
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php'];
 }

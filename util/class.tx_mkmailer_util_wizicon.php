@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
+/*
  * tx_mkmailer_util_wizicon
  *
  * @package        TYPO3
@@ -38,19 +38,18 @@ tx_rnbase::load('tx_rnbase_util_Wizicon');
 
 class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
 {
-
     /**
      * @return array
      */
     protected function getPluginData()
     {
-        return array(
-            'tx_mkmailer' => array(
-                'icon'        => tx_rnbase_util_Extensions::extRelPath('mkmailer') . 'ext_icon.gif',
-                'title'       => 'plugin.mkmailer.label',
-                'description' => 'plugin.mkmailer.description'
-            )
-        );
+        return [
+            'tx_mkmailer' => [
+                'icon' => tx_rnbase_util_Extensions::extRelPath('mkmailer').'ext_icon.gif',
+                'title' => 'plugin.mkmailer.label',
+                'description' => 'plugin.mkmailer.description',
+            ],
+        ];
     }
 
     /**
@@ -58,10 +57,10 @@ class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
      */
     protected function getLLFile()
     {
-        return tx_rnbase_util_Extensions::extPath('mkmailer') . 'locallang_db.xml';
+        return tx_rnbase_util_Extensions::extPath('mkmailer').'locallang_db.xml';
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][ TYPO3_MODE ]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][ TYPO3_MODE ]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_wizicon.php'];
 }

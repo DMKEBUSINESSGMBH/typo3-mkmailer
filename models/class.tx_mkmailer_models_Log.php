@@ -26,16 +26,14 @@ tx_rnbase::load('tx_rnbase_util_Strings');
 /**
  * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_models_Log extends Tx_Rnbase_Domain_Model_Base
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_model_base::getTableName()
      */
     public function getTableName()
@@ -45,5 +43,5 @@ class tx_mkmailer_models_Log extends Tx_Rnbase_Domain_Model_Base
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php'];
 }

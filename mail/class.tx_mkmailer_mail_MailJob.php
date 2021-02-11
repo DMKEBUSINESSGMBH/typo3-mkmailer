@@ -22,27 +22,23 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_mkmailer_mail_IMailJob');
 
 /**
- * tx_mkmailer_mail_MailJob
+ * tx_mkmailer_mail_MailJob.
  *
  * Ein MailJob kann in die MailQueue eingestellt werden und
  * wird zu einem späteren Zeitpunkt verarbeitet.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
 {
-
     /**
      * @var array
      */
-    private $receiver = array();
+    private $receiver = [];
 
     /**
      * Initialisiert den mailjob.
@@ -52,7 +48,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      * @param   tx_mkmailer_models_Template                 $templateObj
      */
     public function __construct(
-        array $receiver = array(),
+        array $receiver = [],
         tx_mkmailer_models_Template &$templateObj = null
     ) {
         $this->receiver = $receiver;
@@ -73,7 +69,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IMailJob::getReceiver()
      */
     public function getReceiver()
@@ -82,8 +79,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     *
      * @param string $value
+     *
      * @return array
      */
     public function addReceiver($value)
@@ -92,7 +89,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IMailJob::getContentText()
      */
     public function getContentText()
@@ -109,7 +107,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IMailJob::getContentHtml()
      */
     public function getContentHtml()
@@ -118,7 +117,6 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     *
      * @param string $value
      * @param string $filename
      */
@@ -128,7 +126,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IMailJob::getSubject()
      */
     public function getSubject()
@@ -145,7 +144,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * Liefert die Absenderadresse
+     * Liefert die Absenderadresse.
+     *
      * @return tx_mkmailer_mail_IAddress
      */
     public function getFrom()
@@ -162,7 +162,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * Liefert die TO-Empfänger
+     * Liefert die TO-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getTOs()
@@ -189,7 +190,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * Liefert die CC-Empfänger
+     * Liefert die CC-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getCCs()
@@ -216,7 +218,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * Liefert die BCC-Empfänger
+     * Liefert die BCC-Empfänger.
+     *
      * @return array[tx_mkmailer_mail_IAddress]
      */
     public function getBCCs()
@@ -243,7 +246,8 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     }
 
     /**
-     * Liefert die BCC-Empfänger
+     * Liefert die BCC-Empfänger.
+     *
      * @return array[string]
      */
     public function getAttachments()
@@ -253,12 +257,13 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
 
     /**
      * Attachment an Email anhängen.
+     *
      * @param tx_mkmailer_mail_IAttachment $attachment
      */
     public function addAttachment(tx_mkmailer_mail_IAttachment $attachment)
     {
         if (!is_array($this->attach)) {
-            $this->attach = array();
+            $this->attach = [];
         }
 
         $this->attach[] = $attachment;
@@ -266,5 +271,5 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php'];
 }

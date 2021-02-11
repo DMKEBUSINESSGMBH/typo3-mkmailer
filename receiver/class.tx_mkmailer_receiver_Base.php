@@ -24,10 +24,8 @@
 tx_rnbase::load('tx_mkmailer_receiver_IMailReceiver');
 
 /**
- * tx_mkmailer_receiver_Base
+ * tx_mkmailer_receiver_Base.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
@@ -40,19 +38,20 @@ abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailRe
      */
     public function __toString()
     {
-        $out = get_class($this). "\n\nObject:\n";
+        $out = get_class($this)."\n\nObject:\n";
         $out .= is_object($this->obj) ? get_class($this->obj) : '-';
         $out .= "\n\nAddresses:\n";
         $addrs = $this->getAddresses();
-        for ($i = 0, $cnt = count($addrs); $i < $cnt; $i++) {
-            $out .= "\n" . $addrs[$i];
+        for ($i = 0, $cnt = count($addrs); $i < $cnt; ++$i) {
+            $out .= "\n".$addrs[$i];
         }
 
         return $out;
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getValueString()
      */
     public function getValueString()
@@ -62,5 +61,5 @@ abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailRe
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php'];
 }

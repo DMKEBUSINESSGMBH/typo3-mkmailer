@@ -1,7 +1,5 @@
 <?php
 /**
- * @package TYPO3
- * @subpackage tx_mkmailer
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -29,22 +27,19 @@ tx_rnbase::load('tx_mkmailer_receiver_Email');
 tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
- * tx_mkmailer_receiver_Model
+ * tx_mkmailer_receiver_Model.
  *
  * generische klasse um ein model zu versenden. es müssen nur die die abstrakten methoden
  * bereitgestellt werden und wenn gewünscht noch getConfId überschrieben werden.
  *
  * diese verlangt nur eine email adresse und die model id im constructor
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
 {
-
     /**
      * @var int
      */
@@ -54,12 +49,12 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      * @var string
      * § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
      * kann/darf. Also nehmen wir das.
+     *
      * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
      */
     const EMAIL_MODEL_DELIMTER = '§';
 
     /**
-     *
      * @param string $email
      * @param int $ratingUid
      */
@@ -70,7 +65,8 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_Email::setValueString()
      */
     public function setValueString($valueString)
@@ -81,12 +77,13 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_Email::getValueString()
      */
     public function getValueString()
     {
-        return $this->getEMail() . self::EMAIL_MODEL_DELIMTER . $this->getModelUid();
+        return $this->getEMail().self::EMAIL_MODEL_DELIMTER.$this->getModelUid();
     }
 
     /**
@@ -106,7 +103,8 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_BaseTemplate::addAdditionalData()
      */
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
@@ -144,7 +142,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     abstract protected function getModel();
 
     /**
-     * der Marker im Template für das model
+     * der Marker im Template für das model.
      *
      * @return string
      */

@@ -31,15 +31,12 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 /**
  * Tests zum E-Mail-Versand.
  *
- * @package TYPO3
- * @subpackage tx_mkmailer
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * Constructs a test case with the given name.
      *
@@ -47,7 +44,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
      * @param  array  $data
      * @param  string $dataName
      */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         // TODO: fix me
@@ -68,6 +65,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
 
         return parent::setUp();
     }
+
     protected function tearDown()
     {
         // backpath zurücksetzen
@@ -76,13 +74,12 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
         return parent::tearDown();
     }
 
-
     /**
      * @return tx_rnbase_configurations
      */
-    private function getConfigurations($confId, array $configArray = array())
+    private function getConfigurations($confId, array $configArray = [])
     {
-        $configArray = array($confId => $configArray);
+        $configArray = [$confId => $configArray];
 
         $configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
         $configurations->init(
@@ -110,13 +107,13 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     *
      * @param string $sFileName
+     *
      * @return array
      */
     protected function getTemplates($sFileName)
     {
-        $data = array();
+        $data = [];
         $template = @file_get_contents($sFileName);
         $data['contenttext'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTTEXT###'));
         $data['contenthtml'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTHTML###'));
@@ -131,7 +128,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     /**
      * @return  tx_mkmailer_receiver_BaseTemplate
      */
-    private function getQueue(array $data = array())
+    private function getQueue(array $data = [])
     {
         // wir könnten die queue auch aus der datenbank holen, das template müsste allerdings dort vorhanden sein!
         $data['uid'] = $data['uid'] ? $data['uid'] : 0;
@@ -151,14 +148,14 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     {
         $configurations = $this->getConfigurations(
             $confId = 'sendmails.',
-            array(
-                'feuserTemplate' => 'EXT:mkmailer/tests/fixtures/mailfeuser.html'
-            )
+            [
+                'feuserTemplate' => 'EXT:mkmailer/tests/fixtures/mailfeuser.html',
+            ]
         );
-        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', array(
-            'uid'    => '1',
-            'email'    => 'test@localhost.net',
-        ));
+        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', [
+            'uid' => '1',
+            'email' => 'test@localhost.net',
+        ]);
         $templates = $this->getTemplates(tx_rnbase_util_Extensions::extPath('mkmailer', 'tests/fixtures/mailfeuser.html'));
 
         $receiver = $this->getReceiver($feuser);
@@ -176,5 +173,5 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_FeUser_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_FeUser_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_FeUser_testcase.php'];
 }

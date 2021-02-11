@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -22,21 +22,20 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_receiver_Model');
 /**
- *
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
 class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -68,7 +67,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
     public function testAddAddressWithInvalidEmail()
     {
         self::markTestIncomplete(
-            "Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()"
+            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
         );
 
         $email = 'alf@@localhost.de';
@@ -109,7 +108,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
     public function testAddBCCWithInvalidEmail()
     {
         self::markTestIncomplete(
-            "Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()"
+            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
         );
 
         $email = 'alf@@localhost.de';
@@ -125,6 +124,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
 
         $this->invoke($mail, $address, 'addBCCAddress');
     }
+
     /**
      * @group unit
      */
@@ -149,7 +149,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
     public function testAddCCWithInvalidEmail()
     {
         self::markTestIncomplete(
-            "Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()"
+            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
         );
 
         $email = 'alf@@localhost.de';
@@ -172,13 +172,13 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
     public function testGetUploadDir()
     {
         $srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
-        $this->assertTrue(is_dir($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not a Directory!');
-        $this->assertTrue(is_writable($srv->getUploadDir()), '"' . $srv->getUploadDir() .'" is not writeble');
+        $this->assertTrue(is_dir($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not a Directory!');
+        $this->assertTrue(is_writable($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not writeble');
     }
 
     private function getMail()
     {
-        return $this->getMock('PHPMailer', array('addAddress', 'addCC', 'addBCC'));
+        return $this->getMock('PHPMailer', ['addAddress', 'addCC', 'addBCC']);
     }
 
     private function getAddress($email, $name)
@@ -194,7 +194,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
         $method->setAccessible(true);
         $method->invokeArgs(
             tx_rnbase::makeInstance('tx_mkmailer_services_Mail'),
-            array($mail, $address)
+            [$mail, $address]
         );
     }
 }

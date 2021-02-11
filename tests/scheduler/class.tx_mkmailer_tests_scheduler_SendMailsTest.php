@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -26,10 +26,8 @@ tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
- * Test for tx_mkmailer_scheduler_SendMails
+ * Test for tx_mkmailer_scheduler_SendMails.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -39,7 +37,8 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
     private $tsfeBackup;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -59,7 +58,8 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -74,28 +74,28 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
      */
     public function testExecuteTaskWhenNoCronpageIsConfigured()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 0, 'mkmailer');
 
-        $devLog = array();
+        $devLog = [];
 
         $scheduler = $this->getMock(
             'tx_mkmailer_scheduler_SendMails',
-            array('callCronpageUrl')
+            ['callCronpageUrl']
         );
 
         $this->callInaccessibleMethod(
-            array($scheduler, 'executeTask'),
-            array(array(), &$devLog)
+            [$scheduler, 'executeTask'],
+            [[], &$devLog]
         );
 
         $this->assertEquals(
-            array(tx_rnbase_util_Logger::LOGLEVEL_FATAL => array(
-                'message' =>    'Der Mailversand von mkmailer sollte über den Scheduler ' .
-                                'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
+            [tx_rnbase_util_Logger::LOGLEVEL_FATAL => [
+                'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
+                                'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                                 ' in den Extensioneinstellungen. Bitte beheben.',
-            )),
+            ]],
             $devLog,
             'devlog Meldungen falsch'
         );
@@ -106,24 +106,24 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
      */
     public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 123, 'mkmailer');
 
-        $devLog = array();
+        $devLog = [];
 
         $scheduler = $this->getMock(
             'tx_mkmailer_scheduler_SendMails',
-            array('callCronpageUrl')
+            ['callCronpageUrl']
         );
 
         $scheduler->expects($this->once())
             ->method('callCronpageUrl')
-            ->will($this->returnValue(array('error' => 0)));
+            ->will($this->returnValue(['error' => 0]));
 
         $this->callInaccessibleMethod(
-            array($scheduler, 'executeTask'),
-            array(array(), &$devLog)
+            [$scheduler, 'executeTask'],
+            [[], &$devLog]
         );
 
         $this->assertEmpty($devLog, 'devlog Meldungen vorhanden');
@@ -134,24 +134,24 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
      */
     public function testExecuteTaskWhenCronpageIsConfiguredWithUnaccessiblePage()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named Default has not been configured");
+        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
 
-        $devLog = array();
+        $devLog = [];
 
         $scheduler = $this->getMock(
             'tx_mkmailer_scheduler_SendMails',
-            array('callCronpageUrl')
+            ['callCronpageUrl']
         );
 
         $scheduler->expects($this->once())
             ->method('callCronpageUrl')
-            ->will($this->returnValue(array('error' => 1)));
+            ->will($this->returnValue(['error' => 1]));
 
         $this->callInaccessibleMethod(
-            array($scheduler, 'executeTask'),
-            array(array(), &$devLog)
+            [$scheduler, 'executeTask'],
+            [[], &$devLog]
         );
 
         $this->assertEquals(
@@ -171,12 +171,12 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
      */
     public function testGetCronpageUrlByPageUid()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         $GLOBALS['TSFE'] = $this->getMock(
             tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
-            array('getDomainNameForPid'),
-            array(),
+            ['getDomainNameForPid'],
+            [],
             '',
             false
         );
@@ -187,7 +187,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
 
         $scheduler = $this->getMock(
             'tx_mkmailer_scheduler_SendMails',
-            array('getCronPageId')
+            ['getCronPageId']
         );
 
         $scheduler->expects($this->once())

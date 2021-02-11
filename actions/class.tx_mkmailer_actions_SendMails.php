@@ -22,25 +22,22 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
- * tx_mkmailer_actions_SendMails
+ * tx_mkmailer_actions_SendMails.
  *
  * Asynchroner Versand von Emails. Bei Aufruf dieses
  * Plugins werden anstehende Aufträge in der Mailwarteschlange abgearbeitet.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_action_BaseIOC::handleRequest()
      */
     protected function handleRequest(&$parameters, &$configurations, &$viewdata)
@@ -52,7 +49,8 @@ class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_action_BaseIOC::getTemplateName()
      */
     protected function getTemplateName()
@@ -61,7 +59,8 @@ class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_action_BaseIOC::getViewClassName()
      */
     protected function getViewClassName()
@@ -71,5 +70,5 @@ class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php'];
 }

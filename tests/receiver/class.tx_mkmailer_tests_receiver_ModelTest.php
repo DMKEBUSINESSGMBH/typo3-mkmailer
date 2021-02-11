@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -30,18 +30,16 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_receiver_Model');
 
 /**
- *
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
 class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @group unit
      */
     public function testConstructSetsEmail()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
+        $receiver = $this->getReceiver(['testMail', 123]);
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'email');
         $property->setAccessible(true);
@@ -54,7 +52,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testConstructSetsModelUid()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
+        $receiver = $this->getReceiver(['testMail', 123]);
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'modelUid');
         $property->setAccessible(true);
@@ -96,9 +94,9 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetValueString()
     {
-        $receiver = $this->getReceiver(array('test_Mail', 123));
+        $receiver = $this->getReceiver(['test_Mail', 123]);
         $this->assertEquals(
-            'test_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '123',
+            'test_Mail'.tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER.'123',
             $receiver->getValueString(),
             'falscher value string'
         );
@@ -109,8 +107,8 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testSetValueStringSetsCorrectEmail()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
-        $receiver->setValueString('newTest_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '456');
+        $receiver = $this->getReceiver(['testMail', 123]);
+        $receiver->setValueString('newTest_Mail'.tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER.'456');
         $this->assertEquals('newTest_Mail', $receiver->getEmail(), 'falsche Email');
     }
 
@@ -119,8 +117,8 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testSetValueStringSetsCorrectModelUid()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
-        $receiver->setValueString('newTest_Mail' . tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER . '456');
+        $receiver = $this->getReceiver(['testMail', 123]);
+        $receiver->setValueString('newTest_Mail'.tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER.'456');
         $this->assertEquals(456, $receiver->getModelUid(), 'falsche model Uid');
     }
 
@@ -129,18 +127,18 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testAddAdditionalParsesMailTextCorrect()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
+        $receiver = $this->getReceiver(['testMail', 123]);
         $mailText = '###MODEL_UID###';
         $formatter = tx_rnbase::makeInstance(
             'tx_rnbase_util_FormatUtil',
-            $this->createConfigurations(array(), 'mkmailer')
+            $this->createConfigurations([], 'mkmailer')
         );
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
-            array(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
+            [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]
         );
 
         $this->assertEquals(123, $mailText, 'mailText falsch geparsed');
@@ -151,18 +149,18 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testAddAdditionalParsesMailHtmlCorrect()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
+        $receiver = $this->getReceiver(['testMail', 123]);
         $mailHtml = '###MODEL_UID###';
         $formatter = tx_rnbase::makeInstance(
             'tx_rnbase_util_FormatUtil',
-            $this->createConfigurations(array(), 'mkmailer')
+            $this->createConfigurations([], 'mkmailer')
         );
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
-            array(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
+            [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]
         );
 
         $this->assertEquals(123, $mailHtml, 'mailHtml falsch geparsed');
@@ -173,18 +171,18 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testAddAdditionalParsesMailSubjectCorrect()
     {
-        $receiver = $this->getReceiver(array('testMail', 123));
+        $receiver = $this->getReceiver(['testMail', 123]);
         $mailSubject = '###MODEL_UID###';
         $formatter = tx_rnbase::makeInstance(
             'tx_rnbase_util_FormatUtil',
-            $this->createConfigurations(array(), 'mkmailer')
+            $this->createConfigurations([], 'mkmailer')
         );
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
-            array(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
+            [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]
         );
 
         $this->assertEquals(123, $mailSubject, 'mailSubject falsch geparsed');
@@ -192,9 +190,10 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
 
     /**
      * @param array $constuctorAgruments
+     *
      * @return tx_mkmailer_receiver_Model
      */
-    private function getReceiver(array $constuctorAgruments = array())
+    private function getReceiver(array $constuctorAgruments = [])
     {
         $receiver = $this->getMockForAbstractClass(
             'tx_mkmailer_receiver_Model',
@@ -203,10 +202,10 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
             true,
             true,
             true,
-            array('getModel', 'getModelMarker', 'getMarkerClass')
+            ['getModel', 'getModelMarker', 'getMarkerClass']
         );
 
-        $model = $this->getModel(array('uid' => 123), 'tx_rnbase_model_base', ['getColumnNames']);
+        $model = $this->getModel(['uid' => 123], 'tx_rnbase_model_base', ['getColumnNames']);
 
         $receiver->expects($this->any())
             ->method('getModel')

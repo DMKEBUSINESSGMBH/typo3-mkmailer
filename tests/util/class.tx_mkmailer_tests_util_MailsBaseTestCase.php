@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 DMK E-BUSINESS GmbH
  *  All rights reserved
@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -35,14 +35,14 @@ tx_rnbase::load('tx_mkmailer_services_Mail');
  */
 abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         \DMK\Mklib\Utility\Tests::prepareTSFE();
     }
@@ -54,7 +54,7 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
     {
         $mailService = $this->getMock(
             'tx_mkmailer_services_Mail',
-            array('spoolMailJob','getTemplate')
+            ['spoolMailJob', 'getTemplate']
         );
 
         return $mailService;
@@ -69,7 +69,7 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_
     {
         $mailUtil = $this->getMock(
             $this->getMailUtilClass(),
-            array('getMailService')
+            ['getMailService']
         );
 
         $mailUtil->expects($this->once())

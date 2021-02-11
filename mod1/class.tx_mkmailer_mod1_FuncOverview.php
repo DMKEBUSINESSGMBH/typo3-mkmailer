@@ -26,18 +26,16 @@ tx_rnbase::load('tx_rnbase_parameters');
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
- * tx_mkmailer_mod1_FuncOverview
+ * tx_mkmailer_mod1_FuncOverview.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_mod_BaseModFunc::getFuncId()
      */
     public function getFuncId()
@@ -45,14 +43,14 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         return 'overview';
     }
 
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_mod_BaseModFunc::getContent()
      */
     public function getContent($template, &$configurations, &$formatter, $formTool)
     {
-        $data = array();
+        $data = [];
 
         $this->handleDeleteMail();
         $this->handleMoveLogEntryBackToQueue();
@@ -82,7 +80,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             )
         );
 
-        $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId() . 'data.');
+        $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
         $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
@@ -90,40 +88,41 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Liefert den Content für die MKMailer Übersicht
+     * Liefert den Content für die MKMailer Übersicht.
      *
      * @param string $label
      * @param string $getEntriesMethodOfMailService
      * @param string $showEntriesMethod
+     *
      * @return array
      */
     private function getMarkerArrayDataForListView($label, $getEntriesMethodOfMailService, $showEntriesMethod)
     {
         $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
 
-        $options = array('count' => 1);
+        $options = ['count' => 1];
         $mailService = tx_mkmailer_util_ServiceRegistry::getMailService();
 
         $count = $mailService->{$getEntriesMethodOfMailService}($options);
         unset($options['count']);
         $pager->setListSize($count);
         $pager->setOptions($options);
-        $content['queue' . $label . '_content'] = $this->{$showEntriesMethod}(
+        $content['queue'.$label.'_content'] = $this->{$showEntriesMethod}(
             $mailService->{$getEntriesMethodOfMailService}($options)
         );
-        $content['queue' . $label . '_head'] =
-            $GLOBALS['LANG']->getLL('label_' . $label . 'jobs') . ' (' . $count . ')';
+        $content['queue'.$label.'_head'] =
+            $GLOBALS['LANG']->getLL('label_'.$label.'jobs').' ('.$count.')';
 
         // Pager einblenden
         $pagerData = $pager->render();
-        $content['queue' . $label . '_head'] .= '<div class="pager">' . $pagerData['limits'] . ' - ' .
-                                                $pagerData['pages'] . '</div>';
+        $content['queue'.$label.'_head'] .= '<div class="pager">'.$pagerData['limits'].' - '.
+                                                $pagerData['pages'].'</div>';
 
         return $content;
     }
 
     /**
-     * Creates Entries for Queue List with RemoveButton
+     * Creates Entries for Queue List with RemoveButton.
      *
      * @param array $queueEntries
      *
@@ -135,7 +134,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Creates Entries for Queue List
+     * Creates Entries for Queue List.
      *
      * @param array $queueEntries
      * @param bool $removeButton
@@ -147,29 +146,29 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         if (!count($queueEntries)) {
             return '';
         }
-        $columns = array();
-        $columns[] = array(
+        $columns = [];
+        $columns[] = [
             $GLOBALS['LANG']->getLL('label_uid'),
             $GLOBALS['LANG']->getLL('label_created'),
             $GLOBALS['LANG']->getLL('label_updated'),
             $GLOBALS['LANG']->getLL('label_send'),
             $GLOBALS['LANG']->getLL('label_prefer'),
             $GLOBALS['LANG']->getLL('label_receivers'),
-            $GLOBALS['LANG']->getLL('label_subject')
-        );
+            $GLOBALS['LANG']->getLL('label_subject'),
+        ];
 
         foreach ($queueEntries as $queueEntry) {
-            $column = array();
+            $column = [];
 
             $removeBtn = '';
             if ($removeButton) {
                 $removeBtn = $this->getModule()->getFormTool()->createSubmit(
-                    'removeMail[][' . $queueEntry->getUid() . ']',
+                    'removeMail[]['.$queueEntry->getUid().']',
                     $GLOBALS['LANG']->getLL('label_delete'),
                     $GLOBALS['LANG']->getLL('label_text_delete')
                 );
             }
-            $column[] = $queueEntry->getUid() . $removeBtn;
+            $column[] = $queueEntry->getUid().$removeBtn;
             $column[] = $queueEntry->getCreationDate();
             $column[] = $queueEntry->getLastUpdate();
             $column[] = $queueEntry->getMailCount();
@@ -200,30 +199,30 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         if (!count($logEntries)) {
             return '';
         }
-        $columns = array();
-        $columns[] = array(
+        $columns = [];
+        $columns[] = [
             $GLOBALS['LANG']->getLL('label_uid'),
             $GLOBALS['LANG']->getLL('label_created'),
             $GLOBALS['LANG']->getLL('label_receiver'),
-            ''
-        );
+            '',
+        ];
         foreach ($logEntries as $logEntry) {
-            $column = array();
+            $column = [];
 
             $editButton = $this->getModule()->getFormTool()->createEditButton(
                 'tx_mkmailer_receiver',
                 $logEntry->getReceiver(),
-                array('title' => $GLOBALS['LANG']->getLL('label_edit_complete_receiver'))
+                ['title' => $GLOBALS['LANG']->getLL('label_edit_complete_receiver')]
             );
             $moveButton = $this->getModule()->getFormTool()->createSubmit(
-                'moveLogEntryBackToQueue[][' . $logEntry->getReceiver() . ']',
+                'moveLogEntryBackToQueue[]['.$logEntry->getReceiver().']',
                 $GLOBALS['LANG']->getLL('label_move'),
                 $GLOBALS['LANG']->getLL('label_text_move')
             );
 
             $column[] = $logEntry->getUid();
             $column[] = $logEntry->getTstamp();
-            $column[] = $logEntry->getAddress() . ' ' . $editButton;
+            $column[] = $logEntry->getAddress().' '.$editButton;
             $column[] = $moveButton;
             $columns[] = $column;
         }
@@ -234,7 +233,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Zeigt die Empfänger der Mail an
+     * Zeigt die Empfänger der Mail an.
      *
      * @param tx_mkmailer_models_Queue $mail
      *
@@ -243,20 +242,20 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     protected function showReceiver(tx_mkmailer_models_Queue $mail)
     {
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
-        $ret = array();
+        $ret = [];
         $receivers = $mail->getReceivers();
-        for ($i = 0, $cnt = count($receivers); $i < $cnt; $i++) {
+        for ($i = 0, $cnt = count($receivers); $i < $cnt; ++$i) {
             $receiverData = $receivers[$i];
             $receiver = $mailServ->createReceiver($receiverData);
 
             $addrCnt = $receiver->getAddressCount();
-            $addrInfo = $addrCnt . ' ' . $GLOBALS['LANG']->getLL('label_receivers');
-            if ($addrCnt == 1) {
+            $addrInfo = $addrCnt.' '.$GLOBALS['LANG']->getLL('label_receivers');
+            if (1 == $addrCnt) {
                 $addrArr = $receiver->getSingleAddress(0);
                 $addrInfo = $addrArr['address'];
             }
-            $info = $receiver->getName() . ' (';
-            $info .= $addrInfo . ')';
+            $info = $receiver->getName().' (';
+            $info .= $addrInfo.')';
 
             $ret[] = $info;
         }
@@ -265,7 +264,8 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Löscht die angegebene Email aus der Queue
+     * Löscht die angegebene Email aus der Queue.
+     *
      * @return string
      */
     private function handleDeleteMail()
@@ -289,18 +289,18 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     {
         $uid = $this->getUidFromRequest('moveLogEntryBackToQueue');
 
-        if ($uid != 0) {
+        if (0 != $uid) {
             Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
                 'tx_mkmailer_queue',
-                'uid=' . $uid,
-                array('deleted' => '0')
+                'uid='.$uid,
+                ['deleted' => '0']
             );
-            Tx_Rnbase_Database_Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = ' . $uid);
+            Tx_Rnbase_Database_Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
         }
     }
 
     /**
-     * Liefert die Mail aus dem Request oder false
+     * Liefert die Mail aus dem Request oder false.
      *
      * @param string $varName
      *
@@ -323,5 +323,5 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php'];
 }

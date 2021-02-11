@@ -25,18 +25,15 @@
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
- * tx_mkmailer_receiver_Email
+ * tx_mkmailer_receiver_Email.
  *
  * Implementierung für einen Mailempfänger vom Typ E-Mail.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
 {
-
     /**
      * @var string
      */
@@ -51,7 +48,8 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
      */
     public function setValueString($value)
@@ -60,7 +58,8 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_Base::getValueString()
      */
     public function getValueString()
@@ -77,7 +76,6 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     *
      * @return string
      */
     public function getEMail()
@@ -86,7 +84,8 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
      */
     public function getAddressCount()
@@ -95,16 +94,18 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
      */
     public function getAddresses()
     {
-        return $this->email ? array($this->email) : array();
+        return $this->email ? [$this->email] : [];
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getName()
      */
     public function getName()
@@ -113,7 +114,8 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
      */
     public function getSingleAddress($idx)
@@ -137,5 +139,5 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Email.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Email.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Email.php'];
 }

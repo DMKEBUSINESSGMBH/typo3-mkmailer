@@ -10,7 +10,7 @@
 // "version" and "dependencies" must not be touched!
 //
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'MK Mailer',
     'description' => 'Provides a asynchronous mail system with full template support',
     'category' => 'services',
@@ -30,32 +30,32 @@ $EM_CONF[$_EXTKEY] = array(
     'clearCacheOnLoad' => 0,
     'lockType' => '',
     'author_company' => 'DMK E-BUSINESS GmbH',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'rn_base' => '1.4.0-',
             'typo3' => '6.2.14-9.5.99',
-        ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
             't3users' => '9.0.0-',
-            'mklib' => '9.5.0-'
-        ),
-    ),
-    "autoload" => array(
-        "classmap" => array(
-            "scheduler/",
-            "actions/",
-            "exceptions/",
-            "mail/",
-            "mod1/",
-            "models/",
-            "phpmailer/",
-            "receiver/",
-            "services/",
-            "tests/",
-            "util/"
-        )
-    ),
+            'mklib' => '9.5.0-',
+        ],
+    ],
+    'autoload' => [
+        'classmap' => [
+            'scheduler/',
+            'actions/',
+            'exceptions/',
+            'mail/',
+            'mod1/',
+            'models/',
+            'phpmailer/',
+            'receiver/',
+            'services/',
+            'tests/',
+            'util/',
+        ],
+    ],
     '_md5_values_when_last_written' => 'a:5:{s:9:"ChangeLog";s:4:"afa5";s:10:"README.txt";s:4:"ee2d";s:12:"ext_icon.gif";s:4:"1bdc";s:19:"doc/wizard_form.dat";s:4:"ae26";s:20:"doc/wizard_form.html";s:4:"b08b";}',
-);
+];

@@ -21,7 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-/**
+/*
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
  * Hint: use extdeveval to insert/update function index above.
@@ -35,7 +35,7 @@ $SOBE->init();
 
 // Include files?
 foreach ((array) $SOBE->include_once as $INC_FILE) {
-    include_once($INC_FILE);
+    include_once $INC_FILE;
 }
 
 $SOBE->main();

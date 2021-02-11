@@ -22,21 +22,16 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_mkmailer_mail_IAttachment');
 
-
 /**
- * tx_mkmailer_mail_Attachment
+ * tx_mkmailer_mail_Attachment.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
 {
-
     /**
      * @var int
      */
@@ -68,7 +63,6 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     private $encoding = 'base64';
 
     /**
-     *
      * @param int $type @see tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT
      */
     public function __construct($type)
@@ -77,7 +71,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getPathOrContent()
      */
     public function getPathOrContent()
@@ -94,7 +89,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getName()
      */
     public function getName()
@@ -103,7 +99,6 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     *
      * @param string $name
      */
     public function setName($name)
@@ -112,7 +107,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getEmbedId()
      */
     public function getEmbedId()
@@ -129,7 +125,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getMimeType()
      */
     public function getMimeType()
@@ -146,7 +143,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getEncoding()
      */
     public function getEncoding()
@@ -163,7 +161,8 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_mail_IAttachment::getAttachmentType()
      */
     public function getAttachmentType()
@@ -181,5 +180,5 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php'];
 }

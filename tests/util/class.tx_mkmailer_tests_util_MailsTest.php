@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 DMK E-BUSINESS GmbH
  *  All rights reserved
@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden
  */
 
@@ -36,7 +36,6 @@ tx_rnbase::load('tx_mkmailer_receiver_Email');
  */
 class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseTestCase
 {
-
     /**
      * @group unit
      */
@@ -59,14 +58,14 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
 
         $templateObj = tx_rnbase::makeInstance(
             'tx_mkmailer_models_Template',
-            array(
+            [
                 'contenttext' => '###MODEL_NAME###',
                 'contenthtml' => '###MODEL_NAME### html',
                 'mail_from' => 'typo3site',
                 'mail_cc' => 'gchq',
                 'mail_bcc' => 'nsa',
                 'subject' => 'test mail',
-            )
+            ]
         );
         $mailService->expects($this->once())
             ->method('getTemplate')
@@ -106,14 +105,14 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
 
         $templateObj = tx_rnbase::makeInstance(
             'tx_mkmailer_models_Template',
-            array(
+            [
                 'contenttext' => '###MODEL_NAME###',
                 'contenthtml' => '###MODEL_NAME### html',
                 'mail_from' => 'typo3site',
                 'mail_cc' => 'gchq',
                 'mail_bcc' => 'nsa',
                 'subject' => 'test mail',
-            )
+            ]
         );
         $mailService->expects($this->never())
             ->method('getTemplate');
@@ -154,10 +153,12 @@ class tx_mkmailer_tests_util_ReceiverDummy extends tx_mkmailer_receiver_Email
     {
         return 'model';
     }
+
     protected function getModelMarker()
     {
         return 'modelMarker';
     }
+
     protected function getMarkerClass()
     {
         return 'markerClass';

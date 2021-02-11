@@ -23,22 +23,19 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
- * tx_mkmailer_mod1_FuncTest
+ * tx_mkmailer_mod1_FuncTest.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_mod_BaseModFunc::getFuncId()
      */
     public function getFuncId()
@@ -47,17 +44,18 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
     }
 
     /**
-     * Returns the module content
+     * Returns the module content.
      *
      * @param string $template
      * @param tx_rnbase_configurations $configurations
      * @param tx_rnbase_util_FormatUtil $formatter
      * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
+     *
      * @return string
      */
     public function getContent($template, &$configurations, &$formatter, $formTool)
     {
-        $arr = array('name' => 'alfred');
+        $arr = ['name' => 'alfred'];
         $markerArray = $formatter->getItemMarkerArrayWrapped($arr, $this->getConfId().'queue.', 0, 'MAIL_');
         $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
 
@@ -66,5 +64,5 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mod1_BaseModule.php'];
 }

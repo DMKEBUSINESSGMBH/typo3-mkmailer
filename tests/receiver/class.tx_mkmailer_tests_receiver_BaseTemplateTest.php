@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 DMK E-BUSINESS <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -24,36 +24,43 @@
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
-
 /**
- *  Test Receiver Object
+ *  Test Receiver Object.
  */
 class tx_mkmailer_tests_receiver_BaseTemplate extends tx_mkmailer_receiver_BaseTemplate
 {
     public $addAdditionalData = false;
+
     public function getConfId()
     {
         return 'basetemplate.';
     }
+
     public function getAddressCount()
     {
     }
+
     public function getAddresses()
     {
     }
+
     public function getName()
     {
     }
+
     public function getSingleAddress($idx)
     {
-        return array('address' => 'ich@da.com', 'addressid' => 'ich@da.com');
+        return ['address' => 'ich@da.com', 'addressid' => 'ich@da.com'];
     }
+
     public function getValueString()
     {
     }
+
     public function setValueString($value)
     {
     }
+
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {
         if ($this->addAdditionalData) {
@@ -64,7 +71,7 @@ class tx_mkmailer_tests_receiver_BaseTemplate extends tx_mkmailer_receiver_BaseT
 }
 
 /**
- *  Test Receiver Object mit email variable
+ *  Test Receiver Object mit email variable.
  */
 class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_mkmailer_tests_receiver_BaseTemplate
 {
@@ -72,17 +79,14 @@ class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_
 }
 
 /**
- * tx_mkmailer_tests_receiver_BaseTemplate_testcase
+ * tx_mkmailer_tests_receiver_BaseTemplate_testcase.
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * Constructs a test case with the given name.
      *
@@ -90,36 +94,38 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
      * @param  array  $data
      * @param  string $dataName
      */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         // TODO: fix me
 //        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
     }
 
-
     protected $getFileName_backPath = '';
+
     protected function setUp()
     {
-        self::markTestIncomplete("Error: Call to undefined method stdClass::getFileName()");
+        self::markTestIncomplete('Error: Call to undefined method stdClass::getFileName()');
 
         // bei älteren t3 versionen ist der backpath falsch!
         $GLOBALS['TSFE']->tmpl->getFileName_backPath =
             $GLOBALS['TSFE']->tmpl->getFileName_backPath ?
             $GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
     }
+
     protected function tearDown()
     {
         // backpath zurücksetzen
         $GLOBALS['TSFE']->tmpl->getFileName_backPath = $this->getFileName_backPath;
     }
+
     /**
      * @return  tx_rnbase_configurations
      */
-    private function getConfigurations(array $configArray = array())
+    private function getConfigurations(array $configArray = [])
     {
         $configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
-        $configArray = array('sendmails.' => $configArray);
+        $configArray = ['sendmails.' => $configArray];
 
         $configurations->init(
             $configArray,
@@ -144,7 +150,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     /**
      * @return  tx_mkmailer_receiver_BaseTemplate
      */
-    private function getQueue(array $data = array())
+    private function getQueue(array $data = [])
     {
         $data['uid'] = $data['uid'] ? $data['uid'] : 0;
         $data['contenttext'] = $data['contenttext'] ? $data['contenttext'] : 'Text für TEXT<br />';
@@ -172,13 +178,13 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrongTemplate()
     {
         $confId = 'sendmails.';
-        $configArray = array(
-                'basetemplate.' => array(
+        $configArray = [
+                'basetemplate.' => [
                         'wrapTemplate' => '1',
                         'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/wrongtext.html',
                         'textTemplate' => 'EXT:mkmailer/tests/fixtures/wronghtml.html',
-                    ),
-            );
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -194,13 +200,13 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrappedTemplate()
     {
         $confId = 'sendmails.';
-        $configArray = array(
-                'basetemplate.' => array(
+        $configArray = [
+                'basetemplate.' => [
                         'wrapTemplate' => '1',
                         'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
                         'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-                    ),
-            );
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -216,13 +222,13 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrappedTemplateAndAdditionalData()
     {
         $confId = 'sendmails.';
-        $configArray = array(
-                'basetemplate.' => array(
+        $configArray = [
+                'basetemplate.' => [
                         'wrapTemplate' => '1',
                         'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
                         'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-                    ),
-            );
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
@@ -239,12 +245,12 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrappedDefaultTemplateAndAdditionalData()
     {
         $confId = 'sendmails.';
-        $configArray = array(
+        $configArray = [
                 'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-                'basetemplate.' => array(
+                'basetemplate.' => [
                         'wrapTemplate' => '1',
-                    ),
-            );
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
@@ -261,14 +267,14 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrappedDefaultTemplateAndCustomSubpart()
     {
         $confId = 'sendmails.';
-        $configArray = array(
+        $configArray = [
                 'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-                'basetemplate.' => array(
+                'basetemplate.' => [
                     'wrapTemplate' => '1',
                     'textSubpart' => '###TESTTEXT###',
                     'htmlSubpart' => '###TESTHTML###',
-                ),
-            );
+                ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -284,16 +290,16 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     public function testGetSingleMailWithWrappedTemplateAndDcMarker()
     {
         $confId = 'sendmails.';
-        $configArray = array(
-                'basetemplate.' => array(
+        $configArray = [
+                'basetemplate.' => [
                         'wrapTemplate' => '1',
                         'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
                         'textSubpart' => '###CONTENTTEXT_DCMARKER###',
                         'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
                         'htmlSubpart' => '###CONTENTHTML_DCMARKER###',
-                        'receivertext.' => array(),
-                    ),
-            );
+                        'receivertext.' => [],
+                    ],
+            ];
         $configArray['basetemplate.']['receivertext.']['dctest']
             = $configArray['basetemplate.']['receiverhtml.']['dctest']
                 = 'TEXT';
@@ -321,7 +327,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
         $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
-        $this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
+        $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 
     public function testGetSingleMailUsesObjectVariableEmailIfSet()
@@ -333,11 +339,10 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
         $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
-        $this->assertEquals(array($expectedTo), $msg->getTo(), 'to wrong.');
+        $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php'];
 }

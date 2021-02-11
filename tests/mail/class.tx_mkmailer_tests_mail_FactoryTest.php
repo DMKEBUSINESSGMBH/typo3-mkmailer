@@ -26,10 +26,8 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkmailer_mail_Factory');
 
 /**
- * Mail factory Tests
+ * Mail factory Tests.
  *
- * @package TYPO3
- * @subpackage mkmailer
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
@@ -37,7 +35,7 @@ tx_rnbase::load('tx_mkmailer_mail_Factory');
 class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
-     * Test the createAttachment method
+     * Test the createAttachment method.
      *
      * @return void
      *
@@ -47,7 +45,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
     public function testCreateAttachmentShouldReadTheRightMimeType()
     {
         self::markTestIncomplete(
-            "Failed asserting that two strings are identical.".
+            'Failed asserting that two strings are identical.'.
             "-'application/xml'".
             "+'text/xml'"
         );
@@ -60,7 +58,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * Test the createEmbeddedAttachment method
+     * Test the createEmbeddedAttachment method.
      *
      * @return void
      *
@@ -70,7 +68,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
     public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
     {
         self::markTestIncomplete(
-            "Failed asserting that two strings are identical.".
+            'Failed asserting that two strings are identical.'.
             "-'application/xml'".
             "+'text/xml'"
         );
@@ -84,7 +82,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * Test the createStringAttachment method
+     * Test the createStringAttachment method.
      *
      * @return void
      *
@@ -94,7 +92,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
     public function testCreateStringAttachmentShouldReadTheRightMimeType()
     {
         self::markTestIncomplete(
-            "Failed asserting that two strings are identical.".
+            'Failed asserting that two strings are identical.'.
             "-'application/xml'".
             "+'text/xml'"
         );

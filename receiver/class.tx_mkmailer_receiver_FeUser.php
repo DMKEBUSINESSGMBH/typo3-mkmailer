@@ -24,27 +24,25 @@
 tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
- * tx_mkmailer_receiver_FeUser
+ * tx_mkmailer_receiver_FeUser.
  *
  * Implementierung für einen Mailempfänger vom Typ FeUser.
  *
  * @TODO: auf tx_mkmailer_receiver_BaseTemplate umstellen
  *
- * @package         TYPO3
- * @subpackage      mkmailer
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
 {
-
     /**
      * @var tx_t3users_models_feuser
      */
     protected $obj;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
      */
     public function setValueString($value)
@@ -54,7 +52,6 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     *
      * @param tx_t3users_models_feuser $feuser
      */
     public function setFeUser($feuser)
@@ -63,7 +60,8 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
      */
     public function getAddressCount()
@@ -72,20 +70,22 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
      */
     public function getAddresses()
     {
         if (!$this->getEmail()) {
-            return array();
+            return [];
         }
 
-        return array($this->getEmail());
+        return [$this->getEmail()];
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getName()
      */
     public function getName()
@@ -98,16 +98,17 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
      */
     public function getSingleAddress($idx)
     {
         $member = $this->obj;
         $ret['address'] = $this->getEmail();
-        $ret['addressName'] = $member->record['vname'] . ' ' . $member->record['nname'];
+        $ret['addressName'] = $member->record['vname'].' '.$member->record['nname'];
         // TODO: Die AddressID ist notwendig, um beim Versionswechsel kein Mails doppelt zu verschicken.
-        $ret['addressid'] = $ret['address'] . '_'. $ret['addressName'];
+        $ret['addressid'] = $ret['address'].'_'.$ret['addressName'];
 
         return $ret;
     }
@@ -121,6 +122,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      * @param   tx_rnbase_util_FormatUtil   $formatter
      * @param   string                      $confId
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     *
      * @return  tx_mkmailer_mail_IMessage
      */
     protected function addAdditionalData(
@@ -179,5 +181,5 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php'];
 }

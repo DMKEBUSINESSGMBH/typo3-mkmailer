@@ -26,10 +26,8 @@ tx_rnbase::load('tx_mklib_scheduler_Generic');
 tx_rnbase::load('tx_rnbase_util_Misc');
 
 /**
- * Send-Mails scheduler task
+ * Send-Mails scheduler task.
  *
- * @package TYPO3
- * @subpackage mkmailer
  * @author Hannes Bochmann
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
@@ -37,12 +35,11 @@ tx_rnbase::load('tx_rnbase_util_Misc');
  */
 class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
 {
-
     /**
-     * This is the main method that is called when a task is executed
+     * This is the main method that is called when a task is executed.
      *
      * @param array $options
-     * @param array $devLog Put some informations for the logging here.
+     * @param array $devLog put some informations for the logging here
      *
      * @return string
      */
@@ -52,31 +49,31 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         if ($cronPage) {
             tx_rnbase_util_Misc::prepareTSFE();
             $report = $this->callCronpageUrl();
-            if ($report['error'] != 0) {
-                $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
+            if (0 != $report['error']) {
+                $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = [
                     'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
-                    'dataVar' => array('report' => $report)
-                );
+                    'dataVar' => ['report' => $report],
+                ];
             }
         } else {
-            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = array(
-                'message' => 'Der Mailversand von mkmailer sollte über den Scheduler ' .
-                    'angestoßen werden, die cronpage ist aber nicht konfiguriert' .
+            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = [
+                'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
+                    'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                     ' in den Extensioneinstellungen. Bitte beheben.',
-            );
+            ];
         }
 
         return '';
     }
 
     /**
-     * Performs the http request to the cronpage and returns the report
+     * Performs the http request to the cronpage and returns the report.
      *
      * @return array
      */
     protected function callCronpageUrl()
     {
-        $report = array();
+        $report = [];
         Tx_Rnbase_Utility_T3General::getUrl(
             $this->getCronpageUrl(),
             0,
@@ -88,7 +85,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     }
 
     /**
-     * Returns the configured cron page uid
+     * Returns the configured cron page uid.
      *
      * @return string
      */
@@ -107,6 +104,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      * Builds the CronUrl.
      *
      * @return string
+     *
      * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     protected function getCronpageUrl()
@@ -114,11 +112,11 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $pageUid = $this->getCronPageId();
         $user = $this->getOption('user');
         $pwd = $this->getOption('passwd');
-        $auth = ($user && $pwd) ? $user . ':' . $pwd . '@' : '';
+        $auth = ($user && $pwd) ? $user.':'.$pwd.'@' : '';
         $protocol = $this->getProtocol();
 
         // seems like we have an alias
-        if ( !Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
+        if (!Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
             $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
         }
 
@@ -139,7 +137,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
 
     protected function getProtocol()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SSL')?'https':'http';
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SSL') ? 'https' : 'http';
     }
 
     /**
