@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'services',
     'author' => 'René Nitzsche,Michael Wagner,Hannes Bochmann',
     'author_email' => 'dev@dmk-ebusiness.de',
-    'version' => '9.0.0',
+    'version' => '10.0.0',
     'shy' => '',
     'dependencies' => 'rn_base',
     'conflicts' => '',
@@ -33,7 +33,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.4.0-',
-            'typo3' => '6.2.14-9.5.99',
+            'typo3' => '6.2.14-10.4.99',
         ],
         'conflicts' => [
         ],
