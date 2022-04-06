@@ -21,9 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_rnbase_model_base');
-tx_rnbase::load('tx_mkmailer_mail_Address');
 
 /**
  * tx_mkmailer_models_Template.
@@ -67,7 +64,6 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
             return $this->record['contenthtml'];
         }
 
-        tx_rnbase::load('tx_mkmailer_util_Misc');
         $ret = tx_mkmailer_util_Misc::getRTEText($this->record['contenthtml']);
 
         return $ret;
@@ -193,9 +189,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
     private function getFalAttachmentPaths()
     {
         $attachmentPaths = [];
-        tx_rnbase::load('tx_rnbase_util_TYPO3');
         if ($this->isPersisted() && tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            tx_rnbase::load('tx_rnbase_util_TSFAL');
             $falFiles = tx_rnbase_util_TSFAL::getReferences(
                 $this->getTableName(),
                 $this->getUid(),
@@ -268,7 +262,6 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
         if (empty($files)) {
             return $files;
         }
-        tx_rnbase::load('tx_mkmailer_mail_Factory');
         foreach ($files as &$file) {
             $file = tx_mkmailer_mail_Factory::createAttachment($file);
         }

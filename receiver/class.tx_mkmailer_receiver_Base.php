@@ -21,7 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_mkmailer_receiver_IMailReceiver');
 
 /**
  * tx_mkmailer_receiver_Base.

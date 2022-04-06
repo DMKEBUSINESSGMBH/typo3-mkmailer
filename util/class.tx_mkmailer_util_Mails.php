@@ -51,9 +51,9 @@ class tx_mkmailer_util_Mails
             $templateObj = $mailSrv->getTemplate($templateObjectOrKey);
         }
 
-        $receiver = tx_rnbase::makeInstance($receiverClass, $email, $modelUid);
+        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($receiverClass, $email, $modelUid);
 
-        $job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+        $job = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
         $job->addReceiver($receiver);
         $job->setFrom($templateObj->getFromAddress());
         $job->setCCs($templateObj->getCcAddress());
@@ -69,8 +69,6 @@ class tx_mkmailer_util_Mails
      */
     protected function getMailService()
     {
-        tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
-
         return tx_mkmailer_util_ServiceRegistry::getMailService();
     }
 }

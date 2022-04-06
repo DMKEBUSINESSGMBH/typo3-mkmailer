@@ -39,11 +39,10 @@ $templateObj = $mailSrv->getTemplate($templateKey);
 
 $from = 'test@egal.de';
 // Den Empfänger der Mail als Receiver anlegen, Hier ein Standardreceiver, man kann aber auch eigene Receiver schreiben
-tx_rnbase::load('tx_mkmailer_receiver_FeUser');
 $receiver = new tx_mkmailer_receiver_FeUser();
 $receiver->setFeUser($feuser);
 
-$job = tx_rnbase::makeInstance('tx_mkmailer_mail_MailJob');
+$job = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
 $job->addReceiver($receiver);
 $job->setFrom($templateObj->getFromAddress());
 $job->setCCs($templateObj->getCcAddress());
@@ -60,7 +59,6 @@ $job->setContentText($txtPart);
 $job->setContentHtml($htmlPart);
 
 // Anhänge hinzufügen
-tx_rnbase::load('tx_mkmailer_mail_Factory');
 $attachment = tx_mkmailer_mail_Factory::createAttachment($attachmentPath);
 $job->addAttachment($attachment);
 

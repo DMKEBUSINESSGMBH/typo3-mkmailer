@@ -21,7 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
  * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!

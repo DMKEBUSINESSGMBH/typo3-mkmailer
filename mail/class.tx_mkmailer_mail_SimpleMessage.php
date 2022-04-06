@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_mkmailer_mail_IMessage');
-
 /**
  * tx_mkmailer_mail_SimpleMessage.
  *
@@ -86,7 +84,6 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
     public static function getDefaultOptions()
     {
         $options = [];
-        tx_rnbase::load('tx_rnbase_configurations');
 
         // CharSet
         $charset = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'charset');
@@ -328,7 +325,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      */
     private function createAddress($address, $name = '')
     {
-        return tx_rnbase::makeInstance('tx_mkmailer_mail_Address', $address, $name);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', $address, $name);
     }
 }
 

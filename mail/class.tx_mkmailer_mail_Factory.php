@@ -21,10 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_mkmailer_mail_IMailJob');
-tx_rnbase::load('tx_mkmailer_mail_IAttachment');
-tx_rnbase::load('tx_rnbase_util_Files');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Mail Factory.
@@ -50,7 +46,7 @@ class tx_mkmailer_mail_Factory
         array $receiver = [],
         tx_mkmailer_models_Template &$templateObj = null
     ) {
-        return tx_rnbase::makeInstance(
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_mail_MailJob',
             $receiver,
             $templateObj
@@ -203,7 +199,7 @@ class tx_mkmailer_mail_Factory
         $mimeType = false
     ) {
         /* @var $attachment tx_mkmailer_mail_Attachment */
-        $attachment = tx_rnbase::makeInstance(
+        $attachment = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Attachment',
             $type
         );
@@ -233,7 +229,7 @@ class tx_mkmailer_mail_Factory
         $address,
         $name = ''
     ) {
-        return tx_rnbase::makeInstance(
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Address',
             $address,
             $name

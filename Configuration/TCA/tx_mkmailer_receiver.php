@@ -1,8 +1,5 @@
 <?php
 
-tx_rnbase::load('Tx_Rnbase_Utility_TcaTool');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_receiver',

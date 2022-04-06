@@ -21,8 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_rnbase_model_base');
 
 /**
  * tx_mkmailer_models_Queue.
@@ -89,11 +87,9 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
         }
         // Hier muss geprüft werden ob serialisierte Daten vorliegen.
         if ($attachments && 'a' === $attachments[0] && ':' === $attachments[1]) {
-            tx_rnbase::load('tx_mkmailer_mail_Attachment');
             $ret = unserialize($attachments);
         } else {
             // Alle Strings zu Attachments umformen
-            tx_rnbase::load('tx_mkmailer_mail_Factory');
             $files = tx_rnbase_util_Strings::trimExplode(',', $attachments);
             foreach ($files as $file) {
                 $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);

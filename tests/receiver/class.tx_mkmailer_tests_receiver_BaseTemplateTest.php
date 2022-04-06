@@ -21,8 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
  *  Test Receiver Object.
@@ -124,7 +122,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
      */
     private function getConfigurations(array $configArray = [])
     {
-        $configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_configurations');
         $configArray = ['sendmails.' => $configArray];
 
         $configurations->init(
@@ -144,7 +142,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
      */
     private function getReceiver($class = 'tx_mkmailer_tests_receiver_BaseTemplate')
     {
-        return tx_rnbase::makeInstance($class);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($class);
     }
 
     /**
@@ -157,7 +155,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
         $data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'Text für HTML<br />';
         $data['subject'] = $data['subject'] ? $data['subject'] : 'Subject';
 
-        return tx_rnbase::makeInstance('tx_mkmailer_models_Queue', $data);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_models_Queue', $data);
     }
 
     public function testGetSingleMailWithoutWrap()
@@ -326,7 +324,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
         $queue = $this->getQueue();
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-        $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
+        $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 
@@ -338,7 +336,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
         $queue = $this->getQueue();
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-        $expectedTo = tx_rnbase::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
+        $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 }

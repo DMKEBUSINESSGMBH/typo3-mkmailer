@@ -23,8 +23,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_mkmailer_receiver_Email');
-tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
  * tx_mkmailer_receiver_Model.
@@ -109,7 +107,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      */
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {
-        $markerClass = tx_rnbase::makeInstance($this->getMarkerClass());
+        $markerClass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($this->getMarkerClass());
         $model = $this->getModel();
         $modelMarker = $this->getModelMarker();
 

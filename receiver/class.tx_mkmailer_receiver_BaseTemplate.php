@@ -21,8 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_mkmailer_receiver_Base');
 
 /**
  * tx_mkmailer_receiver_BaseTemplate.
@@ -101,7 +99,6 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
             return '<!-- NO Template defined. -->'.$content;
         }
 
-        tx_rnbase::load('tx_rnbase_util_Files');
         $template = tx_rnbase_util_Files::getFileResource($templatePath);
         if (!$template) {
             return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
@@ -116,7 +113,6 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
             return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
         }
 
-        tx_rnbase::load('tx_rnbase_util_Templates');
         $out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
             $template,
             ['###CONTENT###' => $content]
@@ -138,8 +134,6 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      */
     protected function parseReceiver($content, $configurations, $confId, $type, $idx = 0)
     {
-        tx_rnbase::load('tx_rnbase_util_BaseMarker');
-
         $out = $content;
 
         // jetzt noch dcmarker und labels ersetzen.
@@ -336,7 +330,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         $mailText = $this->fixContentText($mailText);
         $mailHtml = $this->fixContentHtml($mailHtml);
 
-        $msg = tx_rnbase::makeInstance('tx_mkmailer_mail_SimpleMessage');
+        $msg = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_SimpleMessage');
         // @TODO: Was ist eigentlich mit den CCs und BCCs??
         $singleAddress = $this->getSingleAddress($idx);
         $sendTo = $this->email ? $this->email : $singleAddress['address'];

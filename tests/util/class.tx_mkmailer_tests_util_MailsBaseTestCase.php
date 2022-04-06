@@ -26,10 +26,6 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkmailer_util_Mails');
-tx_rnbase::load('tx_mkmailer_services_Mail');
-
 /**
  * @author Hannes Bochmann
  */

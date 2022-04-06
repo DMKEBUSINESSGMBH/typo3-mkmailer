@@ -21,9 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * tx_mkmailer_util_Misc.
@@ -46,7 +43,6 @@ class tx_mkmailer_util_Misc
      */
     public static function getRTEText($str)
     {
-        tx_rnbase::load('tx_rnbase_util_Misc');
         tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
         $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
         if (TYPO3_MODE == 'BE') {
@@ -58,7 +54,7 @@ class tx_mkmailer_util_Misc
                 $GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
             }
         }
-        $cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
         if (is_array($parseFunc)) {
             $str = $cObj->parseFunc($str, $parseFunc);
         }
@@ -75,7 +71,7 @@ class tx_mkmailer_util_Misc
     {
         $sysPageObj = tx_rnbase_util_TYPO3::getSysPage();
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = tx_rnbase::makeInstance(
+        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             tx_rnbase_util_Typo3Classes::getExtendedTypoScriptTemplateServiceClass()
         );
         $TSObj->tt_track = 0;
@@ -95,8 +91,6 @@ class tx_mkmailer_util_Misc
      */
     public static function parseAddressString($addrStr)
     {
-        tx_rnbase::load('tx_mkmailer_mail_Address');
-
         $ret = [];
         if (!strlen(trim($addrStr))) {
             return $ret;

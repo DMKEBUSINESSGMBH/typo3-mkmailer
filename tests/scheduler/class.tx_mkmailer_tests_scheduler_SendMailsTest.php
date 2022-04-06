@@ -21,9 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * Test for tx_mkmailer_scheduler_SendMails.
@@ -49,8 +46,6 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
         if (!tx_rnbase_util_Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib muss installiert sein');
         }
-
-        tx_rnbase::load('tx_mkmailer_scheduler_SendMails');
 
         \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
 

@@ -22,18 +22,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_DB');
-tx_rnbase::load('tx_rnbase_util_Dates');
-tx_rnbase::load('tx_mkmailer_mail_IMailJob');
-tx_rnbase::load('tx_mkmailer_models_Queue');
-tx_rnbase::load('tx_mkmailer_models_Log');
-tx_rnbase::load('tx_mkmailer_mail_IMessage');
-tx_rnbase::load('tx_rnbase_util_Files');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('Tx_Rnbase_Service_Base');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-
 /**
  * E-Mail service.
  *
@@ -56,9 +44,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         tx_rnbase_configurations $configurations,
         $confId
     ) {
-        tx_rnbase::load('tx_mkmailer_util_Misc');
-        tx_rnbase::load('tx_rnbase_util_Lock');
-
         // wir sperren den prozess für eine bestimmte Zeit oder bis zum ende des durchlaufes
         $lockLifeTime = $configurations->getInt($confId.'lockLifeTime');
         $lock = tx_rnbase_util_Lock::getInstance('mkmailerqueue', $lockLifeTime);
@@ -66,7 +51,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
             return '<p>The Mail-Process is locked</p>';
         }
         if (!$lock->lockProcess()) {
-            tx_rnbase::load('tx_rnbase_util_Logger');
             tx_rnbase_util_Logger::fatal(
                 'Error in SendMailQueue: The Mail-Process couldn\'t be locked',
                 'mkmailer',
@@ -141,7 +125,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                             $sentErrors[] = 'QueueID: '.$queue->getUid().
                                 ' ('.implode(',', $address).')'.
                                 ' Msg: E-Mail konnte nicht gesendet werden. Sie können fehlerhafte Nachrichten im Backend bearbeiten. ('.$e->getMessage().')';
-                            tx_rnbase::load('tx_rnbase_util_Logger');
                             tx_rnbase_util_Logger::fatal(
                                 'Error in SendMailQueue: Eine Nachricht konnte aufgrund einer fehlerhaften E-Mail nicht versendet werden. Sie können diese Nachricht im Backend von MkMailer bearbeiten.',
                                 'mkmailer',
@@ -327,7 +310,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $data['attachments'] = $attachments ? serialize($attachments) : '';
         $data['cr_date'] = tx_rnbase_util_Dates::datetime_tstamp2mysql(time());
 
-        return tx_rnbase::makeInstance(
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_models_Queue',
             $data
         );
@@ -355,8 +338,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
             $this->spoolMailJob($job);
         }
 
-        tx_rnbase::load('tx_mkmailer_util_Misc');
-
         // send mail for each receiver
         foreach ($job->getReceiver() as $receiver) {
             /* @var $receiver tx_mkmailer_receiver_IMailReceiver */
@@ -375,7 +356,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
                     try {
                         $this->sendEmail($message);
                     } catch (Exception $e) {
-                        tx_rnbase::load('tx_rnbase_util_Logger');
                         tx_rnbase_util_Logger::fatal(
                             'Error in SendMailQueue',
                             'mkmailer',
@@ -399,7 +379,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     public function updateMailQueue(tx_mkmailer_models_Queue $mailQueue, $mailCnt)
     {
-        tx_rnbase::load('tx_rnbase_util_Dates');
         // Zuerst die eigentliche Mail speichern
         $data['mailcount'] = $mailQueue->getMailCount() + intval($mailCnt);
         $data['lastupdate'] = tx_rnbase_util_Dates::datetime_tstamp2mysql(time());
@@ -415,7 +394,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     private function closeMailQueue(tx_mkmailer_models_Queue $mailQueue)
     {
-        tx_rnbase::load('tx_rnbase_util_Dates');
         // Zuerst die eigentliche Mail speichern
         $data['deleted'] = 1;
         $data['lastupdate'] = tx_rnbase_util_Dates::datetime_tstamp2mysql(time());
@@ -548,7 +526,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
     public function createReceiver($receiverArr)
     {
         $clazzName = $receiverArr['resolver'];
-        tx_rnbase::load($clazzName);
         $receiver = new $clazzName();
         $receiver->setValueString($receiverArr['receivers']);
 
@@ -564,7 +541,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
      */
     public function createReceiverFeUser($feuser)
     {
-        tx_rnbase::load('tx_mkmailer_receiver_FeUser');
         $receiver = new tx_mkmailer_receiver_FeUser();
         $receiver->setFeUser($feuser);
 
@@ -658,7 +634,6 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
             // Die Mail wird an eine Testadresse verschickt
             tx_rnbase_util_Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: '.$from.''); // TODO: Remove me!
             $testAddrs = tx_rnbase_util_Strings::trimExplode(',', $options['testmail']);
-            tx_rnbase::load('tx_mkmailer_mail_Factory');
             foreach ($testAddrs as $addr) {
                 $mail = $this->addAddress(
                     $mail,
@@ -707,7 +682,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $ret = $mail->send();
         if (!$ret) {
             // Versandfehler. Es wird eine Exception geworfen
-            throw tx_rnbase::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
+            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
         }
     }
 
@@ -770,7 +745,7 @@ class tx_mkmailer_services_Mail extends Tx_Rnbase_Service_Base
         $options['wrapperclass'] = 'tx_mkmailer_models_Template';
         $ret = tx_rnbase_util_DB::doSelect($what, $from, $options, 0);
         if (!count($ret)) {
-            throw tx_rnbase::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
+            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
         }
 
         return count($ret) ? $ret[0] : null;

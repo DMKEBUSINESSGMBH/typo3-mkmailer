@@ -22,8 +22,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_parameters');
-tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
 
 /**
  * tx_mkmailer_mod1_FuncOverview.
@@ -98,7 +96,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      */
     private function getMarkerArrayDataForListView($label, $getEntriesMethodOfMailService, $showEntriesMethod)
     {
-        $pager = tx_rnbase::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
+        $pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
 
         $options = ['count' => 1];
         $mailService = tx_mkmailer_util_ServiceRegistry::getMailService();
@@ -184,7 +182,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         }
 
         /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
-        $tables = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
 
         return $tables->buildTable($columns);
     }
@@ -227,7 +225,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $columns[] = $column;
         }
         /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
-        $tables = tx_rnbase::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
 
         return $tables->buildTable($columns);
     }

@@ -26,8 +26,6 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkmailer_receiver_Model');
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
@@ -171,7 +169,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetUploadDir()
     {
-        $srv = tx_rnbase::makeInstance('tx_mkmailer_services_Mail');
+        $srv = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_services_Mail');
         $this->assertTrue(is_dir($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not a Directory!');
         $this->assertTrue(is_writable($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not writeble');
     }
@@ -183,8 +181,6 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
 
     private function getAddress($email, $name)
     {
-        tx_rnbase::load('tx_mkmailer_mail_Factory');
-
         return tx_mkmailer_mail_Factory::createAddressInstance($email, $name);
     }
 
@@ -193,7 +189,7 @@ class tx_mkmailer_tests_services_MailTest extends tx_rnbase_tests_BaseTestCase
         $method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
         $method->setAccessible(true);
         $method->invokeArgs(
-            tx_rnbase::makeInstance('tx_mkmailer_services_Mail'),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_services_Mail'),
             [$mail, $address]
         );
     }

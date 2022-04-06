@@ -21,7 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
 
 /**
  * tx_mkmailer_receiver_FeUser.
@@ -47,7 +46,6 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      */
     public function setValueString($value)
     {
-        tx_rnbase::load('tx_t3users_models_feuser');
         $this->setFeUser(tx_t3users_models_feuser::getInstance(intval($value)));
     }
 
@@ -133,7 +131,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         $confId,
         $idx
     ) {
-        $marker = tx_rnbase::makeInstance('tx_t3users_util_FeUserMarker');
+        $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
         $mailText = $marker->parseTemplate(
             $mailText,
             $this->obj,

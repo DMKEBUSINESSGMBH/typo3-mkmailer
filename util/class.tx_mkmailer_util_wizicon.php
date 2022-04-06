@@ -33,9 +33,6 @@
  *                 GNU Lesser General Public License, version 3 or later
  */
 
-tx_rnbase::load('tx_rnbase_util_Extensions');
-tx_rnbase::load('tx_rnbase_util_Wizicon');
-
 class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
 {
     /**

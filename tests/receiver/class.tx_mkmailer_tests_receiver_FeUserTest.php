@@ -22,12 +22,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_configurations');
-tx_rnbase::load('tx_mkmailer_models_Queue');
-tx_rnbase::load('tx_rnbase_util_Files');
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-
 /**
  * Tests zum E-Mail-Versand.
  *
@@ -81,7 +75,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     {
         $configArray = [$confId => $configArray];
 
-        $configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_configurations');
         $configurations->init(
             $configArray,
             $configurations->getCObj(1),
@@ -98,7 +92,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     private function getReceiver(
         tx_rnbase_model_base $feuser
     ) {
-        $receiver = tx_rnbase::makeInstance(
+        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_receiver_FeUser'
         );
         $receiver->setFeUser($feuser);
@@ -137,7 +131,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
         $data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'contenthtml';
         $data['subject'] = $data['subject'] ? $data['subject'] : 'subject';
 
-        return tx_rnbase::makeInstance('tx_mkmailer_models_Queue', $data);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_models_Queue', $data);
     }
 
     /* *** ********************** *** *
@@ -152,7 +146,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
                 'feuserTemplate' => 'EXT:mkmailer/tests/fixtures/mailfeuser.html',
             ]
         );
-        $feuser = tx_rnbase::makeInstance('tx_t3users_models_feuser', [
+        $feuser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_models_feuser', [
             'uid' => '1',
             'email' => 'test@localhost.net',
         ]);

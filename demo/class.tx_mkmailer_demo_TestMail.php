@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_mkmailer_mail_SimpleMessage');
-
 class tx_mkmailer_demo_TestMail
 {
     public static function sendMail($to, $toName)

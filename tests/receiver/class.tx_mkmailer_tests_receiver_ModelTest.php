@@ -26,9 +26,6 @@
  * benötigte Klassen einbinden
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkmailer_receiver_Model');
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
@@ -129,7 +126,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailText = '###MODEL_UID###';
-        $formatter = tx_rnbase::makeInstance(
+        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_rnbase_util_FormatUtil',
             $this->createConfigurations([], 'mkmailer')
         );
@@ -151,7 +148,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailHtml = '###MODEL_UID###';
-        $formatter = tx_rnbase::makeInstance(
+        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_rnbase_util_FormatUtil',
             $this->createConfigurations([], 'mkmailer')
         );
@@ -173,7 +170,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailSubject = '###MODEL_UID###';
-        $formatter = tx_rnbase::makeInstance(
+        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_rnbase_util_FormatUtil',
             $this->createConfigurations([], 'mkmailer')
         );

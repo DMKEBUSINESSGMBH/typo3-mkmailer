@@ -1,16 +1,11 @@
 <?php
 
-tx_rnbase::load('Tx_Rnbase_Utility_TcaTool');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-
 if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-    tx_rnbase::load('tx_rnbase_util_TSFAL');
     $attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA(
         'attachments',
         ['config' => ['softref' => 'images']]
     );
 } else {
-    tx_rnbase::load('tx_rnbase_util_TSDAM');
     $attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA(
         'attachments',
         ['config' => ['softref' => 'images']]

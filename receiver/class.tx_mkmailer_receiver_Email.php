@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_mkmailer_receiver_BaseTemplate');
-
 /**
  * tx_mkmailer_receiver_Email.
  *

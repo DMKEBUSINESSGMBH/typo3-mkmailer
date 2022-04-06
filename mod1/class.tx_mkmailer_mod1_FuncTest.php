@@ -23,8 +23,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_mod_BaseModFunc');
-
 /**
  * tx_mkmailer_mod1_FuncTest.
  *

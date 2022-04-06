@@ -29,9 +29,7 @@ tx_rnbase_util_Extensions::addPlugin(
 
 if (TYPO3_MODE == 'BE') {
     // Add plugin wizards
-    tx_rnbase::load('tx_rnbase_util_TYPO3');
     if (!tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
-        tx_rnbase::load('tx_mkmailer_util_wizicon');
         tx_mkmailer_util_wizicon::addWizicon(
             'tx_mkmailer_util_wizicon',
             tx_rnbase_util_Extensions::extPath(
@@ -53,7 +51,6 @@ if (TYPO3_MODE == 'BE') {
     }
 
     // register user_MkmailerBackend
-    tx_rnbase::load('tx_mkmailer_mod1_Module');
     tx_rnbase_util_Extensions::registerModule(
         'mkmailer',
         'web',
@@ -69,7 +66,6 @@ if (TYPO3_MODE == 'BE') {
         ]
     );
 
-    tx_rnbase::load('tx_mkmailer_mod1_FuncOverview');
     tx_rnbase_util_Extensions::insertModuleFunction(
         'web_MkmailerBackend',
         'tx_mkmailer_mod1_FuncOverview',
