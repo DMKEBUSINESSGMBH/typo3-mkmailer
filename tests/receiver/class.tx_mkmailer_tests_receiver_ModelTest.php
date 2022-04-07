@@ -29,7 +29,7 @@
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
-class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit
@@ -127,7 +127,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailText = '###MODEL_UID###';
         $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            'tx_rnbase_util_FormatUtil',
+            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
 
@@ -149,7 +149,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailHtml = '###MODEL_UID###';
         $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            'tx_rnbase_util_FormatUtil',
+            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
 
@@ -171,7 +171,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailSubject = '###MODEL_UID###';
         $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            'tx_rnbase_util_FormatUtil',
+            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
 
@@ -202,7 +202,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
             ['getModel', 'getModelMarker', 'getMarkerClass']
         );
 
-        $model = $this->getModel(['uid' => 123], 'tx_rnbase_model_base', ['getColumnNames']);
+        $model = $this->getModel(['uid' => 123], \Sys25\RnBase\Domain\Model\BaseModel::class, ['getColumnNames']);
 
         $receiver->expects($this->any())
             ->method('getModel')
@@ -214,7 +214,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends tx_rnbase_tests_BaseTestCase
 
         $receiver->expects($this->any())
             ->method('getMarkerClass')
-            ->will($this->returnValue('tx_rnbase_util_SimpleMarker'));
+            ->will($this->returnValue(\Sys25\RnBase\Frontend\Marker\SimpleMarker::class));
 
         return $receiver;
     }

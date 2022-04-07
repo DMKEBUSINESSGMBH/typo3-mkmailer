@@ -113,9 +113,9 @@ class tx_mkmailer_mail_Factory
      */
     public static function makeAbsPath($path)
     {
-        if (!tx_rnbase_util_Files::isAbsPath($path)) {
-            $path = tx_rnbase_util_Files::getFileAbsFileName(
-                Tx_Rnbase_Utility_T3General::fixWindowsFilePath($path)
+        if (!\Sys25\RnBase\Utility\Files::isAbsPath($path)) {
+            $path = \Sys25\RnBase\Utility\Files::getFileAbsFileName(
+                \Sys25\RnBase\Utility\T3General::fixWindowsFilePath($path)
             );
         }
 

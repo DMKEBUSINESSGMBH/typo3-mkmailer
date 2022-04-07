@@ -31,12 +31,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Template extends tx_rnbase_model_base
+class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_model_base::getTableName()
+     * @see \Sys25\RnBase\Domain\Model\BaseModel::getTableName()
      */
     public function getTableName()
     {
@@ -90,7 +90,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
         if (!strlen(trim($addrStr))) {
             return $ret;
         }
-        $addrArr = tx_rnbase_util_Strings::trimExplode(',', $addrStr);
+        $addrArr = \Sys25\RnBase\Utility\Strings::trimExplode(',', $addrStr);
         foreach ($addrArr as $addr) {
             $ret[] = new tx_mkmailer_mail_Address($addr);
         }
@@ -165,21 +165,6 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
     }
 
     /**
-     * Liefert die DAM-Attachments.
-     *
-     * @return  array
-     */
-    private function getDamAttachmentPaths()
-    {
-        if (!$this->isPersisted() || !tx_rnbase_util_Extensions::isLoaded('dam')) {
-            return [];
-        }
-        $dam = tx_rnbase_util_TSDAM::getReferences($this->getTableName(), $this->getUid(), 'attachments');
-
-        return empty($dam['files']) ? [] : array_values($dam['files']);
-    }
-
-    /**
      * Liefert die FAL-Attachments.
      *
      * @return  array
@@ -189,8 +174,8 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
     private function getFalAttachmentPaths()
     {
         $attachmentPaths = [];
-        if ($this->isPersisted() && tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            $falFiles = tx_rnbase_util_TSFAL::getReferences(
+        if ($this->isPersisted() && \Sys25\RnBase\Utility\TYPO3::isTYPO60OrHigher()) {
+            $falFiles = \Sys25\RnBase\Utility\TSFAL::getReferences(
                 $this->getTableName(),
                 $this->getUid(),
                 'attachments'
@@ -224,7 +209,7 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
      */
     private function getT3AttachmentPaths()
     {
-        $files = tx_rnbase_util_Strings::trimExplode(',', $this->record['attachmentst3'], true);
+        $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->record['attachmentst3'], true);
         if (empty($files)) {
             return $files;
         }
@@ -246,7 +231,6 @@ class tx_mkmailer_models_Template extends tx_rnbase_model_base
     {
         return array_merge(
             $this->getFalAttachmentPaths(),
-            $this->getDamAttachmentPaths(),
             $this->getT3AttachmentPaths()
         );
     }

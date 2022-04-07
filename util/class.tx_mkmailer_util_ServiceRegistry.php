@@ -37,7 +37,7 @@ class tx_mkmailer_util_ServiceRegistry
      */
     public static function getMailService()
     {
-        return tx_rnbase_util_Misc::getService('mkmailer', 'mail');
+        return \Sys25\RnBase\Utility\Misc::getService('mkmailer', 'mail');
     }
 }
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/util/class.tx_mkmailer_util_ServiceRegistry.php']) {

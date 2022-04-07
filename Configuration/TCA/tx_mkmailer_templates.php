@@ -1,16 +1,9 @@
 <?php
 
-if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-    $attachementsTca = tx_rnbase_util_TSFAL::getMediaTCA(
-        'attachments',
-        ['config' => ['softref' => 'images']]
-    );
-} else {
-    $attachementsTca = tx_rnbase_util_TSDAM::getMediaTCA(
-        'attachments',
-        ['config' => ['softref' => 'images']]
-    );
-}
+$attachementsTca = \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
+    'attachments',
+    ['config' => ['softref' => 'images']]
+);
 
 return [
     'ctrl' => [
@@ -114,7 +107,7 @@ return [
                 'type' => 'text',
                 'cols' => '30',
                 'rows' => '5',
-                'wizards' => Tx_Rnbase_Utility_TcaTool::getWizards(
+                'wizards' => \Sys25\RnBase\Backend\Utility\TcaTool::getWizards(
                     '',
                     ['RTE' => true]
                 ),
@@ -204,7 +197,7 @@ return [
                 'mailtype, subject, '.
                 'contenthtml;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts], contenttext, '.
                 // je nachdem, ob dam installiert ist, das entsprechende feld darstellen
-                (tx_rnbase_util_Extensions::isLoaded('dam') ? 'attachments' : 'attachmentst3').', '.
+                (\Sys25\RnBase\Utility\Extensions::isLoaded('dam') ? 'attachments' : 'attachmentst3').', '.
                 'description, mail_from,mail_fromName, mail_bcc, '.
                 'templatetype',
         ],

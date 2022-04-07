@@ -29,7 +29,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_models_QueueTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_models_QueueTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     public function testAttachmentWithStrings()
     {

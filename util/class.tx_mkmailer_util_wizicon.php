@@ -33,7 +33,7 @@
  *                 GNU Lesser General Public License, version 3 or later
  */
 
-class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
+class tx_mkmailer_util_wizicon extends \Sys25\RnBase\Utility\WizIcon
 {
     /**
      * @return array
@@ -42,7 +42,7 @@ class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
     {
         return [
             'tx_mkmailer' => [
-                'icon' => tx_rnbase_util_Extensions::extRelPath('mkmailer').'ext_icon.gif',
+                'icon' => \Sys25\RnBase\Utility\Extensions::extRelPath('mkmailer').'ext_icon.gif',
                 'title' => 'plugin.mkmailer.label',
                 'description' => 'plugin.mkmailer.description',
             ],
@@ -54,7 +54,7 @@ class tx_mkmailer_util_wizicon extends tx_rnbase_util_Wizicon
      */
     protected function getLLFile()
     {
-        return tx_rnbase_util_Extensions::extPath('mkmailer').'locallang_db.xml';
+        return \Sys25\RnBase\Utility\Extensions::extPath('mkmailer').'locallang_db.xml';
     }
 }
 

@@ -69,7 +69,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      */
     public function setValueString($valueString)
     {
-        $valueParts = tx_rnbase_util_Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
+        $valueParts = \Sys25\RnBase\Utility\Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
         $this->setEMail($valueParts[0]);
         $this->setModelUid($valueParts[1]);
     }
@@ -135,7 +135,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     }
 
     /**
-     * @return tx_rnbase_model_base
+     * @return \Sys25\RnBase\Domain\Model\BaseModel
      */
     abstract protected function getModel();
 

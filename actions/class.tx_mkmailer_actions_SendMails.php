@@ -31,25 +31,24 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
+class tx_mkmailer_actions_SendMails extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_action_BaseIOC::handleRequest()
+     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::handleRequest()
      */
-    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    protected function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
-        $confId = $this->getConfId();
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
 
-        return $mailSrv->executeQueue($configurations, $this->getConfId());
+        return $mailSrv->executeQueue($request->getConfigurations(), $this->getConfId());
     }
 
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_action_BaseIOC::getTemplateName()
+     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getTemplateName()
      */
     protected function getTemplateName()
     {
@@ -59,7 +58,7 @@ class tx_mkmailer_actions_SendMails extends tx_rnbase_action_BaseIOC
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_action_BaseIOC::getViewClassName()
+     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getViewClassName()
      */
     protected function getViewClassName()
     {

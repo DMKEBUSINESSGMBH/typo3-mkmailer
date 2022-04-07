@@ -44,16 +44,16 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     {
         $cronPage = $this->getCronPageId();
         if ($cronPage) {
-            tx_rnbase_util_Misc::prepareTSFE();
+            \Sys25\RnBase\Utility\Misc::prepareTSFE();
             $report = $this->callCronpageUrl();
             if (0 != $report['error']) {
-                $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = [
+                $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL] = [
                     'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
                     'dataVar' => ['report' => $report],
                 ];
             }
         } else {
-            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL] = [
+            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL] = [
                 'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
                     'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                     ' in den Extensioneinstellungen. Bitte beheben.',
@@ -71,7 +71,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     protected function callCronpageUrl()
     {
         $report = [];
-        Tx_Rnbase_Utility_T3General::getUrl(
+        \Sys25\RnBase\Utility\T3General::getUrl(
             $this->getCronpageUrl(),
             0,
             false,
@@ -91,7 +91,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $cronPage = $this->getOption('cronpage');
 
         if (!$cronPage) {
-            $cronPage = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage');
+            $cronPage = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'cronpage');
         }
 
         return $cronPage;
@@ -113,11 +113,11 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $protocol = $this->getProtocol();
 
         // seems like we have an alias
-        if (!Tx_Rnbase_Utility_Strings::isInteger($pageUid)) {
-            $pageUid = tx_rnbase_util_TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
+        if (!\Sys25\RnBase\Utility\Strings::isInteger($pageUid)) {
+            $pageUid = \Sys25\RnBase\Utility\TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
         }
 
-        if (tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+        if (\Sys25\RnBase\Utility\TYPO3::isTYPO90OrHigher()) {
             $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
         } else {
             $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);

@@ -28,12 +28,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Log extends Tx_Rnbase_Domain_Model_Base
+class tx_mkmailer_models_Log extends \Sys25\RnBase\Domain\Model\BaseModel
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_model_base::getTableName()
+     * @see \Sys25\RnBase\Domain\Model\BaseModel::getTableName()
      */
     public function getTableName()
     {

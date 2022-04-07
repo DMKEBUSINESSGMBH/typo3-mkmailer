@@ -29,12 +29,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
+class tx_mkmailer_mod1_FuncTest extends \Sys25\RnBase\Backend\Module\BaseModFunc
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_mod_BaseModFunc::getFuncId()
+     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
      */
     public function getFuncId()
     {
@@ -45,9 +45,9 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
      * Returns the module content.
      *
      * @param string $template
-     * @param tx_rnbase_configurations $configurations
-     * @param tx_rnbase_util_FormatUtil $formatter
-     * @param Tx_Rnbase_Backend_Form_ToolBox $formTool
+     * @param \Sys25\RnBase\Configuration\Processor    $configurations
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
+     * @param \Sys25\RnBase\Backend\Form\ToolBox       $formTool
      *
      * @return string
      */
@@ -55,7 +55,7 @@ class tx_mkmailer_mod1_FuncTest extends tx_rnbase_mod_BaseModFunc
     {
         $arr = ['name' => 'alfred'];
         $markerArray = $formatter->getItemMarkerArrayWrapped($arr, $this->getConfId().'queue.', 0, 'MAIL_');
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }

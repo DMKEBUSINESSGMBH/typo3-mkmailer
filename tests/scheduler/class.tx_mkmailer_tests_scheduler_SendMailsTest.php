@@ -29,7 +29,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     private $tsfeBackup;
 
@@ -40,10 +40,10 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
      */
     protected function setUp()
     {
-        if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+        if (!\Sys25\RnBase\Utility\TYPO3::isTYPO62OrHigher()) {
             $this->markTestSkipped('Der Schedulker funktioniert erst ab TYPO3 6.2');
         }
-        if (!tx_rnbase_util_Extensions::isLoaded('mklib')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib muss installiert sein');
         }
 
@@ -86,7 +86,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
         );
 
         $this->assertEquals(
-            [tx_rnbase_util_Logger::LOGLEVEL_FATAL => [
+            [\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL => [
                 'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
                                 'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                                 ' in den Extensioneinstellungen. Bitte beheben.',
@@ -151,12 +151,12 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
 
         $this->assertEquals(
             'Der Mailversand von mkmailer ist fehlgeschlagen',
-            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL]['message'],
+            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL]['message'],
             'devlog Meldungen falsch'
         );
 
         $this->assertNotEmpty(
-            $devLog[tx_rnbase_util_Logger::LOGLEVEL_FATAL]['dataVar'],
+            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL]['dataVar'],
             'devlog dataVar falsch'
         );
     }
@@ -169,7 +169,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends tx_rnbase_tests_BaseTest
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         $GLOBALS['TSFE'] = $this->getMock(
-            tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
+            \Sys25\RnBase\Utility\TYPO3Classes::getTypoScriptFrontendControllerClass(),
             ['getDomainNameForPid'],
             [],
             '',

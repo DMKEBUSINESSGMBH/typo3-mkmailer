@@ -83,7 +83,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * Constructs a test case with the given name.
@@ -118,11 +118,11 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends tx_rnbase_tests_BaseTe
     }
 
     /**
-     * @return  tx_rnbase_configurations
+     * @return  \Sys25\RnBase\Configuration\Processor
      */
     private function getConfigurations(array $configArray = [])
     {
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_configurations');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
         $configArray = ['sendmails.' => $configArray];
 
         $configurations->init(

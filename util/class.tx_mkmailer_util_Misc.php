@@ -43,10 +43,10 @@ class tx_mkmailer_util_Misc
      */
     public static function getRTEText($str)
     {
-        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        \Sys25\RnBase\Utility\Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
         $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
         if (TYPO3_MODE == 'BE') {
-            $pid = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'cronpage');
+            $pid = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'cronpage');
             $setup = self::loadTS($pid);
             $parseFunc = $setup['lib.']['parseFunc_RTE.'];
             // TS-Config prüfen. TODO: Das sollte besser gemacht werden.
@@ -54,7 +54,7 @@ class tx_mkmailer_util_Misc
                 $GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
             }
         }
-        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\TYPO3Classes::getContentObjectRendererClass());
         if (is_array($parseFunc)) {
             $str = $cObj->parseFunc($str, $parseFunc);
         }
@@ -69,10 +69,10 @@ class tx_mkmailer_util_Misc
      */
     public static function loadTS($pageUid = 0)
     {
-        $sysPageObj = tx_rnbase_util_TYPO3::getSysPage();
+        $sysPageObj = \Sys25\RnBase\Utility\TYPO3::getSysPage();
         $rootLine = $sysPageObj->getRootLine($pageUid);
         $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            tx_rnbase_util_Typo3Classes::getExtendedTypoScriptTemplateServiceClass()
+            \Sys25\RnBase\Utility\TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
         );
         $TSObj->tt_track = 0;
         $TSObj->init();
@@ -95,7 +95,7 @@ class tx_mkmailer_util_Misc
         if (!strlen(trim($addrStr))) {
             return $ret;
         }
-        $addrArr = tx_rnbase_util_Strings::trimExplode(',', $addrStr);
+        $addrArr = \Sys25\RnBase\Utility\Strings::trimExplode(',', $addrStr);
         foreach ($addrArr as $addr) {
             $ret[] = new tx_mkmailer_mail_Address($addr);
         }

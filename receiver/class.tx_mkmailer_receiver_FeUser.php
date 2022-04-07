@@ -117,7 +117,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      * @param   string                      $mailText
      * @param   string                      $mailHtml
      * @param   string                      $mailSubject
-     * @param   tx_rnbase_util_FormatUtil   $formatter
+     * @param   \Sys25\RnBase\Frontend\Marker\FormatUtil   $formatter
      * @param   string                      $confId
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
      *

@@ -31,12 +31,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Queue extends tx_rnbase_model_base
+class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_model_base::getTableName()
+     * @see \Sys25\RnBase\Domain\Model\BaseModel::getTableName()
      */
     public function getTableName()
     {
@@ -90,7 +90,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
             $ret = unserialize($attachments);
         } else {
             // Alle Strings zu Attachments umformen
-            $files = tx_rnbase_util_Strings::trimExplode(',', $attachments);
+            $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $attachments);
             foreach ($files as $file) {
                 $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);
             }

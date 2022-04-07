@@ -86,15 +86,15 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
         $options = [];
 
         // CharSet
-        $charset = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'charset');
+        $charset = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'charset');
         $options['charset'] = $charset ? $charset : 'UTF-8';
 
         // Encoding
-        $encoding = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'encoding');
+        $encoding = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'encoding');
         $options['encoding'] = $encoding ? $encoding : '8bit';
 
         // returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
-        $returnpath = tx_rnbase_configurations::getExtensionCfgValue('mkmailer', 'returnpath');
+        $returnpath = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'returnpath');
         $options['returnpath'] = $returnpath ? $returnpath : 0;
 
         return $options;

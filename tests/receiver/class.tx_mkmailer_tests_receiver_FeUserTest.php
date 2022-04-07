@@ -29,7 +29,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_receiver_FeUserTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * Constructs a test case with the given name.
@@ -47,7 +47,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
 
     protected function setUp()
     {
-        if (!tx_rnbase_util_Extensions::isLoaded('t3users')) {
+        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('t3users')) {
             $this->markTestSkipped('t3users ist nicht geladen');
         }
 
@@ -69,13 +69,13 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return tx_rnbase_configurations
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     private function getConfigurations($confId, array $configArray = [])
     {
         $configArray = [$confId => $configArray];
 
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_configurations');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
         $configurations->init(
             $configArray,
             $configurations->getCObj(1),
@@ -90,7 +90,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
      * @return tx_mkmailer_receiver_FeUser
      */
     private function getReceiver(
-        tx_rnbase_model_base $feuser
+        \Sys25\RnBase\Domain\Model\BaseModel $feuser
     ) {
         $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_receiver_FeUser'
@@ -109,12 +109,12 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
     {
         $data = [];
         $template = @file_get_contents($sFileName);
-        $data['contenttext'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTTEXT###'));
-        $data['contenthtml'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTHTML###'));
-        $data['subject'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###CONTENTSUBJECT###'));
-        $data['resulttext'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTTEXT###'));
-        $data['resulthtml'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTHTML###'));
-        $data['resultsubject'] = trim(tx_rnbase_util_Templates::getSubpart($template, '###RESULTSUBJECT###'));
+        $data['contenttext'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###CONTENTTEXT###'));
+        $data['contenthtml'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###CONTENTHTML###'));
+        $data['subject'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###CONTENTSUBJECT###'));
+        $data['resulttext'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###RESULTTEXT###'));
+        $data['resulthtml'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###RESULTHTML###'));
+        $data['resultsubject'] = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, '###RESULTSUBJECT###'));
 
         return $data;
     }
@@ -150,7 +150,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends tx_rnbase_tests_BaseTestCase
             'uid' => '1',
             'email' => 'test@localhost.net',
         ]);
-        $templates = $this->getTemplates(tx_rnbase_util_Extensions::extPath('mkmailer', 'tests/fixtures/mailfeuser.html'));
+        $templates = $this->getTemplates(\Sys25\RnBase\Utility\Extensions::extPath('mkmailer', 'tests/fixtures/mailfeuser.html'));
 
         $receiver = $this->getReceiver($feuser);
         $queue = $this->getQueue($templates);

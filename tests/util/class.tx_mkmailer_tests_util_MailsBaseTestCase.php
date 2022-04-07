@@ -29,7 +29,7 @@
 /**
  * @author Hannes Bochmann
  */
-abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends tx_rnbase_tests_BaseTestCase
+abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * (non-PHPdoc).

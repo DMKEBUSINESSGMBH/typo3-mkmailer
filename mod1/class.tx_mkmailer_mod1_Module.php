@@ -32,7 +32,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_Module extends tx_rnbase_mod_BaseModule
+class tx_mkmailer_mod1_Module extends \Sys25\RnBase\Backend\Module\BaseModule
 {
     public $pageinfo;
 
@@ -51,7 +51,7 @@ class tx_mkmailer_mod1_Module extends tx_rnbase_mod_BaseModule
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_mod_BaseModule::getExtensionKey()
+     * @see \Sys25\RnBase\Backend\Module\BaseModule::getExtensionKey()
      */
     public function getExtensionKey()
     {

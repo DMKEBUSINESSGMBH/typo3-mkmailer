@@ -29,12 +29,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
+class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseModFunc
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_mod_BaseModFunc::getFuncId()
+     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
      */
     public function getFuncId()
     {
@@ -44,7 +44,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_mod_BaseModFunc::getContent()
+     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getContent()
      */
     public function getContent($template, &$configurations, &$formatter, $formTool)
     {
@@ -80,7 +80,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray);
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }
@@ -96,7 +96,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      */
     private function getMarkerArrayDataForListView($label, $getEntriesMethodOfMailService, $showEntriesMethod)
     {
-        $pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_rnbase_util_BEPager', 'openQueuePager', $this->getModule()->getName(), 0);
+        $pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\BEPager::class, 'openQueuePager', $this->getModule()->getName(), 0);
 
         $options = ['count' => 1];
         $mailService = tx_mkmailer_util_ServiceRegistry::getMailService();
@@ -181,8 +181,8 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $columns[] = $column;
         }
 
-        /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
-        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+        /* @var $tables \Sys25\RnBase\Backend\Utility\Tables */
+        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\Tables::class);
 
         return $tables->buildTable($columns);
     }
@@ -224,8 +224,8 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
             $column[] = $moveButton;
             $columns[] = $column;
         }
-        /* @var $tables Tx_Rnbase_Backend_Utility_Tables */
-        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Rnbase_Backend_Utility_Tables');
+        /* @var $tables \Sys25\RnBase\Backend\Utility\Tables */
+        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\Tables::class);
 
         return $tables->buildTable($columns);
     }
@@ -288,12 +288,12 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
         $uid = $this->getUidFromRequest('moveLogEntryBackToQueue');
 
         if (0 != $uid) {
-            Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
+            \Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
                 'tx_mkmailer_queue',
                 'uid='.$uid,
                 ['deleted' => '0']
             );
-            Tx_Rnbase_Database_Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
+            \Sys25\RnBase\Database\Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
         }
     }
 
@@ -306,7 +306,7 @@ class tx_mkmailer_mod1_FuncOverview extends tx_rnbase_mod_BaseModFunc
      */
     private function getUidFromRequest($varName)
     {
-        $uids = tx_rnbase_parameters::getPostOrGetParameter($varName);
+        $uids = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter($varName);
         if (!is_array($uids) || !count($uids)) {
             return false;
         }

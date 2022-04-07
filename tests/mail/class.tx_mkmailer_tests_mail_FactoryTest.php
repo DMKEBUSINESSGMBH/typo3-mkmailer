@@ -29,7 +29,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * Test the createAttachment method.
