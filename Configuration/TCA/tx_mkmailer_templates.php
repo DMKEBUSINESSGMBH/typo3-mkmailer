@@ -32,7 +32,7 @@ return [
     'columns' => [
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -179,16 +179,78 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_attachments',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => 'GIF, JPG, JPEG, TIF, TIFF, BMP, PCX, TGA, PNG, PDF, AI, FLV, SWF, RTMP, MP3, RGG',
-                'disallowed' => '',
-                'uploadfolder' => 'uploads/tx_mkmailer/attachments',
-                'size' => 5,
-                'minitems' => 0,
-                'maxitems' => 10,
-                'softref' => 'images',
+                'type' => 'inline',
+                'foreign_table' => 'sys_file_reference',
+                'foreign_field' => 'uid_foreign',
+                'foreign_sortby' => 'sorting_foreign',
+                'foreign_table_field' => 'tablenames',
+                'foreign_match_fields' => [
+                    'fieldname' => 'inline_1',
+                ],
+                'foreign_label' => 'uid_local',
+                'foreign_selector' => 'uid_local',
+                'overrideChildTca' => [
+                    'columns' => [
+                        'uid_local' => [
+                            'config' => [
+                                'appearance' => [
+                                    'elementBrowserType' => 'file',
+                                    'elementBrowserAllowed' => 'gif, jpg, jpeg, tif, tiff, bmp, pcx, tga, png, pdf, ai, flv, swf, rtmp, mp3, rgg',
+                                ],
+                            ],
+                        ],
+                        'crop' => [
+                            'description' => 'field description',
+                        ],
+                    ],
+                    'types' => [
+                        2 => [
+                            'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette',
+                        ],
+                    ],
+                ],
+                'filter' => [
+                    [
+                        'userFunc' => 'TYPO3\\CMS\\Core\\Resource\\Filter\\FileExtensionFilter->filterInlineChildren',
+                        'parameters' => [
+                            'allowedFileExtensions' => 'gif, jpg, jpeg, tif, tiff, bmp, pcx, tga, png, pdf, ai, flv, swf, rtmp, mp3, rgg',
+                            'disallowedFileExtensions' => '',
+                        ],
+                    ],
+                ],
+                'appearance' => [
+                    'useSortable' => true,
+                    'headerThumbnail' => [
+                        'field' => 'uid_local',
+                        'height' => '45m',
+                    ],
+                    'enabledControls' => [
+                        'info' => true,
+                        'new' => false,
+                        'dragdrop' => true,
+                        'sort' => false,
+                        'hide' => true,
+                        'delete' => true,
+                    ],
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                ],
             ],
+
+
+
+//                [
+//                'type' => 'group',
+//                'internal_type' => 'file',
+//                'allowed' => 'GIF, JPG, JPEG, TIF, TIFF, BMP, PCX, TGA, PNG, PDF, AI, FLV, SWF, RTMP, MP3, RGG',
+//                'disallowed' => '',
+//                'uploadfolder' => 'uploads/tx_mkmailer/attachments',
+//                'size' => 5,
+//                'minitems' => 0,
+//                'maxitems' => 10,
+//                'softref' => 'images',
+//            ],
         ],
     ],
     'types' => [
