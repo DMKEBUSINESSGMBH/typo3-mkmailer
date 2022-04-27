@@ -50,7 +50,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getSubject()
     {
-        return $this->record['subject'];
+        return $this->getRecord()['subject'];
     }
 
     /**
@@ -60,7 +60,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getContentText()
     {
-        return $this->record['contenttext'];
+        return $this->getRecord()['contenttext'];
     }
 
     /**
@@ -70,7 +70,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getContentHtml()
     {
-        return $this->record['contenthtml'];
+        return $this->getRecord()['contenthtml'];
     }
 
     /**
@@ -81,7 +81,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
     public function getUploads()
     {
         $ret = [];
-        $attachments = $this->record['attachments'];
+        $attachments = $this->getRecord()['attachments'];
         if (!$attachments) {
             return $ret;
         }
@@ -104,7 +104,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getMailCount()
     {
-        return intval($this->record['mailcount']);
+        return intval($this->getRecord()['mailcount']);
     }
 
     /**
@@ -112,7 +112,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getCc()
     {
-        return $this->record['mail_cc'];
+        return $this->getRecord()['mail_cc'];
     }
 
     /**
@@ -120,7 +120,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getBcc()
     {
-        return $this->record['mail_bcc'];
+        return $this->getRecord()['mail_bcc'];
     }
 
     /**
@@ -128,7 +128,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getFrom()
     {
-        return $this->record['mail_from'];
+        return $this->getRecord()['mail_from'];
     }
 
     /**
@@ -136,7 +136,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getFromName()
     {
-        return $this->record['mail_fromName'];
+        return $this->getRecord()['mail_fromName'];
     }
 
     /**
@@ -146,7 +146,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function isPrefer()
     {
-        return intval($this->record['prefer']) > 0;
+        return intval($this->getRecord()['prefer']) > 0;
     }
 
     /**
@@ -156,7 +156,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getCreationDate()
     {
-        return $this->record['cr_date'];
+        return $this->getRecord()['cr_date'];
     }
 
     /**
@@ -166,7 +166,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getLastUpdate()
     {
-        return $this->record['lastupdate'];
+        return $this->getRecord()['lastupdate'];
     }
 
     /**

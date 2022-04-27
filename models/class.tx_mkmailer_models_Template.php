@@ -50,7 +50,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getContentText()
     {
-        return $this->record['contenttext'];
+        return $this->getRecord()['contenttext'];
     }
 
     /**
@@ -61,10 +61,10 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
     public function getContentHtml($plain = false)
     {
         if ($plain) {
-            return $this->record['contenthtml'];
+            return $this->getRecord()['contenthtml'];
         }
 
-        $ret = tx_mkmailer_util_Misc::getRTEText($this->record['contenthtml']);
+        $ret = tx_mkmailer_util_Misc::getRTEText($this->getRecord()['contenthtml']);
 
         return $ret;
     }
@@ -103,7 +103,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getBcc()
     {
-        return $this->record['mail_bcc'];
+        return $this->getRecord()['mail_bcc'];
     }
 
     /**
@@ -121,7 +121,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getCc()
     {
-        return $this->record['mail_cc'];
+        return $this->getRecord()['mail_cc'];
     }
 
     /**
@@ -131,7 +131,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getFromAddress()
     {
-        return new tx_mkmailer_mail_Address($this->record['mail_from'], $this->record['mail_fromName']);
+        return new tx_mkmailer_mail_Address($this->getRecord()['mail_from'], $this->getRecord()['mail_fromName']);
     }
 
     /**
@@ -141,7 +141,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getFrom()
     {
-        return $this->record['mail_from'];
+        return $this->getRecord()['mail_from'];
     }
 
     /**
@@ -151,7 +151,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getFromName()
     {
-        return $this->record['mail_fromName'];
+        return $this->getRecord()['mail_fromName'];
     }
 
     /**
@@ -161,7 +161,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     public function getSubject()
     {
-        return $this->record['subject'];
+        return $this->getRecord()['subject'];
     }
 
     /**
@@ -209,7 +209,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     private function getT3AttachmentPaths()
     {
-        $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->record['attachmentst3'], true);
+        $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getRecord()['attachmentst3'], true);
         if (empty($files)) {
             return $files;
         }

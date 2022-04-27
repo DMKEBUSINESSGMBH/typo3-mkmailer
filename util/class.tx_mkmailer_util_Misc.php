@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * tx_mkmailer_util_Misc.
  *
@@ -69,8 +71,8 @@ class tx_mkmailer_util_Misc
      */
     public static function loadTS($pageUid = 0)
     {
-        $sysPageObj = \Sys25\RnBase\Utility\TYPO3::getSysPage();
-        $rootLine = $sysPageObj->getRootLine($pageUid);
+        $rootlineUtility = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class)->get(\TYPO3\CMS\Core\Utility\RootlineUtility::class);
+        $rootLine = $rootlineUtility->getRecordArray($pageUid);
         $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \Sys25\RnBase\Utility\TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
         );
