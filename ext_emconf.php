@@ -10,7 +10,7 @@
 // "version" and "dependencies" must not be touched!
 //
 
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['mkmailer'] = [
     'title' => 'MK Mailer',
     'description' => 'Provides a asynchronous mail system with full template support',
     'category' => 'services',
