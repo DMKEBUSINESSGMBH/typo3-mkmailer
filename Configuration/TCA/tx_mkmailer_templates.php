@@ -107,11 +107,7 @@ return [
                 'type' => 'text',
                 'cols' => '30',
                 'rows' => '5',
-                'wizards' => \Sys25\RnBase\Backend\Utility\TcaTool::getWizards(
-                    '',
-                    ['RTE' => true]
-                ),
-                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'enableRichtext' => true,
             ],
         ],
         'description' => [
