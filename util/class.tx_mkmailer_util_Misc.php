@@ -71,13 +71,13 @@ class tx_mkmailer_util_Misc
      */
     public static function loadTS($pageUid = 0)
     {
-        $rootlineUtility = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class)->get(\TYPO3\CMS\Core\Utility\RootlineUtility::class);
-        $rootLine = $rootlineUtility->getRecordArray($pageUid);
-        $TSObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $rootlineUtility = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\RootlineUtility::class, $pageUid);
+        $rootLine = $rootlineUtility->get();
+        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $TSObj = $objectManager->get(
             \Sys25\RnBase\Utility\TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
         );
         $TSObj->tt_track = 0;
-        $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
 
