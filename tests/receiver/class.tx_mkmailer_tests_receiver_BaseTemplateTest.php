@@ -267,7 +267,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         if (!\Sys25\RnBase\Utility\TYPO3::isTYPO115OrHigher()) {
             self::markTestSkipped('The DC marker is not parsed in TYPO3 10.4');
         }
-        
+
         $GLOBALS['TYPO3_REQUEST'] = new \TYPO3\CMS\Core\Http\ServerRequest();
         $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['TEXT'] = \TYPO3\CMS\Frontend\ContentObject\TextContentObject::class;
 
