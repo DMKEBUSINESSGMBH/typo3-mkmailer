@@ -174,7 +174,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
     private function getFalAttachmentPaths()
     {
         $attachmentPaths = [];
-        if ($this->isPersisted() && \Sys25\RnBase\Utility\TYPO3::isTYPO60OrHigher()) {
+        if ($this->isPersisted()) {
             $falFiles = \Sys25\RnBase\Utility\TSFAL::getReferences(
                 $this->getTableName(),
                 $this->getUid(),

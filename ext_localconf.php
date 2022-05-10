@@ -10,10 +10,7 @@ require_once $tempPath.'services/ext_localconf.php';
 // Einbindung einer PageTSConfig
 \Sys25\RnBase\Utility\Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/mod1/pageTSconfig.txt">');
 
-if (TYPO3_MODE == 'BE' &&
-    \Sys25\RnBase\Utility\Extensions::isLoaded('mklib') &&
-    \Sys25\RnBase\Utility\TYPO3::isTYPO62OrHigher()
-) {
+if (\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['tx_mkmailer_scheduler_SendMails'] = [
         'extension' => 'mkmailer',
         'title' => 'LLL:EXT:mkmailer/scheduler/locallang.xml:scheduler_SendMails_name',

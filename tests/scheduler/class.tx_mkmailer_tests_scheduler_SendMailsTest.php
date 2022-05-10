@@ -40,9 +40,6 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
      */
     protected function setUp()
     {
-        if (!\Sys25\RnBase\Utility\TYPO3::isTYPO62OrHigher()) {
-            $this->markTestSkipped('Der Schedulker funktioniert erst ab TYPO3 6.2');
-        }
         if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib muss installiert sein');
         }

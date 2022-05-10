@@ -32,14 +32,14 @@ $EM_CONF['mkmailer'] = [
     'author_company' => 'DMK E-BUSINESS GmbH',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.4.0-',
-            'typo3' => '6.2.14-10.4.99',
+            'rn_base' => '1.15.0-',
+            'typo3' => '9.5.24-10.4.99',
+            'mklib' => '9.5.0-',
         ],
         'conflicts' => [
         ],
         'suggests' => [
             't3users' => '9.0.0-',
-            'mklib' => '9.5.0-',
         ],
     ],
     'autoload' => [

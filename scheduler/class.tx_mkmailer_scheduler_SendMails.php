@@ -117,11 +117,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
             $pageUid = \Sys25\RnBase\Utility\TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
         }
 
-        if (\Sys25\RnBase\Utility\TYPO3::isTYPO90OrHigher()) {
-            $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
-        } else {
-            $domain = $GLOBALS['TSFE']->getDomainNameForPid($pageUid);
-        }
+        $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
 
         return sprintf(
             '%1$s://%2$s%3$s/index.php?id=%4$s',

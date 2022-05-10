@@ -35,9 +35,9 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
     },
     "require": {
-        "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5 || ^10.4",
-        "digedag/rn-base": "^1.10",
-        "dmk/mklib": "^3.0 || ^9.5 || ^10.0"
+        "typo3/cms-core": "^9.5.24 || ^10.4.14",
+        "digedag/rn-base": "^1.15",
+        "dmk/mklib": "^9.5 || ^10.0"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.2",
