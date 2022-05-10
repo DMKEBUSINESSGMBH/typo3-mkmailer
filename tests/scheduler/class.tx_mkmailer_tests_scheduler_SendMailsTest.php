@@ -1,4 +1,10 @@
 <?php
+
+use Sys25\RnBase\Testing\BaseTestCase;
+use Sys25\RnBase\Utility\Extensions;
+use DMK\Mklib\Utility\Tests;
+use Sys25\RnBase\Utility\Logger;
+use Sys25\RnBase\Utility\TYPO3Classes;
 /**
  *  Copyright notice.
  *
@@ -21,7 +27,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 /**
  * Test for tx_mkmailer_scheduler_SendMails.
  *
@@ -29,7 +34,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
 {
     private $tsfeBackup;
 
@@ -40,11 +45,11 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
      */
     protected function setUp()
     {
-        if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
+        if (!Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib muss installiert sein');
         }
 
-        \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
+        Tests::storeExtConf('mkmailer');
 
         $this->tsfeBackup = $GLOBALS['TSFE'];
     }
@@ -56,7 +61,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
      */
     protected function tearDown()
     {
-        \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
+        Tests::storeExtConf('mkmailer');
 
         $GLOBALS['TSFE'] = $this->tsfeBackup;
     }
@@ -68,7 +73,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 0, 'mkmailer');
+        Tests::setExtConfVar('cronpage', 0, 'mkmailer');
 
         $devLog = [];
 
@@ -83,7 +88,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
         );
 
         $this->assertEquals(
-            [\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL => [
+            [Logger::LOGLEVEL_FATAL => [
                 'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
                                 'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                                 ' in den Extensioneinstellungen. Bitte beheben.',
@@ -100,7 +105,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 123, 'mkmailer');
+        Tests::setExtConfVar('cronpage', 123, 'mkmailer');
 
         $devLog = [];
 
@@ -128,7 +133,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
+        Tests::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
 
         $devLog = [];
 
@@ -148,12 +153,12 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
 
         $this->assertEquals(
             'Der Mailversand von mkmailer ist fehlgeschlagen',
-            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL]['message'],
+            $devLog[Logger::LOGLEVEL_FATAL]['message'],
             'devlog Meldungen falsch'
         );
 
         $this->assertNotEmpty(
-            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL]['dataVar'],
+            $devLog[Logger::LOGLEVEL_FATAL]['dataVar'],
             'devlog dataVar falsch'
         );
     }
@@ -166,7 +171,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         $GLOBALS['TSFE'] = $this->getMock(
-            \Sys25\RnBase\Utility\TYPO3Classes::getTypoScriptFrontendControllerClass(),
+            TYPO3Classes::getTypoScriptFrontendControllerClass(),
             ['getDomainNameForPid'],
             [],
             '',

@@ -66,10 +66,10 @@
             "typo3/cms": "source"
         }
     },
-      "scripts": {
-          "post-autoload-dump": [
-              "mkdir -p .Build/Web/typo3conf/ext/",
-              "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
             "[ -f .Build/Web/typo3conf/LocalConfiguration.php ] || cp tests/fixtures/LocalConfiguration.php .Build/Web/typo3conf/LocalConfiguration.php"
         ],
         "lint:php": [
@@ -99,14 +99,13 @@
             "@fix:phpcs"
         ]
     },
-      "extra": {
-          "branch-alias": {
-              "dev-master": "9.0.x-dev"
-          },
-          "typo3/cms": {
-              "cms-package-dir": "{$vendor-dir}/typo3/cms",
-              "extension-key": "mkmailer",
-              "web-dir": ".Build/Web"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0.x-dev"
+        },
+        "typo3/cms": {
+            "extension-key": "mkmailer",
+            "web-dir": ".Build/Web"
         }
     }
 }

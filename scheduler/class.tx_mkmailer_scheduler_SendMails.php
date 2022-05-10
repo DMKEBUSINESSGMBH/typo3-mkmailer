@@ -1,4 +1,14 @@
 <?php
+
+use Sys25\RnBase\Utility\Misc;
+use Sys25\RnBase\Utility\Logger;
+use Sys25\RnBase\Utility\T3General;
+use Sys25\RnBase\Configuration\Processor;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use Sys25\RnBase\Utility\Strings;
+use Sys25\RnBase\Utility\TYPO3;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
  * Copyright notice
  *
@@ -21,7 +31,6 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Send-Mails scheduler task.
  *
@@ -44,16 +53,16 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     {
         $cronPage = $this->getCronPageId();
         if ($cronPage) {
-            \Sys25\RnBase\Utility\Misc::prepareTSFE();
+            Misc::prepareTSFE();
             $report = $this->callCronpageUrl();
             if (0 != $report['error']) {
-                $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL] = [
+                $devLog[Logger::LOGLEVEL_FATAL] = [
                     'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
                     'dataVar' => ['report' => $report],
                 ];
             }
         } else {
-            $devLog[\Sys25\RnBase\Utility\Logger::LOGLEVEL_FATAL] = [
+            $devLog[Logger::LOGLEVEL_FATAL] = [
                 'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
                     'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
                     ' in den Extensioneinstellungen. Bitte beheben.',
@@ -71,7 +80,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     protected function callCronpageUrl()
     {
         $report = [];
-        \Sys25\RnBase\Utility\T3General::getUrl(
+        T3General::getUrl(
             $this->getCronpageUrl(),
             0,
             false,
@@ -91,7 +100,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $cronPage = $this->getOption('cronpage');
 
         if (!$cronPage) {
-            $cronPage = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'cronpage');
+            $cronPage = Processor::getExtensionCfgValue('mkmailer', 'cronpage');
         }
 
         return $cronPage;
@@ -102,7 +111,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      *
      * @return string
      *
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+     * @throws SiteNotFoundException
      */
     protected function getCronpageUrl()
     {
@@ -113,11 +122,11 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $protocol = $this->getProtocol();
 
         // seems like we have an alias
-        if (!\Sys25\RnBase\Utility\Strings::isInteger($pageUid)) {
-            $pageUid = \Sys25\RnBase\Utility\TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
+        if (!Strings::isInteger($pageUid)) {
+            $pageUid = TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
         }
 
-        $domain = (new \TYPO3\CMS\Core\Site\SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
+        $domain = (new SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
 
         return sprintf(
             '%1$s://%2$s%3$s/index.php?id=%4$s',
@@ -130,7 +139,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
 
     protected function getProtocol()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SSL') ? 'https' : 'http';
+        return GeneralUtility::getIndpEnv('TYPO3_SSL') ? 'https' : 'http';
     }
 
     /**

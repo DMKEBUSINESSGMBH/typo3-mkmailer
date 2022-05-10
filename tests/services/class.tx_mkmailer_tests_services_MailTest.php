@@ -1,4 +1,8 @@
 <?php
+
+use Sys25\RnBase\Testing\BaseTestCase;
+use DMK\Mklib\Utility\Tests;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  *  Copyright notice.
  *
@@ -21,15 +25,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 /*
  * benötigte Klassen einbinden
  */
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
-class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkmailer_tests_services_MailTest extends BaseTestCase
 {
     /**
      * (non-PHPdoc).
@@ -38,7 +40,7 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
      */
     protected function setUp()
     {
-        \DMK\Mklib\Utility\Tests::disableDevlog();
+        Tests::disableDevlog();
     }
 
     /**
@@ -169,7 +171,7 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
      */
     public function testGetUploadDir()
     {
-        $srv = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_services_Mail');
+        $srv = GeneralUtility::makeInstance('tx_mkmailer_services_Mail');
         $this->assertTrue(is_dir($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not a Directory!');
         $this->assertTrue(is_writable($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not writeble');
     }
@@ -189,7 +191,7 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
         $method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
         $method->setAccessible(true);
         $method->invokeArgs(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_services_Mail'),
+            GeneralUtility::makeInstance('tx_mkmailer_services_Mail'),
             [$mail, $address]
         );
     }

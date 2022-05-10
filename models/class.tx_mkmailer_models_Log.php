@@ -1,4 +1,5 @@
 <?php
+use Sys25\RnBase\Domain\Model\BaseModel;
 /***************************************************************
 *  Copyright notice
 *
@@ -28,7 +29,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Log extends \Sys25\RnBase\Domain\Model\BaseModel
+class tx_mkmailer_models_Log extends BaseModel
 {
     /**
      * (non-PHPdoc).

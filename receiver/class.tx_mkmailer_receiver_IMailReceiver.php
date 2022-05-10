@@ -1,4 +1,5 @@
 <?php
+use Sys25\RnBase\Frontend\Marker\FormatUtil;
 /***************************************************************
 *  Copyright notice
 *
@@ -60,7 +61,7 @@ interface tx_mkmailer_receiver_IMailReceiver
      * Erstellt eine individuelle Email für einen Empfänger der Email.
      *
      * @param tx_mkmailer_models_Queue $queue 1. Zeile wird als Betreff verwendet!
-     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
+     * @param FormatUtil $formatter
      * @param string $confId
      * @param int $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
      *

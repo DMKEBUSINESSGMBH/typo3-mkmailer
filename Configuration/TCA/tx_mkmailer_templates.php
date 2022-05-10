@@ -23,7 +23,6 @@ return [
         'iconfile' => 'EXT:mkmailer/icon_tx_mkmailer_templates.gif',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,mailtype,subject,description',
         'maxDBListItems' => '5',
     ],
     'feInterface' => [
@@ -40,11 +39,11 @@ return [
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
                     [
-                        'LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',
+                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
                         -1,
                     ],
                     [
-                        'LLL:EXT:lang/locallang_general.xml:LGL.default_value',
+                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.default_value',
                         0,
                     ],
                 ],
@@ -52,8 +51,7 @@ return [
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -251,13 +249,7 @@ return [
     ],
     'types' => [
         '0' => [
-            'showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, '.
-                'mailtype, subject, '.
-                'contenthtml;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts], contenttext, '.
-                // je nachdem, ob dam installiert ist, das entsprechende feld darstellen
-                (\Sys25\RnBase\Utility\Extensions::isLoaded('dam') ? 'attachments' : 'attachmentst3').', '.
-                'description, mail_from,mail_fromName, mail_bcc, '.
-                'templatetype',
+            'showitem' => 'sys_language_uid,--palette--,l18n_parent,l18n_diffsource,mailtype,subject,contenthtml,--palette--,contenttext,description,mail_from,mail_fromName,mail_bcc,templatetype',
         ],
     ],
     'palettes' => [

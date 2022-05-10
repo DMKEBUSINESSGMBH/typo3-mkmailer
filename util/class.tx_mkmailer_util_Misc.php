@@ -1,4 +1,10 @@
 <?php
+use Sys25\RnBase\Utility\Misc;
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Utility\TYPO3Classes;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Sys25\RnBase\Utility\Strings;
 /***************************************************************
 *  Copyright notice
 *
@@ -45,10 +51,10 @@ class tx_mkmailer_util_Misc
      */
     public static function getRTEText($str)
     {
-        \Sys25\RnBase\Utility\Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
         $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
         if (TYPO3_MODE == 'BE') {
-            $pid = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'cronpage');
+            $pid = Processor::getExtensionCfgValue('mkmailer', 'cronpage');
             $setup = self::loadTS($pid);
             $parseFunc = $setup['lib.']['parseFunc_RTE.'];
             // TS-Config prüfen. TODO: Das sollte besser gemacht werden.
@@ -56,7 +62,7 @@ class tx_mkmailer_util_Misc
                 $GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
             }
         }
-        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\TYPO3Classes::getContentObjectRendererClass());
+        $cObj = GeneralUtility::makeInstance(TYPO3Classes::getContentObjectRendererClass());
         if (is_array($parseFunc)) {
             $str = $cObj->parseFunc($str, $parseFunc);
         }
@@ -71,11 +77,11 @@ class tx_mkmailer_util_Misc
      */
     public static function loadTS($pageUid = 0)
     {
-        $rootlineUtility = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\RootlineUtility::class, $pageUid);
+        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
         $rootLine = $rootlineUtility->get();
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $TSObj = $objectManager->get(
-            \Sys25\RnBase\Utility\TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
+            TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
         );
         $TSObj->tt_track = 0;
         $TSObj->runThroughTemplates($rootLine);
@@ -97,7 +103,7 @@ class tx_mkmailer_util_Misc
         if (!strlen(trim($addrStr))) {
             return $ret;
         }
-        $addrArr = \Sys25\RnBase\Utility\Strings::trimExplode(',', $addrStr);
+        $addrArr = Strings::trimExplode(',', $addrStr);
         foreach ($addrArr as $addr) {
             $ret[] = new tx_mkmailer_mail_Address($addr);
         }

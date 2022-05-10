@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Testing\BaseTestCase;
+use DMK\Mklib\Utility\Tests;
 /**
  *  Copyright notice.
  *
@@ -21,15 +24,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 /*
  * benötigte Klassen einbinden
  */
-
 /**
  * @author Hannes Bochmann
  */
-abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends \Sys25\RnBase\Testing\BaseTestCase
+abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends BaseTestCase
 {
     /**
      * (non-PHPdoc).
@@ -40,7 +41,7 @@ abstract class tx_mkmailer_tests_util_MailsBaseTestCase extends \Sys25\RnBase\Te
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
-        \DMK\Mklib\Utility\Tests::prepareTSFE();
+        Tests::prepareTSFE();
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +31,7 @@ $GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
 $GLOBALS['BE_USER']->modAccess($GLOBALS['MCONF'], 1);    // This checks permissions and exits if the users has no permission for entry.
 
 // Make instance:
-$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mod1_Module');
+$SOBE = GeneralUtility::makeInstance('tx_mkmailer_mod1_Module');
 $SOBE->init();
 
 // Include files?

@@ -1,4 +1,8 @@
 <?php
+use Sys25\RnBase\Testing\BaseTestCase;
+use TYPO3\CMS\Core\Core\Environment;
+use Sys25\RnBase\Configuration\Processor;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  *  Copyright notice.
  *
@@ -83,7 +87,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
 {
     /**
      * Constructs a test case with the given name.
@@ -108,7 +112,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         // bei älteren t3 versionen ist der backpath falsch!
         $GLOBALS['TSFE']->tmpl->getFileName_backPath =
             $GLOBALS['TSFE']->tmpl->getFileName_backPath ?
-            $GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
+            $GLOBALS['TSFE']->tmpl->getFileName_backPath : Environment::getPublicPath() . '/';
     }
 
     protected function tearDown()
@@ -118,11 +122,11 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
     }
 
     /**
-     * @return  \Sys25\RnBase\Configuration\Processor
+     * @return Processor
      */
     private function getConfigurations(array $configArray = [])
     {
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
+        $configurations = GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
         $configArray = ['sendmails.' => $configArray];
 
         $configurations->init(
@@ -142,7 +146,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
      */
     private function getReceiver($class = 'tx_mkmailer_tests_receiver_BaseTemplate')
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($class);
+        return GeneralUtility::makeInstance($class);
     }
 
     /**
@@ -155,7 +159,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'Text für HTML<br />';
         $data['subject'] = $data['subject'] ? $data['subject'] : 'Subject';
 
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_models_Queue', $data);
+        return GeneralUtility::makeInstance('tx_mkmailer_models_Queue', $data);
     }
 
     public function testGetSingleMailWithoutWrap()
@@ -324,7 +328,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $queue = $this->getQueue();
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-        $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
+        $expectedTo = GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 
@@ -336,7 +340,7 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $queue = $this->getQueue();
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-        $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
+        $expectedTo = GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
 }

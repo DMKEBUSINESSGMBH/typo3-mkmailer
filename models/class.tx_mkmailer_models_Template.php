@@ -1,4 +1,7 @@
 <?php
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Utility\Strings;
+use Sys25\RnBase\Utility\TSFAL;
 /***************************************************************
 *  Copyright notice
 *
@@ -31,7 +34,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
+class tx_mkmailer_models_Template extends BaseModel
 {
     /**
      * (non-PHPdoc).
@@ -90,7 +93,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
         if (!strlen(trim($addrStr))) {
             return $ret;
         }
-        $addrArr = \Sys25\RnBase\Utility\Strings::trimExplode(',', $addrStr);
+        $addrArr = Strings::trimExplode(',', $addrStr);
         foreach ($addrArr as $addr) {
             $ret[] = new tx_mkmailer_mail_Address($addr);
         }
@@ -175,7 +178,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
     {
         $attachmentPaths = [];
         if ($this->isPersisted()) {
-            $falFiles = \Sys25\RnBase\Utility\TSFAL::getReferences(
+            $falFiles = TSFAL::getReferences(
                 $this->getTableName(),
                 $this->getUid(),
                 'attachments'
@@ -209,7 +212,7 @@ class tx_mkmailer_models_Template extends \Sys25\RnBase\Domain\Model\BaseModel
      */
     private function getT3AttachmentPaths()
     {
-        $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getRecord()['attachmentst3'], true);
+        $files = Strings::trimExplode(',', $this->getRecord()['attachmentst3'], true);
         if (empty($files)) {
             return $files;
         }

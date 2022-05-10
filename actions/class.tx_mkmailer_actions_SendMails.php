@@ -1,4 +1,6 @@
 <?php
+use Sys25\RnBase\Frontend\Controller\AbstractAction;
+use Sys25\RnBase\Frontend\Request\RequestInterface;
 /***************************************************************
 *  Copyright notice
 *
@@ -31,14 +33,14 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_actions_SendMails extends \Sys25\RnBase\Frontend\Controller\AbstractAction
+class tx_mkmailer_actions_SendMails extends AbstractAction
 {
     /**
      * (non-PHPdoc).
      *
      * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::handleRequest()
      */
-    protected function handleRequest(\Sys25\RnBase\Frontend\Request\RequestInterface $request)
+    protected function handleRequest(RequestInterface $request)
     {
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
 
