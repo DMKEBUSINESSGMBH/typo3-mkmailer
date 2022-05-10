@@ -33,12 +33,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
 {
     private $tsfeBackup;
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
             $this->markTestSkipped('mklib muss installiert sein');
@@ -49,12 +44,7 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
         $this->tsfeBackup = $GLOBALS['TSFE'];
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         \DMK\Mklib\Utility\Tests::storeExtConf('mkmailer');
 
@@ -66,16 +56,14 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
      */
     public function testExecuteTaskWhenNoCronpageIsConfigured()
     {
-        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
-
         \DMK\Mklib\Utility\Tests::setExtConfVar('cronpage', 0, 'mkmailer');
 
         $devLog = [];
 
-        $scheduler = $this->getMock(
-            'tx_mkmailer_scheduler_SendMails',
-            ['callCronpageUrl']
-        );
+        $scheduler = $this->getMockBuilder('tx_mkmailer_scheduler_SendMails')
+            ->setMethods(['callCronpageUrl'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->callInaccessibleMethod(
             [$scheduler, 'executeTask'],
@@ -104,10 +92,10 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
 
         $devLog = [];
 
-        $scheduler = $this->getMock(
-            'tx_mkmailer_scheduler_SendMails',
-            ['callCronpageUrl']
-        );
+        $scheduler = $this->getMockBuilder('tx_mkmailer_scheduler_SendMails')
+            ->setMethods(['callCronpageUrl'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $scheduler->expects($this->once())
             ->method('callCronpageUrl')
@@ -132,10 +120,10 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
 
         $devLog = [];
 
-        $scheduler = $this->getMock(
-            'tx_mkmailer_scheduler_SendMails',
-            ['callCronpageUrl']
-        );
+        $scheduler = $this->getMockBuilder('tx_mkmailer_scheduler_SendMails')
+            ->setMethods(['callCronpageUrl'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $scheduler->expects($this->once())
             ->method('callCronpageUrl')
@@ -177,10 +165,10 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends \Sys25\RnBase\Testing\Ba
             ->with(123)
             ->will($this->returnValue('my.host'));
 
-        $scheduler = $this->getMock(
-            'tx_mkmailer_scheduler_SendMails',
-            ['getCronPageId']
-        );
+        $scheduler = $this->getMockBuilder('tx_mkmailer_scheduler_SendMails')
+            ->setMethods(['callCronpageUrl'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $scheduler->expects($this->once())
             ->method('getCronPageId')

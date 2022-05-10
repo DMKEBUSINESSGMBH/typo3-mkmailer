@@ -267,7 +267,3 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
         $this->attach[] = $attachment;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_MailJob.php'];
-}

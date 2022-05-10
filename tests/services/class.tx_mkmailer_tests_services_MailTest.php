@@ -31,12 +31,7 @@
  */
 class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         \DMK\Mklib\Utility\Tests::disableDevlog();
     }
@@ -64,10 +59,6 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
      */
     public function testAddAddressWithInvalidEmail()
     {
-        self::markTestIncomplete(
-            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
-        );
-
         $email = 'alf@@localhost.de';
         $name = 'Alf';
         $exceptionMsg = '[Method: addAddress] Invalid Email address ('.$email.') given. Mail not sent!';
@@ -77,7 +68,8 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
         $mail->expects($this->never())
             ->method('addAddress');
 
-        $this->setExpectedException(Exception::class, $exceptionMsg);
+        $this->expectException(Exception::class);
+        $this->expectErrorMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addAddress');
     }
@@ -105,10 +97,6 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
      */
     public function testAddBCCWithInvalidEmail()
     {
-        self::markTestIncomplete(
-            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
-        );
-
         $email = 'alf@@localhost.de';
         $name = 'Alf';
         $exceptionMsg = '[Method: addBCC] Invalid Email address ('.$email.') given. Mail not sent!';
@@ -118,7 +106,8 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
         $mail->expects($this->never())
             ->method('addBCC');
 
-        $this->setExpectedException(Exception::class, $exceptionMsg);
+        $this->expectException(Exception::class);
+        $this->expectErrorMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addBCCAddress');
     }
@@ -146,10 +135,6 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
      */
     public function testAddCCWithInvalidEmail()
     {
-        self::markTestIncomplete(
-            'Error: Call to undefined method tx_mkmailer_tests_services_MailTest::setExpectedException()'
-        );
-
         $email = 'alf@@localhost.de';
         $name = 'Alf';
         $exceptionMsg = '[Method: addCC] Invalid Email address ('.$email.') given. Mail not sent!';
@@ -159,7 +144,8 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
         $mail->expects($this->never())
             ->method('addCC');
 
-        $this->setExpectedException(Exception::class, $exceptionMsg);
+        $this->expectException(Exception::class);
+        $this->expectErrorMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addCCAddress');
     }
@@ -176,7 +162,7 @@ class tx_mkmailer_tests_services_MailTest extends \Sys25\RnBase\Testing\BaseTest
 
     private function getMail()
     {
-        return $this->getMock('PHPMailer', ['addAddress', 'addCC', 'addBCC']);
+        return $this->getMock(\PHPMailer\PHPMailer\PHPMailer::class, ['addAddress', 'addCC', 'addBCC']);
     }
 
     private function getAddress($email, $name)

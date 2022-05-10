@@ -181,7 +181,3 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
         return $mailServ->getMailReceivers($this);
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php'];
-}

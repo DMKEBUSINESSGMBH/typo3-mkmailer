@@ -50,7 +50,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      *
      * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
      */
-    const EMAIL_MODEL_DELIMTER = '§';
+    public const EMAIL_MODEL_DELIMTER = '§';
 
     /**
      * @param string $email

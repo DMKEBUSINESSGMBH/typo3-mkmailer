@@ -20,7 +20,7 @@ return [
         'default_sortby' => 'ORDER BY mailtype',
         'delete' => 'deleted',
         'enablecolumns' => [],
-        'iconfile' => 'EXT:mkmailer/icon_tx_mkmailer_templates.gif',
+        'iconfile' => 'EXT:mkmailer/Resources/Public/Icons/icon_tx_mkmailer_templates.gif',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,mailtype,subject,description',
@@ -233,8 +233,6 @@ return [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                 ],
             ],
-
-
 
 //                [
 //                'type' => 'group',

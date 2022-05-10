@@ -37,6 +37,8 @@
  */
 abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Base
 {
+    protected $email;
+
     /**
      * Liefert die ConfId für den Reciver.
      * Sollte überschrieben werden!
@@ -99,14 +101,16 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
             return '<!-- NO Template defined. -->'.$content;
         }
 
-        $template = \Sys25\RnBase\Utility\Files::getFileResource($templatePath);
+        $template = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($templatePath)
+        );
         if (!$template) {
             return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
         }
 
         /* *** Subpart auslesen *** */
         $subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
-        $subpart = $subpart ? $subpart : '###CONTENT'.strtoupper($type).'###';
+        $subpart = $subpart ?? '###CONTENT'.strtoupper($type).'###';
         $template = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, $subpart);
 
         if (!$template) {
@@ -333,7 +337,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         $msg = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_SimpleMessage');
         // @TODO: Was ist eigentlich mit den CCs und BCCs??
         $singleAddress = $this->getSingleAddress($idx);
-        $sendTo = $this->email ? $this->email : $singleAddress['address'];
+        $sendTo = $this->email ?? $singleAddress['address'];
         $msg->addTo($sendTo);
         $msg->setTxtPart($mailText);
         $msg->setHtmlPart($mailHtml);
@@ -357,8 +361,4 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_BaseTemplate.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_BaseTemplate.php'];
 }

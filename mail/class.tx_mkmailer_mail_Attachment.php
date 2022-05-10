@@ -176,7 +176,3 @@ class tx_mkmailer_mail_Attachment implements tx_mkmailer_mail_IAttachment
         $this->type = $type;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Attachment.php'];
-}

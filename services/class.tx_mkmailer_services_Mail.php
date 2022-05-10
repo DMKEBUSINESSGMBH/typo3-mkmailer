@@ -602,21 +602,16 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      */
     private function sendEmail_PHPMailer(tx_mkmailer_mail_IMessage $msg)
     {
-        require_once \Sys25\RnBase\Utility\Extensions::extPath('mkmailer').'phpmailer/class.phpmailer.php';
         $options = $msg->getOptions();
-        $mail = new PHPMailer();
-        $mail->LE = "\n"; // Bei \r\n gibt es Probleme
-        $mail->CharSet = $options['charset'] ? $options['charset'] : 'UTF-8'; // Default: iso-8859-1
-        $mail->Encoding = $options['encoding'] ? $options['encoding'] : '8bit'; // Options for this are "8bit", "7bit", "binary", "base64", and "quoted-printable".
+        $mail = new \PHPMailer\PHPMailer\PHPMailer();
+        $mail->CharSet = $options['charset'] ?? 'UTF-8'; // Default: iso-8859-1
+        $mail->Encoding = $options['encoding'] ?? '8bit'; // Options for this are "8bit", "7bit", "binary", "base64", and "quoted-printable".
+        $mail->setFrom($msg->getFrom()->getAddress(), $msg->getFrom()->getName());
 
-        $mail->FromName = $msg->getFrom()->getName(); // Default Fromname
-
-        // Absender
-        $mail->From = $msg->getFrom()->getAddress();
         // Return-Path
         if ($options['returnpath']) {
             // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
-            $mail->Sender = 1 == $options['returnpath'] ? $mail->From : $options['returnpath'];
+            $mail->Sender = 1 == $options['returnpath'] ? $msg->getFrom()->getAddress() : $options['returnpath'];
         }
 
         $mail->Subject = $msg->getSubject();
@@ -686,15 +681,11 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         }
     }
 
-    /**
-     * @param PHPMailer $mail
-     * @param tx_mkmailer_mail_IAddress $address
-     * @param string $method
-     *
-     * @return PHPMailer $mail
-     */
-    private function addAddress($mail, tx_mkmailer_mail_IAddress $address, $method = 'addAddress')
-    {
+    private function addAddress(
+        \PHPMailer\PHPMailer\PHPMailer $mail,
+        tx_mkmailer_mail_IAddress $address,
+        string $method = 'addAddress'
+    ): \PHPMailer\PHPMailer\PHPMailer {
         $mailAdr = $address->getAddress();
 
         if (\Sys25\RnBase\Utility\Strings::validEmail($mailAdr)) {
@@ -706,25 +697,17 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         return $mail;
     }
 
-    /**
-     * @param PHPMailer $mail
-     * @param tx_mkmailer_mail_IAddress $address
-     *
-     * @return PHPMailer $mail
-     */
-    private function addCCAddress($mail, tx_mkmailer_mail_IAddress $address)
-    {
+    private function addCCAddress(
+        \PHPMailer\PHPMailer\PHPMailer $mail,
+        tx_mkmailer_mail_IAddress $address
+    ): \PHPMailer\PHPMailer\PHPMailer {
         return $this->addAddress($mail, $address, 'addCC');
     }
 
-    /**
-     * @param PHPMailer $mail
-     * @param tx_mkmailer_mail_IAddress $address
-     *
-     * @return PHPMailer $mail
-     */
-    private function addBCCAddress($mail, tx_mkmailer_mail_IAddress $address)
-    {
+    private function addBCCAddress(
+        \PHPMailer\PHPMailer\PHPMailer $mail,
+        tx_mkmailer_mail_IAddress $address
+    ): \PHPMailer\PHPMailer\PHPMailer {
         return $this->addAddress($mail, $address, 'addBCC');
     }
 
@@ -802,8 +785,4 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
 
         \Sys25\RnBase\Database\Connection::getInstance()->doInsert('tx_mkmailer_log', $row, 0);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/services/class.tx_mkmailer_services_Mailer.php'];
 }

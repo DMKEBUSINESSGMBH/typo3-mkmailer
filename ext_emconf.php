@@ -34,11 +34,11 @@ $EM_CONF['mkmailer'] = [
         'depends' => [
             'rn_base' => '1.15.0-',
             'typo3' => '9.5.24-10.4.99',
-            'mklib' => '9.5.0-',
         ],
         'conflicts' => [
         ],
         'suggests' => [
+            'mklib' => '9.5.0-',
             't3users' => '9.0.0-',
         ],
     ],
@@ -50,7 +50,6 @@ $EM_CONF['mkmailer'] = [
             'mail/',
             'mod1/',
             'models/',
-            'phpmailer/',
             'receiver/',
             'services/',
             'tests/',

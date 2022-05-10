@@ -53,7 +53,3 @@ class tx_mkmailer_tests_models_QueueTest extends \Sys25\RnBase\Testing\BaseTestC
         $this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent(), 'File is wrong.');
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/models/class.tx_mkmailer_tests_models_Queue_testcase.php'];
-}

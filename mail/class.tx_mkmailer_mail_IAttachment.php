@@ -33,17 +33,17 @@ interface tx_mkmailer_mail_IAttachment
     /**
      * @var int
      */
-    const TYPE_ATTACHMENT = 0;
+    public const TYPE_ATTACHMENT = 0;
 
     /**
      * @var int
      */
-    const TYPE_EMBED = 1;
+    public const TYPE_EMBED = 1;
 
     /**
      * @var int
      */
-    const TYPE_STRING = 2;
+    public const TYPE_STRING = 2;
 
     /**
      * @return string
@@ -74,8 +74,4 @@ interface tx_mkmailer_mail_IAttachment
      * @return int
      */
     public function getAttachmentType();
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php'];
 }

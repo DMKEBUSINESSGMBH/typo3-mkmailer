@@ -41,17 +41,11 @@ class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testCreateAttachmentShouldReadTheRightMimeType()
     {
-        self::markTestIncomplete(
-            'Failed asserting that two strings are identical.'.
-            "-'application/xml'".
-            "+'text/xml'"
-        );
-
         $model = tx_mkmailer_mail_Factory::createAttachment(
             'EXT:mkmailer/tests/phpunit.xml'
         );
 
-        self::assertSame('application/xml', $model->getMimeType());
+        self::assertSame('text/xml', $model->getMimeType());
     }
 
     /**
@@ -64,18 +58,12 @@ class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
     {
-        self::markTestIncomplete(
-            'Failed asserting that two strings are identical.'.
-            "-'application/xml'".
-            "+'text/xml'"
-        );
-
         $model = tx_mkmailer_mail_Factory::createEmbeddedAttachment(
             'EXT:mkmailer/tests/phpunit.xml',
             uniqid('Embedded', true)
         );
 
-        self::assertSame('application/xml', $model->getMimeType());
+        self::assertSame('text/xml', $model->getMimeType());
     }
 
     /**
@@ -88,12 +76,6 @@ class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testCreateStringAttachmentShouldReadTheRightMimeType()
     {
-        self::markTestIncomplete(
-            'Failed asserting that two strings are identical.'.
-            "-'application/xml'".
-            "+'text/xml'"
-        );
-
         $xml = file_get_contents(
             tx_mkmailer_mail_Factory::makeAbsPath(
                 'EXT:mkmailer/tests/phpunit.xml'
@@ -103,6 +85,6 @@ class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestC
             $xml
         );
 
-        self::assertSame('application/xml', $model->getMimeType());
+        self::assertSame('text/xml', $model->getMimeType());
     }
 }

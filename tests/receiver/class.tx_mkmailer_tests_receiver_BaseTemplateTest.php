@@ -86,43 +86,11 @@ class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_
 class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
-     * Constructs a test case with the given name.
-     *
-     * @param  string $name
-     * @param  array  $data
-     * @param  string $dataName
-     */
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        // TODO: fix me
-//        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
-    }
-
-    protected $getFileName_backPath = '';
-
-    protected function setUp()
-    {
-        self::markTestIncomplete('Error: Call to undefined method stdClass::getFileName()');
-
-        // bei älteren t3 versionen ist der backpath falsch!
-        $GLOBALS['TSFE']->tmpl->getFileName_backPath =
-            $GLOBALS['TSFE']->tmpl->getFileName_backPath ?
-            $GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
-    }
-
-    protected function tearDown()
-    {
-        // backpath zurücksetzen
-        $GLOBALS['TSFE']->tmpl->getFileName_backPath = $this->getFileName_backPath;
-    }
-
-    /**
      * @return  \Sys25\RnBase\Configuration\Processor
      */
     private function getConfigurations(array $configArray = [])
     {
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
         $configArray = ['sendmails.' => $configArray];
 
         $configurations->init(
@@ -150,10 +118,10 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
      */
     private function getQueue(array $data = [])
     {
-        $data['uid'] = $data['uid'] ? $data['uid'] : 0;
-        $data['contenttext'] = $data['contenttext'] ? $data['contenttext'] : 'Text für TEXT<br />';
-        $data['contenthtml'] = $data['contenthtml'] ? $data['contenthtml'] : 'Text für HTML<br />';
-        $data['subject'] = $data['subject'] ? $data['subject'] : 'Subject';
+        $data['uid'] = $data['uid'] ?? 0;
+        $data['contenttext'] = $data['contenttext'] ?? 'Text für TEXT<br />';
+        $data['contenthtml'] = $data['contenthtml'] ?? 'Text für HTML<br />';
+        $data['subject'] = $data['subject'] ?? 'Subject';
 
         return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_models_Queue', $data);
     }
@@ -164,7 +132,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations();
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -175,6 +144,9 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
 
     public function testGetSingleMailWithWrongTemplate()
     {
+        $GLOBALS['TSFE'] = new \stdClass();
+        $GLOBALS['TSFE']->no_cache = 1;
+
         $confId = 'sendmails.';
         $configArray = [
                 'basetemplate.' => [
@@ -186,7 +158,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -208,7 +181,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -231,7 +205,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -253,7 +228,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -276,7 +252,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -287,6 +264,9 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
 
     public function testGetSingleMailWithWrappedTemplateAndDcMarker()
     {
+        $GLOBALS['TYPO3_REQUEST'] = new \TYPO3\CMS\Core\Http\ServerRequest();
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['TEXT'] = \TYPO3\CMS\Frontend\ContentObject\TextContentObject::class;
+
         $confId = 'sendmails.';
         $configArray = [
                 'basetemplate.' => [
@@ -307,7 +287,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $contentHtml = ($msg->getHtmlPart());
         $contentText = ($msg->getTxtPart());
@@ -322,7 +303,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations();
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'ich@da.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
@@ -334,13 +316,10 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends \Sys25\RnBase\Testing\
         $configurations = $this->getConfigurations();
         $receiver = $this->getReceiver('tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable');
         $queue = $this->getQueue();
-        $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
+        $formatter = $configurations->getFormatter();
+        $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
         $expectedTo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', 'john@doe.com', '');
         $this->assertEquals([$expectedTo], $msg->getTo(), 'to wrong.');
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_BaseTemplate_testcase.php'];
 }

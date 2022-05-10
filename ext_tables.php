@@ -4,9 +4,9 @@ if (!defined('TYPO3_MODE')) {
     exit('Access denied.');
 }
 
-////////////////////////////////
+// //////////////////////////////
 // Plugin anmelden
-////////////////////////////////
+// //////////////////////////////
 // Einige Felder ausblenden
 $TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mkmailer'] = 'layout,select_key,pages';
 
@@ -24,7 +24,7 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_fle
 \Sys25\RnBase\Backend\Utility\Icons::getIconRegistry()->registerIcon(
     'ext-mkmailer-wizard-icon',
     'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-    ['source' => 'EXT:mkmailer/ext_icon.gif']
+    ['source' => 'EXT:mkmailer/Resources/Public/Icons/ext_icon.gif']
 );
 // Wizardkonfiguration hinzufügen
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(

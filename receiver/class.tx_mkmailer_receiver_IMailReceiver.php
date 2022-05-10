@@ -91,7 +91,3 @@ interface tx_mkmailer_receiver_IMailReceiver
      */
     public function setValueString($value);
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_IMailReceiver.php'];
-}

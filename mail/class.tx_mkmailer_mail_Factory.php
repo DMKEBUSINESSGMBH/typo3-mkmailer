@@ -113,7 +113,7 @@ class tx_mkmailer_mail_Factory
      */
     public static function makeAbsPath($path)
     {
-        if (!\Sys25\RnBase\Utility\Files::isAbsPath($path)) {
+        if (!\TYPO3\CMS\Core\Utility\PathUtility::isAbsolutePath($path)) {
             $path = \Sys25\RnBase\Utility\Files::getFileAbsFileName(
                 \Sys25\RnBase\Utility\T3General::fixWindowsFilePath($path)
             );

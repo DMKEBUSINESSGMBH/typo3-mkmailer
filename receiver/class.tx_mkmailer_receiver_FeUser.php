@@ -163,7 +163,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         if (!is_object($this->obj) || !isset($this->obj->record['email'])) {
             return false;
         }
-        //else
+        // else
         return $this->obj->record['email'];
     }
 
@@ -176,8 +176,4 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     {
         return 'receiver.';
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_FeUser.php'];
 }

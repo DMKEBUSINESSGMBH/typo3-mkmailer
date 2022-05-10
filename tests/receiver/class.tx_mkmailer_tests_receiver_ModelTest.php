@@ -130,6 +130,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
             \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
+        $confId = $idx = null;
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
@@ -152,6 +153,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
             \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
+        $confId = $idx = null;
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
@@ -174,6 +176,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
             \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
+        $confId = $idx = null;
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);

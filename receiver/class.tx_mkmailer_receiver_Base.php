@@ -58,7 +58,3 @@ abstract class tx_mkmailer_receiver_Base implements tx_mkmailer_receiver_IMailRe
         return is_object($this->obj) ? $this->obj->uid : '';
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/receiver/class.tx_mkmailer_receiver_Base.php'];
-}

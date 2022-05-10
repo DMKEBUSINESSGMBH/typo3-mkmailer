@@ -3,11 +3,11 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Resources')
     ->exclude('Documentation')
-    ->exclude('phpmailer')
     ->in(__DIR__)
 ;
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+return $config
     ->setFinder($finder)
     ->setRules([
         '@Symfony' => true,

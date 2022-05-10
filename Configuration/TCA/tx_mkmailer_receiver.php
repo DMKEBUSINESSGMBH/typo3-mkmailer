@@ -7,7 +7,7 @@ return [
         'label_alt' => 'resolver',
         'default_sortby' => 'ORDER BY receivers',
         'enablecolumns' => [],
-        'iconfile' => 'EXT:mkmailer/icon_tx_mkmailer_templates.gif',
+        'iconfile' => 'EXT:mkmailer/Resources/Public/Icons/icon_tx_mkmailer_templates.gif',
     ],
     'interface' => [
         'showRecordFieldList' => 'resolver, receivers',

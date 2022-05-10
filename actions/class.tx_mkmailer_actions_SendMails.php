@@ -65,7 +65,3 @@ class tx_mkmailer_actions_SendMails extends \Sys25\RnBase\Frontend\Controller\Ab
         return '';
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/actions/class.tx_mkmailer_actions_SendMails.php'];
-}

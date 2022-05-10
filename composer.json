@@ -35,14 +35,17 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
     },
     "require": {
-        "typo3/cms-core": "^9.5.24 || ^10.4.14",
-        "digedag/rn-base": "^1.15",
-        "dmk/mklib": "^9.5 || ^10.0"
+        "php": "^7.3 || ^8.0",
+        "typo3/cms-core": "^10.4.23 || ^11.5.5",
+        "digedag/rn-base": "^11@dev",
+        "dmk/mklib": "^10.1 || ^11@dev",
+        "phpmailer/phpmailer": "^6.5"
     },
     "require-dev": {
-        "php-parallel-lint/php-parallel-lint": "^1.2",
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
+        "php-parallel-lint/php-parallel-lint": "^1.3",
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "phpcompatibility/php-compatibility": "^9.3.5",
+        "nimut/testing-framework": "^6.0"
     },
     "autoload": {
         "classmap": [
@@ -52,11 +55,15 @@
             "mail/",
             "mod1/",
             "models/",
-            "phpmailer/",
             "receiver/",
             "services/",
             "tests/",
             "util/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
         ]
     },
     "config": {
@@ -64,24 +71,46 @@
         "bin-dir": ".Build/bin",
         "preferred-install": {
             "typo3/cms": "source"
+        },
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true,
+            "phpstan/extension-installer": true
         }
     },
-      "scripts": {
-          "post-autoload-dump": [
-              "mkdir -p .Build/Web/typo3conf/ext/",
-              "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
             "[ -f .Build/Web/typo3conf/LocalConfiguration.php ] || cp tests/fixtures/LocalConfiguration.php .Build/Web/typo3conf/LocalConfiguration.php"
+        ],
+        "runqs": [
+            "@fix",
+            "@lint",
+            "@test"
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./phpmailer ./receiver ./services ./tests ./util ./*.php"
+            ".Build/bin/parallel-lint ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./receiver ./services ./tests ./util ./*.php"
         ],
         "lint": [
             "@lint:php"
         ],
         "test:phpcs": [
             "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --ansi"
+        ],
+        "test:phpcompatibility": [
+            "@test:phpcompatibility:7.4",
+            "@test:phpcompatibility:8.0"
+        ],
+        "test:phpcompatibility:7.4": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4"
+        ],
+        "test:phpcompatibility:8.0": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
         ],
         "test:phpunit": [
             "[ -e .Build/bin/phpunit ] || composer update --ansi",
@@ -89,6 +118,7 @@
         ],
         "test": [
             "@test:phpcs",
+            "@test:phpcompatibility",
             "@test:phpunit"
         ],
         "fix:phpcs": [
@@ -101,12 +131,13 @@
     },
       "extra": {
           "branch-alias": {
-              "dev-master": "9.0.x-dev"
+              "dev-11.5": "11.0.x-dev"
           },
           "typo3/cms": {
               "cms-package-dir": "{$vendor-dir}/typo3/cms",
               "extension-key": "mkmailer",
-              "web-dir": ".Build/Web"
+              "web-dir": ".Build/Web",
+              "app-dir": ".Build"
         }
     }
 }

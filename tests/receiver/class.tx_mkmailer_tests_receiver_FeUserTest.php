@@ -45,7 +45,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends \Sys25\RnBase\Testing\BaseTe
 //        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!\Sys25\RnBase\Utility\Extensions::isLoaded('t3users')) {
             $this->markTestSkipped('t3users ist nicht geladen');
@@ -57,15 +57,15 @@ class tx_mkmailer_tests_receiver_FeUserTest extends \Sys25\RnBase\Testing\BaseTe
             $GLOBALS['TSFE']->tmpl->getFileName_backPath ?
             $GLOBALS['TSFE']->tmpl->getFileName_backPath : PATH_site;
 
-        return parent::setUp();
+        parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // backpath zurücksetzen
         $GLOBALS['TSFE']->tmpl->getFileName_backPath = $this->getFileName_backPath;
 
-        return parent::tearDown();
+        parent::tearDown();
     }
 
     /**
@@ -75,7 +75,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends \Sys25\RnBase\Testing\BaseTe
     {
         $configArray = [$confId => $configArray];
 
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\Sys25\RnBase\Configuration\Processor');
+        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
         $configurations->init(
             $configArray,
             $configurations->getCObj(1),
@@ -164,8 +164,4 @@ class tx_mkmailer_tests_receiver_FeUserTest extends \Sys25\RnBase\Testing\BaseTe
         $this->assertEquals($templates['resulthtml'], $contentHtml, 'Wrong content html.');
         $this->assertEquals($templates['resultsubject'], $subject, 'Wrong content html.');
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_FeUser_testcase.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/tests/receiver/class.tx_mkmailer_tests_receiver_FeUser_testcase.php'];
 }

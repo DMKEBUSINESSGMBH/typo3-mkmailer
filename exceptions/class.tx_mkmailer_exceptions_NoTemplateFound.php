@@ -24,7 +24,3 @@ class tx_mkmailer_exceptions_NoTemplateFound extends Exception
         parent::__construct($message, $code, $previous);
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/exceptions/class.tx_mkmailer_exceptions_NoTemplateFound.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/exceptions/class.tx_mkmailer_exceptions_NoTemplateFound.php'];
-}
