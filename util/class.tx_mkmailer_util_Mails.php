@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -21,7 +24,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * tx_mkmailer_util_Mails.
  *
@@ -51,9 +53,9 @@ class tx_mkmailer_util_Mails
             $templateObj = $mailSrv->getTemplate($templateObjectOrKey);
         }
 
-        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($receiverClass, $email, $modelUid);
+        $receiver = GeneralUtility::makeInstance($receiverClass, $email, $modelUid);
 
-        $job = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
+        $job = GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
         $job->addReceiver($receiver);
         $job->setFrom($templateObj->getFromAddress());
         $job->setCCs($templateObj->getCcAddress());

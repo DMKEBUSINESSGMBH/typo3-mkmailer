@@ -10,7 +10,6 @@ return [
         'iconfile' => 'EXT:mkmailer/Resources/Public/Icons/icon_tx_mkmailer_templates.gif',
     ],
     'interface' => [
-        'showRecordFieldList' => 'resolver, receivers',
         'maxDBListItems' => '5',
     ],
     'feInterface' => [

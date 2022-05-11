@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\Misc;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -37,6 +40,6 @@ class tx_mkmailer_util_ServiceRegistry
      */
     public static function getMailService()
     {
-        return \Sys25\RnBase\Utility\Misc::getService('mkmailer', 'mail');
+        return Misc::getService('mkmailer', 'mail');
     }
 }

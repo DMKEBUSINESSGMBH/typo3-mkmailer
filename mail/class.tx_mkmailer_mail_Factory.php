@@ -1,4 +1,10 @@
 <?php
+
+use Sys25\RnBase\Utility\Files;
+use Sys25\RnBase\Utility\T3General;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,7 +27,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
 /**
  * Mail Factory.
  *
@@ -46,7 +51,7 @@ class tx_mkmailer_mail_Factory
         array $receiver = [],
         tx_mkmailer_models_Template &$templateObj = null
     ) {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        return GeneralUtility::makeInstance(
             'tx_mkmailer_mail_MailJob',
             $receiver,
             $templateObj
@@ -113,9 +118,9 @@ class tx_mkmailer_mail_Factory
      */
     public static function makeAbsPath($path)
     {
-        if (!\TYPO3\CMS\Core\Utility\PathUtility::isAbsolutePath($path)) {
-            $path = \Sys25\RnBase\Utility\Files::getFileAbsFileName(
-                \Sys25\RnBase\Utility\T3General::fixWindowsFilePath($path)
+        if (!PathUtility::isAbsolutePath($path)) {
+            $path = Files::getFileAbsFileName(
+                T3General::fixWindowsFilePath($path)
             );
         }
 
@@ -199,7 +204,7 @@ class tx_mkmailer_mail_Factory
         $mimeType = false
     ) {
         /* @var $attachment tx_mkmailer_mail_Attachment */
-        $attachment = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $attachment = GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Attachment',
             $type
         );
@@ -229,7 +234,7 @@ class tx_mkmailer_mail_Factory
         $address,
         $name = ''
     ) {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        return GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Address',
             $address,
             $name

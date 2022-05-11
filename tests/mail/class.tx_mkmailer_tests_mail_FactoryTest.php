@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Testing\BaseTestCase;
+
 /***************************************************************
  * Copyright notice
  *
@@ -21,7 +24,6 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Mail factory Tests.
  *
@@ -29,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_mail_FactoryTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
 {
     /**
      * Test the createAttachment method.

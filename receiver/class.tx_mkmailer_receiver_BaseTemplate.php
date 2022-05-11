@@ -1,4 +1,11 @@
 <?php
+
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Marker\BaseMarker;
+use Sys25\RnBase\Frontend\Marker\FormatUtil;
+use Sys25\RnBase\Frontend\Marker\Templates;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  *  Copyright notice.
  *
@@ -57,7 +64,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * @TODO: die original confid wird noch gebraucht -> sendmails.
      *
-     * @param   \Sys25\RnBase\Configuration\Processor    $configurations
+     * @param Processor $configurations
      * @param   string                      $confId
      * @param   string                      $type
      * @param   string                      $config
@@ -81,7 +88,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * Wrapt ein Template um den Inhalt.
      *
      * @param   string                      $content
-     * @param   \Sys25\RnBase\Configuration\Processor    $configurations
+     * @param Processor $configurations
      * @param   string                      $confId
      * @param   string                      $type
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
@@ -101,9 +108,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
             return '<!-- NO Template defined. -->'.$content;
         }
 
-        $template = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($templatePath)
-        );
+        $template = GeneralUtility::getUrl(GeneralUtility::getFileAbsFileName($templatePath));
         if (!$template) {
             return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
         }
@@ -111,13 +116,13 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         /* *** Subpart auslesen *** */
         $subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
         $subpart = $subpart ?? '###CONTENT'.strtoupper($type).'###';
-        $template = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($template, $subpart);
+        $template = Templates::getSubpart($template, $subpart);
 
         if (!$template) {
             return '<!-- SUBPART NOT FOUND: '.$subpart.' -->'.$content;
         }
 
-        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
+        $out = Templates::substituteMarkerArrayCached(
             $template,
             ['###CONTENT###' => $content]
         );
@@ -129,7 +134,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * Parst den Receiver ein Template um den Inhalt.
      *
      * @param   string                      $content
-     * @param   \Sys25\RnBase\Configuration\Processor    $configurations
+     * @param Processor $configurations
      * @param   string                      $confId
      * @param   string                      $type
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
@@ -144,7 +149,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         $markerArray = $subpartArray = $wrappedSubpartArray = $params = [];
         $formatter = $configurations->getFormatter();
 
-        if (\Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($out, 'RECEIVER_')) {
+        if (BaseMarker::containsMarker($out, 'RECEIVER_')) {
             // receiver und dcmarker auslesen
             $markerArray = $formatter->getItemMarkerArrayWrapped(
                 $this->getReceiverRecord($idx),
@@ -175,7 +180,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * @param array $subpartArray
      * @param array $wrappedSubpartArray
      * @param array $params
-     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
+     * @param FormatUtil $formatter
      * @param string $confId
      *
      * @return string
@@ -186,11 +191,11 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         array $subpartArray,
         array $wrappedSubpartArray,
         array $params,
-        \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter,
+        FormatUtil $formatter,
         $confId
     ) {
         // labels und module parsen
-        \Sys25\RnBase\Frontend\Marker\BaseMarker::callModules(
+        BaseMarker::callModules(
             $template,
             $markerArray,
             $subpartArray,
@@ -200,7 +205,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         );
 
         // receiver und module rendern
-        return \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
+        return Templates::substituteMarkerArrayCached(
             $template,
             $markerArray,
             $subpartArray,
@@ -273,7 +278,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * Erstellt eine individuelle Email für einen Empfänger der Email.
      *
      * @param   tx_mkmailer_models_Queue    $queue
-     * @param   \Sys25\RnBase\Frontend\Marker\FormatUtil   $formatter
+     * @param FormatUtil $formatter
      * @param   string                      $confId
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
@@ -334,7 +339,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         $mailText = $this->fixContentText($mailText);
         $mailHtml = $this->fixContentHtml($mailHtml);
 
-        $msg = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_SimpleMessage');
+        $msg = GeneralUtility::makeInstance('tx_mkmailer_mail_SimpleMessage');
         // @TODO: Was ist eigentlich mit den CCs und BCCs??
         $singleAddress = $this->getSingleAddress($idx);
         $sendTo = $this->email ?? $singleAddress['address'];
@@ -352,7 +357,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * @param   string                      $mailText
      * @param   string                      $mailHtml
      * @param   string                      $mailSubject
-     * @param   \Sys25\RnBase\Frontend\Marker\FormatUtil   $formatter
+     * @param FormatUtil $formatter
      * @param   string                      $confId
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
      *

@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  *  Copyright notice.
  *
@@ -40,7 +43,7 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
         $method->setAccessible(true);
         $this->assertInstanceOf(
             'tx_mkmailer_services_Mail',
-            $method->invoke(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_util_Mails'))
+            $method->invoke(GeneralUtility::makeInstance('tx_mkmailer_util_Mails'))
         );
     }
 
@@ -51,7 +54,7 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
     {
         $mailService = $this->getMailServiceMock();
 
-        $templateObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $templateObj = GeneralUtility::makeInstance(
             'tx_mkmailer_models_Template',
             [
                 'contenttext' => '###MODEL_NAME###',
@@ -67,9 +70,9 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
             ->with('mailTemplate')
             ->will($this->returnValue($templateObj));
 
-        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
+        $receiver = GeneralUtility::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
 
-        $expectedJob = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
+        $expectedJob = GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
         $expectedJob->addReceiver($receiver);
         $expectedJob->setFrom($templateObj->getFromAddress());
         $expectedJob->setCCs($templateObj->getCcAddress());
@@ -98,7 +101,7 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
     {
         $mailService = $this->getMailServiceMock();
 
-        $templateObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $templateObj = GeneralUtility::makeInstance(
             'tx_mkmailer_models_Template',
             [
                 'contenttext' => '###MODEL_NAME###',
@@ -112,9 +115,9 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
         $mailService->expects($this->never())
             ->method('getTemplate');
 
-        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
+        $receiver = GeneralUtility::makeInstance('tx_mkmailer_tests_util_ReceiverDummy', 'testReceiver', 123);
 
-        $expectedJob = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
+        $expectedJob = GeneralUtility::makeInstance('tx_mkmailer_mail_MailJob');
         $expectedJob->addReceiver($receiver);
         $expectedJob->setFrom($templateObj->getFromAddress());
         $expectedJob->setCCs($templateObj->getCcAddress());

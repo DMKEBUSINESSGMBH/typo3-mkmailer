@@ -1,5 +1,11 @@
 <?php
 
+use Sys25\RnBase\Backend\Form\ToolBox;
+use Sys25\RnBase\Backend\Module\BaseModFunc;
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Marker\FormatUtil;
+use Sys25\RnBase\Frontend\Marker\Templates;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +35,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_FuncTest extends \Sys25\RnBase\Backend\Module\BaseModFunc
+class tx_mkmailer_mod1_FuncTest extends BaseModFunc
 {
     /**
      * (non-PHPdoc).
@@ -45,9 +51,9 @@ class tx_mkmailer_mod1_FuncTest extends \Sys25\RnBase\Backend\Module\BaseModFunc
      * Returns the module content.
      *
      * @param string $template
-     * @param \Sys25\RnBase\Configuration\Processor    $configurations
-     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
-     * @param \Sys25\RnBase\Backend\Form\ToolBox       $formTool
+     * @param Processor $configurations
+     * @param FormatUtil $formatter
+     * @param ToolBox $formTool
      *
      * @return string
      */
@@ -55,7 +61,7 @@ class tx_mkmailer_mod1_FuncTest extends \Sys25\RnBase\Backend\Module\BaseModFunc
     {
         $arr = ['name' => 'alfred'];
         $markerArray = $formatter->getItemMarkerArrayWrapped($arr, $this->getConfId().'queue.', 0, 'MAIL_');
-        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
+        $out = Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }

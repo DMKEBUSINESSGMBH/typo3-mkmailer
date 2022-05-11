@@ -1,4 +1,8 @@
 <?php
+
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Utility\Strings;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -31,7 +35,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
+class tx_mkmailer_models_Queue extends BaseModel
 {
     /**
      * (non-PHPdoc).
@@ -90,7 +94,7 @@ class tx_mkmailer_models_Queue extends \Sys25\RnBase\Domain\Model\BaseModel
             $ret = unserialize($attachments);
         } else {
             // Alle Strings zu Attachments umformen
-            $files = \Sys25\RnBase\Utility\Strings::trimExplode(',', $attachments);
+            $files = Strings::trimExplode(',', $attachments);
             foreach ($files as $file) {
                 $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);
             }

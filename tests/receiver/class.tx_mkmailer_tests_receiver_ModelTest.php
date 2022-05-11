@@ -1,4 +1,11 @@
 <?php
+
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Frontend\Marker\FormatUtil;
+use Sys25\RnBase\Frontend\Marker\SimpleMarker;
+use Sys25\RnBase\Testing\BaseTestCase;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  *  Copyright notice.
  *
@@ -21,15 +28,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 /*
  * benötigte Klassen einbinden
  */
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
-class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
 {
     /**
      * @group unit
@@ -126,8 +131,8 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailText = '###MODEL_UID###';
-        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
+        $formatter = GeneralUtility::makeInstance(
+            FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
         $confId = $idx = null;
@@ -149,8 +154,8 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailHtml = '###MODEL_UID###';
-        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
+        $formatter = GeneralUtility::makeInstance(
+            FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
         $confId = $idx = null;
@@ -172,8 +177,8 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailSubject = '###MODEL_UID###';
-        $formatter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \Sys25\RnBase\Frontend\Marker\FormatUtil::class,
+        $formatter = GeneralUtility::makeInstance(
+            FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
         $confId = $idx = null;
@@ -205,7 +210,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
             ['getModel', 'getModelMarker', 'getMarkerClass']
         );
 
-        $model = $this->getModel(['uid' => 123], \Sys25\RnBase\Domain\Model\BaseModel::class, ['getColumnNames']);
+        $model = $this->getModel(['uid' => 123], BaseModel::class, ['getColumnNames']);
 
         $receiver->expects($this->any())
             ->method('getModel')
@@ -217,7 +222,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends \Sys25\RnBase\Testing\BaseTes
 
         $receiver->expects($this->any())
             ->method('getMarkerClass')
-            ->will($this->returnValue(\Sys25\RnBase\Frontend\Marker\SimpleMarker::class));
+            ->will($this->returnValue(SimpleMarker::class));
 
         return $receiver;
     }

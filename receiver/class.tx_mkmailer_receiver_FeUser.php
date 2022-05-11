@@ -1,4 +1,8 @@
 <?php
+
+use Sys25\RnBase\Frontend\Marker\FormatUtil;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -117,7 +121,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      * @param   string                      $mailText
      * @param   string                      $mailHtml
      * @param   string                      $mailSubject
-     * @param   \Sys25\RnBase\Frontend\Marker\FormatUtil   $formatter
+     * @param FormatUtil $formatter
      * @param   string                      $confId
      * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
@@ -131,7 +135,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         $confId,
         $idx
     ) {
-        $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
+        $marker = GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
         $mailText = $marker->parseTemplate(
             $mailText,
             $this->obj,

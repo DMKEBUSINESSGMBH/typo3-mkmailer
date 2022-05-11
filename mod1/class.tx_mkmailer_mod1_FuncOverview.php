@@ -1,5 +1,13 @@
 <?php
 
+use Sys25\RnBase\Backend\Module\BaseModFunc;
+use Sys25\RnBase\Backend\Utility\BEPager;
+use Sys25\RnBase\Backend\Utility\Tables;
+use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Frontend\Marker\Templates;
+use Sys25\RnBase\Frontend\Request\Parameters;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +37,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseModFunc
+class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
 {
     /**
      * (non-PHPdoc).
@@ -80,7 +88,7 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
-        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached($template, $markerArray);
+        $out = Templates::substituteMarkerArrayCached($template, $markerArray);
 
         return $out;
     }
@@ -96,7 +104,7 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
      */
     private function getMarkerArrayDataForListView($label, $getEntriesMethodOfMailService, $showEntriesMethod)
     {
-        $pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\BEPager::class, 'openQueuePager', $this->getModule()->getName(), 0);
+        $pager = GeneralUtility::makeInstance(BEPager::class, 'openQueuePager', $this->getModule()->getName(), 0);
 
         $options = ['count' => 1];
         $mailService = tx_mkmailer_util_ServiceRegistry::getMailService();
@@ -182,7 +190,7 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
         }
 
         /* @var $tables \Sys25\RnBase\Backend\Utility\Tables */
-        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\Tables::class);
+        $tables = GeneralUtility::makeInstance(Tables::class);
 
         return $tables->buildTable($columns);
     }
@@ -225,7 +233,7 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
             $columns[] = $column;
         }
         /* @var $tables \Sys25\RnBase\Backend\Utility\Tables */
-        $tables = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Backend\Utility\Tables::class);
+        $tables = GeneralUtility::makeInstance(Tables::class);
 
         return $tables->buildTable($columns);
     }
@@ -288,12 +296,12 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
         $uid = $this->getUidFromRequest('moveLogEntryBackToQueue');
 
         if (0 != $uid) {
-            \Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
+            Connection::getInstance()->doUpdate(
                 'tx_mkmailer_queue',
                 'uid='.$uid,
                 ['deleted' => '0']
             );
-            \Sys25\RnBase\Database\Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
+            Connection::getInstance()->doDelete('tx_mkmailer_log', 'receiver = '.$uid);
         }
     }
 
@@ -306,7 +314,7 @@ class tx_mkmailer_mod1_FuncOverview extends \Sys25\RnBase\Backend\Module\BaseMod
      */
     private function getUidFromRequest($varName)
     {
-        $uids = \Sys25\RnBase\Frontend\Request\Parameters::getPostOrGetParameter($varName);
+        $uids = Parameters::getPostOrGetParameter($varName);
         if (!is_array($uids) || !count($uids)) {
             return false;
         }

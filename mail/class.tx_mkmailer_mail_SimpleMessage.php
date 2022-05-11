@@ -1,4 +1,8 @@
 <?php
+
+use Sys25\RnBase\Configuration\Processor;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -86,15 +90,15 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
         $options = [];
 
         // CharSet
-        $charset = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'charset');
+        $charset = Processor::getExtensionCfgValue('mkmailer', 'charset');
         $options['charset'] = $charset ? $charset : 'UTF-8';
 
         // Encoding
-        $encoding = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'encoding');
+        $encoding = Processor::getExtensionCfgValue('mkmailer', 'encoding');
         $options['encoding'] = $encoding ? $encoding : '8bit';
 
         // returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
-        $returnpath = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkmailer', 'returnpath');
+        $returnpath = Processor::getExtensionCfgValue('mkmailer', 'returnpath');
         $options['returnpath'] = $returnpath ? $returnpath : 0;
 
         return $options;
@@ -325,6 +329,6 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      */
     private function createAddress($address, $name = '')
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_mail_Address', $address, $name);
+        return GeneralUtility::makeInstance('tx_mkmailer_mail_Address', $address, $name);
     }
 }

@@ -1,4 +1,9 @@
 <?php
+
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Utility\Strings;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * @author Hannes Bochmann
  *
@@ -23,7 +28,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
 /**
  * tx_mkmailer_receiver_Model.
  *
@@ -69,7 +73,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      */
     public function setValueString($valueString)
     {
-        $valueParts = \Sys25\RnBase\Utility\Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
+        $valueParts = Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
         $this->setEMail($valueParts[0]);
         $this->setModelUid($valueParts[1]);
     }
@@ -107,7 +111,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      */
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {
-        $markerClass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($this->getMarkerClass());
+        $markerClass = GeneralUtility::makeInstance($this->getMarkerClass());
         $model = $this->getModel();
         $modelMarker = $this->getModelMarker();
 
@@ -135,7 +139,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
     }
 
     /**
-     * @return \Sys25\RnBase\Domain\Model\BaseModel
+     * @return BaseModel
      */
     abstract protected function getModel();
 

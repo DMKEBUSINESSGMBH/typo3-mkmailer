@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Backend\Module\BaseModule;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,7 +24,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
 /**
  * tx_mkmailer_module1.
  *
@@ -32,7 +33,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mod1_Module extends \Sys25\RnBase\Backend\Module\BaseModule
+class tx_mkmailer_mod1_Module extends BaseModule
 {
     public $pageinfo;
 

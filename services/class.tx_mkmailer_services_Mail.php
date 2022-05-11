@@ -1,4 +1,19 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Typo3Wrapper\Service\AbstractService;
+use Sys25\RnBase\Utility\Dates;
+use Sys25\RnBase\Utility\Debug;
+use Sys25\RnBase\Utility\Files;
+use Sys25\RnBase\Utility\Lock;
+use Sys25\RnBase\Utility\Logger;
+use Sys25\RnBase\Utility\Network;
+use Sys25\RnBase\Utility\Strings;
+use Sys25\RnBase\Utility\T3General;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  * Copyright notice
  *
@@ -30,28 +45,28 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\AbstractService
+class tx_mkmailer_services_Mail extends AbstractService
 {
     /**
      * Abarbeitung der MailQueue.
      *
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Processor $configurations
      * @param string $confId
      *
      * @return string
      */
     public function executeQueue(
-        \Sys25\RnBase\Configuration\Processor $configurations,
+        Processor $configurations,
         $confId
     ) {
         // wir sperren den prozess für eine bestimmte Zeit oder bis zum ende des durchlaufes
         $lockLifeTime = $configurations->getInt($confId.'lockLifeTime');
-        $lock = \Sys25\RnBase\Utility\Lock::getInstance('mkmailerqueue', $lockLifeTime);
+        $lock = Lock::getInstance('mkmailerqueue', $lockLifeTime);
         if ($lock->isLocked()) {
             return '<p>The Mail-Process is locked</p>';
         }
         if (!$lock->lockProcess()) {
-            \Sys25\RnBase\Utility\Logger::fatal(
+            Logger::fatal(
                 'Error in SendMailQueue: The Mail-Process couldn\'t be locked',
                 'mkmailer',
                 [
@@ -125,7 +140,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
                             $sentErrors[] = 'QueueID: '.$queue->getUid().
                                 ' ('.implode(',', $address).')'.
                                 ' Msg: E-Mail konnte nicht gesendet werden. Sie können fehlerhafte Nachrichten im Backend bearbeiten. ('.$e->getMessage().')';
-                            \Sys25\RnBase\Utility\Logger::fatal(
+                            Logger::fatal(
                                 'Error in SendMailQueue: Eine Nachricht konnte aufgrund einer fehlerhaften E-Mail nicht versendet werden. Sie können diese Nachricht im Backend von MkMailer bearbeiten.',
                                 'mkmailer',
                                 [
@@ -152,7 +167,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         $lock->unlockProcess();
 
         $out = '&nbsp;';
-        if (\Sys25\RnBase\Utility\Network::isDevelopmentIp()) {
+        if (Network::isDevelopmentIp()) {
             $out = '<p>Finished with '.$sentQueueCnt.' Mails. Errors: '.count($sentErrors).'</p>';
             if (count($sentErrors)) {
                 $out .= '<h3>Errors</h3><ul>';
@@ -171,7 +186,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      * @param tx_mkmailer_models_Queue $queue
      * @param tx_mkmailer_receiver_IMailReceiver $receiver
      * @param int $idx
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Processor $configurations
      * @param string $confId
      *
      * @return tx_mkmailer_mail_IMessage
@@ -180,13 +195,14 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         tx_mkmailer_models_Queue $queue,
         tx_mkmailer_receiver_IMailReceiver $receiver,
         $idx,
-        \Sys25\RnBase\Configuration\Processor $configurations,
+        Processor $configurations,
         $confId
     ) {
         // Address ist immer ein Array mit den Teilen der Mailadresse
+        $formatter = $configurations->getFormatter();
         $message = $receiver->getSingleMail(
             $queue,
-            $configurations->getFormatter(),
+            $formatter,
             $confId,
             $idx
         );
@@ -211,7 +227,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
 
         if (($testMail = $configurations->get($confId.'testMail'))) {
             $message->setOption('testmail', $testMail);
-            \Sys25\RnBase\Utility\Debug::debug(
+            Debug::debug(
                 $message,
                 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt!'
             );
@@ -238,7 +254,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     ) {
         $queue = $this->createQueueByJob($job);
 
-        $mailUid = \Sys25\RnBase\Database\Connection::getInstance()->doInsert(
+        $mailUid = Connection::getInstance()->doInsert(
             'tx_mkmailer_queue',
             $queue->getProperty(),
             0
@@ -250,7 +266,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
             $data['email'] = $mailUid;
             $data['resolver'] = get_class($receiver);
             $data['receivers'] = $receiver->getValueString();
-            \Sys25\RnBase\Database\Connection::getInstance()->doInsert('tx_mkmailer_receiver', $data, 0);
+            Connection::getInstance()->doInsert('tx_mkmailer_receiver', $data, 0);
         }
     }
 
@@ -308,9 +324,9 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         // Attachments werden serialisiert abgespeichert.
         $attachments = $job->getAttachments();
         $data['attachments'] = $attachments ? serialize($attachments) : '';
-        $data['cr_date'] = \Sys25\RnBase\Utility\Dates::datetime_tstamp2mysql(time());
+        $data['cr_date'] = Dates::datetime_tstamp2mysql(time());
 
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        return GeneralUtility::makeInstance(
             'tx_mkmailer_models_Queue',
             $data
         );
@@ -320,7 +336,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      * Liefert eine Mail an eine Liste von Empfängern.
      *
      * @param tx_mkmailer_mail_IMailJob $job
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Processor $configurations
      * @param string $confId
      *
      * @throws Exception
@@ -329,7 +345,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      */
     public function executeMailJob(
         tx_mkmailer_mail_IMailJob $job,
-        \Sys25\RnBase\Configuration\Processor $configurations,
+        Processor $configurations,
         $confId
     ) {
         $queue = $this->createQueueByJob($job);
@@ -356,7 +372,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
                     try {
                         $this->sendEmail($message);
                     } catch (Exception $e) {
-                        \Sys25\RnBase\Utility\Logger::fatal(
+                        Logger::fatal(
                             'Error in SendMailQueue',
                             'mkmailer',
                             [
@@ -381,9 +397,9 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     {
         // Zuerst die eigentliche Mail speichern
         $data['mailcount'] = $mailQueue->getMailCount() + intval($mailCnt);
-        $data['lastupdate'] = \Sys25\RnBase\Utility\Dates::datetime_tstamp2mysql(time());
+        $data['lastupdate'] = Dates::datetime_tstamp2mysql(time());
         $where = 'uid = '.$mailQueue->uid;
-        \Sys25\RnBase\Database\Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
+        Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
     }
 
     /**
@@ -396,9 +412,9 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     {
         // Zuerst die eigentliche Mail speichern
         $data['deleted'] = 1;
-        $data['lastupdate'] = \Sys25\RnBase\Utility\Dates::datetime_tstamp2mysql(time());
+        $data['lastupdate'] = Dates::datetime_tstamp2mysql(time());
         $where = 'uid = '.$mailQueue->uid;
-        \Sys25\RnBase\Database\Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
+        Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
 
         // FIXME: Löschen geht nicht und muss nochmal überarbeitet werden. Beim spoolen einer Mail
             // muss es folgende Optionen geben:
@@ -437,7 +453,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         if (!array_key_exists('count', $options)) {
             $options['wrapperclass'] = 'tx_mkmailer_models_Queue';
         }
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
@@ -458,7 +474,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         if (!array_key_exists('count', $options)) {
             $options['wrapperclass'] = 'tx_mkmailer_models_Queue';
         }
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
@@ -480,7 +496,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
             $options['wrapperclass'] = 'tx_mkmailer_models_Log';
         }
 
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
@@ -494,7 +510,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      */
     public function deleteMail($uid)
     {
-        return \Sys25\RnBase\Database\Connection::getInstance()->doUpdate('tx_mkmailer_queue', 'uid='.$uid, ['deleted' => '1']);
+        return Connection::getInstance()->doUpdate('tx_mkmailer_queue', 'uid='.$uid, ['deleted' => '1']);
     }
 
     /**
@@ -511,7 +527,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
 
         $options['where'] = 'email='.$mailQueue->uid;
         $options['enablefieldsoff'] = 1;
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return $ret;
     }
@@ -554,14 +570,14 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
      */
     public function getUploadDir()
     {
-        $uploadDir = \Sys25\RnBase\Utility\Files::getFileAbsFileName(
-            \Sys25\RnBase\Utility\T3General::fixWindowsFilePath(
+        $uploadDir = Files::getFileAbsFileName(
+            T3General::fixWindowsFilePath(
                 'typo3temp/mkmailer/'
             )
         );
 
         if (!file_exists($uploadDir)) {
-            \Sys25\RnBase\Utility\Files::mkdir_deep($uploadDir);
+            Files::mkdir_deep($uploadDir);
         }
 
         return $uploadDir;
@@ -603,7 +619,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     private function sendEmail_PHPMailer(tx_mkmailer_mail_IMessage $msg)
     {
         $options = $msg->getOptions();
-        $mail = new \PHPMailer\PHPMailer\PHPMailer();
+        $mail = new PHPMailer();
         $mail->CharSet = $options['charset'] ?? 'UTF-8'; // Default: iso-8859-1
         $mail->Encoding = $options['encoding'] ?? '8bit'; // Options for this are "8bit", "7bit", "binary", "base64", and "quoted-printable".
         $mail->setFrom($msg->getFrom()->getAddress(), $msg->getFrom()->getName());
@@ -627,8 +643,8 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         $addresses = $msg->getTo();
         if (isset($options['testmail']) && $options['testmail']) {
             // Die Mail wird an eine Testadresse verschickt
-            \Sys25\RnBase\Utility\Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: '.$from.''); // TODO: Remove me!
-            $testAddrs = \Sys25\RnBase\Utility\Strings::trimExplode(',', $options['testmail']);
+            Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: '.$from.''); // TODO: Remove me!
+            $testAddrs = Strings::trimExplode(',', $options['testmail']);
             foreach ($testAddrs as $addr) {
                 $mail = $this->addAddress(
                     $mail,
@@ -665,7 +681,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
                         break;
 
                     default:
-                        \Sys25\RnBase\Utility\Logger::warn('Email with unknown attachment type given!', 'mkmailer', [
+                        Logger::warn('Email with unknown attachment type given!', 'mkmailer', [
                             'AttachmentType' => $attachment->getAttachmentType(),
                             'Content' => $attachment->getPathOrContent(),
                             'Subject' => $msg->getSubject(), ]);
@@ -677,7 +693,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         $ret = $mail->send();
         if (!$ret) {
             // Versandfehler. Es wird eine Exception geworfen
-            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
+            throw GeneralUtility::makeInstance('tx_mkmailer_exceptions_SendMail', $mail->ErrorInfo);
         }
     }
 
@@ -688,7 +704,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     ): \PHPMailer\PHPMailer\PHPMailer {
         $mailAdr = $address->getAddress();
 
-        if (\Sys25\RnBase\Utility\Strings::validEmail($mailAdr)) {
+        if (Strings::validEmail($mailAdr)) {
             $mail->{$method}($mailAdr, $address->getName());
         } else {
             throw new Exception('[Method: '.$method.'] Invalid Email address ('.$mailAdr.') given. Mail not sent!');
@@ -722,13 +738,13 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
     {
         $what = '*';
         $from = 'tx_mkmailer_templates';
-        $where = 'mailtype='.\Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr(strtolower($id), $from);
+        $where = 'mailtype='.Connection::getInstance()->fullQuoteStr(strtolower($id), $from);
 
         $options['where'] = $where;
         $options['wrapperclass'] = 'tx_mkmailer_models_Template';
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
         if (!count($ret)) {
-            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
+            throw GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
         }
 
         return count($ret) ? $ret[0] : null;
@@ -750,7 +766,7 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
 
         $options['where'] = 'email='.$mailQueue->uid.' AND LOWER(address) = LOWER(\''.addslashes($mailAddress).'\')';
         $options['enablefieldsoff'] = 1;
-        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($what, $from, $options, 0);
+        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return count($ret) > 0;
     }
@@ -776,13 +792,13 @@ class tx_mkmailer_services_Mail extends \Sys25\RnBase\Typo3Wrapper\Service\Abstr
         }
 
         $row = [];
-        $row['tstamp'] = \Sys25\RnBase\Utility\Dates::datetime_tstamp2mysql(time());
+        $row['tstamp'] = Dates::datetime_tstamp2mysql(time());
         $row['email'] = $queue->getUid();
         $row['address'] = $mailAddress;
 
         $row['receiver'] = $receiver;
         $row['failed'] = $failed;
 
-        \Sys25\RnBase\Database\Connection::getInstance()->doInsert('tx_mkmailer_log', $row, 0);
+        Connection::getInstance()->doInsert('tx_mkmailer_log', $row, 0);
     }
 }
