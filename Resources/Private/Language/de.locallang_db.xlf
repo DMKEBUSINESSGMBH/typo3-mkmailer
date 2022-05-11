@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2022-05-11T07:36:06Z" product-name="mkmailer">
+		<header/>
+		<body>
+			<trans-unit id="tx_mkmailer_templates" resname="tx_mkmailer_templates"  approved="yes">
+				<source>Email-Template</source>
+				<target>Email-Template</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_description" resname="tx_mkmailer_templates_description"  approved="yes">
+				<source>Description</source>
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mailtype" resname="tx_mkmailer_templates_mailtype"  approved="yes">
+				<source>Keystring</source>
+				<target>Schlüsselstring</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_subject" resname="tx_mkmailer_templates_subject"  approved="yes">
+				<source>Subject</source>
+				<target>Betreff</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_from" resname="tx_mkmailer_templates_mail_from"  approved="yes">
+				<source>From address (optional)</source>
+				<target>Absender (optional)</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_fromName" resname="tx_mkmailer_templates_mail_fromName"  approved="yes">
+				<source>From name (optional)</source>
+				<target>AbsenderName (optional)</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_bcc" resname="tx_mkmailer_templates_mail_bcc"  approved="yes">
+				<source>BCC</source>
+				<target>BCC</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_contenthtml" resname="tx_mkmailer_templates_contenthtml"  approved="yes">
+				<source>HTML Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_contenttext" resname="tx_mkmailer_templates_contenttext"  approved="yes">
+				<source>Text-Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype" resname="tx_mkmailer_templates_templatetype"  approved="yes">
+				<source>Template type</source>
+				<target>Template Typ</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_0" resname="tx_mkmailer_templates_templatetype_0"  approved="yes">
+				<source>System mail</source>
+				<target>System E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_1" resname="tx_mkmailer_templates_templatetype_1"  approved="yes">
+				<source>Company mail</source>
+				<target>Firmen E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_2" resname="tx_mkmailer_templates_templatetype_2"  approved="yes">
+				<source>Applicant mail</source>
+				<target>Bewerber E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_3" resname="tx_mkmailer_templates_templatetype_3"  approved="yes">
+				<source>Type 3</source>
+				<target>Typ 3</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_attachments" resname="tx_mkmailer_templates_attachments"  approved="yes">
+				<source>Attachments</source>
+				<target>Dateianhänge</target>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log" resname="tx_mkmailer_log"  approved="yes">
+				<source>Log-Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_receiver" resname="tx_mkmailer_log_receiver"  approved="yes">
+				<source>Receiver</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_address" resname="tx_mkmailer_log_address"  approved="yes">
+				<source>Adresse</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_failed" resname="tx_mkmailer_log_failed"  approved="yes">
+				<source>Failed</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_email" resname="tx_mkmailer_log_email"  approved="yes">
+				<source>Email</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue" resname="tx_mkmailer_queue"  approved="yes">
+				<source>Queue-Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_subject" resname="tx_mkmailer_queue_subject"  approved="yes">
+				<source>Subject</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_deleted" resname="tx_mkmailer_queue_deleted"  approved="yes">
+				<source>Deleted</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_isstatic" resname="tx_mkmailer_queue_isstatic"  approved="yes">
+				<source>Isstatic</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_prefer" resname="tx_mkmailer_queue_prefer"  approved="yes">
+				<source>Prefer</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_cc" resname="tx_mkmailer_queue_cc"  approved="yes">
+				<source>CC</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver" resname="tx_mkmailer_receiver"  approved="yes">
+				<source>Receiver-Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver_resolver" resname="tx_mkmailer_receiver_resolver"  approved="yes">
+				<source>Resolver</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver_receiver" resname="tx_mkmailer_receiver_receiver"  approved="yes">
+				<source>Receiver</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.label" resname="plugin.mkmailer.label"  approved="yes">
+				<source>MK Mailer Plugin</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.description" resname="plugin.mkmailer.description"  approved="yes">
+				<source>Some views for mkmailer</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.tab.common" resname="plugin.mkmailer.flexform.tab.common"  approved="yes">
+				<source>Common</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.action" resname="plugin.mkmailer.flexform.action"  approved="yes">
+				<source>View</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.action.SendMails" resname="plugin.mkmailer.flexform.action.SendMails"  approved="yes">
+				<source>SendMails</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_testmail" resname="plugin_mkmailer_testmail"  approved="yes">
+				<source>Mailaddress for test mode</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_maxmails" resname="plugin_mkmailer_maxmails"  approved="yes">
+				<source>Max mails per pageview</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_locklifetime" resname="plugin_mkmailer_locklifetime"  approved="yes">
+				<source>Lifetime of the queue lock in seconds</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_debugSQL" resname="common_debugSQL"  approved="yes">
+				<source>Debug</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_detailPage" resname="common_detailPage"  approved="yes">
+				<source>Page of Detailview</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_yes" resname="common_yes"  approved="yes">
+				<source>Yes</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_no" resname="common_no"  approved="yes">
+				<source>No</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_htmlTemplate" resname="common_htmlTemplate"  approved="yes">
+				<source>HTML-Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="common_tssetup" resname="common_tssetup"  approved="yes">
+				<source>Typoscript</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.tssetup" resname="plugin.mkmailer.flexform.tssetup"  approved="yes">
+				<source>plugin.tx_mkmailer</source>
+				<target/>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

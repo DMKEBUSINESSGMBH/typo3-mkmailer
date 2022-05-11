@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-11T07:38:55Z" product-name="mkmailer">
+		<header/>
+		<body>
+			<trans-unit id="scheduler_SendMails_name" resname="scheduler_SendMails_name" >
+				<source>Send mails</source>
+			</trans-unit>
+			<trans-unit id="scheduler_SendMails_taskinfo" resname="scheduler_SendMails_taskinfo" >
+				<source>This basically just calls the FE Page with plugin to send mails. (configured in the extension configuration)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

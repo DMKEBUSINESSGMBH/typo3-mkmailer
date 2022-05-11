@@ -5,7 +5,7 @@
     <sDEF>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tab.common</sheetTitle>
+          <sheetTitle>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.flexform.tab.common</sheetTitle>
         </TCEforms>
 
         <type>array</type>
@@ -13,13 +13,13 @@
           <action> <!-- Bezeichner ist frei wählbar -->
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action</label>
+              <label>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.flexform.action</label>
               <config>
                 <type>select</type>
                 <renderType>selectMultipleSideBySide</renderType>
                 <items type="array">
                   <numIndex index="10" type="array">
-                    <numIndex index="0">LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</numIndex>
+                    <numIndex index="0">LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.flexform.action.SendMails</numIndex>
                     <numIndex index="1">tx_mkmailer_actions_SendMails</numIndex>
                   </numIndex>
 
@@ -33,7 +33,7 @@
           <sendmails.testMail>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin_mkmailer_testmail</label>
+              <label>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin_mkmailer_testmail</label>
               <config>
                 <type>input</type>
                 <size>50</size>
@@ -45,7 +45,7 @@
           <sendmails.maxMails>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin_mkmailer_maxmails</label>
+              <label>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin_mkmailer_maxmails</label>
               <config>
                 <type>input</type>
                 <size>50</size>
@@ -58,7 +58,7 @@
           <sendmails.lockLifeTime>
             <TCEforms>
               <exclude>1</exclude>
-              <label>LLL:EXT:mkmailer/locallang_db.xml:plugin_mkmailer_locklifetime</label>
+              <label>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin_mkmailer_locklifetime</label>
               <config>
                 <type>input</type>
                 <size>50</size>
@@ -75,7 +75,7 @@
         <!-- s_listloc>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.action.SendMails</sheetTitle>
+                    <sheetTitle>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.flexform.action.SendMails</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
@@ -87,7 +87,7 @@
         <s_tssetup>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:mkmailer/locallang_db.xml:common_tssetup</sheetTitle>
+                    <sheetTitle>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:common_tssetup</sheetTitle>
                     <!-- cshFile>LLL:EXT:cfc_league_fe/res/help/locallang_csh_flexform.xml</cshFile-->
                 </TCEforms>
                 <type>array</type>
@@ -95,7 +95,7 @@
                     <flexformTS>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.flexform.tssetup</label>
+                            <label>LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.flexform.tssetup</label>
                             <config>
                                 <type>text</type>
                                 <cols>80</cols>

@@ -8,7 +8,7 @@ plugin.tx_mkmailer.userFunc = tx_rnbase_controller->main
 plugin.tx_mkmailer.defaultAction = tx_mkmailer_actions_SendMails
 plugin.tx_mkmailer.qualifier = mkmailer
 plugin.tx_mkmailer.templatePath = EXT:mkmailer/templates
-plugin.tx_mkmailer.locallangFilename = EXT:mkmailer/locallang.xml
+plugin.tx_mkmailer.locallangFilename = EXT:mkmailer/Resources/Private/Language/locallang.xlf
 
 tt_content.list.20.tx_mkmailer =< plugin.tx_mkmailer
 

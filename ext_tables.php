@@ -4,27 +4,11 @@ if (!defined('TYPO3_MODE')) {
     exit('Access denied.');
 }
 
-// //////////////////////////////
-// Plugin anmelden
-// //////////////////////////////
-// Einige Felder ausblenden
-$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mkmailer'] = 'layout,select_key,pages';
-
-// Das tt_content-Feld pi_flexform einblenden
-$TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_flexform';
-
-\Sys25\RnBase\Utility\Extensions::addPiFlexFormValue('tx_mkmailer', 'FILE:EXT:mkmailer/flexform_main.xml');
-\Sys25\RnBase\Utility\Extensions::addPlugin(
-    ['LLL:EXT:mkmailer/locallang_db.php:plugin.mkmailer.label', 'tx_mkmailer'],
-    'list_type',
-    'mkmailer'
-);
-
 // Iconregistrieren
 \Sys25\RnBase\Backend\Utility\Icons::getIconRegistry()->registerIcon(
     'ext-mkmailer-wizard-icon',
     'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-    ['source' => 'EXT:mkmailer/Resources/Public/Icons/ext_icon.gif']
+    ['source' => 'EXT:mkmailer/Resources/Public/Icons/Extension.gif']
 );
 // Wizardkonfiguration hinzufügen
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
@@ -41,8 +25,8 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_fle
     [
         'access' => 'user,group',
         'routeTarget' => 'tx_mkmailer_mod1_Module',
-        'icon' => 'EXT:mkmailer/mod1/moduleicon.png',
-        'labels' => 'LLL:EXT:mkmailer/mod1/locallang_mod.xml',
+        'icon' => 'EXT:mkmailer/Resources/Public/Icons/moduleicon.png',
+        'labels' => 'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf',
     ]
 );
 
@@ -50,7 +34,5 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'] = 'pi_fle
     'web_MkmailerBackend',
     'tx_mkmailer_mod1_FuncOverview',
     \Sys25\RnBase\Utility\Extensions::extPath('mkmailer', 'mod1/class.tx_mkmailer_mod1_FuncOverview.php'),
-    'LLL:EXT:mkmailer/mod1/locallang_mod.xml:func_overview'
+    'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf:func_overview'
 );
-
-\Sys25\RnBase\Utility\Extensions::addStaticFile('mkmailer', 'static/ts/', 'MK Mailer');

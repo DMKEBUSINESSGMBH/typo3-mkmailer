@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-11T07:37:50Z" product-name="mkmailer">
+		<header/>
+		<body>
+			<trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab" >
+				<source>MK Mailer</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr" >
+				<source>Controlling interface for mailing queue</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel" >
+				<source>Controlling interface for mailing queue</source>
+			</trans-unit>
+			<trans-unit id="func_overview" resname="func_overview" >
+				<source>Overview</source>
+			</trans-unit>
+			<trans-unit id="func_test" resname="func_test" >
+				<source>Test</source>
+			</trans-unit>
+			<trans-unit id="label_receivers" resname="label_receivers" >
+				<source>Receivers</source>
+			</trans-unit>
+			<trans-unit id="label_receiver" resname="label_receiver" >
+				<source>Receiver</source>
+			</trans-unit>
+			<trans-unit id="label_delete" resname="label_delete" >
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="label_text_delete" resname="label_text_delete" >
+				<source>Do you want to delete this Mail? You cannot reverse this Change.</source>
+			</trans-unit>
+			<trans-unit id="label_modfunc_overview" resname="label_modfunc_overview" >
+				<source>MK Mailer - Control panel</source>
+			</trans-unit>
+			<trans-unit id="label_openjobs" resname="label_openjobs" >
+				<source>Open mail jobs</source>
+			</trans-unit>
+			<trans-unit id="label_finishedjobs" resname="label_finishedjobs" >
+				<source>Finished mail jobs</source>
+			</trans-unit>
+			<trans-unit id="label_failedjobs" resname="label_failedjobs" >
+				<source>Failed mail jobs</source>
+			</trans-unit>
+			<trans-unit id="label_move" resname="label_move" >
+				<source>Move Back in Mail Queue</source>
+			</trans-unit>
+			<trans-unit id="label_text_move" resname="label_text_move" >
+				<source>Do you realy want to Move this Mail in the Queue?</source>
+			</trans-unit>
+			<trans-unit id="label_uid" resname="label_uid" >
+				<source>UID</source>
+			</trans-unit>
+			<trans-unit id="label_created" resname="label_created" >
+				<source>Created</source>
+			</trans-unit>
+			<trans-unit id="label_updated" resname="label_updated" >
+				<source>Updated</source>
+			</trans-unit>
+			<trans-unit id="label_send" resname="label_send" >
+				<source>Send</source>
+			</trans-unit>
+			<trans-unit id="label_prefer" resname="label_prefer" >
+				<source>Prefer</source>
+			</trans-unit>
+			<trans-unit id="label_subject" resname="label_subject" >
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="label_yes" resname="label_yes" >
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="label_no" resname="label_no" >
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="label_edit_complete_receiver" resname="label_edit_complete_receiver" >
+				<source>Edit complete receiver</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

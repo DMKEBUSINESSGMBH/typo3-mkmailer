@@ -398,7 +398,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         // Zuerst die eigentliche Mail speichern
         $data['mailcount'] = $mailQueue->getMailCount() + intval($mailCnt);
         $data['lastupdate'] = Dates::datetime_tstamp2mysql(time());
-        $where = 'uid = '.$mailQueue->uid;
+        $where = 'uid = '.$mailQueue->getUid();
         Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
     }
 
@@ -413,7 +413,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         // Zuerst die eigentliche Mail speichern
         $data['deleted'] = 1;
         $data['lastupdate'] = Dates::datetime_tstamp2mysql(time());
-        $where = 'uid = '.$mailQueue->uid;
+        $where = 'uid = '.$mailQueue->getUid();
         Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
 
         // FIXME: Löschen geht nicht und muss nochmal überarbeitet werden. Beim spoolen einer Mail
@@ -525,7 +525,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $what = '*';
         $from = 'tx_mkmailer_receiver';
 
-        $options['where'] = 'email='.$mailQueue->uid;
+        $options['where'] = 'email='.$mailQueue->getUid();
         $options['enablefieldsoff'] = 1;
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
@@ -764,7 +764,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $what = '*';
         $from = 'tx_mkmailer_log';
 
-        $options['where'] = 'email='.$mailQueue->uid.' AND LOWER(address) = LOWER(\''.addslashes($mailAddress).'\')';
+        $options['where'] = 'email='.$mailQueue->getUid().' AND LOWER(address) = LOWER(\''.addslashes($mailAddress).'\')';
         $options['enablefieldsoff'] = 1;
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 

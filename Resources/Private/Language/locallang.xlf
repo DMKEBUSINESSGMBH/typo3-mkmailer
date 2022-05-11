@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-11T07:34:28Z" product-name="mkmailer">
+		<header/>
+		<body>
+			<trans-unit id="error" resname="error" >
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="label_mails" resname="label_mails" >
+				<source>Mails</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

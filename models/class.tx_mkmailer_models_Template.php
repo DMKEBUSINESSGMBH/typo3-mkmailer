@@ -55,7 +55,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getContentText()
     {
-        return $this->getRecord()['contenttext'];
+        return $this->getProperty('contenttext');
     }
 
     /**
@@ -66,10 +66,10 @@ class tx_mkmailer_models_Template extends BaseModel
     public function getContentHtml($plain = false)
     {
         if ($plain) {
-            return $this->getRecord()['contenthtml'];
+            return $this->getProperty('contenthtml');
         }
 
-        $ret = tx_mkmailer_util_Misc::getRTEText($this->getRecord()['contenthtml']);
+        $ret = tx_mkmailer_util_Misc::getRTEText($this->getProperty('contenthtml'));
 
         return $ret;
     }
@@ -108,7 +108,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getBcc()
     {
-        return $this->getRecord()['mail_bcc'];
+        return $this->getProperty('mail_bcc');
     }
 
     /**
@@ -126,7 +126,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getCc()
     {
-        return $this->getRecord()['mail_cc'];
+        return $this->getProperty('mail_cc');
     }
 
     /**
@@ -136,7 +136,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getFromAddress()
     {
-        return new tx_mkmailer_mail_Address($this->getRecord()['mail_from'], $this->getRecord()['mail_fromName']);
+        return new tx_mkmailer_mail_Address($this->getProperty('mail_from'), $this->getProperty('mail_fromName'));
     }
 
     /**
@@ -146,7 +146,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getFrom()
     {
-        return $this->getRecord()['mail_from'];
+        return $this->getProperty('mail_from');
     }
 
     /**
@@ -156,7 +156,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getFromName()
     {
-        return $this->getRecord()['mail_fromName'];
+        return $this->getProperty('mail_fromName');
     }
 
     /**
@@ -166,7 +166,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     public function getSubject()
     {
-        return $this->getRecord()['subject'];
+        return $this->getProperty('subject');
     }
 
     /**
@@ -214,7 +214,7 @@ class tx_mkmailer_models_Template extends BaseModel
      */
     private function getT3AttachmentPaths()
     {
-        $files = Strings::trimExplode(',', $this->getRecord()['attachmentst3'], true);
+        $files = Strings::trimExplode(',', $this->getProperty('attachmentst3'), true);
         if (empty($files)) {
             return $files;
         }

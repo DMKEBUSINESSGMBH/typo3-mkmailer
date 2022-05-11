@@ -4,6 +4,7 @@ use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Utility\Misc;
 use Sys25\RnBase\Utility\Strings;
 use Sys25\RnBase\Utility\TYPO3Classes;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 /***************************************************************
@@ -52,9 +53,8 @@ class tx_mkmailer_util_Misc
      */
     public static function getRTEText($str)
     {
-        Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
-        $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
-        if (TYPO3_MODE == 'BE') {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+            Misc::prepareTSFE();
             $pid = Processor::getExtensionCfgValue('mkmailer', 'cronpage');
             $setup = self::loadTS($pid);
             $parseFunc = $setup['lib.']['parseFunc_RTE.'];
@@ -62,6 +62,8 @@ class tx_mkmailer_util_Misc
             if (!is_array($GLOBALS['TSFE']->config)) {
                 $GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
             }
+        } else {
+            $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
         }
         $cObj = GeneralUtility::makeInstance(TYPO3Classes::getContentObjectRendererClass());
         if (is_array($parseFunc)) {

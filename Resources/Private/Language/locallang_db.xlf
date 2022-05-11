@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-11T07:36:06Z" product-name="mkmailer">
+		<header/>
+		<body>
+			<trans-unit id="tx_mkmailer_templates" resname="tx_mkmailer_templates" >
+				<source>Email-Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_description" resname="tx_mkmailer_templates_description" >
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mailtype" resname="tx_mkmailer_templates_mailtype" >
+				<source>Keystring</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_subject" resname="tx_mkmailer_templates_subject" >
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_from" resname="tx_mkmailer_templates_mail_from" >
+				<source>From address (optional)</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_fromName" resname="tx_mkmailer_templates_mail_fromName" >
+				<source>From name (optional)</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_mail_bcc" resname="tx_mkmailer_templates_mail_bcc" >
+				<source>BCC</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_contenthtml" resname="tx_mkmailer_templates_contenthtml" >
+				<source>HTML Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_contenttext" resname="tx_mkmailer_templates_contenttext" >
+				<source>Text-Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype" resname="tx_mkmailer_templates_templatetype" >
+				<source>Template type</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_0" resname="tx_mkmailer_templates_templatetype_0" >
+				<source>System mail</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_1" resname="tx_mkmailer_templates_templatetype_1" >
+				<source>Company mail</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_2" resname="tx_mkmailer_templates_templatetype_2" >
+				<source>Applicant mail</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_templatetype_3" resname="tx_mkmailer_templates_templatetype_3" >
+				<source>Type 3</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_templates_attachments" resname="tx_mkmailer_templates_attachments" >
+				<source>Attachments</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log" resname="tx_mkmailer_log" >
+				<source>Log-Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_receiver" resname="tx_mkmailer_log_receiver" >
+				<source>Receiver</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_address" resname="tx_mkmailer_log_address" >
+				<source>Adresse</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_failed" resname="tx_mkmailer_log_failed" >
+				<source>Failed</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_log_email" resname="tx_mkmailer_log_email" >
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue" resname="tx_mkmailer_queue" >
+				<source>Queue-Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_subject" resname="tx_mkmailer_queue_subject" >
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_deleted" resname="tx_mkmailer_queue_deleted" >
+				<source>Deleted</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_isstatic" resname="tx_mkmailer_queue_isstatic" >
+				<source>Isstatic</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_prefer" resname="tx_mkmailer_queue_prefer" >
+				<source>Prefer</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_queue_cc" resname="tx_mkmailer_queue_cc" >
+				<source>CC</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver" resname="tx_mkmailer_receiver" >
+				<source>Receiver-Template</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver_resolver" resname="tx_mkmailer_receiver_resolver" >
+				<source>Resolver</source>
+			</trans-unit>
+			<trans-unit id="tx_mkmailer_receiver_receiver" resname="tx_mkmailer_receiver_receiver" >
+				<source>Receiver</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.label" resname="plugin.mkmailer.label" >
+				<source>MK Mailer Plugin</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.description" resname="plugin.mkmailer.description" >
+				<source>Some views for mkmailer</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.tab.common" resname="plugin.mkmailer.flexform.tab.common" >
+				<source>Common</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.action" resname="plugin.mkmailer.flexform.action" >
+				<source>View</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.action.SendMails" resname="plugin.mkmailer.flexform.action.SendMails" >
+				<source>SendMails</source>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_testmail" resname="plugin_mkmailer_testmail" >
+				<source>Mailaddress for test mode</source>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_maxmails" resname="plugin_mkmailer_maxmails" >
+				<source>Max mails per pageview</source>
+			</trans-unit>
+			<trans-unit id="plugin_mkmailer_locklifetime" resname="plugin_mkmailer_locklifetime" >
+				<source>Lifetime of the queue lock in seconds</source>
+			</trans-unit>
+			<trans-unit id="common_debugSQL" resname="common_debugSQL" >
+				<source>Debug</source>
+			</trans-unit>
+			<trans-unit id="common_detailPage" resname="common_detailPage" >
+				<source>Page of Detailview</source>
+			</trans-unit>
+			<trans-unit id="common_yes" resname="common_yes" >
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="common_no" resname="common_no" >
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="common_htmlTemplate" resname="common_htmlTemplate" >
+				<source>HTML-Template</source>
+			</trans-unit>
+			<trans-unit id="common_tssetup" resname="common_tssetup" >
+				<source>Typoscript</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkmailer.flexform.tssetup" resname="plugin.mkmailer.flexform.tssetup" >
+				<source>plugin.tx_mkmailer</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

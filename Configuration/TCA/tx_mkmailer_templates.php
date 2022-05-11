@@ -7,7 +7,7 @@ $attachementsTca = \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates',
+        'title' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates',
         'label' => 'mailtype',
         'label_alt' => 'description',
         'label_alt_force' => 1,
@@ -72,7 +72,7 @@ return [
         ],
         'mailtype' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_mailtype',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_mailtype',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -81,7 +81,7 @@ return [
         ],
         'subject' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_subject',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_subject',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -90,7 +90,7 @@ return [
         ],
         'contenttext' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_contenttext',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_contenttext',
             'config' => [
                 'type' => 'text',
                 'cols' => '30',
@@ -100,7 +100,7 @@ return [
         ],
         'contenthtml' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_contenthtml',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_contenthtml',
             'config' => [
                 'type' => 'text',
                 'cols' => '30',
@@ -110,7 +110,7 @@ return [
         ],
         'description' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_description',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_description',
             'config' => [
                 'type' => 'text',
                 'cols' => '30',
@@ -120,7 +120,7 @@ return [
         ],
         'mail_from' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_mail_from',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_mail_from',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -129,7 +129,7 @@ return [
         ],
         'mail_fromName' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_mail_fromName',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_mail_fromName',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -138,7 +138,7 @@ return [
         ],
         'mail_bcc' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_mail_bcc',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_mail_bcc',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -148,21 +148,21 @@ return [
         // @TODO what does company and applicant mail mean?
         'templatetype' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_0',
+                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_0',
                         0,
                     ],
                     [
-                        'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_1',
+                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_1',
                         1,
                     ],
                     [
-                        'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_templatetype_2',
+                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_2',
                         2,
                     ],
                 ],
@@ -171,7 +171,7 @@ return [
         'attachments' => $attachementsTca,
         'attachmentst3' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_templates_attachments',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_attachments',
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'sys_file_reference',

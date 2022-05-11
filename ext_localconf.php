@@ -13,8 +13,8 @@ require_once $tempPath.'services/ext_localconf.php';
 if (\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['tx_mkmailer_scheduler_SendMails'] = [
         'extension' => 'mkmailer',
-        'title' => 'LLL:EXT:mkmailer/scheduler/locallang.xml:scheduler_SendMails_name',
-        'description' => 'LLL:EXT:mkmailer/scheduler/locallang.xml:scheduler_SendMails_taskinfo',
+        'title' => 'LLL:EXT:mkmailer/Resources/Private/Language/Scheduler/locallang.xlf:scheduler_SendMails_name',
+        'description' => 'LLL:EXT:mkmailer/Resources/Private/Language/Scheduler/locallang.xlf:scheduler_SendMails_taskinfo',
         'additionalFields' => 'tx_mkmailer_scheduler_SendMailsFieldProvider',
     ];
 }

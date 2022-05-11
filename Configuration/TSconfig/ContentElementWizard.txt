@@ -2,8 +2,8 @@ mod.wizards.newContentElement.wizardItems.plugins {
     elements {
         mkmailer {
             iconIdentifier = ext-mkmailer-wizard-icon
-            title = LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.label
-            description = LLL:EXT:mkmailer/locallang_db.xml:plugin.mkmailer.description
+            title = LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.label
+            description = LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.description
             tt_content_defValues {
                 CType = list
                 list_type = tx_mkmailer

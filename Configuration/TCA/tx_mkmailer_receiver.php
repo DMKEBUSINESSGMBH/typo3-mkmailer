@@ -2,7 +2,7 @@
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_receiver',
+        'title' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_receiver',
         'label' => 'receivers',
         'label_alt' => 'resolver',
         'default_sortby' => 'ORDER BY receivers',
@@ -18,7 +18,7 @@ return [
     'columns' => [
         'resolver' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_receiver_resolver',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_receiver_resolver',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -27,7 +27,7 @@ return [
         ],
         'receivers' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/locallang_db.xml:tx_mkmailer_receiver_receiver',
+            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_receiver_receiver',
             'config' => [
                 'type' => 'input',
                 'size' => '20',

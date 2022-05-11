@@ -44,7 +44,7 @@ class tx_mkmailer_mod1_Module extends BaseModule
      */
     public function init()
     {
-        $GLOBALS['LANG']->includeLLFile('EXT:mkmailer/mod1/locallang_mod.xml');
+        $GLOBALS['LANG']->includeLLFile('EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf');
 
         parent::init();
     }

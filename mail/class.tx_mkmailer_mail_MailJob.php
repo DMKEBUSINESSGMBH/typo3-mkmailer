@@ -39,6 +39,11 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     private $receiver = [];
 
     /**
+     * @var array
+     */
+    private $attach;
+
+    /**
      * Initialisiert den mailjob.
      * Optional können bereits die MeiE-Mail-Empfänger und ein Template mitgegeben werden.
      *
