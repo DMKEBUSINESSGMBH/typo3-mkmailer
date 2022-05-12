@@ -11,7 +11,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mkmailer'
 
 \Sys25\RnBase\Utility\Extensions::addPiFlexFormValue('tx_mkmailer', 'FILE:EXT:mkmailer/flexform_main.xml');
 \Sys25\RnBase\Utility\Extensions::addPlugin(
-    ['LLL:EXT:mkmailer/locallang_db.php:plugin.mkmailer.label', 'tx_mkmailer'],
+    ['LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.label', 'tx_mkmailer'],
     'list_type',
     'mkmailer'
 );
