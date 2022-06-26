@@ -1,4 +1,13 @@
 <?php
+
+namespace DMK\MkMailer\Mail;
+
+use DMK\MkMailer\Model\Template;
+use Sys25\RnBase\Utility\Files;
+use Sys25\RnBase\Utility\T3General;
+use tx_mkmailer_mail_MailJob as MailJob;
+use tx_rnbase;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,10 +30,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_mkmailer_mail_IMailJob');
-tx_rnbase::load('tx_mkmailer_mail_IAttachment');
-tx_rnbase::load('tx_rnbase_util_Files');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Mail Factory.
@@ -36,22 +41,22 @@ tx_rnbase::load('Tx_Rnbase_Utility_T3General');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mail_Factory
+class Factory
 {
     /**
      * Creates a mail job.
      *
-     * @param array[tx_mkmailer_receiver_IMailReceiver] $receiver
-     * @param tx_mkmailer_models_Template $templateObj
+     * @param \tx_mkmailer_receiver_IMailReceiver[] $receiver
+     * @param Template $templateObj
      *
-     * @return tx_mkmailer_mail_MailJob
+     * @return \tx_mkmailer_mail_MailJob
      */
     public static function createMailJob(
         array $receiver = [],
-        tx_mkmailer_models_Template &$templateObj = null
+        Template &$templateObj = null
     ) {
         return tx_rnbase::makeInstance(
-            'tx_mkmailer_mail_MailJob',
+            MailJob::class,
             $receiver,
             $templateObj
         );
@@ -66,7 +71,7 @@ class tx_mkmailer_mail_Factory
      * @param string $encoding
      * @param string $mimeType
      *
-     * @return tx_mkmailer_mail_IAttachment
+     * @return IAttachment
      */
     public static function createAttachment(
         $path,
@@ -75,7 +80,7 @@ class tx_mkmailer_mail_Factory
         $mimeType = false
     ) {
         return self::createAttachmentInstance(
-            tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
+            IAttachment::TYPE_ATTACHMENT,
             self::makeAbsPath($path),
             $name,
             '',
@@ -93,7 +98,7 @@ class tx_mkmailer_mail_Factory
      */
     protected static function getFileInfoMimeType($absPathOrContent)
     {
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
 
         if (is_file($absPathOrContent)) {
             $mimeType = $finfo->file($absPathOrContent);
@@ -117,9 +122,9 @@ class tx_mkmailer_mail_Factory
      */
     public static function makeAbsPath($path)
     {
-        if (!tx_rnbase_util_Files::isAbsPath($path)) {
-            $path = tx_rnbase_util_Files::getFileAbsFileName(
-                Tx_Rnbase_Utility_T3General::fixWindowsFilePath($path)
+        if (!Files::isAbsPath($path)) {
+            $path = Files::getFileAbsFileName(
+                T3General::fixWindowsFilePath($path)
             );
         }
 
@@ -134,7 +139,7 @@ class tx_mkmailer_mail_Factory
      * @param string $encoding
      * @param string $mimeType
      *
-     * @return tx_mkmailer_mail_IAttachment
+     * @return IAttachment
      */
     public static function createStringAttachment(
         $content,
@@ -143,7 +148,7 @@ class tx_mkmailer_mail_Factory
         $mimeType = false
     ) {
         return self::createAttachmentInstance(
-            tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
+            IAttachment::TYPE_ATTACHMENT,
             $content,
             $name,
             '',
@@ -163,7 +168,7 @@ class tx_mkmailer_mail_Factory
      * @param string $encoding
      * @param string $mimeType
      *
-     * @return tx_mkmailer_mail_IAttachment
+     * @return IAttachment
      */
     public static function createEmbeddedAttachment(
         $path,
@@ -173,7 +178,7 @@ class tx_mkmailer_mail_Factory
         $mimeType = false
     ) {
         return self::createAttachmentInstance(
-            tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
+            IAttachment::TYPE_ATTACHMENT,
             self::makeAbsPath($path),
             $name,
             $embedId,
@@ -192,7 +197,7 @@ class tx_mkmailer_mail_Factory
      * @param string $encoding
      * @param string $mimeType
      *
-     * @return tx_mkmailer_mail_Attachment
+     * @return Attachment
      */
     private static function createAttachmentInstance(
         $type,
@@ -202,9 +207,9 @@ class tx_mkmailer_mail_Factory
         $encoding = 'base64',
         $mimeType = false
     ) {
-        /* @var $attachment tx_mkmailer_mail_Attachment */
+        /* @var $attachment Attachment */
         $attachment = tx_rnbase::makeInstance(
-            'tx_mkmailer_mail_Attachment',
+            Attachment::class,
             $type
         );
 
@@ -227,14 +232,14 @@ class tx_mkmailer_mail_Factory
      * @param string $address
      * @param string $name
      *
-     * @return tx_mkmailer_mail_Address
+     * @return MailAddress
      */
     public static function createAddressInstance(
         $address,
         $name = ''
     ) {
         return tx_rnbase::makeInstance(
-            'tx_mkmailer_mail_Address',
+            MailAddress::class,
             $address,
             $name
         );

@@ -1,8 +1,14 @@
 <?php
+
+namespace DMK\MkMailer\Frontend\Action;
+
+use Sys25\RnBase\Frontend\Controller\AbstractAction;
+use Sys25\RnBase\Frontend\Request\RequestInterface;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2017 Dorit Wittig (dorit.wittig@dmk-ebusiness.de)
+*  (c) 2009 Rene Nitzsche (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -21,27 +27,48 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
 
 /**
- * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
+ * tx_mkmailer_actions_SendMails.
+ *
+ * Asynchroner Versand von Emails. Bei Aufruf dieses
+ * Plugins werden anstehende Aufträge in der Mailwarteschlange abgearbeitet.
  *
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Log extends Tx_Rnbase_Domain_Model_Base
+class SendMails extends AbstractAction
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_model_base::getTableName()
+     * @see AbstractAction::handleRequest()
      */
-    public function getTableName()
+    protected function handleRequest(RequestInterface $request)
     {
-        return 'tx_mkmailer_log';
-    }
-}
+        $confId = $this->getConfId();
+        $mailSrv = \tx_mkmailer_util_ServiceRegistry::getMailService();
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php'];
+        return $mailSrv->executeQueue($configurations, $this->getConfId());
+    }
+
+    /**
+     * (non-PHPdoc).
+     *
+     * @see AbstractAction::getTemplateName()
+     */
+    protected function getTemplateName()
+    {
+        return 'sendmails';
+    }
+
+    /**
+     * (non-PHPdoc).
+     *
+     * @see AbstractAction::getViewClassName()
+     */
+    protected function getViewClassName()
+    {
+        return '';
+    }
 }

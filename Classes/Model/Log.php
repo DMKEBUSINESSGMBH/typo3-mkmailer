@@ -1,8 +1,13 @@
 <?php
+
+namespace DMK\MkMailer\Model;
+
+use Sys25\RnBase\Domain\Model\BaseModel;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 DMK E-BUSINESS GmbH (dev@dmk-ebusiness.de)
+*  (c) 2017 Dorit Wittig (dorit.wittig@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,59 +28,20 @@
 ***************************************************************/
 
 /**
- * tx_mkmailer_mail_IAttachment.
+ * Achtung: Für diese Tabelle existiert kein TCA-Eintrag!
  *
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_mail_IAttachment
+class Log extends BaseModel
 {
     /**
-     * @var int
+     * (non-PHPdoc).
+     *
+     * @see BaseModel::getTableName()
      */
-    const TYPE_ATTACHMENT = 0;
-
-    /**
-     * @var int
-     */
-    const TYPE_EMBED = 1;
-
-    /**
-     * @var int
-     */
-    const TYPE_STRING = 2;
-
-    /**
-     * @return string
-     */
-    public function getPathOrContent();
-
-    /**
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * @return string
-     */
-    public function getEmbedId();
-
-    /**
-     * @return string
-     */
-    public function getMimeType();
-
-    /**
-     * @return string
-     */
-    public function getEncoding();
-
-    /**
-     * @return int
-     */
-    public function getAttachmentType();
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAttachment.php'];
+    public function getTableName()
+    {
+        return 'tx_mkmailer_log';
+    }
 }

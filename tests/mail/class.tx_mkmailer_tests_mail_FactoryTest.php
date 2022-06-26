@@ -1,4 +1,8 @@
 <?php
+
+use DMK\MkMailer\Mail\Factory;
+use Sys25\RnBase\Testing\BaseTestCase;
+
 /***************************************************************
  * Copyright notice
  *
@@ -22,9 +26,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkmailer_mail_Factory');
-
 /**
  * Mail factory Tests.
  *
@@ -32,7 +33,7 @@ tx_rnbase::load('tx_mkmailer_mail_Factory');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
 {
     /**
      * Test the createAttachment method.
@@ -50,7 +51,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
             "+'text/xml'"
         );
 
-        $model = tx_mkmailer_mail_Factory::createAttachment(
+        $model = Factory::createAttachment(
             'EXT:mkmailer/tests/phpunit.xml'
         );
 
@@ -73,7 +74,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
             "+'text/xml'"
         );
 
-        $model = tx_mkmailer_mail_Factory::createEmbeddedAttachment(
+        $model = Factory::createEmbeddedAttachment(
             'EXT:mkmailer/tests/phpunit.xml',
             uniqid('Embedded', true)
         );
@@ -98,11 +99,11 @@ class tx_mkmailer_tests_mail_FactoryTest extends tx_rnbase_tests_BaseTestCase
         );
 
         $xml = file_get_contents(
-            tx_mkmailer_mail_Factory::makeAbsPath(
+            Factory::makeAbsPath(
                 'EXT:mkmailer/tests/phpunit.xml'
             )
         );
-        $model = tx_mkmailer_mail_Factory::createStringAttachment(
+        $model = Factory::createStringAttachment(
             $xml
         );
 
