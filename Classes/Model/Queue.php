@@ -1,4 +1,11 @@
 <?php
+
+namespace DMK\MkMailer\Model;
+
+use DMK\MkMailer\Mail\Factory;
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Utility\Strings;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,8 +28,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Strings');
-tx_rnbase::load('tx_rnbase_model_base');
 
 /**
  * tx_mkmailer_models_Queue.
@@ -33,12 +38,12 @@ tx_rnbase::load('tx_rnbase_model_base');
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_models_Queue extends tx_rnbase_model_base
+class Queue extends BaseModel
 {
     /**
      * (non-PHPdoc).
      *
-     * @see tx_rnbase_model_base::getTableName()
+     * @see BaseModel::getTableName()
      */
     public function getTableName()
     {
@@ -52,7 +57,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getSubject()
     {
-        return $this->record['subject'];
+        return $this->getProperty('subject');
     }
 
     /**
@@ -62,7 +67,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getContentText()
     {
-        return $this->record['contenttext'];
+        return $this->getProperty('contenttext');
     }
 
     /**
@@ -72,7 +77,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getContentHtml()
     {
-        return $this->record['contenthtml'];
+        return $this->getProperty('contenthtml');
     }
 
     /**
@@ -89,14 +94,12 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
         }
         // Hier muss geprüft werden ob serialisierte Daten vorliegen.
         if ($attachments && 'a' === $attachments[0] && ':' === $attachments[1]) {
-            tx_rnbase::load('tx_mkmailer_mail_Attachment');
             $ret = unserialize($attachments);
         } else {
             // Alle Strings zu Attachments umformen
-            tx_rnbase::load('tx_mkmailer_mail_Factory');
-            $files = tx_rnbase_util_Strings::trimExplode(',', $attachments);
+            $files = Strings::trimExplode(',', $attachments);
             foreach ($files as $file) {
-                $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);
+                $ret[] = Factory::createAttachment($file);
             }
         }
 
@@ -108,7 +111,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getMailCount()
     {
-        return intval($this->record['mailcount']);
+        return (int) $this->getProperty('mailcount');
     }
 
     /**
@@ -116,7 +119,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getCc()
     {
-        return $this->record['mail_cc'];
+        return $this->getProperty('mail_cc');
     }
 
     /**
@@ -124,7 +127,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getBcc()
     {
-        return $this->record['mail_bcc'];
+        return $this->getProperty('mail_bcc');
     }
 
     /**
@@ -132,7 +135,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getFrom()
     {
-        return $this->record['mail_from'];
+        return $this->getProperty('mail_from');
     }
 
     /**
@@ -140,7 +143,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getFromName()
     {
-        return $this->record['mail_fromName'];
+        return $this->getProperty('mail_fromName');
     }
 
     /**
@@ -150,7 +153,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function isPrefer()
     {
-        return intval($this->record['prefer']) > 0;
+        return intval($this->getProperty('prefer')) > 0;
     }
 
     /**
@@ -160,7 +163,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getCreationDate()
     {
-        return $this->record['cr_date'];
+        return $this->getProperty('cr_date');
     }
 
     /**
@@ -170,7 +173,7 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getLastUpdate()
     {
-        return $this->record['lastupdate'];
+        return $this->getProperty('lastupdate');
     }
 
     /**
@@ -180,12 +183,8 @@ class tx_mkmailer_models_Queue extends tx_rnbase_model_base
      */
     public function getReceivers()
     {
-        $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
+        $mailServ = \tx_mkmailer_util_ServiceRegistry::getMailService();
 
         return $mailServ->getMailReceivers($this);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/models/class.tx_mkmailer_models_Queue.php'];
 }

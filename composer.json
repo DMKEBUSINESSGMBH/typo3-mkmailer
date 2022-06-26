@@ -35,8 +35,8 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
     },
     "require": {
-        "typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": "^1.10",
+        "typo3/cms-core": " ^8.7 || ^9.5 || ^10.4",
+        "digedag/rn-base": "^1.15",
         "dmk/mklib": "^3.0 || ^9.5"
     },
     "require-dev": {
@@ -45,13 +45,14 @@
         "nimut/testing-framework": "^1.1 || ^2.0 || ^4.0"
     },
     "autoload": {
+		"psr-4": {
+			"DMK\\MkMailer\\": "Classes"
+		},
         "classmap": [
             "scheduler/",
-            "actions/",
             "exceptions/",
             "mail/",
             "mod1/",
-            "models/",
             "phpmailer/",
             "receiver/",
             "services/",
@@ -102,6 +103,11 @@
       "extra": {
           "branch-alias": {
               "dev-master": "9.0.x-dev"
+          },
+          "typo3/class-alias-loader": {
+              "class-alias-maps": [
+                  "Migrations/Code/ClassAliasMap.php"
+              ]
           },
           "typo3/cms": {
               "cms-package-dir": "{$vendor-dir}/typo3/cms",

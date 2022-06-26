@@ -1,8 +1,11 @@
 <?php
+
+namespace DMK\MkMailer\Mail;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
+*  (c) 2011 DMK E-BUSINESS GmbH (dev@dmk-ebusiness.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,24 +26,53 @@
 ***************************************************************/
 
 /**
- * tx_mkmailer_mail_IAddress.
- *
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_mail_IAddress
+interface IAttachment
 {
+    /**
+     * @var int
+     */
+    public const TYPE_ATTACHMENT = 0;
+
+    /**
+     * @var int
+     */
+    public const TYPE_EMBED = 1;
+
+    /**
+     * @var int
+     */
+    public const TYPE_STRING = 2;
+
     /**
      * @return string
      */
-    public function getAddress();
+    public function getPathOrContent();
 
     /**
      * @return string
      */
     public function getName();
-}
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_IAddress.php'];
+    /**
+     * @return string
+     */
+    public function getEmbedId();
+
+    /**
+     * @return string
+     */
+    public function getMimeType();
+
+    /**
+     * @return string
+     */
+    public function getEncoding();
+
+    /**
+     * @return int
+     */
+    public function getAttachmentType();
 }
