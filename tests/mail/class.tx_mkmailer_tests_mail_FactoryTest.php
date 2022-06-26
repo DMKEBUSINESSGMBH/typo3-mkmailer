@@ -26,7 +26,6 @@ use Sys25\RnBase\Testing\BaseTestCase;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * Mail factory Tests.
  *
