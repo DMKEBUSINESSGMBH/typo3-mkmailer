@@ -75,7 +75,7 @@
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./phpmailer ./receiver ./services ./tests ./util ./*.php"
+            ".Build/bin/parallel-lint ./scheduler ./exceptions ./mail ./mod1 ./phpmailer ./receiver ./services ./tests ./util ./*.php"
         ],
         "lint": [
             "@lint:php"
