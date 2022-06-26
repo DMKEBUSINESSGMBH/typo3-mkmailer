@@ -88,7 +88,7 @@ class Queue extends BaseModel
     public function getUploads()
     {
         $ret = [];
-        $attachments = $this->record['attachments'];
+        $attachments = $this->getProperty('attachments');
         if (!$attachments) {
             return $ret;
         }
