@@ -2,7 +2,6 @@
 
 $attachementsTca = \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
     'attachments',
-    ['config' => ['softref' => 'images']]
 );
 
 return [
@@ -95,7 +94,7 @@ return [
                 'type' => 'text',
                 'cols' => '30',
                 'rows' => '5',
-                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'softref' => 'typolink_tag,email[subst],url',
             ],
         ],
         'contenthtml' => [
@@ -115,7 +114,7 @@ return [
                 'type' => 'text',
                 'cols' => '30',
                 'rows' => '5',
-                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'softref' => 'typolink_tag,email[subst],url',
             ],
         ],
         'mail_from' => [
