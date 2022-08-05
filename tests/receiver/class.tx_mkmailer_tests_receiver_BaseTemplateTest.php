@@ -140,8 +140,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('Text für HTML<br />', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
@@ -166,8 +166,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('<!-- TEMPLATE NOT FOUND: EXT:mkmailer/tests/fixtures/wrongtext.html -->Text für HTML<br />', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('Text für TEXT', $contentText, 'TEXT part wrong.');
@@ -189,8 +189,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('TEXTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
@@ -213,8 +213,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
@@ -236,8 +236,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html>addAdditionalData', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".'addAdditionalData', $contentText, 'TEXT part wrong.');
@@ -260,8 +260,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('HTMLTESTTEMPLATE<html>Text für HTML<br /></html>', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('TEXTTESTTEMPLATEText für TEXT', $contentText, 'TEXT part wrong.');
@@ -299,8 +299,8 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
         $formatter = $configurations->getFormatter();
         $msg = $receiver->getSingleMail($queue, $formatter, $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
 
         $this->assertEquals('HTMLTEMPLATE<html>Text für HTML<br /></html> ich@da.com ich@da.com Hallo Welt', $contentHtml, 'HTML part wrong.');
         $this->assertEquals('TEXTTEMPLATEText für TEXT'."\r\n".' ich@da.com ich@da.com Hallo Welt', $contentText, 'TEXT part wrong.');

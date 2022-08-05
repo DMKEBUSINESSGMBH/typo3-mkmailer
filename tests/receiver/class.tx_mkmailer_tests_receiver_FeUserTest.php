@@ -165,9 +165,9 @@ class tx_mkmailer_tests_receiver_FeUserTest extends BaseTestCase
         $queue = $this->getQueue($templates);
         $msg = $receiver->getSingleMail($queue, $configurations->getFormatter(), $confId, 0);
 
-        $contentHtml = ($msg->getHtmlPart());
-        $contentText = ($msg->getTxtPart());
-        $subject = ($msg->getSubject());
+        $contentHtml = $msg->getHtmlPart();
+        $contentText = $msg->getTxtPart();
+        $subject = $msg->getSubject();
 
         $this->assertEquals($templates['resulttext'], $contentText, 'Wrong content text.');
         $this->assertEquals($templates['resulthtml'], $contentHtml, 'Wrong content html.');

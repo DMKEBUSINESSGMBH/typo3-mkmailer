@@ -225,7 +225,7 @@ class tx_mkmailer_services_Mail extends AbstractService
             }
         }
 
-        if (($testMail = $configurations->get($confId.'testMail'))) {
+        if ($testMail = $configurations->get($confId.'testMail')) {
             $message->setOption('testmail', $testMail);
             Debug::debug(
                 $message,
@@ -417,11 +417,11 @@ class tx_mkmailer_services_Mail extends AbstractService
         Connection::getInstance()->doUpdate('tx_mkmailer_queue', $where, $data, 0);
 
         // FIXME: Löschen geht nicht und muss nochmal überarbeitet werden. Beim spoolen einer Mail
-            // muss es folgende Optionen geben:
-            // - Es kann eine Kopie des Anhangs angelegt oder das Original verwendet werden
-            // (ich denke default sollte sein eine Kopie anzulegen)
-            // - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
-            // (default sollte nicht Original löschen sein)
+        // muss es folgende Optionen geben:
+        // - Es kann eine Kopie des Anhangs angelegt oder das Original verwendet werden
+        // (ich denke default sollte sein eine Kopie anzulegen)
+        // - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
+        // (default sollte nicht Original löschen sein)
 //         if ($mailQueue->getUploads()) {
 //             // FIXME: die stehen nicht mehr komasepariert in der DB!!!
 //             // $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
