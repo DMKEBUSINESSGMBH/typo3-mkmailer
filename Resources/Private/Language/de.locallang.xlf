@@ -7,10 +7,6 @@
 				<source>Error</source>
 				<target>Fehler</target>
 			</trans-unit>
-			<trans-unit id="label_mails" resname="label_mails"  approved="yes">
-				<source>Mails</source>
-				<target/>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>
