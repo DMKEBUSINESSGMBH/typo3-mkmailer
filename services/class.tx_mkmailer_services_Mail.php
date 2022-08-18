@@ -245,9 +245,9 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @param tx_mkmailer_mail_IMailJob $job
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function spoolMailJob(
         tx_mkmailer_mail_IMailJob $job
@@ -275,9 +275,9 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @param tx_mkmailer_mail_IMailJob $job
      *
-     * @throws Exception
-     *
      * @return tx_mkmailer_models_Queue
+     *
+     * @throws Exception
      */
     protected function createQueueByJob(
         tx_mkmailer_mail_IMailJob $job
@@ -339,9 +339,9 @@ class tx_mkmailer_services_Mail extends AbstractService
      * @param Processor $configurations
      * @param string $confId
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function executeMailJob(
         tx_mkmailer_mail_IMailJob $job,
