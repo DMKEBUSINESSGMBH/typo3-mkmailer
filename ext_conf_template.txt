@@ -1,4 +1,4 @@
-  # cat=basic; type=string; label= PID/Alias of FE page with mailer plugin for mail queue.
+  # cat=basic; type=string; label= PID of FE page with mailer plugin for mail queue.
 cronpage =
 
   # cat=basic; type=string; label= Default charset of a message: Default is UTF-8
