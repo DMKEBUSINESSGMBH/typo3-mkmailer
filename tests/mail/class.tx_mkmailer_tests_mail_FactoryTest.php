@@ -39,6 +39,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
      * @return void
      *
      * @group unit
+     *
      * @test
      */
     public function testCreateAttachmentShouldReadTheRightMimeType()
@@ -56,6 +57,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
      * @return void
      *
      * @group unit
+     *
      * @test
      */
     public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
@@ -74,6 +76,7 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
      * @return void
      *
      * @group unit
+     *
      * @test
      */
     public function testCreateStringAttachmentShouldReadTheRightMimeType()
