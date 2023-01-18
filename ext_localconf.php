@@ -18,3 +18,11 @@ if (\Sys25\RnBase\Utility\Extensions::isLoaded('mklib')) {
         'additionalFields' => 'tx_mkmailer_scheduler_SendMailsFieldProvider',
     ];
 }
+
+$dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+$dispatcher->connect(
+    \TYPO3\CMS\Core\Database\ReferenceIndex::class,
+    'shouldExcludeTableFromReferenceIndex',
+    \DMK\Mkmailer\Event\Slots\ReferenceIndexSlot::class,
+    'shouldExcludeTableFromReferenceIndex'
+);

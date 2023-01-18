@@ -59,7 +59,8 @@
             "services/",
             "tests/",
             "util/"
-        ]
+        ],
+        "psr-4": {"DMK\\Mkmailer\\" : "Classes"}
     },
     "autoload-dev": {
         "classmap": [
@@ -91,7 +92,7 @@
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./receiver ./services ./tests ./util ./*.php"
+            ".Build/bin/parallel-lint ./Classes ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./receiver ./services ./tests ./util ./*.php"
         ],
         "lint": [
             "@lint:php"

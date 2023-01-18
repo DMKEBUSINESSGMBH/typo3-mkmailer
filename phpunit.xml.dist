@@ -26,6 +26,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./Classes</directory>
             <directory suffix=".php">./actions</directory>
             <directory suffix=".php">./exceptions</directory>
             <directory suffix=".php">./mail</directory>

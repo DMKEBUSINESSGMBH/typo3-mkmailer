@@ -33,6 +33,7 @@ $EM_CONF['mkmailer'] = [
     ],
     'autoload' => [
         'classmap' => [
+            'Classes/',
             'scheduler/',
             'actions/',
             'exceptions/',
