@@ -16,12 +16,12 @@ $EM_CONF['mkmailer'] = [
     'category' => 'services',
     'author' => 'René Nitzsche,Michael Wagner,Hannes Bochmann',
     'author_email' => 'dev@dmk-ebusiness.de',
-    'version' => '10.0.0',
+    'version' => '11.0.0',
     'state' => 'stable',
     'author_company' => 'DMK E-BUSINESS GmbH',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.15.0-',
+            'rn_base' => '1.16.0-',
             'typo3' => '10.4.25-11.5.99',
         ],
         'conflicts' => [
