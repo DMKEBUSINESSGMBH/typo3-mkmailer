@@ -56,7 +56,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         if ($cronPage) {
             Misc::prepareTSFE();
             $report = $this->callCronpageUrl();
-            if (0 != $report['error']) {
+            if (0 != ($report['error'] ?? 0)) {
                 $devLog[Logger::LOGLEVEL_FATAL] = [
                     'message' => 'Der Mailversand von mkmailer ist fehlgeschlagen',
                     'dataVar' => ['report' => $report],
