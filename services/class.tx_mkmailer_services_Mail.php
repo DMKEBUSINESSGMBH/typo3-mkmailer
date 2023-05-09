@@ -797,7 +797,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $row['address'] = $mailAddress;
 
         $row['receiver'] = $receiver;
-        $row['failed'] = $failed;
+        $row['failed'] = (int) $failed;
 
         Connection::getInstance()->doInsert('tx_mkmailer_log', $row, 0);
     }
