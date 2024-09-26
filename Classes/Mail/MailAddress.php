@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\MkMailer\Mail;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,16 +25,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_mkmailer_mail_IAddress');
-
 /**
- * tx_mkmailer_mail_Address.
- *
  * @author          Michael Wagner <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkmailer_mail_Address implements tx_mkmailer_mail_IAddress
+class MailAddress implements IMailAddress
 {
     /**
      * @param string $address
@@ -54,7 +53,7 @@ class tx_mkmailer_mail_Address implements tx_mkmailer_mail_IAddress
     /**
      * (non-PHPdoc).
      *
-     * @see tx_mkmailer_mail_IAddress::getAddress()
+     * @see IMailAddress::getAddress()
      */
     public function getAddress()
     {
@@ -72,14 +71,10 @@ class tx_mkmailer_mail_Address implements tx_mkmailer_mail_IAddress
     /**
      * (non-PHPdoc).
      *
-     * @see tx_mkmailer_mail_IAddress::getName()
+     * @see IMailAddress::getName()
      */
     public function getName()
     {
         return $this->name;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Address.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkmailer/mail/class.tx_mkmailer_mail_Address.php'];
 }
