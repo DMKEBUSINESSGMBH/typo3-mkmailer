@@ -49,7 +49,7 @@ class tx_mkmailer_mail_Factory
      */
     public static function createMailJob(
         array $receiver = [],
-        ?tx_mkmailer_models_Template &$templateObj = null,
+        tx_mkmailer_models_Template &$templateObj = null
     ) {
         return GeneralUtility::makeInstance(
             'tx_mkmailer_mail_MailJob',
@@ -73,7 +73,7 @@ class tx_mkmailer_mail_Factory
         $path,
         $name = '',
         $encoding = 'base64',
-        $mimeType = false,
+        $mimeType = false
     ) {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
@@ -141,7 +141,7 @@ class tx_mkmailer_mail_Factory
         $content,
         $name = '',
         $encoding = 'base64',
-        $mimeType = false,
+        $mimeType = false
     ) {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
@@ -171,7 +171,7 @@ class tx_mkmailer_mail_Factory
         $embedId,
         $name = '',
         $encoding = 'base64',
-        $mimeType = false,
+        $mimeType = false
     ) {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
@@ -201,7 +201,7 @@ class tx_mkmailer_mail_Factory
         $name = '',
         $embedId = '',
         $encoding = 'base64',
-        $mimeType = false,
+        $mimeType = false
     ) {
         /* @var $attachment tx_mkmailer_mail_Attachment */
         $attachment = GeneralUtility::makeInstance(
@@ -232,7 +232,7 @@ class tx_mkmailer_mail_Factory
      */
     public static function createAddressInstance(
         $address,
-        $name = '',
+        $name = ''
     ) {
         return GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Address',

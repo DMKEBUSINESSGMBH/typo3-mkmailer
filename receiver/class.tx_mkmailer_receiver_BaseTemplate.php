@@ -192,7 +192,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         array $wrappedSubpartArray,
         array $params,
         FormatUtil $formatter,
-        $confId,
+        $confId
     ) {
         // labels und module parsen
         BaseMarker::callModules(

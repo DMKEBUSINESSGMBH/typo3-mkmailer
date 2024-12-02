@@ -43,8 +43,8 @@ class tx_mkmailer_util_Mails
     {
         $mailSrv = $this->getMailService();
 
-        if (is_object($templateObjectOrKey)
-            && $templateObjectOrKey instanceof tx_mkmailer_models_Template
+        if (is_object($templateObjectOrKey) &&
+            $templateObjectOrKey instanceof tx_mkmailer_models_Template
         ) {
             /* @var $templateObj tx_mkmailer_models_Template */
             $templateObj = $templateObjectOrKey;

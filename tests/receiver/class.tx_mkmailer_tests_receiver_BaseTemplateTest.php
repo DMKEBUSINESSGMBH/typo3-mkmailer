@@ -154,12 +154,12 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
 
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-                'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/wrongtext.html',
-                'textTemplate' => 'EXT:mkmailer/tests/fixtures/wronghtml.html',
-            ],
-        ];
+                'basetemplate.' => [
+                        'wrapTemplate' => '1',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/wrongtext.html',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/wronghtml.html',
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -177,12 +177,12 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
     {
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-                'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-                'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-            ],
-        ];
+                'basetemplate.' => [
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -200,12 +200,12 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
     {
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-                'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-                'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-            ],
-        ];
+                'basetemplate.' => [
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
@@ -224,11 +224,11 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
     {
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-            ],
-        ];
+                'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
+                'basetemplate.' => [
+                        'wrapTemplate' => '1',
+                    ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $receiver->addAdditionalData = true;
@@ -247,13 +247,13 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
     {
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-                'textSubpart' => '###TESTTEXT###',
-                'htmlSubpart' => '###TESTHTML###',
-            ],
-        ];
+                'basetemplateTemplate' => 'EXT:mkmailer/tests/fixtures/mailwrap.html',
+                'basetemplate.' => [
+                    'wrapTemplate' => '1',
+                    'textSubpart' => '###TESTTEXT###',
+                    'htmlSubpart' => '###TESTHTML###',
+                ],
+            ];
         $configurations = $this->getConfigurations($configArray);
         $receiver = $this->getReceiver();
         $queue = $this->getQueue();
@@ -278,15 +278,15 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
 
         $confId = 'sendmails.';
         $configArray = [
-            'basetemplate.' => [
-                'wrapTemplate' => '1',
-                'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
-                'textSubpart' => '###CONTENTTEXT_DCMARKER###',
-                'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
-                'htmlSubpart' => '###CONTENTHTML_DCMARKER###',
-                'receivertext.' => [],
-            ],
-        ];
+                'basetemplate.' => [
+                        'wrapTemplate' => '1',
+                        'textTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraptext.html',
+                        'textSubpart' => '###CONTENTTEXT_DCMARKER###',
+                        'htmlTemplate' => 'EXT:mkmailer/tests/fixtures/mailwraphtml.html',
+                        'htmlSubpart' => '###CONTENTHTML_DCMARKER###',
+                        'receivertext.' => [],
+                    ],
+            ];
         $configArray['basetemplate.']['receivertext.']['dctest']
             = $configArray['basetemplate.']['receiverhtml.']['dctest']
                 = 'TEXT';

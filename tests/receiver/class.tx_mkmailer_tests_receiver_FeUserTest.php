@@ -51,7 +51,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends BaseTestCase
     {
         parent::__construct($name, $data, $dataName);
         // TODO: fix me
-        //        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
+//        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true));
     }
 
     protected function setUp(): void
@@ -99,7 +99,7 @@ class tx_mkmailer_tests_receiver_FeUserTest extends BaseTestCase
      * @return tx_mkmailer_receiver_FeUser
      */
     private function getReceiver(
-        BaseModel $feuser,
+        BaseModel $feuser
     ) {
         $receiver = GeneralUtility::makeInstance(
             'tx_mkmailer_receiver_FeUser'

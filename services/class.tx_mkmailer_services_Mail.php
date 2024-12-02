@@ -57,7 +57,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      */
     public function executeQueue(
         Processor $configurations,
-        $confId,
+        $confId
     ) {
         // wir sperren den prozess für eine bestimmte Zeit oder bis zum ende des durchlaufes
         $lockLifeTime = $configurations->getInt($confId.'lockLifeTime');
@@ -196,7 +196,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         tx_mkmailer_receiver_IMailReceiver $receiver,
         $idx,
         Processor $configurations,
-        $confId,
+        $confId
     ) {
         // Address ist immer ein Array mit den Teilen der Mailadresse
         $formatter = $configurations->getFormatter();
@@ -250,7 +250,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      * @throws Exception
      */
     public function spoolMailJob(
-        tx_mkmailer_mail_IMailJob $job,
+        tx_mkmailer_mail_IMailJob $job
     ) {
         $queue = $this->createQueueByJob($job);
 
@@ -280,7 +280,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      * @throws Exception
      */
     protected function createQueueByJob(
-        tx_mkmailer_mail_IMailJob $job,
+        tx_mkmailer_mail_IMailJob $job
     ) {
         if ($job->getCCs()) {
             $ccs = [];
@@ -346,7 +346,7 @@ class tx_mkmailer_services_Mail extends AbstractService
     public function executeMailJob(
         tx_mkmailer_mail_IMailJob $job,
         Processor $configurations,
-        $confId,
+        $confId
     ) {
         $queue = $this->createQueueByJob($job);
         // to many receivers (10 ore more), spool the job!
@@ -422,18 +422,18 @@ class tx_mkmailer_services_Mail extends AbstractService
         // (ich denke default sollte sein eine Kopie anzulegen)
         // - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
         // (default sollte nicht Original löschen sein)
-        //         if ($mailQueue->getUploads()) {
-        //             // FIXME: die stehen nicht mehr komasepariert in der DB!!!
-        //             // $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
-        //             $path = $this->getUploadDir();
-        //             $uploads = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mailQueue->getUploads());
-        //             if (is_array($uploads)) {
-        //                 foreach ($uploads as $upload) {
-        //                     $upload = $path . $upload;
-        //                     unlink($upload);
-        //                 }
-        //             }
-        //         }
+//         if ($mailQueue->getUploads()) {
+//             // FIXME: die stehen nicht mehr komasepariert in der DB!!!
+//             // $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
+//             $path = $this->getUploadDir();
+//             $uploads = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mailQueue->getUploads());
+//             if (is_array($uploads)) {
+//                 foreach ($uploads as $upload) {
+//                     $upload = $path . $upload;
+//                     unlink($upload);
+//                 }
+//             }
+//         }
     }
 
     /**
@@ -700,7 +700,7 @@ class tx_mkmailer_services_Mail extends AbstractService
     private function addAddress(
         \PHPMailer\PHPMailer\PHPMailer $mail,
         tx_mkmailer_mail_IAddress $address,
-        string $method = 'addAddress',
+        string $method = 'addAddress'
     ): \PHPMailer\PHPMailer\PHPMailer {
         $mailAdr = $address->getAddress();
 
@@ -715,14 +715,14 @@ class tx_mkmailer_services_Mail extends AbstractService
 
     private function addCCAddress(
         \PHPMailer\PHPMailer\PHPMailer $mail,
-        tx_mkmailer_mail_IAddress $address,
+        tx_mkmailer_mail_IAddress $address
     ): \PHPMailer\PHPMailer\PHPMailer {
         return $this->addAddress($mail, $address, 'addCC');
     }
 
     private function addBCCAddress(
         \PHPMailer\PHPMailer\PHPMailer $mail,
-        tx_mkmailer_mail_IAddress $address,
+        tx_mkmailer_mail_IAddress $address
     ): \PHPMailer\PHPMailer\PHPMailer {
         return $this->addAddress($mail, $address, 'addBCC');
     }
@@ -785,7 +785,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         tx_mkmailer_models_Queue $queue,
         $mailAddress,
         $receiver,
-        $failed = false,
+        $failed = false
     ) {
         if (!$queue->isPersisted()) {
             return;

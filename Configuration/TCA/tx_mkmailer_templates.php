@@ -231,17 +231,17 @@ return [
                 ],
             ],
 
-            //                [
-            //                'type' => 'group',
-            //                'internal_type' => 'file',
-            //                'allowed' => 'GIF, JPG, JPEG, TIF, TIFF, BMP, PCX, TGA, PNG, PDF, AI, FLV, SWF, RTMP, MP3, RGG',
-            //                'disallowed' => '',
-            //                'uploadfolder' => 'uploads/tx_mkmailer/attachments',
-            //                'size' => 5,
-            //                'minitems' => 0,
-            //                'maxitems' => 10,
-            //                'softref' => 'images',
-            //            ],
+//                [
+//                'type' => 'group',
+//                'internal_type' => 'file',
+//                'allowed' => 'GIF, JPG, JPEG, TIF, TIFF, BMP, PCX, TGA, PNG, PDF, AI, FLV, SWF, RTMP, MP3, RGG',
+//                'disallowed' => '',
+//                'uploadfolder' => 'uploads/tx_mkmailer/attachments',
+//                'size' => 5,
+//                'minitems' => 0,
+//                'maxitems' => 10,
+//                'softref' => 'images',
+//            ],
         ],
     ],
     'types' => [

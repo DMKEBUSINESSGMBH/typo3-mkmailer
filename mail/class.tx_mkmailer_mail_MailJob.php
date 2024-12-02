@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
 *  Copyright notice
 *
@@ -53,7 +52,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      */
     public function __construct(
         array $receiver = [],
-        ?tx_mkmailer_models_Template &$templateObj = null,
+        tx_mkmailer_models_Template &$templateObj = null
     ) {
         $this->receiver = $receiver;
 
