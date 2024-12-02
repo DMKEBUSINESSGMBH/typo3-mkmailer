@@ -133,7 +133,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         &$mailSubject,
         $formatter,
         $confId,
-        $idx
+        $idx,
     ) {
         $marker = GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
         $mailText = $marker->parseTemplate(
@@ -167,6 +167,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         if (!is_object($this->obj) || !isset($this->obj->record['email'])) {
             return false;
         }
+
         // else
         return $this->obj->record['email'];
     }
