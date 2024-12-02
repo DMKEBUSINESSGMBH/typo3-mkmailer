@@ -422,18 +422,18 @@ class tx_mkmailer_services_Mail extends AbstractService
         // (ich denke default sollte sein eine Kopie anzulegen)
         // - Nach dem abschicken wird die Kopie und optional auch das Original gelöscht
         // (default sollte nicht Original löschen sein)
-//         if ($mailQueue->getUploads()) {
-//             // FIXME: die stehen nicht mehr komasepariert in der DB!!!
-//             // $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
-//             $path = $this->getUploadDir();
-//             $uploads = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mailQueue->getUploads());
-//             if (is_array($uploads)) {
-//                 foreach ($uploads as $upload) {
-//                     $upload = $path . $upload;
-//                     unlink($upload);
-//                 }
-//             }
-//         }
+        //         if ($mailQueue->getUploads()) {
+        //             // FIXME: die stehen nicht mehr komasepariert in der DB!!!
+        //             // $mailQueue->getUploads() returns string or array[tx_mkmailer_mail_IAttachment]
+        //             $path = $this->getUploadDir();
+        //             $uploads = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mailQueue->getUploads());
+        //             if (is_array($uploads)) {
+        //                 foreach ($uploads as $upload) {
+        //                     $upload = $path . $upload;
+        //                     unlink($upload);
+        //                 }
+        //             }
+        //         }
     }
 
     /**

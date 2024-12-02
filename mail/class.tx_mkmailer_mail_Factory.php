@@ -49,7 +49,7 @@ class tx_mkmailer_mail_Factory
      */
     public static function createMailJob(
         array $receiver = [],
-        tx_mkmailer_models_Template &$templateObj = null
+        ?tx_mkmailer_models_Template &$templateObj = null
     ) {
         return GeneralUtility::makeInstance(
             'tx_mkmailer_mail_MailJob',
