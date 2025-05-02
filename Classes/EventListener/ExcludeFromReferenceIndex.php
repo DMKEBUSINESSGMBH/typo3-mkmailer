@@ -36,7 +36,7 @@ use TYPO3\CMS\Core\DataHandling\Event\IsTableExcludedFromReferenceIndexEvent;
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-final readonly class ExcludeFromReferenceIndex
+final class ExcludeFromReferenceIndex
 {
     public function __invoke(IsTableExcludedFromReferenceIndexEvent $event): void
     {
