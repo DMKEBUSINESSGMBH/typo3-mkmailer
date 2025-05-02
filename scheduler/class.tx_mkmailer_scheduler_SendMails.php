@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Utility\Logger;
 use Sys25\RnBase\Utility\Misc;
@@ -10,28 +35,6 @@ use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- * Copyright notice
- *
- * (c) 2014-2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- * This script is part of the TYPO3 project. The TYPO3 project is
- * free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
- *
- * This script is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 /**
  * Send-Mails scheduler task.
  *
@@ -45,10 +48,11 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     /**
      * This is the main method that is called when a task is executed.
      *
-     * @param array $options
      * @param array $devLog put some informations for the logging here
      *
      * @return string
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function executeTask(array $options, array &$devLog)
     {
@@ -62,13 +66,15 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
                     'dataVar' => ['report' => $report],
                 ];
             }
-        } else {
-            $devLog[Logger::LOGLEVEL_FATAL] = [
-                'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
-                    'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
-                    ' in den Extensioneinstellungen. Bitte beheben.',
-            ];
+
+            return '';
         }
+
+        $devLog[Logger::LOGLEVEL_FATAL] = [
+            'message' => 'Der Mailversand von mkmailer sollte über den Scheduler '.
+                'angestoßen werden, die cronpage ist aber nicht konfiguriert'.
+                ' in den Extensioneinstellungen. Bitte beheben.',
+        ];
 
         return '';
     }
@@ -78,7 +84,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      *
      * @return array
      */
-    protected function callCronpageUrl()
+    protected function callCronpageUrl(): array|bool|null
     {
         $report = [];
         T3General::getUrl(
@@ -101,7 +107,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         $cronPage = $this->getOption('cronpage');
 
         if (!$cronPage) {
-            $cronPage = Processor::getExtensionCfgValue('mkmailer', 'cronpage');
+            return Processor::getExtensionCfgValue('mkmailer', 'cronpage');
         }
 
         return $cronPage;
@@ -110,11 +116,9 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     /**
      * Builds the CronUrl.
      *
-     * @return string
-     *
      * @throws SiteNotFoundException
      */
-    protected function getCronpageUrl()
+    protected function getCronpageUrl(): string
     {
         $pageUid = $this->getCronPageId();
         $user = $this->getOption('user');
@@ -127,7 +131,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
             $pageUid = TYPO3::getSysPage()->getPageIdFromAlias($pageUid);
         }
 
-        $domain = (new SiteFinder())->getSiteByPageId($pageUid)->getBase()->getHost();
+        $domain = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($pageUid)->getBase()->getHost();
 
         return sprintf(
             '%1$s://%2$s%3$s/index.php?id=%4$s',
@@ -138,7 +142,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
         );
     }
 
-    protected function getProtocol()
+    protected function getProtocol(): string
     {
         return GeneralUtility::getIndpEnv('TYPO3_SSL') ? 'https' : 'http';
     }
@@ -146,7 +150,7 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
     /**
      * Extension key, used for devlog.
      *
-     * @return  string
+     * @return string
      */
     protected function getExtKey()
     {

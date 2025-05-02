@@ -35,17 +35,24 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkmailer"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
-        "typo3/cms-core": "^10.4.23 || ^11.5.5",
-        "digedag/rn-base": "^1.16",
-        "dmk/mklib": "^10.1 || ^11.0",
+        "typo3/cms-core": "^12.4 || ^13.4",
+        "digedag/rn-base": "^1.17 || dev-upgrade/typo3_13",
+        "dmk/mklib": "^12.0 || 13.4.x-dev",
         "phpmailer/phpmailer": "^6.5"
     },
     "require-dev": {
+        "captainhook/captainhook": "^5.10",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "helmich/typo3-typoscript-lint": "^3.1",
         "php-parallel-lint/php-parallel-lint": "^1.3",
-        "friendsofphp/php-cs-fixer": "^3.3",
-        "phpcompatibility/php-compatibility": "^9.3.5",
-        "nimut/testing-framework": "^6.0"
+        "phpcompatibility/php-compatibility": "^9.3",
+        "typo3/testing-framework": "^8.0 || ^9.0",
+        "phpmd/phpmd": "^2.14",
+        "phpstan/extension-installer": "^1.1 || ^2.0",
+        "phpstan/phpstan": "^1.1 || ^2.0",
+        "rector/rector": "^1.0 || 2.0.10",
+        "saschaegerer/phpstan-typo3": "^1.0 || ^2.0",
+        "ssch/typo3-rector": "^2.8 | ^3.1"
     },
     "autoload": {
         "classmap": [
@@ -71,68 +78,102 @@
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin",
         "preferred-install": {
-            "typo3/cms": "source"
+            "*": "dist"
         },
         "allow-plugins": {
-            "typo3/cms-composer-installers": true,
             "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true,
             "phpstan/extension-installer": true
         }
     },
     "scripts": {
         "post-autoload-dump": [
+            "[ -e .Build/bin/captainhook ] && .Build/bin/captainhook install -f || echo 'CaptainHook missing, skip install.'",
             "mkdir -p .Build/Web/typo3conf/ext/",
-            "[ -L .Build/Web/typo3conf/ext/mkmailer ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkmailer",
-            "[ -f .Build/Web/typo3conf/LocalConfiguration.php ] || cp tests/fixtures/LocalConfiguration.php .Build/Web/typo3conf/LocalConfiguration.php"
-        ],
-        "runqs": [
-            "@fix",
-            "@lint",
-            "@test"
+            "[ -L .Build/TestFixtures ] || ln -snvf ../tests/fixtures .Build/TestFixtures"
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./Classes ./scheduler ./actions ./exceptions ./mail ./mod1 ./models ./receiver ./services ./tests ./util ./*.php"
+            "echo 'parallel-lint fails with a exception if executed inside the vendor/dmk/webkitpdf folder'",
+            "[ ! -e ../../autoload.php ] || mv ../../autoload.php ../../autoload.php.bak",
+            ".Build/bin/parallel-lint ./*",
+            "[ ! -e ../../autoload.php.bak ] || mv ../../autoload.php.bak ../../autoload.php"
+        ],
+        "lint:typoscript": [
+            "[ -e .Build/bin/typoscript-lint ] || composer update",
+            ".Build/bin/typoscript-lint --ansi -v --fail-on-warnings"
+        ],
+        "lint:yaml": [
+            "[ -e .Build/bin/yaml-lint ] || composer update",
+            ".Build/bin/yaml-lint --ansi -n -v ./Configuration ./Resources ./.github"
         ],
         "lint": [
-            "@lint:php"
+            "@lint:php",
+            "@lint:yaml",
+            "@lint:typoscript"
         ],
         "test:phpcs": [
-            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --ansi"
+            "[ -e .Build/bin/php-cs-fixer ] || composer update",
+            "export PHP_CS_FIXER_IGNORE_ENV=1 && .Build/bin/php-cs-fixer fix -v --dry-run --diff"
+        ],
+        "test:rector": [
+            "[ -e .Build/bin/rector ] || composer update",
+            ".Build/bin/rector process --dry-run"
         ],
         "test:phpcompatibility": [
-            "@test:phpcompatibility:7.4",
-            "@test:phpcompatibility:8.0"
-        ],
-        "test:phpcompatibility:7.4": [
             "[ -e .Build/bin/phpcs ] || composer update",
-            ".Build/bin/phpcs --ignore=.Build/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4"
+            ".Build/bin/phpcs --ignore=.Build/*,Resources/Private/PHP/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1-8.4"
         ],
-        "test:phpcompatibility:8.0": [
-            "[ -e .Build/bin/phpcs ] || composer update",
-            ".Build/bin/phpcs --ignore=.Build/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
+        "test:phpmd": [
+            "[ -e .Build/bin/phpmd ] || composer update --ansi",
+            ".Build/bin/phpmd ./actions/ text phpmd.xml",
+            ".Build/bin/phpmd ./Classes/ text phpmd.xml",
+            ".Build/bin/phpmd ./exceptions/ text phpmd.xml",
+            ".Build/bin/phpmd ./mail/ text phpmd.xml",
+            ".Build/bin/phpmd ./mod1/ text phpmd.xml",
+            ".Build/bin/phpmd ./models/ text phpmd.xml",
+            ".Build/bin/phpmd ./receiver/ text phpmd.xml",
+            ".Build/bin/phpmd ./scheduler/ text phpmd.xml",
+            ".Build/bin/phpmd ./services/ text phpmd.xml",
+            ".Build/bin/phpmd ./util/ text phpmd.xml"
+        ],
+        "test:phpstan": [
+            "[ -e .Build/bin/phpstan ] || composer update --ansi",
+            ".Build/bin/phpstan analyse -c phpstan.neon --memory-limit=512M --ansi"
         ],
         "test:phpunit": [
             "[ -e .Build/bin/phpunit ] || composer update --ansi",
-            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
+            "export TYPO3_PATH_APP=$PWD/.Build && export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml tests/"
         ],
         "test": [
             "@test:phpcs",
+            "@test:rector",
             "@test:phpcompatibility",
+            "@test:phpstan",
+            "@test:phpmd",
             "@test:phpunit"
         ],
         "fix:phpcs": [
-            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v"
+            "[ -e .Build/bin/php-cs-fixer ] || composer update",
+            "export PHP_CS_FIXER_IGNORE_ENV=1 && .Build/bin/php-cs-fixer fix -v"
+        ],
+        "fix:rector": [
+            "[ -e .Build/bin/rector ] || composer update",
+            ".Build/bin/rector process"
         ],
         "fix": [
-            "@fix:phpcs"
+            "@fix:phpcs",
+            "@fix:rector"
+        ],
+        "runqa": [
+            "@fix",
+            "@lint",
+            "@test"
         ]
     },
       "extra": {
-          "branch-alias": {
-              "dev-11.5": "11.0.x-dev"
+          "branch-alias" : {
+              "dev-13.4": "13.0.x-dev"
           },
           "typo3/cms": {
               "cms-package-dir": "{$vendor-dir}/typo3/cms",

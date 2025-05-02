@@ -1,6 +1,31 @@
 <?php
 
-$attachementsTca = \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+$attachementsTca = Sys25\RnBase\Utility\TSFAL::getMediaTCA(
     'attachments',
 );
 
@@ -12,7 +37,6 @@ return [
         'label_alt_force' => 1,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l18n_parent',
         'transOrigDiffSourceField' => 'l18n_diffsource',
@@ -31,22 +55,7 @@ return [
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
-                'items' => [
-                    [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        -1,
-                    ],
-                    [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.default_value',
-                        0,
-                    ],
-                ],
-            ],
+            'config' => ['type' => 'language'],
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -56,8 +65,8 @@ return [
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        '',
-                        0,
+                        'label' => '',
+                        'value' => 0,
                     ],
                 ],
                 'foreign_table' => 'tx_mkmailer_templates',
@@ -75,7 +84,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '20',
-                'eval' => 'trim,required',
+                'eval' => 'trim',
+                'required' => true,
             ],
         ],
         'subject' => [
@@ -153,96 +163,21 @@ return [
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_0',
-                        0,
+                        'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_0',
+                        'value' => 0,
                     ],
                     [
-                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_1',
-                        1,
+                        'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_1',
+                        'value' => 1,
                     ],
                     [
-                        'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_2',
-                        2,
+                        'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_templatetype_2',
+                        'value' => 2,
                     ],
                 ],
             ],
         ],
         'attachments' => $attachementsTca,
-        'attachmentst3' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:tx_mkmailer_templates_attachments',
-            'config' => [
-                'type' => 'inline',
-                'foreign_table' => 'sys_file_reference',
-                'foreign_field' => 'uid_foreign',
-                'foreign_sortby' => 'sorting_foreign',
-                'foreign_table_field' => 'tablenames',
-                'foreign_match_fields' => [
-                    'fieldname' => 'inline_1',
-                ],
-                'foreign_label' => 'uid_local',
-                'foreign_selector' => 'uid_local',
-                'overrideChildTca' => [
-                    'columns' => [
-                        'uid_local' => [
-                            'config' => [
-                                'appearance' => [
-                                    'elementBrowserType' => 'file',
-                                    'elementBrowserAllowed' => 'gif, jpg, jpeg, tif, tiff, bmp, pcx, tga, png, pdf, ai, flv, swf, rtmp, mp3, rgg',
-                                ],
-                            ],
-                        ],
-                        'crop' => [
-                            'description' => 'field description',
-                        ],
-                    ],
-                    'types' => [
-                        2 => [
-                            'showitem' => '
-                                --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette',
-                        ],
-                    ],
-                ],
-                'filter' => [
-                    [
-                        'userFunc' => 'TYPO3\\CMS\\Core\\Resource\\Filter\\FileExtensionFilter->filterInlineChildren',
-                        'parameters' => [
-                            'allowedFileExtensions' => 'gif, jpg, jpeg, tif, tiff, bmp, pcx, tga, png, pdf, ai, flv, swf, rtmp, mp3, rgg',
-                            'disallowedFileExtensions' => '',
-                        ],
-                    ],
-                ],
-                'appearance' => [
-                    'useSortable' => true,
-                    'headerThumbnail' => [
-                        'field' => 'uid_local',
-                        'height' => '45m',
-                    ],
-                    'enabledControls' => [
-                        'info' => true,
-                        'new' => false,
-                        'dragdrop' => true,
-                        'sort' => false,
-                        'hide' => true,
-                        'delete' => true,
-                    ],
-                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                ],
-            ],
-
-            //                [
-            //                'type' => 'group',
-            //                'internal_type' => 'file',
-            //                'allowed' => 'GIF, JPG, JPEG, TIF, TIFF, BMP, PCX, TGA, PNG, PDF, AI, FLV, SWF, RTMP, MP3, RGG',
-            //                'disallowed' => '',
-            //                'uploadfolder' => 'uploads/tx_mkmailer/attachments',
-            //                'size' => 5,
-            //                'minitems' => 0,
-            //                'maxitems' => 10,
-            //                'softref' => 'images',
-            //            ],
-        ],
     ],
     'types' => [
         '0' => [

@@ -1,33 +1,35 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use DMK\Mklib\Utility\Tests;
 use Sys25\RnBase\Testing\BaseTestCase;
-use Sys25\RnBase\Utility\Extensions;
 use Sys25\RnBase\Utility\Logger;
 use Sys25\RnBase\Utility\TYPO3Classes;
 
-/**
- *  Copyright notice.
- *
- *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 /**
  * Test for tx_mkmailer_scheduler_SendMails.
  *
@@ -37,17 +39,13 @@ use Sys25\RnBase\Utility\TYPO3Classes;
  */
 class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
 {
-    private $tsfeBackup;
+    private mixed $tsfeBackup;
 
     protected function setUp(): void
     {
-        if (!Extensions::isLoaded('mklib')) {
-            $this->markTestSkipped('mklib muss installiert sein');
-        }
-
         Tests::storeExtConf('mkmailer');
 
-        $this->tsfeBackup = $GLOBALS['TSFE'];
+        $this->tsfeBackup = $GLOBALS['TSFE'] ?? null;
     }
 
     protected function tearDown(): void
@@ -60,14 +58,14 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testExecuteTaskWhenNoCronpageIsConfigured()
+    public function testExecuteTaskWhenNoCronpageIsConfigured(): void
     {
         Tests::setExtConfVar('cronpage', 0, 'mkmailer');
 
         $devLog = [];
 
         $scheduler = $this->getMockBuilder('tx_mkmailer_scheduler_SendMails')
-            ->setMethods(['callCronpageUrl'])
+            ->onlyMethods(['callCronpageUrl'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,9 +88,9 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable()
+    public function testExecuteTaskWhenCronpageIsConfiguredAndSiteAvailable(): void
     {
-        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
+        self::markTestSkipped('RuntimeException: The requested database connection named Default has not been configured');
 
         Tests::setExtConfVar('cronpage', 123, 'mkmailer');
 
@@ -118,9 +116,9 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testExecuteTaskWhenCronpageIsConfiguredWithUnaccessiblePage()
+    public function testExecuteTaskWhenCronpageIsConfiguredWithUnaccessiblePage(): void
     {
-        self::markTestIncomplete('RuntimeException: The requested database connection named Default has not been configured');
+        self::markTestSkipped('RuntimeException: The requested database connection named Default has not been configured');
 
         Tests::setExtConfVar('cronpage', 'http://www.google.com', 'mkmailer');
 
@@ -155,9 +153,9 @@ class tx_mkmailer_tests_scheduler_SendMailsTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testGetCronpageUrlByPageUid()
+    public function testGetCronpageUrlByPageUid(): void
     {
-        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
+        self::markTestSkipped('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         $GLOBALS['TSFE'] = $this->getMock(
             TYPO3Classes::getTypoScriptFrontendControllerClass(),

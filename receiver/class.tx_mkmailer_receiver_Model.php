@@ -1,33 +1,34 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Domain\Model\BaseModel;
 use Sys25\RnBase\Utility\Strings;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * @author Hannes Bochmann
- *
- *  Copyright notice
- *
- *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 /**
  * tx_mkmailer_receiver_Model.
  *
@@ -49,8 +50,8 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
 
     /**
      * @var string
-     * § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
-     * kann/darf. Also nehmen wir das.
+     *             § ist eines der wenigen Zeichen, das nicht in einer Mail vorkommen
+     *             kann/darf. Also nehmen wir das.
      *
      * @see http://tools.ietf.org/html/rfc5322#section-3.2.3
      */
@@ -58,7 +59,6 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
 
     /**
      * @param string $email
-     * @param int $ratingUid
      */
     public function __construct($email = null, $modelUid = null)
     {
@@ -71,7 +71,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      *
      * @see tx_mkmailer_receiver_Email::setValueString()
      */
-    public function setValueString($valueString)
+    public function setValueString($valueString): void
     {
         $valueParts = Strings::trimExplode(self::EMAIL_MODEL_DELIMTER, $valueString);
         $this->setEMail($valueParts[0]);
@@ -88,10 +88,7 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
         return $this->getEMail().self::EMAIL_MODEL_DELIMTER.$this->getModelUid();
     }
 
-    /**
-     * @param int $rating
-     */
-    public function setModelUid($modelUid)
+    public function setModelUid($modelUid): void
     {
         $this->modelUid = intval($modelUid);
     }
@@ -108,6 +105,8 @@ abstract class tx_mkmailer_receiver_Model extends tx_mkmailer_receiver_Email
      * (non-PHPdoc).
      *
      * @see tx_mkmailer_receiver_BaseTemplate::addAdditionalData()
+     *
+     * @SuppressWarnings("PHPMD.ExcessiveParameterList")
      */
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {

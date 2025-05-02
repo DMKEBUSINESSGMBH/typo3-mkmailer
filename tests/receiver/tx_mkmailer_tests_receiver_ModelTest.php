@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Domain\Model\BaseModel;
 use Sys25\RnBase\Frontend\Marker\FormatUtil;
 use Sys25\RnBase\Frontend\Marker\SimpleMarker;
@@ -7,39 +32,23 @@ use Sys25\RnBase\Testing\BaseTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- *  Copyright notice.
- *
- *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
-/*
- * benötigte Klassen einbinden
- */
-/**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
 class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $property = new ReflectionProperty(Sys25\RnBase\Frontend\Marker\Templates::class, 'substCacheEnabled');
+        $property->setAccessible(true);
+        $property->setValue(null, false);
+    }
+
     /**
      * @group unit
      */
-    public function testConstructSetsEmail()
+    public function testConstructSetsEmail(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
 
@@ -52,7 +61,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testConstructSetsModelUid()
+    public function testConstructSetsModelUid(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
 
@@ -65,7 +74,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testSetModelUid()
+    public function testSetModelUid(): void
     {
         $receiver = $this->getReceiver();
 
@@ -80,7 +89,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testGetModelUid()
+    public function testGetModelUid(): void
     {
         $receiver = $this->getReceiver();
 
@@ -94,7 +103,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testGetValueString()
+    public function testGetValueString(): void
     {
         $receiver = $this->getReceiver(['test_Mail', 123]);
         $this->assertEquals(
@@ -107,7 +116,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testSetValueStringSetsCorrectEmail()
+    public function testSetValueStringSetsCorrectEmail(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $receiver->setValueString('newTest_Mail'.tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER.'456');
@@ -117,7 +126,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testSetValueStringSetsCorrectModelUid()
+    public function testSetValueStringSetsCorrectModelUid(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $receiver->setValueString('newTest_Mail'.tx_mkmailer_receiver_Model::EMAIL_MODEL_DELIMTER.'456');
@@ -127,7 +136,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddAdditionalParsesMailTextCorrect()
+    public function testAddAdditionalParsesMailTextCorrect(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailText = '###MODEL_UID###';
@@ -135,7 +144,10 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
             FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
-        $confId = $idx = null;
+        $confId = '';
+        $idx = null;
+        $mailHtml = '';
+        $mailSubject = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
@@ -150,7 +162,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddAdditionalParsesMailHtmlCorrect()
+    public function testAddAdditionalParsesMailHtmlCorrect(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailHtml = '###MODEL_UID###';
@@ -158,7 +170,10 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
             FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
-        $confId = $idx = null;
+        $confId = '';
+        $idx = null;
+        $mailText = '';
+        $mailSubject = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
@@ -173,7 +188,7 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddAdditionalParsesMailSubjectCorrect()
+    public function testAddAdditionalParsesMailSubjectCorrect(): void
     {
         $receiver = $this->getReceiver(['testMail', 123]);
         $mailSubject = '###MODEL_UID###';
@@ -181,7 +196,10 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
             FormatUtil::class,
             $this->createConfigurations([], 'mkmailer')
         );
-        $confId = $idx = null;
+        $confId = '';
+        $idx = null;
+        $mailText = '';
+        $mailHtml = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
         $method->setAccessible(true);
@@ -194,35 +212,28 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
     }
 
     /**
-     * @param array $constuctorAgruments
-     *
      * @return tx_mkmailer_receiver_Model
      */
-    private function getReceiver(array $constuctorAgruments = [])
+    private function getReceiver(array $constuctorAgruments = []): PHPUnit\Framework\MockObject\MockObject
     {
-        $receiver = $this->getMockForAbstractClass(
-            'tx_mkmailer_receiver_Model',
-            $constuctorAgruments,
-            '',
-            true,
-            true,
-            true,
-            ['getModel', 'getModelMarker', 'getMarkerClass']
-        );
+        $receiver = $this->getMockBuilder('tx_mkmailer_receiver_Model')
+            ->setConstructorArgs($constuctorAgruments)
+            ->onlyMethods(['getModel', 'getModelMarker', 'getMarkerClass'])
+            ->getMock();
 
         $model = $this->getModel(['uid' => 123], BaseModel::class, ['getColumnNames']);
 
         $receiver->expects($this->any())
             ->method('getModel')
-            ->will($this->returnValue($model));
+            ->willReturn($model);
 
         $receiver->expects($this->any())
             ->method('getModelMarker')
-            ->will($this->returnValue('MODEL'));
+            ->willReturn('MODEL');
 
         $receiver->expects($this->any())
             ->method('getMarkerClass')
-            ->will($this->returnValue(SimpleMarker::class));
+            ->willReturn(SimpleMarker::class);
 
         return $receiver;
     }

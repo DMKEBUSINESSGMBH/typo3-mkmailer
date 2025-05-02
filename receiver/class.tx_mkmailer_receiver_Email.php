@@ -1,27 +1,29 @@
 <?php
 
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 /**
  * tx_mkmailer_receiver_Email.
@@ -51,7 +53,7 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
      */
-    public function setValueString($value)
+    public function setValueString($value): void
     {
         $this->setEMail($value);
     }
@@ -69,7 +71,7 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
     /**
      * @param string $value
      */
-    public function setEMail($value)
+    public function setEMail($value): void
     {
         $this->email = $value;
     }
@@ -87,7 +89,7 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
      */
-    public function getAddressCount()
+    public function getAddressCount(): int
     {
         return $this->email ? 1 : 0; // Immer nur eine Mail
     }
@@ -97,7 +99,7 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
      */
-    public function getAddresses()
+    public function getAddresses(): array
     {
         return $this->email ? [$this->email] : [];
     }
@@ -109,7 +111,7 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
      */
     public function getName()
     {
-        return $this->email ? $this->email : 'unknown';
+        return $this->email ?: 'unknown';
     }
 
     /**
@@ -128,10 +130,8 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
 
     /**
      * Liefert die ConfId für den Reciver.
-     *
-     * @return  string
      */
-    protected function getConfId()
+    protected function getConfId(): string
     {
         return 'email.';
     }

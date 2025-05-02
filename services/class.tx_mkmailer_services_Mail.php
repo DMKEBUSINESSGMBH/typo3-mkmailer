@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use PHPMailer\PHPMailer\PHPMailer;
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Database\Connection;
@@ -14,29 +39,6 @@ use Sys25\RnBase\Utility\Strings;
 use Sys25\RnBase\Utility\T3General;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- * Copyright notice
- *
- * (c) 2009-2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- * This script is part of the TYPO3 project. The TYPO3 project is
- * free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
- *
- * This script is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * E-Mail service.
  *
@@ -44,27 +46,32 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
+ *
+ * @SuppressWarnings("PHPMD.ExcessiveClassLength")
+ * @SuppressWarnings("PHPMD.ExcessiveClassComplexity")
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class tx_mkmailer_services_Mail extends AbstractService
 {
     /**
      * Abarbeitung der MailQueue.
      *
-     * @param Processor $configurations
-     * @param string $confId
-     *
-     * @return string
+     * @SuppressWarnings("PHPMD.NPathComplexity")
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
+     * @SuppressWarnings("PHPMD.ExcessiveMethodLength")
+     * @SuppressWarnings("PHPMD.ElseExpression")
      */
     public function executeQueue(
         Processor $configurations,
-        $confId
-    ) {
+        string $confId,
+    ): string {
         // wir sperren den prozess für eine bestimmte Zeit oder bis zum ende des durchlaufes
         $lockLifeTime = $configurations->getInt($confId.'lockLifeTime');
         $lock = Lock::getInstance('mkmailerqueue', $lockLifeTime);
         if ($lock->isLocked()) {
             return '<p>The Mail-Process is locked</p>';
         }
+
         if (!$lock->lockProcess()) {
             Logger::fatal(
                 'Error in SendMailQueue: The Mail-Process couldn\'t be locked',
@@ -79,9 +86,8 @@ class tx_mkmailer_services_Mail extends AbstractService
 
         $maxMails = $configurations->getInt($confId.'maxMails');
         $maxMails = $maxMails > 0 ? ($maxMails - 1) : 10;
-        $mailMode = $configurations->get($confId.'mode');
-        // Es ist auch PEAR möglich
-        $mailMode = $mailMode ? $mailMode : 'PHPMAILER';
+
+        $configurations->get($confId.'mode');
         // Die versendeten Mails über alle Queues zählen
         $sentQueueCnt = 0;
         // Die fehlerhaften Mails über alle Queues sammeln
@@ -92,13 +98,15 @@ class tx_mkmailer_services_Mail extends AbstractService
             if ($sentQueueCnt > $maxMails) {
                 break;
             }
+
             $receiverArr = $queue->getReceivers();
-            if (!count($receiverArr)) {
+            if (0 === count($receiverArr)) {
                 // Es sind keine Empfänger der Mail zugeordnet -> schliessen
                 $this->closeMailQueue($queue);
                 // der nächste bitte
                 continue;
             }
+
             // Die versendeten Mails für diese Queue zählen
             $sentCnt = 0;
             // Fehlerhafte Mails zählen
@@ -107,6 +115,7 @@ class tx_mkmailer_services_Mail extends AbstractService
                 if ($sentQueueCnt > $maxMails) {
                     break;
                 }
+
                 // Jetzt den eigentliche Receiver instanziieren, damit er uns die Mails erstellt
                 $receiver = $this->createReceiver($receiverData);
                 // Wir nähern uns dem Ziel!
@@ -156,6 +165,7 @@ class tx_mkmailer_services_Mail extends AbstractService
                     }
                 }
             }
+
             if (0 == $sentCnt && 0 == $errCnt) {
                 // Für diese Queue wurden keine Mails mehr verschickt, sie kann also geschlossen werden
                 $this->closeMailQueue($queue);
@@ -164,12 +174,13 @@ class tx_mkmailer_services_Mail extends AbstractService
                 $this->updateMailQueue($queue, $sentCnt);
             }
         }
+
         $lock->unlockProcess();
 
         $out = '&nbsp;';
         if (Network::isDevelopmentIp()) {
             $out = '<p>Finished with '.$sentQueueCnt.' Mails. Errors: '.count($sentErrors).'</p>';
-            if (count($sentErrors)) {
+            if ([] !== $sentErrors) {
                 $out .= '<h3>Errors</h3><ul>';
                 foreach ($sentErrors as $errorMsg) {
                     $out .= '<li>'.$errorMsg.LF;
@@ -183,11 +194,7 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Creates the message object to send.
      *
-     * @param tx_mkmailer_models_Queue $queue
-     * @param tx_mkmailer_receiver_IMailReceiver $receiver
      * @param int $idx
-     * @param Processor $configurations
-     * @param string $confId
      *
      * @return tx_mkmailer_mail_IMessage
      */
@@ -196,7 +203,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         tx_mkmailer_receiver_IMailReceiver $receiver,
         $idx,
         Processor $configurations,
-        $confId
+        string $confId,
     ) {
         // Address ist immer ein Array mit den Teilen der Mailadresse
         $formatter = $configurations->getFormatter();
@@ -225,7 +232,8 @@ class tx_mkmailer_services_Mail extends AbstractService
             }
         }
 
-        if ($testMail = $configurations->get($confId.'testMail')) {
+        $testMail = $configurations->get($confId.'testMail');
+        if ($testMail) {
             $message->setOption('testmail', $testMail);
             Debug::debug(
                 $message,
@@ -243,15 +251,11 @@ class tx_mkmailer_services_Mail extends AbstractService
      * Die Emails werden noch einmal individuell für jeden Empfänger aufbereitet,
      * so daß eine individuelle Ansprache möglich ist.
      *
-     * @param tx_mkmailer_mail_IMailJob $job
-     *
-     * @return void
-     *
      * @throws Exception
      */
     public function spoolMailJob(
-        tx_mkmailer_mail_IMailJob $job
-    ) {
+        tx_mkmailer_mail_IMailJob $job,
+    ): void {
         $queue = $this->createQueueByJob($job);
 
         $mailUid = Connection::getInstance()->doInsert(
@@ -264,7 +268,7 @@ class tx_mkmailer_services_Mail extends AbstractService
             // Dann jeden Receiver in die DB legen
             $data = [];
             $data['email'] = $mailUid;
-            $data['resolver'] = get_class($receiver);
+            $data['resolver'] = $receiver::class;
             $data['receivers'] = $receiver->getValueString();
             Connection::getInstance()->doInsert('tx_mkmailer_receiver', $data, 0);
         }
@@ -273,28 +277,31 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Creates an queue object.
      *
-     * @param tx_mkmailer_mail_IMailJob $job
-     *
      * @return tx_mkmailer_models_Queue
      *
      * @throws Exception
+     *
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
+     * @SuppressWarnings("PHPMD.NPathComplexity")
      */
     protected function createQueueByJob(
-        tx_mkmailer_mail_IMailJob $job
-    ) {
+        tx_mkmailer_mail_IMailJob $job,
+    ): object {
+        $ccs = [];
         if ($job->getCCs()) {
-            $ccs = [];
             foreach ($job->getCCs() as $addr) {
                 $ccs[] = $addr->getAddress();
             }
+
             $ccs = implode(',', $ccs);
         }
 
+        $bccs = [];
         if ($job->getBCCs()) {
-            $bccs = [];
             foreach ($job->getBCCs() as $addr) {
                 $bccs[] = $addr->getAddress();
             }
+
             $bccs = implode(',', $bccs);
         }
 
@@ -308,6 +315,7 @@ class tx_mkmailer_services_Mail extends AbstractService
             if (!$addCnt) {
                 throw new Exception('Error in MailService: MailReceiver has no address! '.$receiver->__toString());
             }
+
             $size += $addCnt;
         }
 
@@ -319,8 +327,8 @@ class tx_mkmailer_services_Mail extends AbstractService
         $data['contenthtml'] = $job->getContentHtml();
         $data['mail_from'] = is_object($from) ? $from->getAddress() : 'noreply@mkmailer.com';
         $data['mail_fromName'] = is_object($from) ? $from->getName() : '';
-        $data['mail_cc'] = empty($ccs) ? '' : $ccs;
-        $data['mail_bcc'] = empty($bccs) ? '' : $bccs;
+        $data['mail_cc'] = '' === $ccs || '0' === $ccs ? '' : $ccs;
+        $data['mail_bcc'] = '' === $bccs || '0' === $bccs ? '' : $bccs;
         // Attachments werden serialisiert abgespeichert.
         $attachments = $job->getAttachments();
         $data['attachments'] = $attachments ? serialize($attachments) : '';
@@ -335,19 +343,13 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Liefert eine Mail an eine Liste von Empfängern.
      *
-     * @param tx_mkmailer_mail_IMailJob $job
-     * @param Processor $configurations
-     * @param string $confId
-     *
-     * @return void
-     *
      * @throws Exception
      */
     public function executeMailJob(
         tx_mkmailer_mail_IMailJob $job,
         Processor $configurations,
-        $confId
-    ) {
+        string $confId,
+    ): void {
         $queue = $this->createQueueByJob($job);
         // to many receivers (10 ore more), spool the job!
         if ($queue->getPrefer() <= 0) {
@@ -390,10 +392,9 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Aktualisiert die Mailqueue in der DB.
      *
-     * @param tx_mkmailer_models_Queue $mailQueue
      * @param int $mailCnt
      */
-    public function updateMailQueue(tx_mkmailer_models_Queue $mailQueue, $mailCnt)
+    public function updateMailQueue(tx_mkmailer_models_Queue $mailQueue, $mailCnt): void
     {
         // Zuerst die eigentliche Mail speichern
         $data['mailcount'] = $mailQueue->getMailCount() + intval($mailCnt);
@@ -405,10 +406,8 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Die übergegebene Mailqueue wird geschlossen. Es werden keine weiteren Mails verschickt.
      * Außerdem werden vorhandene Attachments vom Server gelöscht.
-     *
-     * @param tx_mkmailer_models_Queue $mailQueue
      */
-    private function closeMailQueue(tx_mkmailer_models_Queue $mailQueue)
+    private function closeMailQueue(tx_mkmailer_models_Queue $mailQueue): void
     {
         // Zuerst die eigentliche Mail speichern
         $data['deleted'] = 1;
@@ -441,7 +440,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return array[tx_mkmailer_models_Queue]
      */
-    public function getMailQueueOpen($options = [])
+    public function getMailQueueOpen(array $options = [])
     {
         $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
         $from = 'tx_mkmailer_queue';
@@ -453,6 +452,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         if (!array_key_exists('count', $options)) {
             $options['wrapperclass'] = 'tx_mkmailer_models_Queue';
         }
+
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
@@ -463,7 +463,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return array[tx_mkmailer_models_Queue]
      */
-    public function getMailQueueFinished($options = [])
+    public function getMailQueueFinished(array $options = [])
     {
         $what = array_key_exists('count', $options) ? 'count(uid) As cnt' : '*';
         $from = 'tx_mkmailer_queue';
@@ -474,14 +474,13 @@ class tx_mkmailer_services_Mail extends AbstractService
         if (!array_key_exists('count', $options)) {
             $options['wrapperclass'] = 'tx_mkmailer_models_Queue';
         }
+
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
         return array_key_exists('count', $options) ? $ret[0]['cnt'] : $ret;
     }
 
     /**
-     * @param array $options
-     *
      * @return array[tx_mkmailer_models_Log]
      */
     public function getLogEntriesForFailedMails(array $options = [])
@@ -516,8 +515,6 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Liefert die Empfänger einer gespoolten Mail.
      *
-     * @param tx_mkmailer_models_Queue $mailQueue
-     *
      * @return array
      */
     public function getMailReceivers(tx_mkmailer_models_Queue $mailQueue)
@@ -527,9 +524,8 @@ class tx_mkmailer_services_Mail extends AbstractService
 
         $options['where'] = 'email='.$mailQueue->getUid();
         $options['enablefieldsoff'] = 1;
-        $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
-        return $ret;
+        return Connection::getInstance()->doSelect($what, $from, $options, 0);
     }
 
     /**
@@ -539,7 +535,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return tx_mkmailer_receiver_IMailReceiver
      */
-    public function createReceiver($receiverArr)
+    public function createReceiver(array $receiverArr)
     {
         $clazzName = $receiverArr['resolver'];
         $receiver = new $clazzName();
@@ -555,7 +551,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return tx_mkmailer_receiver_IMailReceiver
      */
-    public function createReceiverFeUser($feuser)
+    public function createReceiverFeUser($feuser): tx_mkmailer_receiver_FeUser
     {
         $receiver = new tx_mkmailer_receiver_FeUser();
         $receiver->setFeUser($feuser);
@@ -592,31 +588,30 @@ class tx_mkmailer_services_Mail extends AbstractService
      * - addressName : Der Name des Emfängers (optional).
      *
      * @param string $msg Inhalt der Mail. Die erste Zeile ist das Subject
-     * @param mixed $recipients die Empfänger der Mail als Array oder String
-     * @param string $from
-     * @param array $options
      *
      * @throws tx_mkmailer_exceptions_SendMail
      *
      * @todo SwiftMailer unterstützen
      */
-    public function sendEmail(tx_mkmailer_mail_IMessage $msg)
+    public function sendEmail(tx_mkmailer_mail_IMessage $msg): void
     {
-        $this->sendEmail_PHPMailer($msg);
+        $this->sendEmailWithPhpMailer($msg);
     }
 
     /**
      * Versand einer Mail über den PHPMailer
      * http://phpmailer.sourceforge.net.
      *
-     * @param string $msg Inhalt der Mail. Die erste Zeile ist das Subject
-     * @param mixed $$recipients die Empfänger der Mail als Array oder String
-     * @param string $from
-     * @param array $options
+     * @param string $msg         Inhalt der Mail. Die erste Zeile ist das Subject
+     * @param mixed  $$recipients die Empfänger der Mail als Array oder String
      *
      * @throws tx_mkmailer_exceptions_SendMail
+     *
+     * @SuppressWarnings("PHPMD.ElseExpression")
+     * @SuppressWarnings("PHPMD.NPathComplexity")
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
      */
-    private function sendEmail_PHPMailer(tx_mkmailer_mail_IMessage $msg)
+    private function sendEmailWithPhpMailer(tx_mkmailer_mail_IMessage $msg): void
     {
         $options = $msg->getOptions();
         $mail = new PHPMailer();
@@ -643,7 +638,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $addresses = $msg->getTo();
         if (isset($options['testmail']) && $options['testmail']) {
             // Die Mail wird an eine Testadresse verschickt
-            Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: '.$from.''); // TODO: Remove me!
+            Debug::debug($addresses, 'tx_mkmailer_actions_SendMails - Diese Info wird nur im Testmodus angezeigt! Send Testmail to '.$options['testmail'].' FROM: '.$mail->Sender.''); // TODO: Remove me!
             $testAddrs = Strings::trimExplode(',', $options['testmail']);
             foreach ($testAddrs as $addr) {
                 $mail = $this->addAddress(
@@ -656,37 +651,31 @@ class tx_mkmailer_services_Mail extends AbstractService
             foreach ($addresses as $address) {
                 $mail = $this->addAddress($mail, $address);
             }
+
             $addresses = $msg->getCc();
             foreach ($addresses as $address) {
                 $mail = $this->addCCAddress($mail, $address);
             }
+
             $addresses = $msg->getBcc();
             foreach ($addresses as $address) {
                 $mail = $this->addBCCAddress($mail, $address);
             }
         }
+
         // Integration der Attachments
         $attachments = $msg->getAttachments();
         if (is_array($attachments) && count($attachments)) {
             foreach ($attachments as $attachment) {
-                switch ($attachment->getAttachmentType()) {
-                    case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT:
-                        $mail->addAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-                        break;
-                    case tx_mkmailer_mail_IAttachment::TYPE_EMBED:
-                        $mail->addEmbeddedImage($attachment->getPathOrContent(), $attachment->getEmbedId(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-                        break;
-                    case tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT:
-                        $mail->addStringAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType());
-                        break;
-
-                    default:
-                        Logger::warn('Email with unknown attachment type given!', 'mkmailer', [
-                            'AttachmentType' => $attachment->getAttachmentType(),
-                            'Content' => $attachment->getPathOrContent(),
-                            'Subject' => $msg->getSubject(), ]);
-                        break;
-                }
+                match ($attachment->getAttachmentType()) {
+                    tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT => $mail->addAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType()),
+                    tx_mkmailer_mail_IAttachment::TYPE_EMBED => $mail->addEmbeddedImage($attachment->getPathOrContent(), $attachment->getEmbedId(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType()),
+                    tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT => $mail->addStringAttachment($attachment->getPathOrContent(), $attachment->getName(), $attachment->getEncoding(), $attachment->getMimeType()),
+                    default => Logger::warn('Email with unknown attachment type given!', 'mkmailer', [
+                        'AttachmentType' => $attachment->getAttachmentType(),
+                        'Content' => $attachment->getPathOrContent(),
+                        'Subject' => $msg->getSubject(), ]),
+                };
             }
         }
 
@@ -698,32 +687,32 @@ class tx_mkmailer_services_Mail extends AbstractService
     }
 
     private function addAddress(
-        \PHPMailer\PHPMailer\PHPMailer $mail,
+        PHPMailer $mail,
         tx_mkmailer_mail_IAddress $address,
-        string $method = 'addAddress'
-    ): \PHPMailer\PHPMailer\PHPMailer {
+        string $method = 'addAddress',
+    ): PHPMailer {
         $mailAdr = $address->getAddress();
 
         if (Strings::validEmail($mailAdr)) {
             $mail->{$method}($mailAdr, $address->getName());
-        } else {
-            throw new Exception('[Method: '.$method.'] Invalid Email address ('.$mailAdr.') given. Mail not sent!');
+
+            return $mail;
         }
 
-        return $mail;
+        throw new Exception('[Method: '.$method.'] Invalid Email address ('.$mailAdr.') given. Mail not sent!');
     }
 
     private function addCCAddress(
-        \PHPMailer\PHPMailer\PHPMailer $mail,
-        tx_mkmailer_mail_IAddress $address
-    ): \PHPMailer\PHPMailer\PHPMailer {
+        PHPMailer $mail,
+        tx_mkmailer_mail_IAddress $address,
+    ): PHPMailer {
         return $this->addAddress($mail, $address, 'addCC');
     }
 
     private function addBCCAddress(
-        \PHPMailer\PHPMailer\PHPMailer $mail,
-        tx_mkmailer_mail_IAddress $address
-    ): \PHPMailer\PHPMailer\PHPMailer {
+        PHPMailer $mail,
+        tx_mkmailer_mail_IAddress $address,
+    ): PHPMailer {
         return $this->addAddress($mail, $address, 'addBCC');
     }
 
@@ -734,7 +723,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return tx_mkmailer_models_Template
      */
-    public function getTemplate($id)
+    public function getTemplate(string $id)
     {
         $what = '*';
         $from = 'tx_mkmailer_templates';
@@ -743,21 +732,20 @@ class tx_mkmailer_services_Mail extends AbstractService
         $options['where'] = $where;
         $options['wrapperclass'] = 'tx_mkmailer_models_Template';
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
-        if (!count($ret)) {
+        if (0 === count($ret)) {
             throw GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
         }
 
-        return count($ret) ? $ret[0] : null;
+        return [] !== $ret ? $ret[0] : null;
     }
 
     /**
      * Prüft, ob eine bestimmte Email schon an den Empfänger ausgeliefert wurde.
      *
-     * @param tx_mkmailer_models_Queue $mailQueue
      * @param string $mailAddress
-     * return boolean true, wenn die Mail schon verschickt wurde
+     *                            return boolean true, wenn die Mail schon verschickt wurde
      */
-    private function isMailSent(tx_mkmailer_models_Queue $mailQueue, $mailAddress)
+    private function isMailSent(tx_mkmailer_models_Queue $mailQueue, $mailAddress): bool
     {
         // Entscheidend ist die Tabelle tx_mkmailer_log
         // Wenn dort die Mailadresse schon drin liegt, dann wurde sie schon verschickt.
@@ -774,19 +762,17 @@ class tx_mkmailer_services_Mail extends AbstractService
     /**
      * Markiert diese Mailadresse als abgearbeitet in der Mailqueue.
      *
-     * @param tx_mkmailer_models_Queue $queue
      * @param string $mailAddress
      * @param string $receiver
-     * @param bool $failed
      *
-     * @return void
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
      */
     private function markMailAsSent(
         tx_mkmailer_models_Queue $queue,
         $mailAddress,
         $receiver,
-        $failed = false
-    ) {
+        bool $failed = false,
+    ): void {
         if (!$queue->isPersisted()) {
             return;
         }

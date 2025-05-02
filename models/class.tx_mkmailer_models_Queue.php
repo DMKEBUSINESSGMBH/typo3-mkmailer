@@ -1,30 +1,32 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Domain\Model\BaseModel;
 use Sys25\RnBase\Utility\Strings;
-
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 
 /**
  * tx_mkmailer_models_Queue.
@@ -89,15 +91,16 @@ class tx_mkmailer_models_Queue extends BaseModel
         if (!$attachments) {
             return $ret;
         }
+
         // Hier muss geprüft werden ob serialisierte Daten vorliegen.
         if ($attachments && 'a' === $attachments[0] && ':' === $attachments[1]) {
-            $ret = unserialize($attachments);
-        } else {
-            // Alle Strings zu Attachments umformen
-            $files = Strings::trimExplode(',', $attachments);
-            foreach ($files as $file) {
-                $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);
-            }
+            return unserialize($attachments);
+        }
+
+        // Alle Strings zu Attachments umformen
+        $files = Strings::trimExplode(',', $attachments);
+        foreach ($files as $file) {
+            $ret[] = tx_mkmailer_mail_Factory::createAttachment($file);
         }
 
         return $ret;
@@ -106,7 +109,7 @@ class tx_mkmailer_models_Queue extends BaseModel
     /**
      * @return number
      */
-    public function getMailCount()
+    public function getMailCount(): int
     {
         return intval($this->getRecord()['mailcount']);
     }
@@ -145,10 +148,8 @@ class tx_mkmailer_models_Queue extends BaseModel
 
     /**
      * Prüft, ob die Mail beschleunigt versendet wird.
-     *
-     * @return bool
      */
-    public function isPrefer()
+    public function isPrefer(): bool
     {
         return intval($this->getRecord()['prefer']) > 0;
     }

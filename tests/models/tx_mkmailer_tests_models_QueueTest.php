@@ -25,21 +25,25 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
+use Sys25\RnBase\Testing\BaseTestCase;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
- * tx_mkmailer_mail_IAddress.
+ * tx_mkmailer_tests_models_Queue_testcase.
  *
+ * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-interface tx_mkmailer_mail_IAddress
+class tx_mkmailer_tests_models_QueueTest extends BaseTestCase
 {
-    /**
-     * @return string
-     */
-    public function getAddress();
+    public function testAttachmentWithStrings(): void
+    {
+        $queue = GeneralUtility::makeInstance('tx_mkmailer_models_Queue', ['uid' => 123, 'attachments' => '/uploadfolder/myfile.jpg, /uploadfolder/yourfile.jpg']);
+        $attachments = $queue->getUploads();
 
-    /**
-     * @return string
-     */
-    public function getName();
+        $this->assertEquals(2, count($attachments), 'Wrong size of attachments');
+        $this->assertTrue($attachments[0] instanceof tx_mkmailer_mail_IAttachment, 'Interface not implemented.');
+        $this->assertEquals('/uploadfolder/myfile.jpg', $attachments[0]->getPathOrContent(), 'File is wrong.');
+    }
 }

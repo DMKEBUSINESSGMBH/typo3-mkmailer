@@ -1,72 +1,60 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Configuration\Processor;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 
 /**
  * tx_mkmailer_mail_SimpleMessage.
  *
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
+ *
+ * @SuppressWarnings("PHPMD.ExcessivePublicCount")
  */
 class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
 {
-    /**
-     * @var string
-     */
-    private $html = '';
+    public $subject;
 
-    /**
-     * @var string
-     */
-    private $text = '';
+    public $from;
 
-    /**
-     * @var array
-     */
-    private $to = [];
+    private string $html = '';
 
-    /**
-     * @var array
-     */
-    private $cc = [];
-    /**
-     * @var array
-     */
-    private $bcc = [];
+    private string $text = '';
 
-    /**
-     * @var array
-     */
-    private $attachments = [];
+    private array $to = [];
 
-    /**
-     * @var array
-     */
-    private $options = [];
+    private array $cc = [];
+
+    private array $bcc = [];
+
+    private array $attachments = [];
+
+    private array $options = [];
 
     /**
      * @param array $options
@@ -77,29 +65,28 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
             // Defaults setzen
             $options = self::getDefaultOptions();
         }
+
         $this->setOptions($options);
     }
 
     /**
      * Liefert die Default-Options.
-     *
-     * @return  array
      */
-    public static function getDefaultOptions()
+    public static function getDefaultOptions(): array
     {
         $options = [];
 
         // CharSet
         $charset = Processor::getExtensionCfgValue('mkmailer', 'charset');
-        $options['charset'] = $charset ? $charset : 'UTF-8';
+        $options['charset'] = $charset ?: 'UTF-8';
 
         // Encoding
         $encoding = Processor::getExtensionCfgValue('mkmailer', 'encoding');
-        $options['encoding'] = $encoding ? $encoding : '8bit';
+        $options['encoding'] = $encoding ?: '8bit';
 
         // returnpath // wenn 1 den Absender als Returnpath, anstonsten die angegebene Adresse
         $returnpath = Processor::getExtensionCfgValue('mkmailer', 'returnpath');
-        $options['returnpath'] = $returnpath ? $returnpath : 0;
+        $options['returnpath'] = $returnpath ?: 0;
 
         return $options;
     }
@@ -109,7 +96,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::setOptions
      */
-    public function setOptions($options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }
@@ -119,7 +106,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see mail/tx_mkmailer_mail_IMessage#setOption($key, $value)
      */
-    public function setOption($key, $value)
+    public function setOption($key, $value): void
     {
         $this->options[$key] = $value;
     }
@@ -129,7 +116,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return array[string]
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -139,7 +126,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::setHtmlPart()
      */
-    public function setHtmlPart($html)
+    public function setHtmlPart($html): void
     {
         $this->html = $html;
     }
@@ -149,7 +136,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::setTxtPart()
      */
-    public function setTxtPart($text)
+    public function setTxtPart($text): void
     {
         $this->text = $text;
     }
@@ -159,7 +146,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::getHtmlPart()
      */
-    public function getHtmlPart()
+    public function getHtmlPart(): string
     {
         return $this->html;
     }
@@ -169,7 +156,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::getTxtPart()
      */
-    public function getTxtPart()
+    public function getTxtPart(): string
     {
         return $this->text;
     }
@@ -179,7 +166,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @param string $file path to file
      */
-    public function addAttachment(tx_mkmailer_mail_IAttachment $file)
+    public function addAttachment(tx_mkmailer_mail_IAttachment $file): void
     {
         $this->attachments[] = $file;
     }
@@ -189,7 +176,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return array[tx_mkmailer_mail_IAttachment]
      */
-    public function getAttachments()
+    public function getAttachments(): array
     {
         return $this->attachments;
     }
@@ -199,7 +186,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @param string $text
      */
-    public function setSubject($text)
+    public function setSubject($text): void
     {
         $this->subject = $text;
     }
@@ -219,7 +206,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @see tx_mkmailer_mail_IMessage::setFrom()
      */
-    public function setFrom($address, $name = '')
+    public function setFrom($address, $name = ''): void
     {
         $this->from = $this->createAddress($address, $name);
     }
@@ -238,7 +225,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      * @param string $address
      * @param string $name
      */
-    public function addTo($address, $name = '')
+    public function addTo($address, $name = ''): void
     {
         $this->to[] = $this->createAddress($address, $name);
     }
@@ -246,7 +233,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
     /**
      * Removes all addresses.
      */
-    public function clearTo()
+    public function clearTo(): void
     {
         $this->to[] = [];
     }
@@ -256,7 +243,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return array[tx_mkmailer_mail_IAddress]
      */
-    public function getTo()
+    public function getTo(): array
     {
         return $this->to;
     }
@@ -265,7 +252,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      * @param string $address
      * @param string $name
      */
-    public function addCc($address, $name = '')
+    public function addCc($address, $name = ''): void
     {
         $this->cc[] = $this->createAddress($address, $name);
     }
@@ -275,7 +262,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @param array[tx_mkmailer_mail_IAddress] $addresses
      */
-    public function setCc(array $addresses)
+    public function setCc(array $addresses): void
     {
         $this->cc = $addresses;
     }
@@ -285,7 +272,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return array[tx_mkmailer_mail_IAddress]
      */
-    public function getCc()
+    public function getCc(): array
     {
         return $this->cc;
     }
@@ -294,7 +281,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      * @param string $address
      * @param string $name
      */
-    public function addBcc($address, $name = '')
+    public function addBcc($address, $name = ''): void
     {
         $this->bcc[] = $this->createAddress($address, $name);
     }
@@ -304,7 +291,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @param array[tx_mkmailer_mail_IAddress] $addresses
      */
-    public function setBcc(array $addresses)
+    public function setBcc(array $addresses): void
     {
         $this->bcc = $addresses;
     }
@@ -314,7 +301,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return array[tx_mkmailer_mail_IAddress]
      */
-    public function getBcc()
+    public function getBcc(): array
     {
         return $this->bcc;
     }
@@ -327,7 +314,7 @@ class tx_mkmailer_mail_SimpleMessage implements tx_mkmailer_mail_IMessage
      *
      * @return tx_mkmailer_mail_IAddress
      */
-    private function createAddress($address, $name = '')
+    private function createAddress($address, $name = ''): object
     {
         return GeneralUtility::makeInstance('tx_mkmailer_mail_Address', $address, $name);
     }

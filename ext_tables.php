@@ -1,38 +1,37 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 if (!defined('TYPO3')) {
     exit('Access denied.');
 }
 
 // Iconregistrieren
-\Sys25\RnBase\Backend\Utility\Icons::getIconRegistry()->registerIcon(
+Sys25\RnBase\Backend\Utility\Icons::getIconRegistry()->registerIcon(
     'ext-mkmailer-wizard-icon',
-    'TYPO3\\CMS\Core\\Imaging\\IconProvider\\BitmapIconProvider',
+    TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
     ['source' => 'EXT:mkmailer/Resources/Public/Icons/Extension.gif']
-);
-// Wizardkonfiguration hinzufügen
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkmailer/Configuration/TSconfig/ContentElementWizard.txt">'
-);
-
-// register user_MkmailerBackend
-\Sys25\RnBase\Utility\Extensions::registerModule(
-    'mkmailer',
-    'web',
-    'backend',
-    'bottom',
-    [],
-    [
-        'access' => 'user,group',
-        'routeTarget' => 'tx_mkmailer_mod1_Module',
-        'icon' => 'EXT:mkmailer/Resources/Public/Icons/moduleicon.png',
-        'labels' => 'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf',
-    ]
-);
-
-\Sys25\RnBase\Utility\Extensions::insertModuleFunction(
-    'web_MkmailerBackend',
-    'tx_mkmailer_mod1_FuncOverview',
-    \Sys25\RnBase\Utility\Extensions::extPath('mkmailer', 'mod1/class.tx_mkmailer_mod1_FuncOverview.php'),
-    'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf:func_overview'
 );

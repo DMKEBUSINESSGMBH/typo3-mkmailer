@@ -1,17 +1,3 @@
-# setup
-includeLibs.tx_rnbase_controller = EXT:rn_base/Legacy/class.tx_rnbase_controller.php
-
-
-plugin.tx_mkmailer = USER_INT
-plugin.tx_mkmailer.flexform = flexform_main.xml
-plugin.tx_mkmailer.userFunc = tx_rnbase_controller->main
-plugin.tx_mkmailer.defaultAction = tx_mkmailer_actions_SendMails
-plugin.tx_mkmailer.qualifier = mkmailer
-plugin.tx_mkmailer.templatePath = EXT:mkmailer/templates
-plugin.tx_mkmailer.locallangFilename = EXT:mkmailer/Resources/Private/Language/locallang.xlf
-
-tt_content.list.20.tx_mkmailer =< plugin.tx_mkmailer
-
 lib.mkmailer.basetemplate {
     wrapTemplate = 1
     textTemplate = EXT:mkmailer/templates/mailwraptext.html
@@ -22,14 +8,21 @@ lib.mkmailer.basetemplate {
     ### dem receiver stehen momentan folgende felder zur verfügung:
     ### address und addressid
     ### weiter sind hier dc marker möglich.
-    receivertext {
-    }
-    receiverhtml {
-    }
+    ### receivertext {
+    ### }
+    ### receiverhtml {
+    ### }
 }
 
-# Ab hier Konfiguration der einzelnen Views
+plugin.tx_mkmailer = USER_INT
 plugin.tx_mkmailer {
+    flexform = flexform_main.xml
+    userFunc = tx_rnbase_controller->main
+    defaultAction = tx_mkmailer_actions_SendMails
+    qualifier = mkmailer
+    templatePath = EXT:mkmailer/templates
+    locallangFilename = EXT:mkmailer/Resources/Private/Language/locallang.xlf
+
     # Action für Versand von Mails aus der Queue
     sendmails {
 
@@ -51,3 +44,8 @@ plugin.tx_mkmailer {
     }
 }
 
+tt_content.tx_mkmailer =< lib.contentElement
+tt_content.tx_mkmailer {
+    templateName = Generic
+    20 =< plugin.tx_mkmailer
+}

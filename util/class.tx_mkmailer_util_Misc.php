@@ -1,36 +1,34 @@
 <?php
 
-use Sys25\RnBase\Configuration\Processor;
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Utility\Misc;
 use Sys25\RnBase\Utility\Strings;
-use Sys25\RnBase\Utility\TYPO3Classes;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\RootlineUtility;
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (dev@dmk-ebusiness.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
-
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * tx_mkmailer_util_Misc.
@@ -47,50 +45,40 @@ class tx_mkmailer_util_Misc
      *
      * @param   string      The input text string to process
      *
-     * @return  string      The processed string
+     * @return string The processed string
      *
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::parseFunc()
+     *
+     * @SuppressWarnings("PHPMD.ElseExpression")
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
     public static function getRTEText($str)
     {
         if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
             Misc::prepareTSFE();
-            $pid = Processor::getExtensionCfgValue('mkmailer', 'cronpage');
-            $setup = self::loadTS($pid);
+            $setup = self::loadTS();
             $parseFunc = $setup['lib.']['parseFunc_RTE.'];
             // TS-Config prüfen. TODO: Das sollte besser gemacht werden.
             if (!is_array($GLOBALS['TSFE']->config)) {
-                $GLOBALS['TSFE']->config = $GLOBALS['TSFE']->tmpl->setup;
+                $GLOBALS['TSFE']->config = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
             }
         } else {
-            $parseFunc = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
+            $parseFunc = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['lib.']['parseFunc_RTE.'];
         }
-        $cObj = GeneralUtility::makeInstance(TYPO3Classes::getContentObjectRendererClass());
+
+        $cObj = GeneralUtility::makeInstance(TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         if (is_array($parseFunc)) {
-            $str = $cObj->parseFunc($str, $parseFunc);
+            return $cObj->parseFunc($str, $parseFunc);
         }
 
         return $str;
     }
 
-    /**
-     * @param number $pageUid
-     *
-     * @return array
-     */
-    public static function loadTS($pageUid = 0)
+    public static function loadTS(): array
     {
-        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
-        $rootLine = $rootlineUtility->get();
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $TSObj = $objectManager->get(
-            TYPO3Classes::getExtendedTypoScriptTemplateServiceClass()
+        return GeneralUtility::makeInstance(TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::class)->getConfiguration(
+            TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $TSObj->tt_track = 0;
-        $TSObj->runThroughTemplates($rootLine);
-        $TSObj->generateConfig();
-
-        return $TSObj->setup;
     }
 
     /**
@@ -100,12 +88,13 @@ class tx_mkmailer_util_Misc
      *
      * @return array[tx_mkmailer_mail_IAddress]
      */
-    public static function parseAddressString($addrStr)
+    public static function parseAddressString($addrStr): array
     {
         $ret = [];
-        if (!strlen(trim($addrStr))) {
+        if ('' === trim($addrStr)) {
             return $ret;
         }
+
         $addrArr = Strings::trimExplode(',', $addrStr);
         foreach ($addrArr as $addr) {
             $ret[] = new tx_mkmailer_mail_Address($addr);

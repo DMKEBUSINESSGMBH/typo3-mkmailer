@@ -5,8 +5,7 @@ mod.wizards.newContentElement.wizardItems.plugins {
             title = LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.label
             description = LLL:EXT:mkmailer/Resources/Private/Language/locallang_db.xlf:plugin.mkmailer.description
             tt_content_defValues {
-                CType = list
-                list_type = tx_mkmailer
+                CType = tx_mkmailer
             }
         }
     }

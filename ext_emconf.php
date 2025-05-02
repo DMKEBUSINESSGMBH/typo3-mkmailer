@@ -1,6 +1,30 @@
 <?php
 
-//
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 // Extension Manager/Repository config file for ext: "mkmailer"
 //
 // Auto generated 19-07-2009 13:45
@@ -22,7 +46,7 @@ $EM_CONF['mkmailer'] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.16.0-',
-            'typo3' => '10.4.25-11.5.99',
+            'typo3' => '12.4.0-13.4.99',
         ],
         'conflicts' => [
         ],
@@ -46,5 +70,4 @@ $EM_CONF['mkmailer'] = [
             'util/',
         ],
     ],
-    '_md5_values_when_last_written' => 'a:5:{s:9:"ChangeLog";s:4:"afa5";s:10:"README.txt";s:4:"ee2d";s:12:"ext_icon.gif";s:4:"1bdc";s:19:"doc/wizard_form.dat";s:4:"ae26";s:20:"doc/wizard_form.html";s:4:"b08b";}',
 ];

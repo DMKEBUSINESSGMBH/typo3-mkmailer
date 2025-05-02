@@ -1,0 +1,27 @@
+parameters:
+    level: 1
+    bootstrapFiles:
+        - "%currentWorkingDirectory%/.Build/vendor/autoload.php"
+    paths:
+        - %currentWorkingDirectory%/actions
+        - %currentWorkingDirectory%/Classes
+        - %currentWorkingDirectory%/exceptions
+        - %currentWorkingDirectory%/mail
+        - %currentWorkingDirectory%/mod1
+        - %currentWorkingDirectory%/models
+        - %currentWorkingDirectory%/receiver
+        - %currentWorkingDirectory%/scheduler
+        - %currentWorkingDirectory%/services
+        - %currentWorkingDirectory%/util
+        - %currentWorkingDirectory%/ext_localconf.php
+        - %currentWorkingDirectory%/ext_tables.php
+        - %currentWorkingDirectory%/ext_emconf.php
+    excludePaths:
+        - %currentWorkingDirectory%/Classes/Updates/DMKMkmailerCTypeMigration.php
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+    		-
+    			message: '#^Call to static method getInstance\(\) on an unknown class tx_t3users_models_feuser\.$#'
+    			identifier: class.notFound
+    			count: 1
+    			path: receiver/class.tx_mkmailer_receiver_FeUser.php

@@ -12,6 +12,14 @@ mod {
                 name.wrap = -|-
             }
         }
+
+        languagefiles {
+            10 = EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf
+        }
     }
+    web_list.table.tx_mkmailer_receiver.hideTable = 1
 }
-mod.web_list.table.tx_mkmailer_receiver.hideTable = 1
+
+templates.dmk/mkmailer {
+    10 = digedag/rn-base:Resources/Private/
+}

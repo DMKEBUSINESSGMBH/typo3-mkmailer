@@ -1,27 +1,29 @@
 <?php
 
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 /**
  * tx_mkmailer_mail_MailJob.
@@ -31,32 +33,37 @@
  *
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
+ *
+ * @SuppressWarnings("PHPMD.ExcessivePublicCount")
  */
 class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
 {
-    /**
-     * @var array
-     */
-    private $receiver = [];
+    public $contentText;
 
-    /**
-     * @var array
-     */
-    private $attach;
+    public $contentHtml;
+
+    public $subject;
+
+    public $from;
+
+    public $tos;
+
+    public $ccs;
+
+    public $bccs;
+
+    private ?array $attach = null;
 
     /**
      * Initialisiert den mailjob.
      * Optional können bereits die MeiE-Mail-Empfänger und ein Template mitgegeben werden.
      *
      * @param   array[tx_mkmailer_receiver_IMailReceiver]   $receiver
-     * @param   tx_mkmailer_models_Template                 $templateObj
      */
     public function __construct(
-        array $receiver = [],
-        ?tx_mkmailer_models_Template &$templateObj = null
+        private array $receiver = [],
+        ?tx_mkmailer_models_Template &$templateObj = null,
     ) {
-        $this->receiver = $receiver;
-
         // set template data, if given
         if (is_object($templateObj)) {
             $this->setFrom($templateObj->getFromAddress());
@@ -77,7 +84,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      *
      * @see tx_mkmailer_mail_IMailJob::getReceiver()
      */
-    public function getReceiver()
+    public function getReceiver(): array
     {
         return $this->receiver;
     }
@@ -105,7 +112,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     /**
      * @param string $value
      */
-    public function setContentText($value)
+    public function setContentText($value): void
     {
         $this->contentText = $value;
     }
@@ -123,8 +130,10 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     /**
      * @param string $value
      * @param string $filename
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    public function setContentHtml($value, $filename = '')
+    public function setContentHtml($value, $filename = ''): void
     {
         $this->contentHtml = $value;
     }
@@ -142,7 +151,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
     /**
      * @param string $value
      */
-    public function setSubject($value)
+    public function setSubject($value): void
     {
         $this->subject = $value;
     }
@@ -157,10 +166,7 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
         return $this->from;
     }
 
-    /**
-     * @param tx_mkmailer_mail_IAddress $value
-     */
-    public function setFrom(tx_mkmailer_mail_IAddress $value)
+    public function setFrom(tx_mkmailer_mail_IAddress $value): void
     {
         $this->from = $value;
     }
@@ -180,15 +186,12 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      *
      * @param array[tx_mkmailer_mail_IAddress] $value
      */
-    public function setTOs($value)
+    public function setTOs($value): void
     {
         $this->tos = $value;
     }
 
-    /**
-     * @param tx_mkmailer_mail_IAddress $value
-     */
-    public function addTO(tx_mkmailer_mail_IAddress $value)
+    public function addTO(tx_mkmailer_mail_IAddress $value): void
     {
         $this->tos[] = $value;
     }
@@ -208,15 +211,12 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      *
      * @param array[tx_mkmailer_mail_IAddress] $value
      */
-    public function setCCs($value)
+    public function setCCs($value): void
     {
         $this->ccs = $value;
     }
 
-    /**
-     * @param tx_mkmailer_mail_IAddress $value
-     */
-    public function addCC(tx_mkmailer_mail_IAddress $value)
+    public function addCC(tx_mkmailer_mail_IAddress $value): void
     {
         $this->ccs[] = $value;
     }
@@ -236,15 +236,12 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      *
      * @param array[tx_mkmailer_mail_IAddress] $value
      */
-    public function setBCCs($value)
+    public function setBCCs($value): void
     {
         $this->bccs = $value;
     }
 
-    /**
-     * @param tx_mkmailer_mail_IAddress $value
-     */
-    public function addBCC(tx_mkmailer_mail_IAddress $value)
+    public function addBCC(tx_mkmailer_mail_IAddress $value): void
     {
         $this->bccs[] = $value;
     }
@@ -254,17 +251,15 @@ class tx_mkmailer_mail_MailJob implements tx_mkmailer_mail_IMailJob
      *
      * @return array[string]
      */
-    public function getAttachments()
+    public function getAttachments(): ?array
     {
         return $this->attach;
     }
 
     /**
      * Attachment an Email anhängen.
-     *
-     * @param tx_mkmailer_mail_IAttachment $attachment
      */
-    public function addAttachment(tx_mkmailer_mail_IAttachment $attachment)
+    public function addAttachment(tx_mkmailer_mail_IAttachment $attachment): void
     {
         if (!is_array($this->attach)) {
             $this->attach = [];

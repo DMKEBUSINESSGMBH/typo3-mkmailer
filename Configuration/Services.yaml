@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    DMK\Mkmailer\:
+        resource: '../Classes/*'
+
+    DMK\Mkmailer\EventListener\ExcludeFromReferenceIndex:
+        tags:
+            -   name: 'event.listener'
+                event: 'TYPO3\CMS\Core\DataHandling\Event\IsTableExcludedFromReferenceIndexEvent'

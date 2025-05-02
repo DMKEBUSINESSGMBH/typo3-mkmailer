@@ -1,29 +1,32 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Backend\Module\BaseModule;
 
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 /**
  * tx_mkmailer_module1.
  *
@@ -40,16 +43,19 @@ class tx_mkmailer_mod1_Module extends BaseModule
     /**
      * Initializes the backend module by setting internal variables, initializing the menu.
      *
-     * @return void
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
-    public function init()
+    public function init(): void
     {
-        $this->MCONF = [
-            'name' => 'web_MkmailerBackend',
-        ];
+        if (!isset($this->MCONF['name'])) {
+            $this->MCONF = array_merge((array) $GLOBALS['MCONF'], [
+                'name' => 'web_MkmailerBackend',
+                'access' => 'user',
+            ]);
+        }
 
         $this->getLanguageService()->includeLLFile('EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf');
-        $this->getBackendUser()->modAccess($this->MCONF, 1);
+        $this->getBackendUser()->modAccess($this->MCONF);
 
         parent::init();
     }
@@ -62,5 +68,15 @@ class tx_mkmailer_mod1_Module extends BaseModule
     public function getExtensionKey()
     {
         return 'mkmailer';
+    }
+
+    public function getTitle()
+    {
+        return 'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf';
+    }
+
+    public function getRouteIdentifier()
+    {
+        return 'web_MkmailerBackend';
     }
 }

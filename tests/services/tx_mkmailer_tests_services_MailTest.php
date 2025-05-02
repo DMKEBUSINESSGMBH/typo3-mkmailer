@@ -1,34 +1,34 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use DMK\Mklib\Utility\Tests;
 use Sys25\RnBase\Testing\BaseTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- *  Copyright notice.
- *
- *  (c) 2014 Hannes Bochmann <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
-/*
- * benötigte Klassen einbinden
- */
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-business.de>
  */
@@ -42,7 +42,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddAddress()
+    public function testAddAddress(): void
     {
         $email = 'alf@localhost.de';
         $name = 'Alf';
@@ -60,7 +60,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddAddressWithInvalidEmail()
+    public function testAddAddressWithInvalidEmail(): void
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
@@ -72,7 +72,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
             ->method('addAddress');
 
         $this->expectException(Exception::class);
-        $this->expectErrorMessage($exceptionMsg);
+        $this->expectExceptionMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addAddress');
     }
@@ -80,7 +80,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddBCC()
+    public function testAddBCC(): void
     {
         $email = 'alf@localhost.de';
         $name = 'Alf';
@@ -98,7 +98,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddBCCWithInvalidEmail()
+    public function testAddBCCWithInvalidEmail(): void
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
@@ -110,7 +110,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
             ->method('addBCC');
 
         $this->expectException(Exception::class);
-        $this->expectErrorMessage($exceptionMsg);
+        $this->expectExceptionMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addBCCAddress');
     }
@@ -118,7 +118,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddCC()
+    public function testAddCC(): void
     {
         $email = 'alf@localhost.de';
         $name = 'Alf';
@@ -136,7 +136,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testAddCCWithInvalidEmail()
+    public function testAddCCWithInvalidEmail(): void
     {
         $email = 'alf@@localhost.de';
         $name = 'Alf';
@@ -148,7 +148,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
             ->method('addCC');
 
         $this->expectException(Exception::class);
-        $this->expectErrorMessage($exceptionMsg);
+        $this->expectExceptionMessage($exceptionMsg);
 
         $this->invoke($mail, $address, 'addCCAddress');
     }
@@ -156,7 +156,7 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     /**
      * @group unit
      */
-    public function testGetUploadDir()
+    public function testGetUploadDir(): void
     {
         $srv = GeneralUtility::makeInstance('tx_mkmailer_services_Mail');
         $this->assertTrue(is_dir($srv->getUploadDir()), '"'.$srv->getUploadDir().'" is not a Directory!');
@@ -165,15 +165,15 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
 
     private function getMail()
     {
-        return $this->getMock(\PHPMailer\PHPMailer\PHPMailer::class, ['addAddress', 'addCC', 'addBCC']);
+        return $this->getMock(PHPMailer\PHPMailer\PHPMailer::class, ['addAddress', 'addCC', 'addBCC']);
     }
 
-    private function getAddress($email, $name)
+    private function getAddress(string $email, string $name): object
     {
         return tx_mkmailer_mail_Factory::createAddressInstance($email, $name);
     }
 
-    private function invoke($mail, $address, $methodName)
+    private function invoke($mail, object $address, string $methodName): void
     {
         $method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
         $method->setAccessible(true);

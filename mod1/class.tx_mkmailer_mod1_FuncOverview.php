@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Backend\Module\BaseModFunc;
 use Sys25\RnBase\Backend\Utility\BEPager;
 use Sys25\RnBase\Backend\Utility\Tables;
@@ -7,29 +32,6 @@ use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Frontend\Marker\Templates;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 
 /**
  * tx_mkmailer_mod1_FuncOverview.
@@ -44,7 +46,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
      *
      * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
      */
-    public function getFuncId()
+    protected function getFuncId()
     {
         return 'overview';
     }
@@ -53,8 +55,10 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
      * (non-PHPdoc).
      *
      * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getContent()
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    public function getContent($template, &$configurations, &$formatter, $formTool)
+    protected function getContent($template, &$configurations, &$formatter, $formTool)
     {
         $data = [];
 
@@ -88,23 +92,17 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
 
         $markerArray = $formatter->getItemMarkerArrayWrapped($data, $this->getConfId().'data.');
 
-        $out = Templates::substituteMarkerArrayCached($template, $markerArray);
-
-        return $out;
+        return Templates::substituteMarkerArrayCached($template, $markerArray);
     }
 
     /**
      * Liefert den Content für die MKMailer Übersicht.
      *
-     * @param string $label
-     * @param string $getEntriesMethodOfMailService
-     * @param string $showEntriesMethod
-     *
      * @return array
      */
-    private function getMarkerArrayDataForListView($label, $getEntriesMethodOfMailService, $showEntriesMethod)
+    private function getMarkerArrayDataForListView(string $label, string $getEntriesMethodOfMailService, string $showEntriesMethod)
     {
-        $pager = GeneralUtility::makeInstance(BEPager::class, 'openQueuePager', $this->getModule()->getName(), 0);
+        $pager = GeneralUtility::makeInstance(BEPager::class, 'openQueuePager', $this->getModule(), 0);
 
         $options = ['count' => 1];
         $mailService = tx_mkmailer_util_ServiceRegistry::getMailService();
@@ -117,7 +115,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
             $mailService->{$getEntriesMethodOfMailService}($options)
         );
         $content['queue'.$label.'_head'] =
-            $GLOBALS['LANG']->getLL('label_'.$label.'jobs').' ('.$count.')';
+            $this->getModule()->getLanguageService()->getLL('label_'.$label.'jobs').' ('.$count.')';
 
         // Pager einblenden
         $pagerData = $pager->render();
@@ -130,8 +128,6 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     /**
      * Creates Entries for Queue List with RemoveButton.
      *
-     * @param array $queueEntries
-     *
      * @return string
      */
     protected function getTableHtmlForQueueEntriesWithRemoteButton(array $queueEntries)
@@ -142,25 +138,27 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     /**
      * Creates Entries for Queue List.
      *
-     * @param array $queueEntries
      * @param bool $removeButton
      *
      * @return string
+     *
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
      */
     protected function getTableHtmlForQueueEntries(array $queueEntries, $removeButton = false)
     {
-        if (!count($queueEntries)) {
+        if ([] === $queueEntries) {
             return '';
         }
+
         $columns = [];
         $columns[] = [
-            $GLOBALS['LANG']->getLL('label_uid'),
-            $GLOBALS['LANG']->getLL('label_created'),
-            $GLOBALS['LANG']->getLL('label_updated'),
-            $GLOBALS['LANG']->getLL('label_send'),
-            $GLOBALS['LANG']->getLL('label_prefer'),
-            $GLOBALS['LANG']->getLL('label_receivers'),
-            $GLOBALS['LANG']->getLL('label_subject'),
+            $this->getModule()->getLanguageService()->getLL('label_uid'),
+            $this->getModule()->getLanguageService()->getLL('label_created'),
+            $this->getModule()->getLanguageService()->getLL('label_updated'),
+            $this->getModule()->getLanguageService()->getLL('label_send'),
+            $this->getModule()->getLanguageService()->getLL('label_prefer'),
+            $this->getModule()->getLanguageService()->getLL('label_receivers'),
+            $this->getModule()->getLanguageService()->getLL('label_subject'),
         ];
 
         foreach ($queueEntries as $queueEntry) {
@@ -170,17 +168,18 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
             if ($removeButton) {
                 $removeBtn = $this->getModule()->getFormTool()->createSubmit(
                     'removeMail[]['.$queueEntry->getUid().']',
-                    $GLOBALS['LANG']->getLL('label_delete'),
-                    $GLOBALS['LANG']->getLL('label_text_delete')
+                    $this->getModule()->getLanguageService()->getLL('label_delete'),
+                    $this->getModule()->getLanguageService()->getLL('label_text_delete')
                 );
             }
+
             $column[] = $queueEntry->getUid().$removeBtn;
             $column[] = $queueEntry->getCreationDate();
             $column[] = $queueEntry->getLastUpdate();
             $column[] = $queueEntry->getMailCount();
             $column[] = $queueEntry->isPrefer() ?
-                $GLOBALS['LANG']->getLL('label_yes') :
-                $GLOBALS['LANG']->getLL('label_no');
+                $this->getModule()->getLanguageService()->getLL('label_yes') :
+                $this->getModule()->getLanguageService()->getLL('label_no');
             $column[] = $this->showReceiver($queueEntry);
 
             $content = $queueEntry->getSubject();
@@ -196,20 +195,19 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     }
 
     /**
-     * @param array $logEntries
-     *
      * @return string
      */
     protected function getTableHtmlForLogEntries(array $logEntries)
     {
-        if (!count($logEntries)) {
+        if ([] === $logEntries) {
             return '';
         }
+
         $columns = [];
         $columns[] = [
-            $GLOBALS['LANG']->getLL('label_uid'),
-            $GLOBALS['LANG']->getLL('label_created'),
-            $GLOBALS['LANG']->getLL('label_receiver'),
+            $this->getModule()->getLanguageService()->getLL('label_uid'),
+            $this->getModule()->getLanguageService()->getLL('label_created'),
+            $this->getModule()->getLanguageService()->getLL('label_receiver'),
             '',
         ];
         foreach ($logEntries as $logEntry) {
@@ -218,12 +216,12 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
             $editButton = $this->getModule()->getFormTool()->createEditButton(
                 'tx_mkmailer_receiver',
                 $logEntry->getReceiver(),
-                ['title' => $GLOBALS['LANG']->getLL('label_edit_complete_receiver')]
+                ['title' => $this->getModule()->getLanguageService()->getLL('label_edit_complete_receiver')]
             );
             $moveButton = $this->getModule()->getFormTool()->createSubmit(
                 'moveLogEntryBackToQueue[]['.$logEntry->getReceiver().']',
-                $GLOBALS['LANG']->getLL('label_move'),
-                $GLOBALS['LANG']->getLL('label_text_move')
+                $this->getModule()->getLanguageService()->getLL('label_move'),
+                $this->getModule()->getLanguageService()->getLL('label_text_move')
             );
 
             $column[] = $logEntry->getUid();
@@ -232,6 +230,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
             $column[] = $moveButton;
             $columns[] = $column;
         }
+
         /* @var $tables \Sys25\RnBase\Backend\Utility\Tables */
         $tables = GeneralUtility::makeInstance(Tables::class);
 
@@ -240,12 +239,8 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
 
     /**
      * Zeigt die Empfänger der Mail an.
-     *
-     * @param tx_mkmailer_models_Queue $mail
-     *
-     * @return string
      */
-    protected function showReceiver(tx_mkmailer_models_Queue $mail)
+    protected function showReceiver(tx_mkmailer_models_Queue $mail): string
     {
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
         $ret = [];
@@ -255,11 +250,12 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
             $receiver = $mailServ->createReceiver($receiverData);
 
             $addrCnt = $receiver->getAddressCount();
-            $addrInfo = $addrCnt.' '.$GLOBALS['LANG']->getLL('label_receivers');
+            $addrInfo = $addrCnt.' '.$this->getModule()->getLanguageService()->getLL('label_receivers');
             if (1 == $addrCnt) {
                 $addrArr = $receiver->getSingleAddress(0);
                 $addrInfo = $addrArr['address'];
             }
+
             $info = $receiver->getName().' (';
             $info .= $addrInfo.')';
 
@@ -271,16 +267,15 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
 
     /**
      * Löscht die angegebene Email aus der Queue.
-     *
-     * @return string
      */
-    private function handleDeleteMail()
+    private function handleDeleteMail(): string
     {
         $out = '';
         $uid = $this->getUidFromRequest('removeMail');
-        if (!$uid) {
+        if (0 === $uid || false === $uid) {
             return $out;
         }
+
         // Die Mail löschen
         $mailServ = tx_mkmailer_util_ServiceRegistry::getMailService();
         $mailServ->deleteMail($uid);
@@ -288,10 +283,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
         return $out;
     }
 
-    /**
-     * @return void
-     */
-    private function handleMoveLogEntryBackToQueue()
+    private function handleMoveLogEntryBackToQueue(): void
     {
         $uid = $this->getUidFromRequest('moveLogEntryBackToQueue');
 
@@ -308,22 +300,26 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     /**
      * Liefert die Mail aus dem Request oder false.
      *
-     * @param string $varName
-     *
      * @return int
      */
-    private function getUidFromRequest($varName)
+    private function getUidFromRequest(string $varName): false|int
     {
         $uids = Parameters::getPostOrGetParameter($varName);
-        if (!is_array($uids) || !count($uids)) {
+        if (!is_array($uids) || [] === $uids) {
             return false;
         }
+
         // Es sollte immer nur eine Mail drin liegen
         $mailUid = key($uids[0]);
-        if (!$mailUid) {
+        if (0 === $mailUid || ('' === $mailUid || '0' === $mailUid) || null === $mailUid) {
             return false;
         }
 
         return (int) $mailUid;
+    }
+
+    public function getModuleIdentifier()
+    {
+        return 'mkmailer';
     }
 }

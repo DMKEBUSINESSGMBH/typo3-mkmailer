@@ -1,12 +1,12 @@
 <?php
 
-use Sys25\RnBase\Testing\BaseTestCase;
-
-/***************************************************************
+/*
  * Copyright notice
  *
- * (c) 2016 DMK E-BUSINESS GmbH <kontakt@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
  * free software; you can redistribute it and/or modify
@@ -14,8 +14,8 @@ use Sys25\RnBase\Testing\BaseTestCase;
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
  * This script is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,7 +23,10 @@ use Sys25\RnBase\Testing\BaseTestCase;
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
+
+use Sys25\RnBase\Testing\BaseTestCase;
+
 /**
  * Mail factory Tests.
  *
@@ -36,16 +39,14 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
     /**
      * Test the createAttachment method.
      *
-     * @return void
-     *
      * @group unit
      *
      * @test
      */
-    public function testCreateAttachmentShouldReadTheRightMimeType()
+    public function testCreateAttachmentShouldReadTheRightMimeType(): void
     {
         $model = tx_mkmailer_mail_Factory::createAttachment(
-            'EXT:mkmailer/tests/phpunit.xml'
+            __DIR__.'/../../flexform_main.xml',
         );
 
         self::assertSame('text/xml', $model->getMimeType());
@@ -54,16 +55,14 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
     /**
      * Test the createEmbeddedAttachment method.
      *
-     * @return void
-     *
      * @group unit
      *
      * @test
      */
-    public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType()
+    public function testCreateEmbeddedAttachmentShouldReadTheRightMimeType(): void
     {
         $model = tx_mkmailer_mail_Factory::createEmbeddedAttachment(
-            'EXT:mkmailer/tests/phpunit.xml',
+            __DIR__.'/../../flexform_main.xml',
             uniqid('Embedded', true)
         );
 
@@ -73,17 +72,15 @@ class tx_mkmailer_tests_mail_FactoryTest extends BaseTestCase
     /**
      * Test the createStringAttachment method.
      *
-     * @return void
-     *
      * @group unit
      *
      * @test
      */
-    public function testCreateStringAttachmentShouldReadTheRightMimeType()
+    public function testCreateStringAttachmentShouldReadTheRightMimeType(): void
     {
         $xml = file_get_contents(
             tx_mkmailer_mail_Factory::makeAbsPath(
-                'EXT:mkmailer/tests/phpunit.xml'
+                __DIR__.'/../../flexform_main.xml',
             )
         );
         $model = tx_mkmailer_mail_Factory::createStringAttachment(

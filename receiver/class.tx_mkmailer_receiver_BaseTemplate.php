@@ -1,33 +1,35 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Frontend\Marker\BaseMarker;
 use Sys25\RnBase\Frontend\Marker\FormatUtil;
 use Sys25\RnBase\Frontend\Marker\Templates;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/**
- *  Copyright notice.
- *
- *  (c) 2011 DMK E-BUSINESS <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 
 /**
  * tx_mkmailer_receiver_BaseTemplate.
@@ -41,6 +43,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author          Michael Wagner <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
+ *
+ * @SuppressWarnings("PHPMD.CyclomaticComplexity")
  */
 abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Base
 {
@@ -51,11 +55,11 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * Sollte überschrieben werden!
      * Der Quatsch mit der Klasse ist nur Fallback!
      *
-     * @return  string
+     * @return string
      */
     protected function getConfId()
     {
-        $confId = explode('_', get_class($this));
+        $confId = explode('_', static::class);
         $confId = array_pop($confId);
 
         return strtolower($confId).'.';
@@ -65,39 +69,35 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * @TODO: die original confid wird noch gebraucht -> sendmails.
      *
      * @param Processor $configurations
-     * @param   string                      $confId
-     * @param   string                      $type
-     * @param   string                      $config
      *
-     * @return  string
+     * @return string
      */
-    protected function getConfig($configurations, $confId, $type, $config)
+    protected function getConfig($configurations, string $confId, string $type, string $config)
     {
         // wird benötigt um template und subpart vom default auszulesen
-        $confIdNoDot = false !== strpos($confId, '.') ? substr($confId, 0, -1) : '';
+        $confIdNoDot = str_contains($confId, '.') ? substr($confId, 0, -1) : '';
 
         $ret = $configurations->get($confId.$type.$config);
-        $ret = $ret ? $ret : $configurations->get($confIdNoDot.$config);
-        $ret = $ret ? $ret : $configurations->get('sendmails.basetemplate.'.$type.$config);
-        $ret = $ret ? $ret : $configurations->get('sendmails.basetemplate'.$config);
+        $ret = $ret ?: $configurations->get($confIdNoDot.$config);
+        $ret = $ret ?: $configurations->get('sendmails.basetemplate.'.$type.$config);
 
-        return $ret;
+        return $ret ?: $configurations->get('sendmails.basetemplate'.$config);
     }
 
     /**
      * Wrapt ein Template um den Inhalt.
      *
-     * @param   string                      $content
      * @param Processor $configurations
-     * @param   string                      $confId
-     * @param   string                      $type
-     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @param int       $idx            Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
-     * @return  string
+     * @return string
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     * @SuppressWarnings("PHPMD.ExcessiveParameterList")
      */
-    protected function parseTemplate($content, $configurations, $confId, $type, $idx = 0)
+    protected function parseTemplate(?string $content, $configurations, string $confId, string $type, $idx = 0)
     {
-        if (empty($content) || !$configurations->getBool($confId.'wrapTemplate')) {
+        if (null === $content || '' === $content || '0' === $content || !$configurations->getBool($confId.'wrapTemplate')) {
             return $content;
         }
 
@@ -109,13 +109,16 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         }
 
         $template = GeneralUtility::getUrl(GeneralUtility::getFileAbsFileName($templatePath));
-        if (!$template) {
+        if ('' === $template || '0' === $template || false === $template) {
             return '<!-- TEMPLATE NOT FOUND: '.$templatePath.' -->'.$content;
         }
 
         /* *** Subpart auslesen *** */
         $subpart = $this->getConfig($configurations, $confId, $type, 'Subpart');
-        $subpart = $subpart ?? '###CONTENT'.strtoupper($type).'###';
+        if (!$subpart) {
+            $subpart = '###CONTENT'.strtoupper($type).'###';
+        }
+
         $template = Templates::getSubpart($template, $subpart);
 
         if (!$template) {
@@ -133,20 +136,20 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * Parst den Receiver ein Template um den Inhalt.
      *
-     * @param   string                      $content
+     * @param string    $content
      * @param Processor $configurations
-     * @param   string                      $confId
-     * @param   string                      $type
-     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @param int       $idx            Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
-     * @return  string
+     * @return string
      */
-    protected function parseReceiver($content, $configurations, $confId, $type, $idx = 0)
+    protected function parseReceiver($content, $configurations, string $confId, string $type, $idx = 0)
     {
         $out = $content;
-
         // jetzt noch dcmarker und labels ersetzen.
-        $markerArray = $subpartArray = $wrappedSubpartArray = $params = [];
+        $markerArray = [];
+        $subpartArray = [];
+        $wrappedSubpartArray = [];
+        $params = [];
         $formatter = $configurations->getFormatter();
 
         if (BaseMarker::containsMarker($out, 'RECEIVER_')) {
@@ -176,14 +179,12 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      * Calls modul subparts, module markers and substitutes the marker arrays.
      *
      * @param string $template
-     * @param array $markerArray
-     * @param array $subpartArray
-     * @param array $wrappedSubpartArray
-     * @param array $params
-     * @param FormatUtil $formatter
      * @param string $confId
      *
      * @return string
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     * @SuppressWarnings("PHPMD.ExcessiveParameterList")
      */
     protected function substituteMarkerArray(
         $template,
@@ -192,7 +193,7 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
         array $wrappedSubpartArray,
         array $params,
         FormatUtil $formatter,
-        $confId
+        $confId,
     ) {
         // labels und module parsen
         BaseMarker::callModules(
@@ -216,9 +217,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * Verändert das entgültige HTML.
      *
-     * @param   string  $content
+     * @param string $content
      *
-     * @return  string
+     * @return string
      */
     protected function fixContentHtml($content)
     {
@@ -228,9 +229,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * Verändert den entgültigen Text.
      *
-     * @param   string  $content
+     * @param string $content
      *
-     * @return  string
+     * @return string
      */
     protected function fixSubject($content)
     {
@@ -241,9 +242,9 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * Verändert den entgültigen Text.
      *
-     * @param   string  $content
+     * @param string $content
      *
-     * @return  string
+     * @return string
      */
     protected function fixContentText($content)
     {
@@ -269,20 +270,18 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
      */
     protected function getReceiverRecord($idx)
     {
-        $record = $this->getSingleAddress($idx);
-
-        return $record;
+        return $this->getSingleAddress($idx);
     }
 
     /**
      * Erstellt eine individuelle Email für einen Empfänger der Email.
      *
-     * @param   tx_mkmailer_models_Queue    $queue
-     * @param FormatUtil $formatter
-     * @param   string                      $confId
-     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @param tx_mkmailer_models_Queue $queue
+     * @param FormatUtil               $formatter
+     * @param string                   $confId
+     * @param int                      $idx       Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
-     * @return  tx_mkmailer_mail_IMessage
+     * @return tx_mkmailer_mail_IMessage
      */
     public function getSingleMail($queue, &$formatter, $confId, $idx)
     {
@@ -354,14 +353,17 @@ abstract class tx_mkmailer_receiver_BaseTemplate extends tx_mkmailer_receiver_Ba
     /**
      * Hier können susätzliche Daten in das Template gefügt werden.
      *
-     * @param   string                      $mailText
-     * @param   string                      $mailHtml
-     * @param   string                      $mailSubject
+     * @param string     $mailText
+     * @param string     $mailHtml
+     * @param string     $mailSubject
      * @param FormatUtil $formatter
-     * @param   string                      $confId
-     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @param string     $confId
+     * @param int        $idx         Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
-     * @return  tx_mkmailer_mail_IMessage
+     * @return void
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     * @SuppressWarnings("PHPMD.ExcessiveParameterList")
      */
     protected function addAdditionalData(&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx)
     {

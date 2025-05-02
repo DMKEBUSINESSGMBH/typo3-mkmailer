@@ -1,30 +1,32 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mkmailer" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 use Sys25\RnBase\Frontend\Marker\FormatUtil;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Rene Nitzsche (rene@system25.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 
 /**
  * tx_mkmailer_receiver_FeUser.
@@ -48,7 +50,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::setValueString()
      */
-    public function setValueString($value)
+    public function setValueString($value): void
     {
         $this->setFeUser(tx_t3users_models_feuser::getInstance(intval($value)));
     }
@@ -56,7 +58,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     /**
      * @param tx_t3users_models_feuser $feuser
      */
-    public function setFeUser($feuser)
+    public function setFeUser($feuser): void
     {
         $this->obj = $feuser;
     }
@@ -66,7 +68,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddressCount()
      */
-    public function getAddressCount()
+    public function getAddressCount(): int
     {
         return is_object($this->obj) ? 1 : 0; // Immer nur eine Person
     }
@@ -76,7 +78,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::getAddresses()
      */
-    public function getAddresses()
+    public function getAddresses(): array
     {
         if (!$this->getEmail()) {
             return [];
@@ -118,14 +120,16 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
     /**
      * Hier können susätzliche Daten in das Template gefügt werden.
      *
-     * @param   string                      $mailText
-     * @param   string                      $mailHtml
-     * @param   string                      $mailSubject
+     * @param string     $mailText
+     * @param string     $mailHtml
+     * @param string     $mailSubject
      * @param FormatUtil $formatter
-     * @param   string                      $confId
-     * @param   int                         $idx Index des Empfängers von 0 bis (getAddressCount() - 1)
+     * @param string     $confId
+     * @param int        $idx         Index des Empfängers von 0 bis (getAddressCount() - 1)
      *
-     * @return  tx_mkmailer_mail_IMessage
+     * @return void
+     *
+     * @SuppressWarnings("PHPMD.ExcessiveParameterList")
      */
     protected function addAdditionalData(
         &$mailText,
@@ -133,7 +137,7 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
         &$mailSubject,
         $formatter,
         $confId,
-        $idx
+        $idx,
     ) {
         $marker = GeneralUtility::makeInstance('tx_t3users_util_FeUserMarker');
         $mailText = $marker->parseTemplate(
@@ -174,10 +178,8 @@ class tx_mkmailer_receiver_FeUser extends tx_mkmailer_receiver_BaseTemplate
 
     /**
      * Liefert die ConfId für den Reciver.
-     *
-     * @return  string
      */
-    protected function getConfId()
+    protected function getConfId(): string
     {
         return 'receiver.';
     }
