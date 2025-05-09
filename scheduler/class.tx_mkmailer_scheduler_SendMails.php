@@ -50,7 +50,6 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      *
      * @param array $devLog put some informations for the logging here
      *
-     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function executeTask(array $options, array &$devLog): string
