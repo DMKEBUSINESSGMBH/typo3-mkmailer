@@ -257,7 +257,6 @@ class tx_mkmailer_services_Mail extends AbstractService
         tx_mkmailer_mail_IMailJob $job,
     ): void {
         $queue = $this->createQueueByJob($job);
-
         $mailUid = Connection::getInstance()->doInsert(
             'tx_mkmailer_queue',
             $queue->getProperty(),
@@ -288,21 +287,23 @@ class tx_mkmailer_services_Mail extends AbstractService
         tx_mkmailer_mail_IMailJob $job,
     ): object {
         $ccs = [];
+        $ccsString = '';
         if ($job->getCCs()) {
             foreach ($job->getCCs() as $addr) {
                 $ccs[] = $addr->getAddress();
             }
 
-            $ccs = implode(',', $ccs);
+            $ccsString = implode(',', $ccs);
         }
 
         $bccs = [];
+        $bccsString = '';
         if ($job->getBCCs()) {
             foreach ($job->getBCCs() as $addr) {
                 $bccs[] = $addr->getAddress();
             }
 
-            $bccs = implode(',', $bccs);
+            $bccsString = implode(',', $bccs);
         }
 
         $from = $job->getFrom();
@@ -327,8 +328,8 @@ class tx_mkmailer_services_Mail extends AbstractService
         $data['contenthtml'] = $job->getContentHtml();
         $data['mail_from'] = is_object($from) ? $from->getAddress() : 'noreply@mkmailer.com';
         $data['mail_fromName'] = is_object($from) ? $from->getName() : '';
-        $data['mail_cc'] = '' === $ccs || '0' === $ccs ? '' : $ccs;
-        $data['mail_bcc'] = '' === $bccs || '0' === $bccs ? '' : $bccs;
+        $data['mail_cc'] = '' === $ccsString || '0' === $ccsString ? '' : $ccsString;
+        $data['mail_bcc'] = '' === $bccsString || '0' === $bccsString ? '' : $bccsString;
         // Attachments werden serialisiert abgespeichert.
         $attachments = $job->getAttachments();
         $data['attachments'] = $attachments ? serialize($attachments) : '';
