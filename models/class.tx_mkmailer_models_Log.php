@@ -40,7 +40,7 @@ class tx_mkmailer_models_Log extends BaseModel
      *
      * @see \Sys25\RnBase\Domain\Model\BaseModel::getTableName()
      */
-    public function getTableName()
+    public function getTableName(): string
     {
         return 'tx_mkmailer_log';
     }

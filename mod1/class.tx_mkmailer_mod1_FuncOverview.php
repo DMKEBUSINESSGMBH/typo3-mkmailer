@@ -46,7 +46,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
      *
      * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
      */
-    protected function getFuncId()
+    protected function getFuncId(): string
     {
         return 'overview';
     }
@@ -318,7 +318,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
         return (int) $mailUid;
     }
 
-    public function getModuleIdentifier()
+    public function getModuleIdentifier(): string
     {
         return 'mkmailer';
     }

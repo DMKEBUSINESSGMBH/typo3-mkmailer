@@ -44,7 +44,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
      *
      * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::handleRequest()
      */
-    protected function handleRequest(RequestInterface $request)
+    protected function handleRequest(RequestInterface $request): string
     {
         $mailSrv = tx_mkmailer_util_ServiceRegistry::getMailService();
 
@@ -56,7 +56,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
      *
      * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getTemplateName()
      */
-    protected function getTemplateName()
+    protected function getTemplateName(): string
     {
         return 'sendmails';
     }
@@ -66,7 +66,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
      *
      * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getViewClassName()
      */
-    protected function getViewClassName()
+    protected function getViewClassName(): string
     {
         return '';
     }

@@ -50,11 +50,10 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
      *
      * @param array $devLog put some informations for the logging here
      *
-     * @return string
      *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    protected function executeTask(array $options, array &$devLog)
+    protected function executeTask(array $options, array &$devLog): string
     {
         $cronPage = $this->getCronPageId();
         if ($cronPage) {
@@ -149,10 +148,8 @@ class tx_mkmailer_scheduler_SendMails extends tx_mklib_scheduler_Generic
 
     /**
      * Extension key, used for devlog.
-     *
-     * @return string
      */
-    protected function getExtKey()
+    protected function getExtKey(): string
     {
         return 'mkmailer';
     }

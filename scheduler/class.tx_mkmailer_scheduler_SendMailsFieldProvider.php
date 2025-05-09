@@ -36,10 +36,8 @@ class tx_mkmailer_scheduler_SendMailsFieldProvider extends tx_mklib_scheduler_Ge
 {
     /**
      * Returns the option fields for the SendMails scheduler.
-     *
-     * @return array
      */
-    protected function getAdditionalFieldConfig()
+    protected function getAdditionalFieldConfig(): array
     {
         return [
             'cronpage' => [

@@ -65,17 +65,17 @@ class tx_mkmailer_mod1_Module extends BaseModule
      *
      * @see \Sys25\RnBase\Backend\Module\BaseModule::getExtensionKey()
      */
-    public function getExtensionKey()
+    public function getExtensionKey(): string
     {
         return 'mkmailer';
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'LLL:EXT:mkmailer/Resources/Private/Language/Backend/locallang_mod.xlf';
     }
 
-    public function getRouteIdentifier()
+    public function getRouteIdentifier(): string
     {
         return 'web_MkmailerBackend';
     }
