@@ -105,7 +105,7 @@
         ],
         "lint:yaml": [
             "[ -e .Build/bin/yaml-lint ] || composer update",
-            ".Build/bin/yaml-lint --ansi -n -v ./Configuration ./Resources ./.github"
+            ".Build/bin/yaml-lint --ansi -n -v ./Configuration ./Resources ./.github typoscript-lint.yml"
         ],
         "lint": [
             "@lint:php",
