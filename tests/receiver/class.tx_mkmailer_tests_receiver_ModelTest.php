@@ -1,5 +1,6 @@
 <?php
 
+use Psr\Http\Message\ServerRequestInterface;
 use Sys25\RnBase\Domain\Model\BaseModel;
 use Sys25\RnBase\Frontend\Marker\FormatUtil;
 use Sys25\RnBase\Frontend\Marker\SimpleMarker;
@@ -36,6 +37,23 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
+            ServerRequestInterface::class,
+            [],
+            [],
+            '',
+            false
+        );
+        $GLOBALS['TYPO3_REQUEST']
+            ->expects(self::any())
+            ->method('getAttribute')
+            ->with('applicationType')
+            ->willReturn(2);
+    }
+
     /**
      * @group unit
      */

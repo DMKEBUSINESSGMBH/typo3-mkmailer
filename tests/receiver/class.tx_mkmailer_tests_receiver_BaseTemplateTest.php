@@ -1,5 +1,6 @@
 <?php
 
+use Psr\Http\Message\ServerRequestInterface;
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Testing\BaseTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -90,6 +91,23 @@ class tx_mkmailer_tests_receiver_BaseTemplateWithEmailObjectVariable extends tx_
  */
 class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
+            ServerRequestInterface::class,
+            [],
+            [],
+            '',
+            false
+        );
+        $GLOBALS['TYPO3_REQUEST']
+            ->expects(self::any())
+            ->method('getAttribute')
+            ->with('applicationType')
+            ->willReturn(2);
+    }
+
     /**
      * @return Processor
      */
@@ -273,7 +291,6 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends BaseTestCase
             self::markTestSkipped('The DC marker is not parsed in TYPO3 10.4');
         }
 
-        $GLOBALS['TYPO3_REQUEST'] = new \TYPO3\CMS\Core\Http\ServerRequest();
         $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['TEXT'] = \TYPO3\CMS\Frontend\ContentObject\TextContentObject::class;
 
         $confId = 'sendmails.';
