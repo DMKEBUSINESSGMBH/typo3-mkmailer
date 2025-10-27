@@ -108,7 +108,6 @@ class tx_mkmailer_tests_receiver_BaseTemplateTest extends TYPO3\TestingFramework
         $this->injectMarkerBasedTemplateService();
 
         $property = new ReflectionProperty(Sys25\RnBase\Frontend\Marker\Templates::class, 'substCacheEnabled');
-        $property->setAccessible(true);
         $property->setValue(null, false);
 
         $GLOBALS['TSFE'] = new stdClass();

@@ -184,7 +184,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
 
             $content = $queueEntry->getSubject();
 
-            $column[] = substr($content, 0, 30);
+            $column[] = substr((string) $content, 0, 30);
             $columns[] = $column;
         }
 

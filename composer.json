@@ -36,8 +36,8 @@
     },
     "require": {
         "typo3/cms-core": "^12.4 || ^13.4",
-        "digedag/rn-base": "^1.17 || dev-upgrade/typo3_13",
-        "dmk/mklib": "^12.0 || 13.4.x-dev",
+        "digedag/rn-base": "~1.20.0",
+        "dmk/mklib": "^12.0 || ^13.0",
         "phpmailer/phpmailer": "^6.5"
     },
     "require-dev": {
@@ -50,7 +50,7 @@
         "phpmd/phpmd": "^2.14",
         "phpstan/extension-installer": "^1.1 || ^2.0",
         "phpstan/phpstan": "^1.1 || ^2.0",
-        "rector/rector": "^1.0 || 2.0.10",
+        "rector/rector": "^1.0 || ^2.0",
         "saschaegerer/phpstan-typo3": "^1.0 || ^2.0",
         "ssch/typo3-rector": "^2.8 | ^3.1"
     },

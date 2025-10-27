@@ -5,6 +5,7 @@ The following is a very high level overview of the changes in this extension.
 
 | Version | Changes                                                                                                                                                                                          |
 |---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 13.0.0  | Support for TYPO3 12.4 and 13.4 only                                                                                                                                                             |
 | 11.0.1  | bugfix for BE module since rn_base 1.16.7                                                                                                                                                        |
 | 11.0.0  | added support for TYPO3 10.4 and 11.5 and PHP 7.4 and 8.0 only                                                                                                                                   |
 | 9.0.0   | add support for TYPO3 9.5                                                                                                                                                                        |

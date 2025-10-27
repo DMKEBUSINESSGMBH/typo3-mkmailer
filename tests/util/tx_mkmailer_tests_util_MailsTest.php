@@ -38,7 +38,6 @@ class tx_mkmailer_tests_util_MailsTest extends tx_mkmailer_tests_util_MailsBaseT
     public function testGetMailService(): void
     {
         $method = new ReflectionMethod('tx_mkmailer_util_Mails', 'getMailService');
-        $method->setAccessible(true);
         $this->assertInstanceOf(
             'tx_mkmailer_services_Mail',
             $method->invoke(GeneralUtility::makeInstance('tx_mkmailer_util_Mails'))

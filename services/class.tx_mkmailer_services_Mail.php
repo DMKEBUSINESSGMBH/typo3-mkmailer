@@ -166,7 +166,7 @@ class tx_mkmailer_services_Mail extends AbstractService
                 }
             }
 
-            if (0 == $sentCnt && 0 == $errCnt) {
+            if (0 === $sentCnt && 0 === $errCnt) {
                 // Für diese Queue wurden keine Mails mehr verschickt, sie kann also geschlossen werden
                 $this->closeMailQueue($queue);
             } else {
@@ -536,7 +536,7 @@ class tx_mkmailer_services_Mail extends AbstractService
      *
      * @return tx_mkmailer_receiver_IMailReceiver
      */
-    public function createReceiver(array $receiverArr)
+    public function createReceiver(array $receiverArr): object
     {
         $clazzName = $receiverArr['resolver'];
         $receiver = new $clazzName();

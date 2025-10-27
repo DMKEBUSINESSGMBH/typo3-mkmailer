@@ -176,7 +176,6 @@ class tx_mkmailer_tests_services_MailTest extends BaseTestCase
     private function invoke($mail, object $address, string $methodName): void
     {
         $method = new ReflectionMethod('tx_mkmailer_services_Mail', $methodName);
-        $method->setAccessible(true);
         $method->invokeArgs(
             GeneralUtility::makeInstance('tx_mkmailer_services_Mail'),
             [$mail, $address]

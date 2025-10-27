@@ -77,7 +77,7 @@ class tx_mkmailer_mail_Factory
         $name = '',
         string $encoding = 'base64',
         $mimeType = false,
-    ) {
+    ): object {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
             self::makeAbsPath($path),
@@ -142,7 +142,7 @@ class tx_mkmailer_mail_Factory
         $name = '',
         string $encoding = 'base64',
         $mimeType = false,
-    ) {
+    ): object {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
             $content,
@@ -173,7 +173,7 @@ class tx_mkmailer_mail_Factory
         $name = '',
         string $encoding = 'base64',
         $mimeType = false,
-    ) {
+    ): object {
         return self::createAttachmentInstance(
             tx_mkmailer_mail_IAttachment::TYPE_ATTACHMENT,
             self::makeAbsPath($path),
@@ -205,7 +205,7 @@ class tx_mkmailer_mail_Factory
         $embedId = '',
         string $encoding = 'base64',
         $mimeType = false,
-    ) {
+    ): object {
         /* @var $attachment tx_mkmailer_mail_Attachment */
         $attachment = GeneralUtility::makeInstance(
             'tx_mkmailer_mail_Attachment',

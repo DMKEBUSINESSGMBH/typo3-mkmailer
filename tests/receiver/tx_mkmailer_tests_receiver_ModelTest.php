@@ -41,7 +41,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         parent::setUp();
 
         $property = new ReflectionProperty(Sys25\RnBase\Frontend\Marker\Templates::class, 'substCacheEnabled');
-        $property->setAccessible(true);
         $property->setValue(null, false);
     }
 
@@ -53,7 +52,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $receiver = $this->getReceiver(['testMail', 123]);
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'email');
-        $property->setAccessible(true);
 
         $this->assertEquals('testMail', $property->getValue($receiver), 'falsche Email');
     }
@@ -66,7 +64,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $receiver = $this->getReceiver(['testMail', 123]);
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'modelUid');
-        $property->setAccessible(true);
 
         $this->assertEquals('123', $property->getValue($receiver), 'falsche model Uid');
     }
@@ -81,7 +78,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $receiver->setModelUid(456);
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'modelUid');
-        $property->setAccessible(true);
 
         $this->assertEquals('456', $property->getValue($receiver), 'falsche model Uid');
     }
@@ -94,7 +90,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $receiver = $this->getReceiver();
 
         $property = new ReflectionProperty('tx_mkmailer_receiver_Model', 'modelUid');
-        $property->setAccessible(true);
         $property->setValue($receiver, 456);
 
         $this->assertEquals('456', $receiver->getModelUid(), 'falsche model Uid');
@@ -150,7 +145,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $mailSubject = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
-        $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
             [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]
@@ -176,7 +170,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $mailSubject = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
-        $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
             [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]
@@ -202,7 +195,6 @@ class tx_mkmailer_tests_receiver_ModelTest extends BaseTestCase
         $mailHtml = '';
 
         $method = new ReflectionMethod('tx_mkmailer_receiver_Model', 'addAdditionalData');
-        $method->setAccessible(true);
         $method->invokeArgs(
             $receiver,
             [&$mailText, &$mailHtml, &$mailSubject, $formatter, $confId, $idx]

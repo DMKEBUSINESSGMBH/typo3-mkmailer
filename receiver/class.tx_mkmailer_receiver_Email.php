@@ -119,13 +119,9 @@ class tx_mkmailer_receiver_Email extends tx_mkmailer_receiver_BaseTemplate
      *
      * @see tx_mkmailer_receiver_IMailReceiver::getSingleAddress()
      */
-    public function getSingleAddress($idx)
+    public function getSingleAddress($idx): array
     {
-        $ret['address'] = $this->email;
-        // TODO: Die AddressID ist notwendig, um beim Versionswechsel kein Mails doppelt zu verschicken.
-        $ret['addressid'] = $ret['address'];
-
-        return $ret;
+        return ['address' => $this->email, 'addressid' => $this->email];
     }
 
     /**
