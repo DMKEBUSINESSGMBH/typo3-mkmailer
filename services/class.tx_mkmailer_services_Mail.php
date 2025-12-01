@@ -74,14 +74,14 @@ class tx_mkmailer_services_Mail extends AbstractService
 
         if (!$lock->lockProcess()) {
             Logger::fatal(
-                'Error in SendMailQueue: The Mail-Process couldn\'t be locked',
+                "Error in SendMailQueue: The Mail-Process couldn't be locked",
                 'mkmailer',
                 [
                     'Lock' => $lock,
                 ]
             );
 
-            return '<p>The Mail-Process couldn\'t be locked</p>';
+            return "<p>The Mail-Process couldn't be locked</p>";
         }
 
         $maxMails = $configurations->getInt($confId.'maxMails');
@@ -734,7 +734,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $options['wrapperclass'] = 'tx_mkmailer_models_Template';
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
         if (0 === count($ret)) {
-            throw GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', 'Mail template with key \''.$id.'\' not found!');
+            throw GeneralUtility::makeInstance('tx_mkmailer_exceptions_NoTemplateFound', "Mail template with key '".$id."' not found!");
         }
 
         return [] !== $ret ? $ret[0] : null;
@@ -753,7 +753,7 @@ class tx_mkmailer_services_Mail extends AbstractService
         $what = '*';
         $from = 'tx_mkmailer_log';
 
-        $options['where'] = 'email='.$mailQueue->getUid().' AND LOWER(address) = LOWER(\''.addslashes($mailAddress).'\')';
+        $options['where'] = 'email='.$mailQueue->getUid()." AND LOWER(address) = LOWER('".addslashes($mailAddress)."')";
         $options['enablefieldsoff'] = 1;
         $ret = Connection::getInstance()->doSelect($what, $from, $options, 0);
 
