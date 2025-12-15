@@ -78,11 +78,5 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/Configuration/*.php',
             __DIR__.'/Configuration/**/*.php',
         ],
-
-        // makes double-quoted strings, we don't want this at the moment.
-        Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector::class,
-
-        // deprecated
-        Rector\Transform\Rector\Assign\PropertyFetchToMethodCallRector::class,
     ]);
 };
