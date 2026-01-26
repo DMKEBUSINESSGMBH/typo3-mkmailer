@@ -42,7 +42,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::handleRequest()
+     * @see AbstractAction::handleRequest()
      */
     protected function handleRequest(RequestInterface $request): string
     {
@@ -54,7 +54,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getTemplateName()
+     * @see AbstractAction::getTemplateName()
      */
     protected function getTemplateName(): string
     {
@@ -64,7 +64,7 @@ class tx_mkmailer_actions_SendMails extends AbstractAction
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Frontend\Controller\AbstractAction::getViewClassName()
+     * @see AbstractAction::getViewClassName()
      */
     protected function getViewClassName(): string
     {

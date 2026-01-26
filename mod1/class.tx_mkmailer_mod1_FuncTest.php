@@ -42,7 +42,7 @@ class tx_mkmailer_mod1_FuncTest extends BaseModFunc
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
+     * @see BaseModFunc::getFuncId()
      */
     protected function getFuncId(): string
     {

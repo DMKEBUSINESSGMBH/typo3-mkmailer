@@ -42,7 +42,7 @@ class tx_mkmailer_models_Queue extends BaseModel
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Domain\Model\BaseModel::getTableName()
+     * @see BaseModel::getTableName()
      */
     public function getTableName(): string
     {

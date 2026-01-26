@@ -63,7 +63,7 @@ class tx_mkmailer_mod1_Module extends BaseModule
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Backend\Module\BaseModule::getExtensionKey()
+     * @see BaseModule::getExtensionKey()
      */
     public function getExtensionKey(): string
     {

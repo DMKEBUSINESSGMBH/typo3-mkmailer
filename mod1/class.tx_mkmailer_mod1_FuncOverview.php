@@ -44,7 +44,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getFuncId()
+     * @see BaseModFunc::getFuncId()
      */
     protected function getFuncId(): string
     {
@@ -54,7 +54,7 @@ class tx_mkmailer_mod1_FuncOverview extends BaseModFunc
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Backend\Module\BaseModFunc::getContent()
+     * @see BaseModFunc::getContent()
      *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
